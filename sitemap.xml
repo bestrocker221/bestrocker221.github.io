@@ -3,10 +3,10 @@
   <channel>
     <title>Carlo Alberto Scola</title>
     <description>My Personal Blog</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 14 Mar 2018 10:12:35 +0100</pubDate>
-    <lastBuildDate>Wed, 14 Mar 2018 10:12:35 +0100</lastBuildDate>
+    <link>https://bestrocker221.github.io//</link>
+    <atom:link href="https://bestrocker221.github.io//sitemap.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 14 Mar 2018 10:41:51 +0100</pubDate>
+    <lastBuildDate>Wed, 14 Mar 2018 10:41:51 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -94,8 +94,8 @@ createTunnel&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot
 &lt;p&gt;This way if the Raspberry falls under someone’s else hands it has full access on the AttackerServer. If it has served its aim then you should remove the rsa key from the authorized_key on the server.&lt;/p&gt;
 </description>
         <pubDate>Tue, 13 Mar 2018 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/linux/security/2018/03/13/ssh-reverse-tunnel.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/security/2018/03/13/ssh-reverse-tunnel.html</guid>
+        <link>https://bestrocker221.github.io//linux/security/2018/03/13/ssh-reverse-tunnel.html</link>
+        <guid isPermaLink="true">https://bestrocker221.github.io//linux/security/2018/03/13/ssh-reverse-tunnel.html</guid>
         
         
         <category>linux</category>
@@ -300,8 +300,8 @@ It provide a simple example with some graph in comparison from 2 different serve
 &lt;p&gt;This way only the traffic from (-s) &lt;em&gt;myraspi.com&lt;/em&gt; will be allowed to access /netdata/ folder.&lt;/p&gt;
 </description>
         <pubDate>Sun, 18 Feb 2018 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/linux/web/2018/02/18/netdata-cluster.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/web/2018/02/18/netdata-cluster.html</guid>
+        <link>https://bestrocker221.github.io//linux/web/2018/02/18/netdata-cluster.html</link>
+        <guid isPermaLink="true">https://bestrocker221.github.io//linux/web/2018/02/18/netdata-cluster.html</guid>
         
         
         <category>linux</category>
@@ -451,8 +451,8 @@ NOTE: you won't need this if you are going to proxy data throug normal 80/443 po
 &lt;/p&gt;&lt;/p&gt;&lt;/p&gt;&lt;/p&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/linux/web/2018/02/15/netdata-ubuntu.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/web/2018/02/15/netdata-ubuntu.html</guid>
+        <link>https://bestrocker221.github.io//linux/web/2018/02/15/netdata-ubuntu.html</link>
+        <guid isPermaLink="true">https://bestrocker221.github.io//linux/web/2018/02/15/netdata-ubuntu.html</guid>
         
         
         <category>linux</category>
@@ -525,8 +525,8 @@ NOTE: you won't need this if you are going to proxy data throug normal 80/443 po
 &lt;p&gt;Now you can go to &lt;em&gt;http://example.com&lt;/em&gt; and apache will redirect you to the https version.&lt;/p&gt;
 </description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/linux/web/2018/02/15/apache-ssl-tls-domain.html</link>
-        <guid isPermaLink="true">http://localhost:4000/linux/web/2018/02/15/apache-ssl-tls-domain.html</guid>
+        <link>https://bestrocker221.github.io//linux/web/2018/02/15/apache-ssl-tls-domain.html</link>
+        <guid isPermaLink="true">https://bestrocker221.github.io//linux/web/2018/02/15/apache-ssl-tls-domain.html</guid>
         
         
         <category>linux</category>
@@ -539,7 +539,7 @@ NOTE: you won't need this if you are going to proxy data throug normal 80/443 po
       <item>
         <title>TLSScan</title>
         <description>TLSScan</description>
-        <link>http://localhost:4000https://github.com/bestrocker221/tlsscan</link>
+        <link>https://bestrocker221.github.io/https://github.com/bestrocker221/tlsscan</link>
         <pubDate>Fri, 01 Dec 2017 00:00:00 +0100</pubDate>
         
         <category>Python</category>
