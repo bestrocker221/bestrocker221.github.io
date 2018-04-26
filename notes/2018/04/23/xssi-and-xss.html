@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>XSSI and XSS differences - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="XSSI and XSS differences" />
+        <meta name="keywords" content="XSSI and XSS differences, Carlo Alberto Scola, notes" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="XSSI and XSS differences" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="My Personal Blog" property="og:description">
+        
+        
+          <meta content="https://bestrocker221.github.io//notes/2018/04/23/xssi-and-xss.html" property="og:url">
+        
+        
+          <meta content="2018-04-23T00:00:00+02:00" property="article:published_time">
+          <meta content="https://bestrocker221.github.io//about/" property="article:author">
+        
+        
+          <meta content="https://bestrocker221.github.io//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="notes" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="XSSI and XSS differences">
+        
+        
+          <meta name="twitter:url" content="https://bestrocker221.github.io//notes/2018/04/23/xssi-and-xss.html">
+        
+        
+          <meta name="twitter:description" content="My Personal Blog">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://bestrocker221.github.io/';</script>
+      
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">CS Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-6 col-sm-12 col-xs-12 ">XSSI and XSS differences</h2>
+            
+            <div class="col-md-6 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">23 Apr 2018</span>
+              
+              
+                <span class="categories">
+                  &raquo; 
+                  
+                    <a href="/category/notes">notes</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div class="col-md-3 col-xs-12">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item xssi-and-xss.html"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/category/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/category/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/category/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/category/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/category/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/category/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  xssi-and-xss.html"><a href="/static/curriculum-vitae-eng-2.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 id="difference-between-xssi-and-xsscsrf">Difference between XSSI and XSS/CSRF</h1>
+
+<blockquote>
+  <p>During an XSS malicious code is placed into a victim’s page, during an XSSI <strong>victim’s code is included in a malicious page</strong>. On the surface XSSI and CSRF look similar, because in both a request is sent from a malicious page to a different domain and in both cases the request is executed in the context of the logged in user. The key difference is the goal. In a CSRF, the attacker wants to execute state-changing actions inside a victim’s page, like transferring money in an online banking application. <strong><em>In an XSSI the attacker wants to leak data cross-origin</em></strong>, in order to then execute one of the aforementioned attacks.</p>
+</blockquote>
+
+<p>More ref at <a href="https://www.scip.ch/en/?labs.20160414">https://www.scip.ch/en/?labs.20160414</a></p>
+
+<p>Generally devs use JSONP (see below) to bypass SOP and include resources from esternal sites.</p>
+
+<p><strong>What is JSONP? or JSON with Padding</strong></p>
+
+<ul>
+  <li>JSONP is a method for sending JSON data <strong><em>without worrying about cross-domain issues</em></strong>.</li>
+  <li>JSONP does not use the XMLHttpRequest object.</li>
+  <li>JSONP uses the <script> tag instead</script></li>
+  <li>THE <strong>SOP</strong> IS NOT WORKING HERE</li>
+</ul>
+
+<p>Server Example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;?php
+$myJSON = '{ "name":"John", "age":30, "city":"New York" }';
+
+echo "myFunc(".$myJSON.");";
+?&gt;
+</code></pre>
+</div>
+
+<p>This will return: myFunc({ “name”:”John”, “age”:30, “city”:”New York” });</p>
+
+<p>This could be included in a dynamically created <code class="highlighter-rouge">script</code> tag:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>function clickButton() {
+    var s = document.createElement("script");
+    s.src = "demo_jsonp.php";
+    document.body.appendChild(s);
+}
+</code></pre>
+</div>
+
+<p>And, having a function called myFunc already defined client-side, this will execute the server instruction in the client browser.</p>
+
+<h1 id="so-what-is-xssi">So what is XSSI</h1>
+
+<p>So site A includes a script pointing to <a href="http://b/userdata.js">http://B/userdata.js</a> which is something like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>displayMySecretData({"secret":"this is very secret", ...})
+</code></pre>
+</div>
+
+<p>So A defines a function called displayMySecretData, and when the included script from server B runs, it calls that function and displays the secret data to the user.</p>
+
+<p><strong>Now evil server E comes along. It sees that A is including data from B using JSONP. So server E includes the same script, but defines its own displayMySecretData which instead steals the data. The attacker then tricks the user into visiting his site. When the user goes there and he is logged in to B, the browser automatically sends the authentication cookies for B along with the request to fecth the script from B. B sees an authenticated user, and thus returns the script as expected. E gets the data, and presto…</strong></p>
+
+<h2 id="how-to-exploit-xssi-">How to exploit XSSI ?</h2>
+
+<p>Often scripts included can contains sensitive information in the global variables, allowing an attacker to potentially read all the secret data.</p>
+
+<p>Some scripts (when requested with cookie, and so the user is authenticated) reply with a different code than when a user make the same request without cookie aside (un-authenticated).</p>
+
+<p><strong>Dynamic-Authenticated-Javascript-based-XSSI</strong></p>
+
+<p><a href="https://www.owasp.org/images/9/9a/20160607-xssi-the_tale_of_a_fameless_but_widepsread_vulnerability-Veit_Hailperin.pdf">https://www.owasp.org/images/9/9a/20160607-xssi-the_tale_of_a_fameless_but_widepsread_vulnerability-Veit_Hailperin.pdf</a></p>
+
+<p><img src="https://bestrockers.ddns.net/res/XSSI.png" alt="" /></p>
+
+<ul>
+  <li>Reading variables</li>
+  <li>Overriding functions
+    <ol>
+      <li>If sensitive content is directly put into the web page global variables, one method to retrieve that data is simply to ask for it.</li>
+    </ol>
+  </li>
+</ul>
+
+<p>Example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>`&lt;script src="[https://www.vulnerable-domain.tld/script.js](https://www.vulnerable-domain.tld/script.js)"&gt;&lt;/script&gt;`
+</code></pre>
+</div>
+
+<p>has a variable like:</p>
+
+<p><code class="highlighter-rouge">keys = [ domain: 'live.com', apiKey: 'dsd2kgijland3io1', privkey:' *rsa key*',  ... ]</code></p>
+
+<p>Then an attacker could just inject an</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>`alert(JSON.stringify(keys))`
+</code></pre>
+</div>
+
+<p>to retrieve all the secrets.</p>
+
+<ol>
+  <li>Override a function which could display user data using JSONP callback.</li>
+</ol>
+
+<h2 id="where-is-the-vulnerability"><strong>WHERE IS THE VULNERABILITY?</strong></h2>
+
+<p>If the attacker can OVERRIDE a javascript function then he can read all the data returned by an external source (possibly with authenticated content)!!</p>
+
+<p>So for example if Angular JS does have a function like this which handle sensitive information:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>`angular.callbacks._7({"status":STATUS,"body":{"demographics":{"email":......}}})`
+</code></pre>
+</div>
+
+<p>then an attacker could inject:</p>
+
+<pre><code class="language-&lt;script&gt;">          var angular = function () { return 1; };
+          angular.callbacks = function () { return 1; };      
+          angular.callbacks._7 = function (leaked) {
+    			  alert(JSON.stringify(leaked));
+          };  
+    &lt;/script&gt;
+</code></pre>
+
+<p>Before the inclusion of the external script.</p>
+
+<p>We could suppose the server is dynamically generating javascript code. How does he know which function to use? We could suppose this is passeb by GET requests?</p>
+
+<p>For example if the function needed is myFunc then the script will be:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>`&lt;script src="https://site.tld/p?jsonp=myFunc" type="text/javascript"&gt;&lt;/script&gt;`
+</code></pre>
+</div>
+
+<p>The function myFunc will be used as callback as soon as data is returned.</p>
+
+<p>What if an attacker can change the requesting callback and then writes his own in the victim browser? like this?</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>```
+&lt;script&gt;
+      leak = function (leaked) {
+			  alert(JSON.stringify(leaked));
+      };  
+&lt;/script&gt;
+&lt;script src="https://site.tld/p?jsonp=leak" type="text/javascript"&gt;&lt;/script&gt;
+```
+</code></pre>
+</div>
+
+<h2 id="protection-from-xssi">PROTECTION FROM XSSI</h2>
+
+<p>Never put sensitive content on Javascript and JSONP.</p>
+
+<p>Instruct the browser not to guess the <code class="highlighter-rouge">Content-Type</code> with:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>X-Content-Type-Options: nosniff
+</code></pre>
+</div>
+
+<p>A correct Content-Type is also helpful in reducing the chance of XSSI.</p>
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google + -->
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://bestrocker221.github.io//notes/2018/04/23/xssi-and-xss.html" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://bestrocker221.github.io//notes/2018/04/26/samesite-cookie.html">SameSite cookie security</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://bestrocker221.github.io//notes/2018/04/26/http-header-security.html">HTTP Headers security</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://bestrocker221.github.io//notes/2018/04/26/sop-xss-introduction.html">SOP and XSS introduction</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://bestrocker221.github.io//linux/security/2018/03/13/ssh-reverse-tunnel.html">&laquo; SSH Reverse Tunnel - Raspberry Pi</a>
+  
+  
+    <a class="next pull-right" href="https://bestrocker221.github.io//notes/2018/04/26/sop-xss-introduction.html">SOP and XSS introduction &raquo;</a>
+  
+</div>
+
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalberto";
+        var disqus_identifier = "https://bestrocker221.github.io/_XSSI and XSS differences";
+        var disqus_title = "XSSI and XSS differences";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div>
+</div>
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2018 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - Powered by Jekyll.
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63063866-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>
