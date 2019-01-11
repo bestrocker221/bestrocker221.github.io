@@ -123,9 +123,9 @@
           </div>
           <div class="col-md-9 col-sm-8 col-xs-12">
           <div class="row">
-            <h2 class="blog-title-pro col-md-6 col-sm-12 col-xs-12 ">SameSite cookie security</h2>
+            <h2 class="blog-title-pro col-md-9 col-sm-12 col-xs-12 ">SameSite cookie security</h2>
             
-            <div class="col-md-6 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+            <div class="col-md-3 col-sm-12 col-xs-12 searchcontrol" id="js-search">
               <input class="form-control" type="text" id="js-search__input" placeholder="Search">
               <ul class="search__results" id="js-search__results"></ul>
             </div>
@@ -137,7 +137,7 @@
               
               
                 <span class="categories">
-                  &raquo; 
+                  &raquo; categories:
                   
                     <a href="/category/notes">notes</a>
                     
@@ -152,7 +152,7 @@
 
     <div class="container main outer">
       <div class="row">
-        <div class="col-md-3 col-xs-12">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
               <nav class="menu">
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="list-separator nav navbar-nav well well-primary post">
@@ -345,7 +345,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 
 <p>Let’s make some examples:</p>
 
-<p><img src="https://www.netsparker.com/statics/img/webo/same-site-cookie-diagram-1.png" alt="" /></p>
+<p><img src="/assets/same-site-cookie-diagram-1.png" alt="" /></p>
 
 <p>Many times the browser will send some requests cross origin when the page is loaded, could it be advertisements, tracking, analitycs, Facebook like buttons and so more. Along with these requests, the cookies present in the victim browser that belong to that domains will also be sent.</p>
 
@@ -353,7 +353,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 
 <p>With <em>SameSite</em> <strong><em>lax</em></strong> only <strong>TOP LEVEL NAVIGATION</strong> allow requests to include cookies.</p>
 
-<p><img src="https://bestrockers.ddns.net/res/same-site-cookie-diagram-2.png" alt="" /></p>
+<p><img src="/assets/same-site-cookie-diagram-2.png" alt="" /></p>
 
 <p>Basically, they don’t change the URL in your address bar. Because these GET requests do not cause a TOP LEVEL navigation, thus cookies set to Lax won’t be sent with them.</p>
 
@@ -433,35 +433,64 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
     
         
             
-        
-    
-
-    
-    
-        
-            
-        
-    
-        
-            
-        
-    
-
-    
-    
-        
-            
-        
-    
-
-    
-    
-        
-            
                 
                 <div class="panel-body">
                 <h4>Related Posts</h4>
                 <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-NETWORK-ROUTING.html">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/notes">notes</a>, <a href="/category/network">network</a>, <a href="/category/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
                 
                 <li class="relatedPost">
                     <a href="https://bestrocker221.github.io//notes/2018/04/26/http-header-security.html">HTTP Headers security</a>
@@ -594,7 +623,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>
-  © 2018 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - Powered by Jekyll.
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a>.
 </footer>
 <!-- <div align="center">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>

@@ -5,9 +5,417 @@
     <description>My Personal Blog</description>
     <link>https://bestrocker221.github.io//</link>
     <atom:link href="https://bestrocker221.github.io//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 28 Aug 2018 18:31:11 +0200</pubDate>
-    <lastBuildDate>Tue, 28 Aug 2018 18:31:11 +0200</lastBuildDate>
+    <pubDate>Fri, 11 Jan 2019 17:13:31 +0100</pubDate>
+    <lastBuildDate>Fri, 11 Jan 2019 17:13:31 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>A Cisco routing lab network with GNS3. [Part 1]</title>
+        <description>&lt;h1 id=&quot;-how-to-configure-cisco-routers-with-routing-protocols-&quot;&gt;&lt;center style=&quot;font-weight: bold&quot;&gt; How to configure Cisco routers with routing protocols. &lt;/center&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;bgp-ospf-hsrp-and-multicast-routing-part-1&quot;&gt;BGP, OSPF, HSRP and Multicast routing. &lt;strong&gt;[PART 1]&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;lets-set-up-a-virtual-router-environment-from-scratch&quot;&gt;Let’s set up a virtual router environment from scratch!&lt;/h3&gt;
+
+&lt;p&gt;Hello everybody, in this post we are going to learn step by step how to setup a fully functioning network environment with the help of &lt;a href=&quot;https://www.gns3.com/&quot;&gt;&lt;em&gt;Graphical Network Simulator-3&lt;/em&gt;&lt;/a&gt; (&lt;strong&gt;GNS3&lt;/strong&gt;). This exercise aims to be helpful with the study of network routing protocols.&lt;/p&gt;
+
+&lt;p&gt;We are going to create an ISP basic network.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Network topology explanation&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Routing protocol choices&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Fault tolerant routing&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Multicast routing&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The full code configuration of the four Cisco routers is found at the end of the page.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Table of Acronyms&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;BGP&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Border Gateway Protocol&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;OSPF&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Open Shortest Path First&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;RIP&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Routing Information Protocol&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;AS&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Autonomous System&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;HSRP&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Hot Standby Router Protocol&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;PIM&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Protocol Independent Multicast&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;RP&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Rendezvous Point&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;network-equipment--virtual&quot;&gt;Network Equipment  (virtual)&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;4 Cisco 7301 routers&lt;/li&gt;
+  &lt;li&gt;2 HP2524 switches (one is for server network and one for client network)&lt;/li&gt;
+  &lt;li&gt;Virtual Machines (both on server and client network)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;-network-topology-&quot;&gt;&lt;center style=&quot;font-weight: bold&quot;&gt; Network Topology &lt;/center&gt;&lt;/h2&gt;
+&lt;p&gt;The network topology we are going to recreate is described as follow:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/routers_setup_lab_gns3.png&quot; alt=&quot;lab setup&quot; /&gt;&lt;/p&gt;
+&lt;center&gt; Figure 1. Full Network topology. &lt;/center&gt;
+&lt;p&gt;Let’s explain the topology in details.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The &lt;strong&gt;AS13&lt;/strong&gt; is our competence &lt;em&gt;Autonomous System&lt;/em&gt; and we can consider it as managed by our ISP called &lt;em&gt;isp5&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;AS2&lt;/strong&gt; is considered the router connected to the backbone network, providing connectivity.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;AS14&lt;/strong&gt; is considered an other ISP’s border router.&lt;/li&gt;
+  &lt;li&gt;AS14 is also considered a &lt;strong&gt;Peering ISP&lt;/strong&gt;, meaning in case of network failures, traffic can flow from one ISP to the other to allow Internet reachability.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Inside our &lt;strong&gt;AS13&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;RTA and RTB&lt;/strong&gt; are &lt;strong&gt;area border routers&lt;/strong&gt;. They are both &lt;strong&gt;e-BGP&lt;/strong&gt; (to the outside) and &lt;strong&gt;i-BGP&lt;/strong&gt; (to the inside) peers.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;RTA&lt;/strong&gt; is e-BGP peering with AS2. &lt;strong&gt;RTB&lt;/strong&gt; is e-BGP peering with AS14. Internally, RTA and RTB are i-BGP peers.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;RTC and RTD&lt;/strong&gt; provide fault tolerant access to server and client networks respectively.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;dynamic-ip-routing&quot;&gt;&lt;strong&gt;Dynamic IP routing&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;For the internal routing, Open Shortest Path First or &lt;strong&gt;OSPF&lt;/strong&gt; version 2 will be used. &lt;strong&gt;RTA&lt;/strong&gt; and &lt;strong&gt;RTB&lt;/strong&gt; will also advertise the &lt;em&gt;default route&lt;/em&gt; through OSPF.&lt;/p&gt;
+
+&lt;p&gt;Border Gateway Protocol or &lt;strong&gt;BGP&lt;/strong&gt; is used for external routing &lt;strong&gt;AS13-AS2&lt;/strong&gt; and &lt;strong&gt;AS13-AS14&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;To direct the traffic we will set BGP &lt;strong&gt;local preferences&lt;/strong&gt; for routes from AS2 and AS14.&lt;/li&gt;
+  &lt;li&gt;RTA and RTB will advertise AS13’s OSPF paths to AS2 and AS14.&lt;/li&gt;
+  &lt;li&gt;Routes coming from AS2 will have &lt;strong&gt;higher&lt;/strong&gt; local preference value and will be the preferred ones.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The link &lt;strong&gt;RTA-AS2&lt;/strong&gt; is called &lt;em&gt;primary link&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The link &lt;strong&gt;RTB-AS14&lt;/strong&gt; is called &lt;em&gt;private link&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;ospf-configuration&quot;&gt;&lt;strong&gt;OSPF Configuration&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Let’s assume each router has its interfaces already configured with the IP addresses shown in the Figure 1.&lt;/p&gt;
+
+&lt;p&gt;Firstly for each router we set up the &lt;code class=&quot;highlighter-rouge&quot;&gt;router-id&lt;/code&gt; correspondent to the router loopback address with: (RTA’s OSPF mode example)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;router-id 10.5.4.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In &lt;strong&gt;RTA&lt;/strong&gt;’s OSPF setting, we will use “&lt;em&gt;default-information originate always metric 20&lt;/em&gt;” to distribute default route to RTC and RTD. This default route points to RTA. RTB will not apply this default route since it is also a border router.&lt;/p&gt;
+
+&lt;p&gt;In &lt;strong&gt;RTB&lt;/strong&gt;’s OSPF setting, we will use “&lt;em&gt;default-information originate always metric 200&lt;/em&gt;” to distribute default route to RTC and RTD. This default route points to RTB. RTA will not apply this default route since it is also a border router.&lt;/p&gt;
+
+&lt;p&gt;[Note] &lt;strong&gt;RTA&lt;/strong&gt;’s metric 20 &amp;lt; &lt;strong&gt;RTB&lt;/strong&gt;’s metric 200.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Why? Because we want to route traffic to the peering ISP &lt;strong&gt;only&lt;/strong&gt; if some failures happen on the primary link.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Then &lt;strong&gt;RTC&lt;/strong&gt; and &lt;strong&gt;RTD&lt;/strong&gt; will choose &lt;strong&gt;RTA&lt;/strong&gt; as default route destination but NOTE, in &lt;strong&gt;RTC&lt;/strong&gt; and &lt;strong&gt;RTD&lt;/strong&gt;’s routing table, the default route only shows the &lt;strong&gt;next-hop&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;If the primary link is down, &lt;strong&gt;RTC&lt;/strong&gt; and &lt;strong&gt;RTD&lt;/strong&gt; will send the packets outside only through &lt;strong&gt;RTB&lt;/strong&gt;. &lt;strong&gt;RTB&lt;/strong&gt; will then forward the packets to the outside using the private link. If RTA is down, &lt;strong&gt;RTC&lt;/strong&gt; and &lt;strong&gt;RTD&lt;/strong&gt; will choose &lt;strong&gt;RTB&lt;/strong&gt; as default route destination.&lt;/p&gt;
+
+&lt;h3 id=&quot;rta-ospf-configuration&quot;&gt;RTA OSPF Configuration&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;router ospf 1
+    router-id 10.5.4.1
+    network 10.5.1.0 0.0.0.3 area 0
+    network 10.5.0.0 0.0.0.3 area 0
+    network 10.5.4.1 0.0.0.0 area 0
+    default-information originate always metric 20
+    exit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;[for newcomers]
+&lt;code class=&quot;highlighter-rouge&quot;&gt;network &amp;lt;ip-address&amp;gt; &amp;lt;wildcard-mask&amp;gt; area &amp;lt;area-id&amp;gt;&lt;/code&gt; : Defines an interface on which OSPF runs and defines the area ID for that interface.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For each router we are telling OSPF to advertise the ip and the netmask reachable by the router to the selected &lt;em&gt;area&lt;/em&gt; (in this case 0, backbone).&lt;/p&gt;
+
+&lt;p&gt;After this step each router should be able to discover and communicate to each other.&lt;/p&gt;
+
+&lt;p&gt;For every possible information about OSPF commands and configuration the &lt;a href=&quot;https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_ospf/configuration/xe-16/iro-xe-16-book/iro-cfg.html&quot;&gt;Cisco OSPF official guide&lt;/a&gt; is a must read.&lt;/p&gt;
+
+&lt;p&gt;Other routers OSPF configurations are at the end of the article.&lt;/p&gt;
+&lt;h2 id=&quot;bgp-configuration&quot;&gt;&lt;strong&gt;BGP configuration&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Firstly for each router we set up the &lt;code class=&quot;highlighter-rouge&quot;&gt;router-id&lt;/code&gt; correspondent to the router loopback address with:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bgp router-id 10.5.4.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In &lt;strong&gt;RTA&lt;/strong&gt;’s BGP setting, we aggregate the addresses to 10.5.0.0/20 (since our network is using this segment we don’t want to advertise multiple useless routes, just the main one is necessary to reach AS13). We also redistribute our OSPF route in BGP (or we could add RTA’s nearby network 10.5.0.0/30 and 10.5.1.0/30). 
+This is done with: (RTA)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aggregate-address 10.5.0.0 255.255.240.0 summary-only
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In &lt;strong&gt;RTA&lt;/strong&gt;’s routing table, we also add a static route to &lt;strong&gt;RTB&lt;/strong&gt;’s Loopback address for network 10.5.5.0/30. Since we use aggregate-address in RTA’s BGP setting, it will include 10.5.5.0/30. Actually RTA does not know where &lt;strong&gt;RTB&lt;/strong&gt;’s Loopback is at all. RTB will not advertise that network to OSPF or BGP.
+This is done with: (RTA)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ip route 10.5.5.0 255.255.255.252 10.5.4.2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In addition, we are also using Loopback of RTA and RTB to establish the BGP TCP connections. This avoids failed interfaces and links with the help of OSPF routing.&lt;/p&gt;
+
+&lt;h3 id=&quot;bgp-neighbors&quot;&gt;BGP neighbors&lt;/h3&gt;
+&lt;p&gt;Next we set up the BGP peering with AS2 and AS14.&lt;/p&gt;
+
+&lt;p&gt;In RTA we will set up AS2 as &lt;strong&gt;E-BGP&lt;/strong&gt; peer and RTB as &lt;strong&gt;I-BGP&lt;/strong&gt; peer.&lt;/p&gt;
+
+&lt;p&gt;We set up the neighboring to the destination IP as:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;neighbor 10.0.32.1 remote-as 2
+neighbor 10.5.4.2 remote-as 13
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Next we set up the &lt;strong&gt;next-hop-self&lt;/strong&gt; bgp attribute.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;neighbor 10.5.4.2 next-hop-self
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;When a new route from an e-bgp peer is learned from RTA, the internal peer (RTB) will learn the prefix through i-bgp. If RTB does not have a route towards that IP, RTB will not be able to forward packets.
+The &lt;strong&gt;next-hop-self&lt;/strong&gt; BGP attribute allow the internal bgp peer (RTB) to set the RTA address as ‘&lt;em&gt;next-hop&lt;/em&gt;’ for routes learned from i-bgp. This way RTB will forward packets to RTA, and than it is RTA responsibility to forward out those packets.&lt;/p&gt;
+
+&lt;p&gt;BGP gives us an option to change the source of packets sent. In this case we can use Loopback interface as source of BGP packets sent between these neighbors. This way if one of the paths fails, the other will be used. Moreover by using loopback interface as update source, the benefit is that the BGP session won’t go down when physical interface goes down.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;neighbor 10.5.4.2 update-source loopback 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Finally to redistribute OSPF routes into BGP:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;redistribute ospf 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;complete-bgp-configuration-of-router-rta&quot;&gt;Complete BGP configuration of Router RTA&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;router bgp 13
+    bgp router-id 10.5.4.1
+    aggregate-address 10.5.0.0 255.255.240.0 summary-only
+    redistribute ospf 1
+    neighbor 10.0.32.1 remote-as 2
+    neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
+    neighbor 10.5.4.2 remote-as 13
+    neighbor 10.5.4.2 next-hop-self
+    neighbor 10.5.4.2 update-source loopback 1
+    no auto-summary
+    no synchronization
+    exit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;fault-tolerant-ip-routing&quot;&gt;&lt;strong&gt;Fault-tolerant IP routing&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;from-as13-to-the-internet&quot;&gt;From AS13 To the Internet&lt;/h3&gt;
+&lt;p&gt;We are going to set up our &lt;strong&gt;AS13&lt;/strong&gt; area with one back up link.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;When the link &lt;strong&gt;&lt;em&gt;RTA-AS2&lt;/em&gt;&lt;/strong&gt; is operating without errors, all the AS13’s traffic will be routed to the Internet through the link RTA-AS2 with the use of &lt;strong&gt;BGP&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;When the link &lt;strong&gt;&lt;em&gt;RTA-AS2&lt;/em&gt;&lt;/strong&gt; is down, for whatever reason, all traffic will be routed to the backup link &lt;strong&gt;&lt;em&gt;RTB-AS14&lt;/em&gt;&lt;/strong&gt;. From there, the peering ISP will forward the traffic correctly to the AS2.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;When the link to AS2 is down, after a timer timeout, &lt;strong&gt;RTB&lt;/strong&gt; will spread its BGP route to OSPF so that the &lt;em&gt;default route&lt;/em&gt; to AS2 will be through AS14.&lt;/p&gt;
+
+&lt;h3 id=&quot;how-to-setup-primary-and-secondary-link&quot;&gt;How to setup primary and secondary link&lt;/h3&gt;
+&lt;p&gt;To set default route to RTA, and back up route to RTB for outgoing connections to outside we first create a &lt;code class=&quot;highlighter-rouge&quot;&gt;route-map&lt;/code&gt; for &lt;strong&gt;incoming&lt;/strong&gt; routes in BGP config mode: (RTA)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
+exit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;“PREF_FROM_AS2” is the name of the route-map.
+It means “all the routes coming (&lt;strong&gt;in&lt;/strong&gt;) from AS2”.&lt;/p&gt;
+
+&lt;p&gt;then we define the route-map this way: (RTA)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;route-map PREF_FROM_AS2 permit 20
+set local-preference 300
+exit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;While in RTB the local preference is lower:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;neighbor 10.5.5.1 route-map PREF_FROM_AS14 in  
+exit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;route-map PREF_FROM_AS14 permit 10
+set local-preference 200
+exit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;multicast-routing&quot;&gt;&lt;strong&gt;Multicast Routing&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;RTC’s loopback1 will act as PIM &lt;em&gt;Rendezvous Point&lt;/em&gt; &lt;strong&gt;RP&lt;/strong&gt;. In addition, we will not enable PIM on RTA and RTB’s fa1/1 interfaces 
+avoiding multicast protocol to affect other AS.&lt;/p&gt;
+
+&lt;p&gt;To set up PIM on an interface:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ip pim sparse-mode
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;To set the RP:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ip pim rp-address 10.5.4.3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We set up the PIM RP close to the server network, since the servers usually mostly provide the multicast services.&lt;/p&gt;
+
+&lt;h3 id=&quot;complete-rta-router-configuration&quot;&gt;&lt;strong&gt;Complete RTA router configuration&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;This config is ready to be copy-pasted in the router config mode.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;conf t
+hostname RTA
+ip multicast-routing 
+
+interface fastEthernet 1/1
+ip address 10.0.32.2 255.255.255.252
+no shut
+
+interface gigabitEthernet 0/2
+ip address 10.5.1.1 255.255.255.252
+ip ospf cost 2
+ip pim sparse-mode 
+no shut
+
+interface gigabitEthernet 0/0
+ip address 10.5.0.1 255.255.255.252
+ip pim sparse-mode 
+no shut
+
+interface loopback 1
+ip address 10.5.4.1 255.255.255.255
+no shut
+
+exit
+
+ip pim rp-address 10.5.4.3
+
+router ospf 1
+router-id 10.5.4.1
+network 10.5.1.0 0.0.0.3 area 0
+network 10.5.0.0 0.0.0.3 area 0
+network 10.5.4.1 0.0.0.0 area 0
+default-information originate always metric 20
+exit
+
+route-map PREF_FROM_AS2 permit 20
+set local-preference 300
+exit
+
+router bgp 13
+bgp router-id 10.5.4.1
+no network 10.0.32.0 mask 255.255.255.252
+aggregate-address 10.5.0.0 255.255.240.0 summary-only
+redistribute ospf 1
+neighbor 10.0.32.1 remote-as 2
+neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
+neighbor 10.5.4.2 remote-as 13
+neighbor 10.5.4.2 next-hop-self
+neighbor 10.5.4.2 update-source loopback 1
+no auto-summary
+no synchronization
+exit
+
+ip route 10.5.5.0 255.255.255.252 10.5.4.2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;complete-rtb-router-configuration&quot;&gt;&lt;strong&gt;Complete RTB router configuration&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;This config is ready to be copy-pasted in the router config mode.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;conf t
+hostname RTB
+ip multicast-routing 
+
+interface gigabitEthernet 0/1
+ip address 10.5.5.2 255.255.255.252
+no shut
+
+interface gigabitEthernet 0/2
+ip address 10.5.2.2 255.255.255.252
+ip pim sparse-mode
+no shut
+
+interface gigabitEthernet 0/0
+ip address 10.5.0.2 255.255.255.252
+ip pim sparse-mode
+no shut
+
+interface loopback 1
+ip address 10.5.4.2 255.255.255.255
+no shut
+
+exit
+
+ip pim rp-address 10.5.4.3
+
+router ospf 1
+router-id 10.5.4.2
+network 10.5.2.0 0.0.0.3 area 0
+network 10.5.0.0 0.0.0.3 area 0
+network 10.5.4.2 0.0.0.0 area 0
+default-information originate always metric 200
+exit
+
+route-map PREF_FROM_AS14 permit 10
+set local-preference 200
+exit
+
+router bgp 13
+bgp router-id 10.5.4.2
+neighbor 10.5.5.1 remote-as 14
+neighbor 10.5.5.1 route-map PREF_FROM_AS14 in
+neighbor 10.5.4.1 remote-as 13
+neighbor 10.5.4.1 next-hop-self
+neighbor 10.5.4.1 update-source loopback 1
+redistribute ospf 1
+aggregate-address 10.5.0.0 255.255.240.0 summary-only
+no auto-summary
+no synchronization
+exit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In the second part of this guide we will see how to set up a redundant, fault tolerant, always available link for the client and server networks. We will setup &lt;a href=&quot;https://www.cisco.com/c/en/us/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.html&quot;&gt;&lt;em&gt;Hot Standby Router Protocol&lt;/em&gt; or  &lt;strong&gt;HSRP&lt;/strong&gt;&lt;/a&gt; in both &lt;strong&gt;RTD&lt;/strong&gt; and &lt;strong&gt;RTC&lt;/strong&gt; towards the client and server networks.&lt;/p&gt;
+
+&lt;p&gt;The remaining router configs are also listed.&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 02 Jan 2019 00:00:00 +0100</pubDate>
+        <link>https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-NETWORK-ROUTING.html</link>
+        <guid isPermaLink="true">https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-NETWORK-ROUTING.html</guid>
+        
+        <category>network</category>
+        
+        <category>routing</category>
+        
+        <category>cisco</category>
+        
+        <category>bgp</category>
+        
+        <category>ospf</category>
+        
+        <category>multicast</category>
+        
+        
+        <category>linux</category>
+        
+        <category>notes</category>
+        
+        <category>network</category>
+        
+        <category>cisco</category>
+        
+      </item>
     
       <item>
         <title>TOR SSH Reverse Tunnel - Raspberry Pi</title>
@@ -247,7 +655,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 
 &lt;p&gt;Let’s make some examples:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://www.netsparker.com/statics/img/webo/same-site-cookie-diagram-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/same-site-cookie-diagram-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Many times the browser will send some requests cross origin when the page is loaded, could it be advertisements, tracking, analitycs, Facebook like buttons and so more. Along with these requests, the cookies present in the victim browser that belong to that domains will also be sent.&lt;/p&gt;
 
@@ -255,7 +663,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 
 &lt;p&gt;With &lt;em&gt;SameSite&lt;/em&gt; &lt;strong&gt;&lt;em&gt;lax&lt;/em&gt;&lt;/strong&gt; only &lt;strong&gt;TOP LEVEL NAVIGATION&lt;/strong&gt; allow requests to include cookies.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://bestrockers.ddns.net/res/same-site-cookie-diagram-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/same-site-cookie-diagram-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Basically, they don’t change the URL in your address bar. Because these GET requests do not cause a TOP LEVEL navigation, thus cookies set to Lax won’t be sent with them.&lt;/p&gt;
 
