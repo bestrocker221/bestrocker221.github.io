@@ -5,9 +5,168 @@
     <description>My Personal Blog</description>
     <link>https://bestrocker221.github.io//</link>
     <atom:link href="https://bestrocker221.github.io//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 16 Jan 2019 11:50:32 +0100</pubDate>
-    <lastBuildDate>Wed, 16 Jan 2019 11:50:32 +0100</lastBuildDate>
+    <pubDate>Wed, 16 Jan 2019 15:53:46 +0100</pubDate>
+    <lastBuildDate>Wed, 16 Jan 2019 15:53:46 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>Enabling SSL on NGINX reverse proxy towards non-SSL apache</title>
+        <description>&lt;h1 id=&quot;enabling-ssl-on-nginx-reverse-proxy-towards-non-ssl-apache&quot;&gt;&lt;strong&gt;Enabling SSL on NGINX reverse proxy towards non-SSL apache&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;nginx-and-apache-prestashop-docker-containers&quot;&gt;NGINX and APACHE Prestashop Docker containers&lt;/h2&gt;
+
+&lt;p&gt;My Setup is as follow:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;NGINX web facing proxy (docker container) that accepts connections on port 80/443.&lt;/li&gt;
+  &lt;li&gt;APACHE internal web server (docker container) hosting the Prestashop website&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Prestashop 1.7.3 is installed in an internal server with APACHE.&lt;/p&gt;
+
+&lt;p&gt;NGINX is the main web proxy which forwards encrypted requests to internal UNENCRYPTED server running APACHE (also docker containers).&lt;/p&gt;
+
+&lt;p&gt;So the setup is:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;INTERNET –(SSL)–&amp;gt; NGINX —(NON-SSL)—&amp;gt;INTERNAL SERVER (apache)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;It is &lt;strong&gt;useless&lt;/strong&gt; to set up TLS also on the apache web server, it would be redundant and would add more load on the server.&lt;/p&gt;
+
+&lt;h2 id=&quot;problem&quot;&gt;&lt;strong&gt;Problem&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;The problem is that I cannot enable SSL on Prestashop directly on the internal Apache web server which hosts the code. Apache uses port 80 and would get redirection loops towards the proxy server.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Without enabling SSL on prestashop, it doesnt rewrite URLs to the correct https scheme.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;My actual _nginx.conf:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;server {
+        listen      80 reuseport;
+        server_name  localhost &amp;lt;domain&amp;gt;;
+        
+        
+        modsecurity off;
+        modsecurity_rules_file /etc/nginx/modsecurity.d/include.conf;
+        server_tokens off;
+
+        add_header Strict-Transport-Security &quot;max-age=31536000; includeSubDomains&quot; always;
+
+        rewrite ^ https://&amp;lt;domain&amp;gt;$request_uri? permanent;
+
+    }
+
+    server {
+        listen       443 ssl default_server http2;
+        server_name  &amp;lt;domain&amp;gt;;
+
+        ssl_certificate      certs/cert.pem;
+        ssl_certificate_key  certs/privkey.pem;
+
+        ssl_session_cache    shared:SSL:10m;
+        ssl_session_timeout  15m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        ssl_protocols TLSv1.2;
+        ssl_ecdh_curve secp384r1;
+
+        ssl_stapling on;
+        ssl_stapling_verify on;
+
+#       add_header Strict-Transport-Security &quot;max-age=31536000; includeSubDomains&quot; always;
+        add_header X-Frame-Options SAMEORIGIN;
+        add_header X-Content-Type-Options nosniff;
+        add_header Referrer-Policy &quot;strict-origin&quot; always;
+        add_header X-XSS-Protection &quot;1; mode=block&quot;;
+        add_header Content-Security-Policy &quot;upgrade-insecure-requests;  ... ;
+
+
+        location / {
+            resolver 127.0.0.11 valid=30s;
+
+            proxy_pass   http://APACHE_PRIVATE_IP;
+            proxy_http_version 1.1;           
+
+            #proxy_set_header Host APACHE_PRIVATE_IP;
+            proxy_set_header Host  &amp;lt;domain&amp;gt;;
+            index index.html index.php;
+
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Real-IP $remote_addr;            
+            
+            root APACHE_ROOT_DIR/htdocs/DOMAIN;
+            proxy_bind  MODSEC_INT_IP;
+            proxy_pass_request_headers      on;
+        }
+    }
+
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;&lt;strong&gt;Solution&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;On NGINX using&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rewrite ^ https://&amp;lt;DOMAIN&amp;gt;$request_uri? permanent;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;First:  I need prestashop to create &lt;strong&gt;https&lt;/strong&gt; links instead of &lt;strong&gt;http&lt;/strong&gt; link though the function &lt;strong&gt;&lt;em&gt;BaseLink&lt;/em&gt;&lt;/strong&gt; so i changed “http” to “https” in the last row:&lt;/p&gt;
+
+&lt;p&gt;File: &lt;em&gt;classes/Link.php&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public function getBaseLink($idShop = null, $ssl = null, $relativeProtocol = false)
+    {
+   ﻿     static $force_ssl = true;  /*CHANGED null to true */
+
+        if ($ssl === null) {
+            if ($force_ssl === null) {
+                $force_ssl = (Configuration::get('PS_SSL_ENABLED') &amp;amp;&amp;amp; Configuration::get('PS_SSL_ENABLED_EVERYWHERE'));
+            }
+            $ssl = $force_ssl;
+        }
+﻿
+        if (Configuration::get('PS_MULTISHOP_FEATURE_ACTIVE') &amp;amp;&amp;amp; $idShop !== null) {
+            $shop = new Shop($idShop);
+        } else {
+            $shop = Context::getContext()-&amp;gt;shop;
+        }
+
+        if ($relativeProtocol) {
+            $base = '//'.($ssl &amp;amp;&amp;amp; $this-&amp;gt;ssl_enable ? $shop-&amp;gt;domain_ssl : $shop-&amp;gt;domain);
+        } else {
+            $base = (($ssl &amp;amp;&amp;amp; $this-&amp;gt;ssl_e﻿nable) ? 'https://'.$shop-&amp;gt;domain_ssl : 'https://'.$shop-&amp;gt;domain); /*CHANGED second http to https */
+        }
+
+        return $base.$shop-&amp;gt;getBaseURI();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;i just forced PS to use https whether it is activated or not.&lt;/p&gt;
+
+&lt;p&gt;Now the back office works flawlessly but the front end get loop redirection because apache sees HTTP requests instead of HTTPS ones and so send a Location header to the HTTPS site.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Now you just need to make apache believe those are HTTPS requests even if those are actually HTTP so add these lines in NGINX reverse proxy nginx.conf:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;proxy_set_header X-Scheme https;
+proxy_set_header X-Forwarded-Proto https;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;and everything works!&lt;/p&gt;
+
+&lt;h3 id=&quot;prestashop-forum&quot;&gt;Prestashop Forum&lt;/h3&gt;
+&lt;p&gt;My question with related answer is also on the official Prestashop forum &lt;a href=&quot;https://www.prestashop.com/forums/topic/890871-solvedenabling-ssl-on-nginx-reverse-proxy-towards-non-ssl-apache&quot;&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 15 Jan 2019 00:00:00 +0100</pubDate>
+        <link>https://bestrocker221.github.io//web/security/2019/01/15/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache.html</link>
+        <guid isPermaLink="true">https://bestrocker221.github.io//web/security/2019/01/15/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache.html</guid>
+        
+        
+        <category>web</category>
+        
+        <category>security</category>
+        
+      </item>
     
       <item>
         <title>A Cisco routing lab network with GNS3. [Part 1]</title>
@@ -1984,159 +2143,6 @@ It provide a simple example with some graph in comparison from 2 different serve
         <pubDate>Sun, 18 Feb 2018 00:00:00 +0100</pubDate>
         <link>https://bestrocker221.github.io//linux/web/2018/02/18/netdata-cluster.html</link>
         <guid isPermaLink="true">https://bestrocker221.github.io//linux/web/2018/02/18/netdata-cluster.html</guid>
-        
-        
-        <category>linux</category>
-        
-        <category>web</category>
-        
-      </item>
-    
-      <item>
-        <title>Configuring Netdata on Ubuntu + apache proxy + authentication</title>
-        <description>&lt;h1&gt; Setting Netdata server monitoring with password authentication on Apache proxy.&lt;/h1&gt;
-
-&lt;h2&gt;Password protected server monitoring.&lt;/h2&gt;
-
-&lt;h3&gt; Netdata, a beautiful, lightweight, monitoring tool.&lt;/h3&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/netdata1.jpg&quot; /&gt;&lt;/p&gt;
-
-&lt;h3&gt;&lt;strong&gt;What do we want?&lt;/strong&gt; &lt;/h3&gt;
-
-&lt;p&gt; The aim of this tutorial is to allow the monitoring of a Linux server through apache not using other ports than 80/443 (443 is used here) in a way that the local 127.0.0.1:19999 will be accessible only from www.example.com/netdata previous authentication.
-
-
-&lt;h3&gt;&lt;strong&gt;Netdata installation&lt;/strong&gt; &lt;/h3&gt;
-&lt;p&gt; The first thing needed is netdata installed on the server.&lt;br /&gt; &lt;/p&gt;
-
-&lt;p&gt;
-    To do so you can either run:
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# bash &amp;lt;(curl -Ss https://my-netdata.io/kickstart.sh) &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-and let the automatic installer do the work for you &lt;br /&gt;
-
- or you can visit &lt;a href=&quot;https://github.com/firehol/netdata/wiki/Installation&quot;&gt; Netdata Github installer page &lt;/a&gt; for other instructions and details.
-&lt;/p&gt;
-
-&lt;p&gt;
-    Once you have done you should have an output like this. &lt;br /&gt;
-
-    &lt;img src=&quot;/assets/netdata2.jpg&quot; /&gt;
-&lt;/p&gt;
-
-&lt;p&gt; Now you should be able to see the netdata page on the http:/IP:19999 &lt;p&gt;
-
-&lt;p&gt; If the server is under iptables protection you need to add a rule for INPUT packets:
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#sudo iptables -A INPUT -p tcp --dport 19999 -j ACCEPT&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-NOTE: you won't need this if you are going to proxy data throug normal 80/443 port. You can skip this or you can use to test the right functioning of netdata.
-&lt;/p&gt;
-
-&lt;h3&gt;&lt;strong&gt;Apache configuration&lt;/strong&gt; &lt;/h3&gt;
-
-&lt;p&gt;We need to create a new Virtual Host which will proxy all the requests coming to a specified external URL through our netdata local page.&lt;/p&gt;
-
-&lt;p&gt; We first need to install some modules for Apache: &lt;/p&gt;
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#sudo apt install libxml2-dev libapache2-mod-proxy-html&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-&lt;p&gt; Then we need to activate some mods: &lt;/p&gt;
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#sudo a2enmod proxy&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#sudo a2enmod proxy_html&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#sudo a2enmod proxy_http&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#sudo a2enmod xml2enc&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-&lt;p&gt; If you already have a vhost with your www.example.com and SSL configuration use that (in my case is default-ssl.conf) located in /etc/apache2/sites-available/ &lt;p&gt;
-
-&lt;p&gt; You will have something starting similar to this &lt;/p&gt;
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&amp;lt;IfModule mod_ssl.c&amp;gt;
-        &amp;lt;VirtualHost _default_:443&amp;gt;
-                ServerAdmin webmaster@localhost
-                ServerName bestrockers.ddns.net
-
-                DocumentRoot /var/www
-
-                SSLEngine on
-
-                ....
-                ....&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-&lt;p&gt; Just add at the end these lines right before the end of VirtualHost tag &lt;/p&gt;
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;            RewriteEngine on
-            ProxyRequests Off
-            &amp;lt;proxy&amp;gt;
-                Order deny,allow
-                Allow from all
-            &amp;lt;/proxy&amp;gt;
-
-            ProxyPass &lt;span class=&quot;s2&quot;&gt;&quot;/netdata/&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;http://netdata-ip:19999/&quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;connectiontimeout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5 &lt;span class=&quot;nv&quot;&gt;timeout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;30
-            ProxyPassReverse &lt;span class=&quot;s2&quot;&gt;&quot;/netdata/&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;http://netdata-ip:19999/&quot;&lt;/span&gt;
-
-            &amp;lt;location /netdata/&amp;gt;
-                AuthType Basic
-                AuthName &lt;span class=&quot;s2&quot;&gt;&quot;Restricted Content&quot;&lt;/span&gt;
-                AuthUserFile /etc/apache2/.htpasswd
-                Require valid-user
-                Order deny,allow
-                Allow from all
-            &amp;lt;/location&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-&lt;p&gt; And create the directory /var/www/netdata (as is your config). &lt;/p&gt;
-
-&lt;p&gt;NOTE: if you don't have a vhost configured for SSL/TLS for your domain go &lt;a href=&quot;/linux/web/2018/02/15/apache-ssl-tls-domain.html&quot;&gt; here&lt;/a&gt; for a quick guide.&lt;/p&gt;
-
-&lt;p&gt; Now we are going to create the credentials for accessing the html page &lt;/p&gt;
-
-&lt;p&gt;Install apache2-utils if you don't have already and create a netdata user&lt;/p&gt;
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#sudo apt install apache2-utils&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#sudo htpasswd -c /etc/apache2/.htpasswd netdata&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-&lt;p&gt; You have to insert the password for the user 'netdata' twice. &lt;/p&gt;
-
-&lt;p&gt;Finally restart apache2&lt;/p&gt;
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#sudo systemctl restart apache2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-&lt;p&gt; Add a rule to block netdata on port 19999 &lt;/p&gt;
-
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#sudo iptables -I INPUT -p tcp --dport 19999 -j DROP&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-
-
-&lt;p&gt;Now you can go to www.example.com/netdata (as your vhost ServerName is) to access your logs under HTTPS and password protection. &lt;/p&gt;
-
-**Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!**
-&lt;/p&gt;&lt;/p&gt;&lt;/p&gt;&lt;/p&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
-        <link>https://bestrocker221.github.io//linux/web/2018/02/15/netdata-ubuntu.html</link>
-        <guid isPermaLink="true">https://bestrocker221.github.io//linux/web/2018/02/15/netdata-ubuntu.html</guid>
         
         
         <category>linux</category>
