@@ -7,21 +7,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="shortcut icon" href="/static/img/favicon.ico" />
-        <title>TOR SSH Reverse Tunnel - Raspberry Pi - Carlo Alberto Scola</title>
+        <title>TOR SSH Remote Reverse Tunnel - Raspberry Pi - Carlo Alberto Scola</title>
         <meta name="author" content="Carlo Alberto Scola" />
-        <meta name="description" content="TOR SSH Reverse Tunnel - Raspberry Pi" />
-        <meta name="keywords" content="TOR SSH Reverse Tunnel - Raspberry Pi, Carlo Alberto Scola, linux, security" />
+        <meta name="description" content="TOR SSH Remote Reverse Tunnel - Raspberry Pi" />
+        <meta name="keywords" content="TOR SSH Remote Reverse Tunnel - Raspberry Pi, Carlo Alberto Scola, linux, security" />
 
         <meta content="1082525865223478" property="fb:app_id">
         <meta content="Carlo Alberto Scola" property="og:site_name">
         
-          <meta content="TOR SSH Reverse Tunnel - Raspberry Pi" property="og:title">
+          <meta content="TOR SSH Remote Reverse Tunnel - Raspberry Pi" property="og:title">
         
         
           <meta content="article" property="og:type">
         
         
-          <meta content="My Personal Blog" property="og:description">
+          <meta content="How to use TOR hidden service with SSH remote tunnel. How to use  hidden service as an anonymous SSH proxy. We will set a remote ssh tunnel from a raspi client towards a hidden service, accessible by an attacker." property="og:description">
         
         
           <meta content="https://bestrocker221.github.io//linux/security/2018/05/09/tor-ssh-reverse-tunnel.html" property="og:url">
@@ -45,13 +45,13 @@
         <meta name="twitter:site" content="@bestrocker221">
         <meta name="twitter:creator" content="@bestrocker221">
         
-          <meta name="twitter:title" content="TOR SSH Reverse Tunnel - Raspberry Pi">
+          <meta name="twitter:title" content="TOR SSH Remote Reverse Tunnel - Raspberry Pi">
         
         
           <meta name="twitter:url" content="https://bestrocker221.github.io//linux/security/2018/05/09/tor-ssh-reverse-tunnel.html">
         
         
-          <meta name="twitter:description" content="My Personal Blog">
+          <meta name="twitter:description" content="How to use TOR hidden service with SSH remote tunnel. How to use  hidden service as an anonymous SSH proxy. We will set a remote ssh tunnel from a raspi client towards a hidden service, accessible by an attacker.">
         
         
 
@@ -123,7 +123,7 @@
           </div>
           <div class="col-md-9 col-sm-8 col-xs-12">
           <div class="row">
-            <h2 class="blog-title-pro col-md-9 col-sm-12 col-xs-12 ">TOR SSH Reverse Tunnel - Raspberry Pi</h2>
+            <h2 class="blog-title-pro col-md-9 col-sm-12 col-xs-12 ">TOR SSH Remote Reverse Tunnel - Raspberry Pi</h2>
             
             <div class="col-md-3 col-sm-12 col-xs-12 searchcontrol" id="js-search">
               <input class="form-control" type="text" id="js-search__input" placeholder="Search">
@@ -269,7 +269,10 @@
         <div class="col-md-9 col-xs-12 full">
           <div class="post-content well">
 <article class="content">
-    <div class="post"><h1 id="tor-reverse-ssh-tunnel">Tor Reverse-SSH Tunnel</h1>
+    <div class="post"><h1 id="tor-remote-reverse-ssh-tunnel">Tor Remote Reverse-SSH Tunnel</h1>
+<p>How to use TOR hidden service with SSH remote tunnel and how to use  hidden service as an anonymous SSH proxy.</p>
+
+<p>We will set a remote ssh tunnel from a raspi client towards a hidden service, accessible by an attacker.</p>
 
 <h2 id="prerequisites">Prerequisites:</h2>
 <p>Example:</p>
@@ -345,12 +348,14 @@ HiddenServicePort 30022 127.0.0.1:22
   </li>
 </ol>
 
-<p>The localhost listening service is automatically routing traffic to the TOR network. This means no loss of anonimity for both the client and the server.</p>
+<p>The localhost listening service is automatically routing traffic to the TOR network. This means no loss of anonymity for both the client and the server.</p>
 
 <p>attacker &lt;—&gt; TOR &lt;—&gt; HiddenService &lt;—–&gt; TOR &lt;—-&gt; client</p>
 
 <h3 id="considerations"><strong>Considerations</strong></h3>
-<p>This way if the Raspberry falls under someone’s else hands it has full access on the AttackerServer. If it has served its aim then you should remove the rsa key from the authorized_key on the server or just destroy the HiddenService.</p>
+<p>This way if the Raspberry falls under someone’s else hands it has full access on the AttackerServer. If it has served its aim then you should remove the RSA key from the authorized_key on the server or just destroy the HiddenService.</p>
+
+<p><strong>Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!</strong></p>
 </div>
     <hr />
     <div class="share-page">
@@ -387,7 +392,7 @@ HiddenServicePort 30022 127.0.0.1:22
                 <ul>
                 
                 <li class="relatedPost">
-                    <a href="https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-NETWORK-ROUTING.html">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    <a href="https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-network-routing.html">A Cisco routing lab network with GNS3. [Part 1]</a>
                     
                         <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/notes">notes</a>, <a href="/category/network">network</a>, <a href="/category/cisco">cisco</a>)</small>
                     
@@ -610,7 +615,7 @@ HiddenServicePort 30022 127.0.0.1:22
     <a class="prev pull-left" href="https://bestrocker221.github.io//security/linux/2018/05/02/socks-proxy-on-ssh-tunnel.html">&laquo; SOCKS PROXY on Reverse SSH tunnel</a>
   
   
-    <a class="next pull-right" href="https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-NETWORK-ROUTING.html">A Cisco routing lab network with GNS3. [Part 1] &raquo;</a>
+    <a class="next pull-right" href="https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-network-routing.html">A Cisco routing lab network with GNS3. [Part 1] &raquo;</a>
   
 </div>
 
@@ -621,8 +626,8 @@ HiddenServicePort 30022 127.0.0.1:22
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalberto";
-        var disqus_identifier = "https://bestrocker221.github.io/_TOR SSH Reverse Tunnel - Raspberry Pi";
-        var disqus_title = "TOR SSH Reverse Tunnel - Raspberry Pi";
+        var disqus_identifier = "https://bestrocker221.github.io/_TOR SSH Remote Reverse Tunnel - Raspberry Pi";
+        var disqus_title = "TOR SSH Remote Reverse Tunnel - Raspberry Pi";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

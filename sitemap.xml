@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://bestrocker221.github.io//</link>
     <atom:link href="https://bestrocker221.github.io//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 11 Jan 2019 17:13:31 +0100</pubDate>
-    <lastBuildDate>Fri, 11 Jan 2019 17:13:31 +0100</lastBuildDate>
+    <pubDate>Wed, 16 Jan 2019 11:48:48 +0100</pubDate>
+    <lastBuildDate>Wed, 16 Jan 2019 11:48:48 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -77,7 +77,7 @@
 &lt;h2 id=&quot;-network-topology-&quot;&gt;&lt;center style=&quot;font-weight: bold&quot;&gt; Network Topology &lt;/center&gt;&lt;/h2&gt;
 &lt;p&gt;The network topology we are going to recreate is described as follow:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/routers_setup_lab_gns3.png&quot; alt=&quot;lab setup&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/routers_setup_lab_gns3.png&quot; alt=&quot;network topology routers autonomous systems&quot; /&gt;&lt;/p&gt;
 &lt;center&gt; Figure 1. Full Network topology. &lt;/center&gt;
 &lt;p&gt;Let’s explain the topology in details.&lt;/p&gt;
 
@@ -389,10 +389,11 @@ exit
 
 &lt;p&gt;The remaining router configs are also listed.&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 02 Jan 2019 00:00:00 +0100</pubDate>
-        <link>https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-NETWORK-ROUTING.html</link>
-        <guid isPermaLink="true">https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-NETWORK-ROUTING.html</guid>
+        <link>https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-network-routing.html</link>
+        <guid isPermaLink="true">https://bestrocker221.github.io//linux/notes/network/cisco/2019/01/02/BGP-OSPF-network-routing.html</guid>
         
         <category>network</category>
         
@@ -418,8 +419,11 @@ exit
       </item>
     
       <item>
-        <title>TOR SSH Reverse Tunnel - Raspberry Pi</title>
-        <description>&lt;h1 id=&quot;tor-reverse-ssh-tunnel&quot;&gt;Tor Reverse-SSH Tunnel&lt;/h1&gt;
+        <title>TOR SSH Remote Reverse Tunnel - Raspberry Pi</title>
+        <description>&lt;h1 id=&quot;tor-remote-reverse-ssh-tunnel&quot;&gt;Tor Remote Reverse-SSH Tunnel&lt;/h1&gt;
+&lt;p&gt;How to use TOR hidden service with SSH remote tunnel and how to use  hidden service as an anonymous SSH proxy.&lt;/p&gt;
+
+&lt;p&gt;We will set a remote ssh tunnel from a raspi client towards a hidden service, accessible by an attacker.&lt;/p&gt;
 
 &lt;h2 id=&quot;prerequisites&quot;&gt;Prerequisites:&lt;/h2&gt;
 &lt;p&gt;Example:&lt;/p&gt;
@@ -495,12 +499,14 @@ HiddenServicePort 30022 127.0.0.1:22
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;The localhost listening service is automatically routing traffic to the TOR network. This means no loss of anonimity for both the client and the server.&lt;/p&gt;
+&lt;p&gt;The localhost listening service is automatically routing traffic to the TOR network. This means no loss of anonymity for both the client and the server.&lt;/p&gt;
 
 &lt;p&gt;attacker &amp;lt;—&amp;gt; TOR &amp;lt;—&amp;gt; HiddenService &amp;lt;—–&amp;gt; TOR &amp;lt;—-&amp;gt; client&lt;/p&gt;
 
 &lt;h3 id=&quot;considerations&quot;&gt;&lt;strong&gt;Considerations&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;This way if the Raspberry falls under someone’s else hands it has full access on the AttackerServer. If it has served its aim then you should remove the rsa key from the authorized_key on the server or just destroy the HiddenService.&lt;/p&gt;
+&lt;p&gt;This way if the Raspberry falls under someone’s else hands it has full access on the AttackerServer. If it has served its aim then you should remove the RSA key from the authorized_key on the server or just destroy the HiddenService.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 09 May 2018 00:00:00 +0200</pubDate>
         <link>https://bestrocker221.github.io//linux/security/2018/05/09/tor-ssh-reverse-tunnel.html</link>
@@ -517,8 +523,8 @@ HiddenServicePort 30022 127.0.0.1:22
         <title>SOCKS PROXY on Reverse SSH tunnel</title>
         <description>&lt;h1 id=&quot;socks-proxy-through-ssh-reverse-tunnel&quot;&gt;SOCKS Proxy through SSH REVERSE TUNNEL&lt;/h1&gt;
 &lt;h2 id=&quot;using-only-ssh&quot;&gt;Using only SSH&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/socks-ssh.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;How to set up a SOCKS proxy with SSH reverse tunnel. The tunnel will be ssh-encrypted and each traffic will pass through the tunnel, like in a VPN.
+&lt;img src=&quot;/assets/socks-ssh.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Usually you may need to have an encrypted SOCKS proxy on a network you trust in order to be able to use it whenever you are on a network you &lt;strong&gt;don’t trust&lt;/strong&gt;.&lt;/p&gt;
 
@@ -562,6 +568,8 @@ HiddenServicePort 30022 127.0.0.1:22
 &lt;/div&gt;
 
 &lt;p&gt;Now you can set the proxy on your browser (for example) and packets will be routed to the dropbox.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 02 May 2018 00:00:00 +0200</pubDate>
         <link>https://bestrocker221.github.io//security/linux/2018/05/02/socks-proxy-on-ssh-tunnel.html</link>
@@ -722,6 +730,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
       <item>
         <title>HTTP Headers security</title>
         <description>&lt;h1 id=&quot;useful-http-headers&quot;&gt;Useful HTTP headers&lt;/h1&gt;
+&lt;p&gt;Summary of HTTP headers useful and fundamental for securing web pages, clients, and communication from malicious activities. HSTS, CORS, CSP, HPKP and many many others.&lt;/p&gt;
 
 &lt;h2 id=&quot;secure-cookie&quot;&gt;Secure Cookie&lt;/h2&gt;
 
@@ -1665,6 +1674,8 @@ echo &quot;myFunc(&quot;.$myJSON.&quot;);&quot;;
 &lt;/div&gt;
 
 &lt;p&gt;A correct Content-Type is also helpful in reducing the chance of XSSI.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 23 Apr 2018 00:00:00 +0200</pubDate>
         <link>https://bestrocker221.github.io//notes/2018/04/23/xssi-and-xss.html</link>
@@ -1758,6 +1769,8 @@ createTunnel&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot
 
 &lt;h3 id=&quot;considerations&quot;&gt;&lt;strong&gt;Considerations&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;This way if the Raspberry falls under someone’s else hands it has full access on the AttackerServer. If it has served its aim then you should remove the rsa key from the authorized_key on the server.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 13 Mar 2018 00:00:00 +0100</pubDate>
         <link>https://bestrocker221.github.io//linux/security/2018/03/13/ssh-reverse-tunnel.html</link>
@@ -1777,6 +1790,7 @@ createTunnel&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot
 &lt;h2 id=&quot;password-protected-useful-dashboard&quot;&gt;Password protected useful dashboard.&lt;/h2&gt;
 
 &lt;h3 id=&quot;aggregate-multiple-server-netdata-logs-into-one-protected-page&quot;&gt;Aggregate multiple server netdata logs into one protected page.&lt;/h3&gt;
+&lt;p&gt;How to set up a netdata cluster monitoring multiple servers. One dashboard, multiple server monitoring instances.&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/netdata-tv.jpg&quot; /&gt;&lt;/p&gt;
@@ -1964,6 +1978,8 @@ It provide a simple example with some graph in comparison from 2 different serve
 &lt;p&gt;Now the script will automatically refresh the hosts file so that you don’t have to worry about the dynamic IP changes.&lt;/p&gt;
 
 &lt;p&gt;This way only the traffic from (-s) &lt;em&gt;myraspi.com&lt;/em&gt; will be allowed to access /netdata/ folder.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Sun, 18 Feb 2018 00:00:00 +0100</pubDate>
         <link>https://bestrocker221.github.io//linux/web/2018/02/18/netdata-cluster.html</link>
@@ -2114,6 +2130,8 @@ NOTE: you won't need this if you are going to proxy data throug normal 80/443 po
 
 
 &lt;p&gt;Now you can go to www.example.com/netdata (as your vhost ServerName is) to access your logs under HTTPS and password protection. &lt;/p&gt;
+
+**Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!**
 &lt;/p&gt;&lt;/p&gt;&lt;/p&gt;&lt;/p&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
@@ -2136,6 +2154,8 @@ NOTE: you won't need this if you are going to proxy data throug normal 80/443 po
 &lt;h3&gt;With Let's Encrypt certificates&lt;/h3&gt;
 
 &lt;hr /&gt;
+
+&lt;p&gt;How to set up SSL/TLS on Apache for securing web communication. Let’s Encrypt certificate generation.&lt;/p&gt;
 
 &lt;h4&gt;&lt;strong&gt;What do we want:&lt;/strong&gt;&lt;/h4&gt;
 
@@ -2189,6 +2209,8 @@ NOTE: you won't need this if you are going to proxy data throug normal 80/443 po
 &lt;p&gt;&lt;strong&gt;DONE!&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;Now you can go to &lt;em&gt;http://example.com&lt;/em&gt; and apache will redirect you to the https version.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
         <link>https://bestrocker221.github.io//linux/web/security/2018/02/15/apache-ssl-tls-domain.html</link>
