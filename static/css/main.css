@@ -218,7 +218,7 @@ footer {
 }
 .search__results > li {
     border-top: 1px solid #f0f0f0;
-    padding: 10px 0;
+    padding: 10px 15px;
 }
 .search__results > li > a {
     padding: 10px;
