@@ -89,23 +89,100 @@
       <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
 <script>
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function disableCookies(){
+  var cookies = ["_gat", "_gid", "_ga"];
+  cookies.forEach( function(element, index) {
+    // statements
+    console.log("deleting: " + element);
+    delete_cookie(element);
+    //setCookie("cookieconsent_status", "deny", 7);
+    //window.location.reload(true);
+  });
+}
+
 window.addEventListener("load", function(){
-window.cookieconsent.initialise({
-  "palette": {
-    "popup": {
-      "background": "#000"
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": {
+        "background": "#000"
+      },
+      "button": {
+        "background": "#f1d600"
+      }
     },
-    "button": {
-      "background": "#f1d600"
+    "theme": "classic",
+    "type": "opt-out",
+    "content": {
+      "message": "This website uses cookies just to get simple stats and help understand if the content of this beautiful website is searched or not.\n",
+      "href": "https://carloalbertoscola.it/cookies"
+    },
+    onInitialise: function (status) {
+    console.log("init");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+      }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      //disableCookies();
+      }
+    },
+   onStatusChange: function(status, chosenBefore) {
+    console.log("change");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+    }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      disableCookies();
+      window.location.reload(true);
+    }
+    if(type == 'opt-out' && didConsent){
+      window.location.reload(true);
     }
   },
-  "theme": "classic",
-  "type": "opt-out",
-  "content": {
-    "message": "This website uses cookies just to get simple stats and help understand if the content of this beautiful website is searched or not.\n",
-    "href": "https://carloalbertoscola.it/cookies"
+  onRevokeChoice: function() {
+    console.log("rev");
+    var type = this.options.type;
+    if (type == 'opt-in') {
+      // disable cookies
+      disableCookies();
+    }
+    if (type == 'opt-out') {
+      // enable cookies
+    }
   }
-})});
+  })
+});
 </script>
   </head>
 
@@ -819,14 +896,18 @@ It provide a simple example with some graph in comparison from 2 different serve
 <script src="/static/js/projects.js"></script>
 
     <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	var consent = getCookie("cookieconsent_status");
+	if( consent == "deny"){
+	} else if (consent == null || consent == "allow") {
+		eval('(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })(window,document,"script","https://www.google-analytics.com/analytics.js","ga");  ga("create", "UA-63063866-5", "auto");  ga("send", "pageview");			');
+	}
 
-  ga('create', 'UA-63063866-5', 'auto');
-  ga('send', 'pageview');
-
+  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  // ga('create', 'UA-63063866-5', 'auto');
+  // ga('send', 'pageview');
 </script>
   </body>
 </html>
