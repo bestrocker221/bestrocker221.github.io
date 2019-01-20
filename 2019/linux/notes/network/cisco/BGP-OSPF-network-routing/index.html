@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msvalidate.01" content="2968909B8A7C9E7281129471CA8D69D9" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>A Cisco routing lab network with GNS3. [Part 1] - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="A Cisco routing lab network with GNS3. [Part 1]" />
+        <meta name="keywords" content="A Cisco routing lab network with GNS3. [Part 1], Carlo Alberto Scola, linux, notes, network, cisco" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="A Cisco routing lab network with GNS3. [Part 1]" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="Hello everybody, in this post we are going to learn step by step how to setup a fully functioning network environment with the help of Graphical Network Simulator-3 (GNS3). This exercise aims to be helpful with the study of network routing protocols." property="og:description">
+        
+        
+          <meta content="https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/" property="og:url">
+        
+        
+          <meta content="2019-01-02T00:00:00+01:00" property="article:published_time">
+          <meta content="https://carloalbertoscola.it//about/" property="article:author">
+        
+        
+          <meta content="https://carloalbertoscola.it//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="linux" property="article:section">
+          
+        
+        
+          
+          <meta content="network" property="article:tag">
+          
+          <meta content="routing" property="article:tag">
+          
+          <meta content="cisco" property="article:tag">
+          
+          <meta content="bgp" property="article:tag">
+          
+          <meta content="ospf" property="article:tag">
+          
+          <meta content="multicast" property="article:tag">
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="A Cisco routing lab network with GNS3. [Part 1]">
+        
+        
+          <meta name="twitter:url" content="https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/">
+        
+        
+          <meta name="twitter:description" content="Hello everybody, in this post we are going to learn step by step how to setup a fully functioning network environment with the help of Graphical Network Simulator-3 (GNS3). This exercise aims to be helpful with the study of network routing protocols.">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
+      
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">CS Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-8 col-sm-12 col-xs-12 ">A Cisco routing lab network with GNS3. [Part 1]</h2>
+            
+            <div class="col-md-4 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">02 Jan 2019</span>
+              
+              
+                <span class="categories">
+                  &raquo; categories:
+                  
+                    <a href="/category/linux">linux</a>
+                    , 
+                  
+                    <a href="/category/notes">notes</a>
+                    , 
+                  
+                    <a href="/category/network">network</a>
+                    , 
+                  
+                    <a href="/category/cisco">cisco</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item BGP-OSPF-network-routing"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  BGP-OSPF-network-routing"><a href="/static/curriculum-vitae-eng-2.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 id="-how-to-configure-cisco-routers-with-routing-protocols-"><center style="font-weight: bold"> How to configure Cisco routers with routing protocols. </center></h1>
+<h2 id="bgp-ospf-hsrp-and-multicast-routing-part-1">BGP, OSPF, HSRP and Multicast routing. <strong>[PART 1]</strong></h2>
+<h3 id="lets-set-up-a-virtual-router-environment-from-scratch">Let’s set up a virtual router environment from scratch!</h3>
+<p><em>Last modified:</em> 17 January 2019</p>
+
+<p>Hello everybody, in this post we are going to learn step by step how to setup a fully functioning network environment with the help of <a href="https://www.gns3.com/"><em>Graphical Network Simulator-3</em></a> (<strong>GNS3</strong>). This exercise aims to be helpful with the study of network routing protocols.</p>
+
+<p>We are going to create an ISP basic network.</p>
+
+<ol>
+  <li><strong>Network topology explanation</strong>.</li>
+  <li><strong>Routing protocol choices</strong>.</li>
+  <li><strong>Fault tolerant routing</strong>.</li>
+  <li><strong>Multicast routing</strong>.</li>
+</ol>
+
+<p>The full code configuration of the four Cisco routers is found at the end of the page.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Table of Acronyms</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>BGP</strong></td>
+      <td>Border Gateway Protocol</td>
+    </tr>
+    <tr>
+      <td><strong>OSPF</strong></td>
+      <td>Open Shortest Path First</td>
+    </tr>
+    <tr>
+      <td><strong>RIP</strong></td>
+      <td>Routing Information Protocol</td>
+    </tr>
+    <tr>
+      <td><strong>AS</strong></td>
+      <td>Autonomous System</td>
+    </tr>
+    <tr>
+      <td><strong>HSRP</strong></td>
+      <td>Hot Standby Router Protocol</td>
+    </tr>
+    <tr>
+      <td><strong>PIM</strong></td>
+      <td>Protocol Independent Multicast</td>
+    </tr>
+    <tr>
+      <td><strong>RP</strong></td>
+      <td>Rendezvous Point</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="network-equipment--virtual">Network Equipment  (virtual)</h2>
+<ul>
+  <li>4 Cisco 7301 routers</li>
+  <li>2 HP2524 switches (one is for server network and one for client network)</li>
+  <li>Virtual Machines (both on server and client network)</li>
+</ul>
+
+<h2 id="-network-topology-"><center style="font-weight: bold"> Network Topology </center></h2>
+<p>The network topology we are going to recreate is described as follow:</p>
+
+<p><img src="/assets/routers_setup_lab_gns3.png" alt="network topology routers autonomous systems" /></p>
+<center> Figure 1. Full Network topology. </center>
+<p>Let’s explain the topology in details.</p>
+
+<ul>
+  <li>The <strong>AS13</strong> is our competence <em>Autonomous System</em> and we can consider it as managed by our ISP called <em>isp5</em>.</li>
+  <li><strong>AS2</strong> is considered the router connected to the backbone network, providing connectivity.</li>
+  <li><strong>AS14</strong> is considered an other ISP’s border router.</li>
+  <li>AS14 is also considered a <strong>Peering ISP</strong>, meaning in case of network failures, traffic can flow from one ISP to the other to allow Internet reachability.</li>
+</ul>
+
+<p>Inside our <strong>AS13</strong>:</p>
+<ul>
+  <li><strong>RTA and RTB</strong> are <strong>area border routers</strong>. They are both <strong>e-BGP</strong> (to the outside) and <strong>i-BGP</strong> (to the inside) peers.</li>
+  <li><strong>RTA</strong> is e-BGP peering with AS2. <strong>RTB</strong> is e-BGP peering with AS14. Internally, RTA and RTB are i-BGP peers.</li>
+  <li><strong>RTC and RTD</strong> provide fault tolerant access to server and client networks respectively.</li>
+</ul>
+
+<h1 id="dynamic-ip-routing"><strong>Dynamic IP routing</strong></h1>
+<p>For the internal routing, Open Shortest Path First or <strong>OSPF</strong> version 2 will be used. <strong>RTA</strong> and <strong>RTB</strong> will also advertise the <em>default route</em> through OSPF.</p>
+
+<p>Border Gateway Protocol or <strong>BGP</strong> is used for external routing <strong>AS13-AS2</strong> and <strong>AS13-AS14</strong>:</p>
+<ul>
+  <li>To direct the traffic we will set BGP <strong>local preferences</strong> for routes from AS2 and AS14.</li>
+  <li>RTA and RTB will advertise AS13’s OSPF paths to AS2 and AS14.</li>
+  <li>Routes coming from AS2 will have <strong>higher</strong> local preference value and will be the preferred ones.</li>
+</ul>
+
+<p>The link <strong>RTA-AS2</strong> is called <em>primary link</em>.</p>
+
+<p>The link <strong>RTB-AS14</strong> is called <em>private link</em>.</p>
+
+<h2 id="ospf-configuration"><strong>OSPF Configuration</strong></h2>
+<p>Let’s assume each router has its interfaces already configured with the IP addresses shown in the Figure 1.</p>
+
+<p>Firstly for each router we set up the <code class="highlighter-rouge">router-id</code> correspondent to the router loopback address with: (RTA’s OSPF mode example)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>router-id 10.5.4.1
+</code></pre>
+</div>
+
+<p>In <strong>RTA</strong>’s OSPF setting, we will use “<em>default-information originate always metric 20</em>” to distribute default route to RTC and RTD. This default route points to RTA. RTB will not apply this default route since it is also a border router.</p>
+
+<p>In <strong>RTB</strong>’s OSPF setting, we will use “<em>default-information originate always metric 200</em>” to distribute default route to RTC and RTD. This default route points to RTB. RTA will not apply this default route since it is also a border router.</p>
+
+<p>[Note] <strong>RTA</strong>’s metric 20 &lt; <strong>RTB</strong>’s metric 200.</p>
+
+<blockquote>
+  <p>Why? Because we want to route traffic to the peering ISP <strong>only</strong> if some failures happen on the primary link.</p>
+</blockquote>
+
+<p>Then <strong>RTC</strong> and <strong>RTD</strong> will choose <strong>RTA</strong> as default route destination but NOTE, in <strong>RTC</strong> and <strong>RTD</strong>’s routing table, the default route only shows the <strong>next-hop</strong>.</p>
+
+<p>If the primary link is down, <strong>RTC</strong> and <strong>RTD</strong> will send the packets outside only through <strong>RTB</strong>. <strong>RTB</strong> will then forward the packets to the outside using the private link. If RTA is down, <strong>RTC</strong> and <strong>RTD</strong> will choose <strong>RTB</strong> as default route destination.</p>
+
+<h3 id="rta-ospf-configuration">RTA OSPF Configuration</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>router ospf 1
+    router-id 10.5.4.1
+    network 10.5.1.0 0.0.0.3 area 0
+    network 10.5.0.0 0.0.0.3 area 0
+    network 10.5.4.1 0.0.0.0 area 0
+    default-information originate always metric 20
+    exit
+</code></pre>
+</div>
+
+<blockquote>
+  <p>[for newcomers]
+<code class="highlighter-rouge">network &lt;ip-address&gt; &lt;wildcard-mask&gt; area &lt;area-id&gt;</code> : Defines an interface on which OSPF runs and defines the area ID for that interface.</p>
+</blockquote>
+
+<p>For each router we are telling OSPF to advertise the ip and the netmask reachable by the router to the selected <em>area</em> (in this case 0, backbone).</p>
+
+<p>After this step each router should be able to discover and communicate to each other.</p>
+
+<p>For every possible information about OSPF commands and configuration the <a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_ospf/configuration/xe-16/iro-xe-16-book/iro-cfg.html">Cisco OSPF official guide</a> is a must read.</p>
+
+<p>Other routers OSPF configurations are at the end of the article.</p>
+<h2 id="bgp-configuration"><strong>BGP configuration</strong></h2>
+<p>Firstly for each router we set up the <code class="highlighter-rouge">router-id</code> correspondent to the router loopback address with:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>bgp router-id 10.5.4.1
+</code></pre>
+</div>
+
+<p>In <strong>RTA</strong>’s BGP setting, we aggregate the addresses to 10.5.0.0/20 (since our network is using this segment we don’t want to advertise multiple useless routes, just the main one is necessary to reach AS13). We also redistribute our OSPF route in BGP (or we could add RTA’s nearby network 10.5.0.0/30 and 10.5.1.0/30). 
+This is done with: (RTA)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>aggregate-address 10.5.0.0 255.255.240.0 summary-only
+</code></pre>
+</div>
+
+<p>In <strong>RTA</strong>’s routing table, we also add a static route to <strong>RTB</strong>’s Loopback address for network 10.5.5.0/30. Since we use aggregate-address in RTA’s BGP setting, it will include 10.5.5.0/30. Actually RTA does not know where <strong>RTB</strong>’s Loopback is at all. RTB will not advertise that network to OSPF or BGP.
+This is done with: (RTA)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>ip route 10.5.5.0 255.255.255.252 10.5.4.2
+</code></pre>
+</div>
+
+<p>In addition, we are also using Loopback of RTA and RTB to establish the BGP TCP connections. This avoids failed interfaces and links with the help of OSPF routing.</p>
+
+<h3 id="bgp-neighbors">BGP neighbors</h3>
+<p>Next we set up the BGP peering with AS2 and AS14.</p>
+
+<p>In RTA we will set up AS2 as <strong>E-BGP</strong> peer and RTB as <strong>I-BGP</strong> peer.</p>
+
+<p>We set up the neighboring to the destination IP as:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.0.32.1 remote-as 2
+neighbor 10.5.4.2 remote-as 13
+</code></pre>
+</div>
+
+<p>Next we set up the <strong>next-hop-self</strong> bgp attribute.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.5.4.2 next-hop-self
+</code></pre>
+</div>
+<p>When a new route from an e-bgp peer is learned from RTA, the internal peer (RTB) will learn the prefix through i-bgp. If RTB does not have a route towards that IP, RTB will not be able to forward packets.
+The <strong>next-hop-self</strong> BGP attribute allow the internal bgp peer (RTB) to set the RTA address as ‘<em>next-hop</em>’ for routes learned from i-bgp. This way RTB will forward packets to RTA, and than it is RTA responsibility to forward out those packets.</p>
+
+<p>BGP gives us an option to change the source of packets sent. In this case we can use Loopback interface as source of BGP packets sent between these neighbors. This way if one of the paths fails, the other will be used. Moreover by using loopback interface as update source, the benefit is that the BGP session won’t go down when physical interface goes down.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.5.4.2 update-source loopback 1
+</code></pre>
+</div>
+
+<p>Finally to redistribute OSPF routes into BGP:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>redistribute ospf 1
+</code></pre>
+</div>
+
+<h3 id="complete-bgp-configuration-of-router-rta">Complete BGP configuration of Router RTA</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>router bgp 13
+    bgp router-id 10.5.4.1
+    aggregate-address 10.5.0.0 255.255.240.0 summary-only
+    redistribute ospf 1
+    neighbor 10.0.32.1 remote-as 2
+    neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
+    neighbor 10.5.4.2 remote-as 13
+    neighbor 10.5.4.2 next-hop-self
+    neighbor 10.5.4.2 update-source loopback 1
+    no auto-summary
+    no synchronization
+    exit
+</code></pre>
+</div>
+
+<h2 id="fault-tolerant-ip-routing"><strong>Fault-tolerant IP routing</strong></h2>
+<h3 id="from-as13-to-the-internet">From AS13 To the Internet</h3>
+<p>We are going to set up our <strong>AS13</strong> area with one back up link.</p>
+<ol>
+  <li>When the link <strong><em>RTA-AS2</em></strong> is operating without errors, all the AS13’s traffic will be routed to the Internet through the link RTA-AS2 with the use of <strong>BGP</strong>.</li>
+  <li>When the link <strong><em>RTA-AS2</em></strong> is down, for whatever reason, all traffic will be routed to the backup link <strong><em>RTB-AS14</em></strong>. From there, the peering ISP will forward the traffic correctly to the AS2.</li>
+</ol>
+
+<p>When the link to AS2 is down, after a timer timeout, <strong>RTB</strong> will spread its BGP route to OSPF so that the <em>default route</em> to AS2 will be through AS14.</p>
+
+<h3 id="how-to-setup-primary-and-secondary-link">How to setup primary and secondary link</h3>
+<p>To set default route to RTA, and back up route to RTB for outgoing connections to outside we first create a <code class="highlighter-rouge">route-map</code> for <strong>incoming</strong> routes in BGP config mode: (RTA)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
+exit
+</code></pre>
+</div>
+<p>“PREF_FROM_AS2” is the name of the route-map.
+It means “all the routes coming (<strong>in</strong>) from AS2”.</p>
+
+<p>then we define the route-map this way: (RTA)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>route-map PREF_FROM_AS2 permit 20
+set local-preference 300
+exit
+</code></pre>
+</div>
+
+<p>While in RTB the local preference is lower:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.5.5.1 route-map PREF_FROM_AS14 in  
+exit
+</code></pre>
+</div>
+<div class="highlighter-rouge"><pre class="highlight"><code>route-map PREF_FROM_AS14 permit 10
+set local-preference 200
+exit
+</code></pre>
+</div>
+
+<h2 id="multicast-routing"><strong>Multicast Routing</strong></h2>
+<p>RTC’s loopback1 will act as PIM <em>Rendezvous Point</em> <strong>RP</strong>. In addition, we will not enable PIM on RTA and RTB’s fa1/1 interfaces 
+avoiding multicast protocol to affect other AS.</p>
+
+<p>To set up PIM on an interface:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>ip pim sparse-mode
+</code></pre>
+</div>
+<p>To set the RP:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>ip pim rp-address 10.5.4.3
+</code></pre>
+</div>
+
+<p>We set up the PIM RP close to the server network, since the servers usually mostly provide the multicast services.</p>
+
+<h3 id="complete-rta-router-configuration"><strong>Complete RTA router configuration</strong></h3>
+<p>This config is ready to be copy-pasted in the router config mode.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>conf t
+hostname RTA
+ip multicast-routing 
+
+interface fastEthernet 1/1
+ip address 10.0.32.2 255.255.255.252
+no shut
+
+interface gigabitEthernet 0/2
+ip address 10.5.1.1 255.255.255.252
+ip ospf cost 2
+ip pim sparse-mode 
+no shut
+
+interface gigabitEthernet 0/0
+ip address 10.5.0.1 255.255.255.252
+ip pim sparse-mode 
+no shut
+
+interface loopback 1
+ip address 10.5.4.1 255.255.255.255
+no shut
+
+exit
+
+ip pim rp-address 10.5.4.3
+
+router ospf 1
+router-id 10.5.4.1
+network 10.5.1.0 0.0.0.3 area 0
+network 10.5.0.0 0.0.0.3 area 0
+network 10.5.4.1 0.0.0.0 area 0
+default-information originate always metric 20
+exit
+
+route-map PREF_FROM_AS2 permit 20
+set local-preference 300
+exit
+
+router bgp 13
+bgp router-id 10.5.4.1
+no network 10.0.32.0 mask 255.255.255.252
+aggregate-address 10.5.0.0 255.255.240.0 summary-only
+redistribute ospf 1
+neighbor 10.0.32.1 remote-as 2
+neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
+neighbor 10.5.4.2 remote-as 13
+neighbor 10.5.4.2 next-hop-self
+neighbor 10.5.4.2 update-source loopback 1
+no auto-summary
+no synchronization
+exit
+
+ip route 10.5.5.0 255.255.255.252 10.5.4.2
+</code></pre>
+</div>
+
+<h3 id="complete-rtb-router-configuration"><strong>Complete RTB router configuration</strong></h3>
+<p>This config is ready to be copy-pasted in the router config mode.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>conf t
+hostname RTB
+ip multicast-routing 
+
+interface gigabitEthernet 0/1
+ip address 10.5.5.2 255.255.255.252
+no shut
+
+interface gigabitEthernet 0/2
+ip address 10.5.2.2 255.255.255.252
+ip pim sparse-mode
+no shut
+
+interface gigabitEthernet 0/0
+ip address 10.5.0.2 255.255.255.252
+ip pim sparse-mode
+no shut
+
+interface loopback 1
+ip address 10.5.4.2 255.255.255.255
+no shut
+
+exit
+
+ip pim rp-address 10.5.4.3
+
+router ospf 1
+router-id 10.5.4.2
+network 10.5.2.0 0.0.0.3 area 0
+network 10.5.0.0 0.0.0.3 area 0
+network 10.5.4.2 0.0.0.0 area 0
+default-information originate always metric 200
+exit
+
+route-map PREF_FROM_AS14 permit 10
+set local-preference 200
+exit
+
+router bgp 13
+bgp router-id 10.5.4.2
+neighbor 10.5.5.1 remote-as 14
+neighbor 10.5.5.1 route-map PREF_FROM_AS14 in
+neighbor 10.5.4.1 remote-as 13
+neighbor 10.5.4.1 next-hop-self
+neighbor 10.5.4.1 update-source loopback 1
+redistribute ospf 1
+aggregate-address 10.5.0.0 255.255.240.0 summary-only
+no auto-summary
+no synchronization
+exit
+</code></pre>
+</div>
+
+<p>In the second part of this guide we will see how to set up a redundant, fault tolerant, always available link for the client and server networks. We will setup <a href="https://www.cisco.com/c/en/us/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.html"><em>Hot Standby Router Protocol</em> or  <strong>HSRP</strong></a> in both <strong>RTD</strong> and <strong>RTC</strong> towards the client and server networks.</p>
+
+<p>The remaining router configs are also listed.</p>
+
+<p><strong>Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!</strong></p>
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google + -->
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/">TOR SSH Remote Reverse Tunnel - Raspberry Pi</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/">SOCKS PROXY on Reverse SSH tunnel</a>
+                    
+                        <small>(Categories: <a href="/category/security">security</a>, <a href="/category/linux">linux</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/samesite-cookie/">SameSite cookie security</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/http-header-security/">HTTP Headers security</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/sop-xss-introduction/">SOP and XSS introduction</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/xssi-and-xss/">XSSI and XSS differences</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/">&laquo; TOR SSH Remote Reverse Tunnel - Raspberry Pi</a>
+  
+  
+    <a class="next pull-right" href="https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/">Enabling SSL on NGINX reverse proxy towards non-SSL apache &raquo;</a>
+  
+</div>
+
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalberto";
+        var disqus_identifier = "https://carloalbertoscola.it/_A Cisco routing lab network with GNS3. [Part 1]";
+        var disqus_title = "A Cisco routing lab network with GNS3. [Part 1]";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div>
+</div>
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a>.
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63063866-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msvalidate.01" content="2968909B8A7C9E7281129471CA8D69D9" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>HTTP Headers security - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="HTTP Headers security" />
+        <meta name="keywords" content="HTTP Headers security, Carlo Alberto Scola, notes" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="HTTP Headers security" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="Summary of HTTP headers useful and fundamental for securing web pages, clients, and communication from malicious activities. HSTS, CORS, CSP, HPKP and many many others." property="og:description">
+        
+        
+          <meta content="https://carloalbertoscola.it//2018/notes/http-header-security/" property="og:url">
+        
+        
+          <meta content="2018-04-26T00:00:00+02:00" property="article:published_time">
+          <meta content="https://carloalbertoscola.it//about/" property="article:author">
+        
+        
+          <meta content="https://carloalbertoscola.it//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="notes" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="HTTP Headers security">
+        
+        
+          <meta name="twitter:url" content="https://carloalbertoscola.it//2018/notes/http-header-security/">
+        
+        
+          <meta name="twitter:description" content="Summary of HTTP headers useful and fundamental for securing web pages, clients, and communication from malicious activities. HSTS, CORS, CSP, HPKP and many many others.">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
+      
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">CS Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-8 col-sm-12 col-xs-12 ">HTTP Headers security</h2>
+            
+            <div class="col-md-4 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">26 Apr 2018</span>
+              
+              
+                <span class="categories">
+                  &raquo; categories:
+                  
+                    <a href="/category/notes">notes</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item http-header-security"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  http-header-security"><a href="/static/curriculum-vitae-eng-2.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 id="useful-http-headers">Useful HTTP headers</h1>
+<p>Summary of HTTP headers useful and fundamental for securing web pages, clients, and communication from malicious activities. HSTS, CORS, CSP, HPKP and many many others.</p>
+
+<h2 id="secure-cookie">Secure Cookie</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Set-Cookie: &lt;name&gt;=&lt;value&gt;[; &lt;Max-Age&gt;=&lt;age&gt;]
+              [; expires=&lt;date&gt;]
+                [; domain=&lt;domain_name&gt;]
+                  [; path=&lt;some_path&gt;]
+                    [; secure][; HttpOnly]
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>HttpOnly</strong>: any script can’t access cookie data, an empty string is returned.</li>
+  <li><strong>secure</strong>: the cookie will/is server only under a secure connection</li>
+</ul>
+
+<p>Other fields are auto-esplicative</p>
+
+<p>The newer <strong>SameSite</strong> cookie header is explained <a href="/notes/2018/04/26/samesite-cookie.html">here</a>.</p>
+
+<h2 id="cors-headers">CORS Headers</h2>
+<h3 id="cross-origin-resource-sharing">Cross-Origin-Resource-Sharing</h3>
+
+<p>Examples:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Origin: Server.com</code></li>
+  <li><code class="highlighter-rouge">Access-Control-Allow-Origin: *</code></li>
+  <li><code class="highlighter-rouge">Access-Control-Allow-Methods: POST,GET</code></li>
+  <li><code class="highlighter-rouge">Access-Control-Allow-Headers: POST, GET, OPTIONS</code></li>
+  <li><code class="highlighter-rouge">Access-Control-Request-Method: POST,GET</code></li>
+  <li><code class="highlighter-rouge">Access-Control-Request-Headers: Content-Type</code></li>
+</ul>
+
+<p>When a browser send a cross-origin XMLHttpRequest to a server that <strong>doesn’t respond</strong> with these headers, <strong>no access</strong> will be given to the response.</p>
+
+<p>Let’s see an example:</p>
+
+<p>Suppose web content on domain http://foo.example wishes to invoke content on domain http://bar.other. Code of this sort might be used within JavaScript deployed on foo.example:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">invocation</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'http://bar.other/resources/public-data/'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">callOtherDomain</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">invocation</span><span class="p">)</span> <span class="p">{</span>    
+    <span class="nx">invocation</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nx">invocation</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="nx">handler</span><span class="p">;</span>
+    <span class="nx">invocation</span><span class="p">.</span><span class="nx">send</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>This will lead to a simple exchange between the client and the server, using CORS headers to handle the privileges:</p>
+
+<p>Let us look at what the browser will send to the server in this case, and let’s see how the server responds:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>GET /resources/public-data/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1b3pre) Gecko/20081130 Minefield/3.1b3pre
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+Connection: keep-alive
+Referer: http://foo.example/examples/access-control/simpleXSInvocation.html
+Origin: http://foo.example
+
+
+HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 00:23:53 GMT
+Server: Apache/2.0.61
+Access-Control-Allow-Origin: *
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: application/xml
+
+</code></pre>
+</div>
+<p>To note:</p>
+<ul>
+  <li><strong>Origin</strong> header in the request from <em>foo.example</em></li>
+  <li><em>*Access-Control-Allow-Origin: **</em> header in the response from <em>bar.other</em></li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+
+<p>The <code class="highlighter-rouge">Origin</code> header clearly shows by whom the invocation has been done.</p>
+
+<p>The domain <em>bar.others</em> answering with</p>
+
+<p><code class="highlighter-rouge">Access-Control-Allow-Origin: *</code></p>
+
+<p>has allowed <strong>anyone</strong> to include his content through cross-origin requests. If it would have restricted access only to <em>foo.example</em> then it would have sent back</p>
+
+<p><code class="highlighter-rouge">Access-Control-Allow-Origin: http://foo.example</code></p>
+
+<p>For more in depth and other cases than this “simple request”:
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS</a></p>
+
+<h2 id="csp-or-content-security-policy">CSP or <em>Content Security Policy</em></h2>
+<p>Its aim is to mitigate XSS and data injection attacks by differentiating <strong>instructions</strong> and <strong>content</strong>.</p>
+
+<p><code class="highlighter-rouge">Content-Security-Policy: &lt;policy&gt; </code> or <code class="highlighter-rouge">X-Content-Security-Policy: &lt;policy&gt;</code></p>
+
+<p>are sent by server to stipulate locations where scripts can be loaded. It also stipulate restrictions on which JavaScript function is allowed to use or not.</p>
+
+<p>Alternatively, the <code class="highlighter-rouge">&lt;meta&gt;</code> element can be used to configure a policy, for example:</p>
+
+<p><code class="highlighter-rouge">&lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';"&gt;</code></p>
+
+<p>CSP permits to specify domains that browser should consider to be valid sources of executable scripts.
+CSP can specify also the protocol to use like the encrypted HTTPS.</p>
+
+<h3 id="policies">Policies</h3>
+<p>Are directives each of which describes the policy for a certain resource type or area.</p>
+
+<p>A policy needs to include a <strong>default-src</strong> or <strong>script-src</strong> directive to prevent inline scripts from running, as well as blocking the use of <code class="highlighter-rouge">eval()</code>.</p>
+
+<p>A policy needs to include a <strong>default-src</strong> or <strong>style-src</strong> directive to restrict inline styles from being applied from a <code class="highlighter-rouge">&lt;style&gt;</code> element or a style attribute.</p>
+
+<p><code class="highlighter-rouge">Content-Security-Policy: </code> [directive] [source-expression]</p>
+
+<p>Examples</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Content-Security-Policy: default-src 'self'</code> : All content must come from site’s own origin.</li>
+  <li><code class="highlighter-rouge">Content-Security-Policy: default-src 'self' *.trusted.com
+</code> : allow a trusted domain and its subdomains.</li>
+  <li><code class="highlighter-rouge">Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com</code> : images can be included from any domain but media (audio/video) is restricted. All scripts must come from that domain.</li>
+  <li><code class="highlighter-rouge">Content-Security-Policy: default-src https://onlinebanking.jumbobank.com</code>: if you want <strong>all</strong> content to be loaded under SSL/TLS just set the default-src domain under HTTPS.</li>
+  <li><code class="highlighter-rouge">Content-Security-Policy: default-src 'self' *.mailsite.com; img-src *</code>: allow html and images but not Javascript. The tag <code class="highlighter-rouge">script-src</code> is not specified, so the default setting will follow <code class="highlighter-rouge">default-src</code> or “all must be loaded from the originating server”.</li>
+</ul>
+
+<p>Other directives:</p>
+
+<ul>
+  <li>connect‑src</li>
+  <li>font‑src</li>
+  <li>frame‑src</li>
+  <li>img‑src</li>
+  <li>media‑src</li>
+  <li>object‑src</li>
+  <li>script‑src</li>
+  <li>style‑src</li>
+</ul>
+
+<p>Source expressions:</p>
+
+<ul>
+  <li>‘<strong>none</strong>’ : Allows no resources.</li>
+  <li>‘<strong>self</strong>’: Allows resources from the host that served the page.</li>
+  <li>‘<strong>unsafe‑inline</strong>’: Allows resources embedded in the page, such as inline <code class="highlighter-rouge">&lt;script&gt;</code> elements, <code class="highlighter-rouge">&lt;style&gt;</code> elements, and javascript: URLs</li>
+  <li>‘<strong>unsafe‑eval</strong>’: Allows the use of the JavaScript eval function.</li>
+</ul>
+
+<p>Further docs in ref: <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP</a></p>
+
+<h2 id="x-content-type-options">X-Content-Type-Options</h2>
+<p>This header is used by the server to indicate that the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME types</a> written in the <code class="highlighter-rouge">Content-Type</code> header <strong>should not</strong> be changed and <strong>be followed</strong>.</p>
+
+<p><code class="highlighter-rouge">X-Content-Type-Options: nosniff</code></p>
+
+<p>When a <code class="highlighter-rouge">Content-Type</code> is not specified, the browser take a guess on what type of content it has received. The directive <code class="highlighter-rouge">nosniff</code> just disable this behaviour.</p>
+
+<p>Example:
+if the server sends a <code class="highlighter-rouge">nosniff</code> directive in response to a <code class="highlighter-rouge">script</code> tag, then the browser will ignore the response unless the MIME type matches <code class="highlighter-rouge">application/javascript</code>.</p>
+
+<h2 id="x-frame-options">X-Frame-Options</h2>
+<p>indicate if a browser should be allowed to render a page in an <code class="highlighter-rouge">&lt;iframe&gt;</code>, <code class="highlighter-rouge">&lt;frame&gt;</code> or <code class="highlighter-rouge">&lt;object&gt;</code>. This in order to avoid <a href="https://en.wikipedia.org/wiki/Clickjacking">clickjacking attacks</a> (also known as “User Interface redress attack, UI redress attack,”).</p>
+
+<p>Possible directives:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
+X-Frame-Options: ALLOW-FROM https://example.com/
+</code></pre>
+</div>
+<ul>
+  <li><strong>DENY</strong> : attempts to load page in a frame will fail also whed the page is loaded from the same site.</li>
+  <li><strong>SAMEORIGIN</strong>: only allow page from the same origin to be loaded into the page itself.</li>
+  <li><strong>ALLOW-FROM uri</strong>: the page can only be displayed in a frame on the specified origin.</li>
+</ul>
+
+<p><strong>Note</strong>: SAMEORIGIN and ALLOW-FROM doesn’t check if also their ancestors are in the same origin.</p>
+
+<h2 id="hsts-http-strict-transport-security">HSTS <em>HTTP Strict Transport Security</em></h2>
+<p>protect websites against protocol <strong>downgrade attacks</strong> and <strong>cookie hijacking</strong>.</p>
+
+<p>It tells the browser to only access the domain using secure HTTPS connections and never via HTTP. Note that the there will always be the firstconnection to a server on a standard unsecure port.</p>
+
+<p><code class="highlighter-rouge">Strict-Transport-Security: max-age=31536000 ; includeSubDomains; preload</code></p>
+
+<h2 id="hpkp-public-key-pinning-extension">HPKP <em>Public Key Pinning Extension</em></h2>
+<p>is a security mechanism which allow HTTPS websites to resist impersonation by attackers using mis-issued or fraudolent certificates.</p>
+
+<p>The HTTPS web server serves a list of public key hashes and on subsequent connections clients expect the the server use one of those in the certificate chain. Its use must be wisely adopted because could easily make websites unavailable.</p>
+
+<p>Example</p>
+
+<p><code class="highlighter-rouge">Public-Key-Pins: pin-sha256="d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM="; pin-sha256="E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g="; report-uri="http://example.com/pkp-report"; max-age=10000; includeSubDomains</code></p>
+
+<ul>
+  <li><strong>pin-sha256=”<code class="highlighter-rouge">&lt;sha256&gt;</code>“</strong>: base64 encoded Subject Public Key Information fingerprint.</li>
+  <li><strong>max-age=SECONDS</strong>: time that the browser should remember the rule.</li>
+  <li><strong>includeSubDomains</strong>: (optional) apply to all subdomains.</li>
+  <li><strong>report-uri=”<code class="highlighter-rouge">&lt;URL&gt;</code>“</strong>: (optional) pin validation failures will be reported to the given URL.</li>
+</ul>
+
+<h2 id="x-xss-protection">X-XSS-Protection</h2>
+<p>This header enables the Cross-site scripting (XSS) filter in your browser.</p>
+
+<p><code class="highlighter-rouge">X-XSS-Protection: 1; mode=block</code></p>
+
+<ul>
+  <li><strong>0</strong> : filter disabled</li>
+  <li><strong>1</strong> : filter enabled, browser will sanitize tha page</li>
+  <li><strong>mode=block</strong>: rather than sanitize the browser will block the render of the page</li>
+  <li><strong>report=”<code class="highlighter-rouge">&lt;url&gt;</code>”“</strong>: sanitize + report violation</li>
+</ul>
+
+<hr />
+
+<p>Other header examples are</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Referrer-Policy: no-referrer</code></li>
+  <li><code class="highlighter-rouge">Expect-CT: max-age=86400, enforce, report-uri=&lt;url&gt;</code></li>
+  <li><code class="highlighter-rouge">X-Permitted-Cross-Domain-Policies: none</code>.</li>
+</ul>
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google + -->
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://carloalbertoscola.it//2018/notes/http-header-security/" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/notes">notes</a>, <a href="/category/network">network</a>, <a href="/category/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/samesite-cookie/">SameSite cookie security</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/sop-xss-introduction/">SOP and XSS introduction</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/xssi-and-xss/">XSSI and XSS differences</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://carloalbertoscola.it//2018/notes/sop-xss-introduction/">&laquo; SOP and XSS introduction</a>
+  
+  
+    <a class="next pull-right" href="https://carloalbertoscola.it//2018/notes/samesite-cookie/">SameSite cookie security &raquo;</a>
+  
+</div>
+
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalberto";
+        var disqus_identifier = "https://carloalbertoscola.it/_HTTP Headers security";
+        var disqus_title = "HTTP Headers security";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div>
+</div>
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a>.
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63063866-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

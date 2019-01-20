@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msvalidate.01" content="2968909B8A7C9E7281129471CA8D69D9" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>Netdata cluster - Monitoring multiple server. - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="Netdata cluster - Monitoring multiple server." />
+        <meta name="keywords" content="Netdata cluster - Monitoring multiple server., Carlo Alberto Scola, linux, web" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="Netdata cluster - Monitoring multiple server." property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="How to set up a netdata cluster monitoring multiple servers. One dashboard, multiple server monitoring instances." property="og:description">
+        
+        
+          <meta content="https://carloalbertoscola.it//2018/linux/web/netdata-cluster/" property="og:url">
+        
+        
+          <meta content="2018-02-18T00:00:00+01:00" property="article:published_time">
+          <meta content="https://carloalbertoscola.it//about/" property="article:author">
+        
+        
+          <meta content="https://carloalbertoscola.it//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="linux" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="Netdata cluster - Monitoring multiple server.">
+        
+        
+          <meta name="twitter:url" content="https://carloalbertoscola.it//2018/linux/web/netdata-cluster/">
+        
+        
+          <meta name="twitter:description" content="How to set up a netdata cluster monitoring multiple servers. One dashboard, multiple server monitoring instances.">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
+      
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">CS Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-8 col-sm-12 col-xs-12 ">Netdata cluster - Monitoring multiple server.</h2>
+            
+            <div class="col-md-4 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">18 Feb 2018</span>
+              
+              
+                <span class="categories">
+                  &raquo; categories:
+                  
+                    <a href="/category/linux">linux</a>
+                    , 
+                  
+                    <a href="/category/web">web</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item netdata-cluster"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  netdata-cluster"><a href="/static/curriculum-vitae-eng-2.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 id="one-dashboard-multiple-server-monitoring">One Dashboard, multiple server monitoring.</h1>
+
+<h2 id="password-protected-useful-dashboard">Password protected useful dashboard.</h2>
+
+<h3 id="aggregate-multiple-server-netdata-logs-into-one-protected-page">Aggregate multiple server netdata logs into one protected page.</h3>
+<p>How to set up a netdata cluster monitoring multiple servers. One dashboard, multiple server monitoring instances.</p>
+<hr />
+
+<p><img src="/assets/netdata-tv.jpg" /></p>
+
+<h3 id="what-do-we-want"><strong>What do we want?</strong></h3>
+
+<p>The aim of this tutorial is to allow the monitoring of multiple Linux server through one single and password protected dashboard. It is possible to add as many server and graph as you want.</p>
+
+<p>I’m going to describe a use-case where you are using a free dynamic DNS service like <a href="https://www.noip.com">no-ip</a>.</p>
+
+<h2 id="netdata-dashboard">Netdata Dashboard</h2>
+
+<p>We want each server to serve netdata webpage on <em>/netdata/</em>.</p>
+
+<p>We need to choose a server which will host the netdata dashboard.</p>
+
+<p>Remember: every web server must be configured to use SSL/TLS in order to work.</p>
+
+<p>Example: We have:</p>
+
+<ol>
+  <li>Raspberry Pi with <em>domain *myraspi.com</em></li>
+  <li>Server 1 with domain <em>srv1.com</em></li>
+  <li>Server 2 with domain <em>srv2.com</em></li>
+  <li>…</li>
+</ol>
+
+<p>We want:</p>
+
+<dl>
+  <dt>Raspberry Pi (netdata collector)</dt>
+  <dd><em>myraspi.com/netdata/</em> (permit only to myraspi.com)</dd>
+  <dd><em>myraspi.com/netdata-cluster/dashboard.html</em> (password protected)</dd>
+  <dt>Server1</dt>
+  <dd><em>srv1.com/netdata/</em> (permit only to myraspi.com)</dd>
+  <dt>Server2</dt>
+  <dd><em>srv2.com/netdata/</em> (permit only to myraspi.com)</dd>
+</dl>
+
+<h3 id="netdata-installation"><strong>Netdata installation</strong></h3>
+<p>We need to install netdata on each one the same way, and then decide which one will host the dashboard. In my case i used the Raspberry Pi.</p>
+
+<p>For this you can have a quick look at “Installation” section in <a href="/linux/web/2018/02/15/netdata-ubuntu.html">Setting Netdata server monitoring with password authentication on Apache proxy.</a></p>
+
+<p>I assume you have already enabled HTTPS in each server, in case you have to do it. You can find here all the instructions <a href="/linux/web/2018/02/15/apache-ssl-tls-domain.html">Configuring a new SSL/TLS domain on Apache2</a>.</p>
+
+<h3 id="apache-configuration">Apache configuration</h3>
+
+<p>Create a directory on the raspi which will contain the dashboard.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo mkdir /var/www/netdata-cluster</code></pre></figure>
+
+<p> We first need to install some modules for Apache: </p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo apt install libxml2-dev libapache2-mod-proxy-html</code></pre></figure>
+
+<p> Then we need to activate the mods: </p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo a2enmod proxy
+<span class="gp">$ </span>sudo a2enmod proxy_html
+<span class="gp">$ </span>sudo a2enmod proxy_http
+<span class="gp">$ </span>sudo a2enmod xml2enc</code></pre></figure>
+
+<p>Open the default <em>vhost</em> file for the HTTPS domain and add these lines at the end right before the enclosing VirtualHost tag.</p>
+
+<p>In my case the config file is <em>/etc/apache2/sites-available/default-ssl.conf</em>.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">        RewriteEngine On
+        ProxyRequests Off
+        ProxyPreserveHost on
+
+        &lt;location /netdata/ &gt;
+               Require host &lt;YOUR DASHBOARD HOSTING DOMAIN&gt;  //e.g. myraspi.com
+        &lt;/location&gt;
+
+       &lt;proxy&gt;
+            Order allow,deny
+            Allow from all
+       &lt;/proxy&gt;
+       &lt;location /netdata-cluster/&gt;
+                AuthType Basic
+                AuthName <span class="s2">"Restricted Content"</span>
+                AuthUserFile /etc/apache2/.htpasswd
+                Require valid-user
+                Order deny,allow
+                Allow from all
+        &lt;/location&gt;
+        &lt;Directory /netdata/ &gt;
+                Options -Indexes +FollowSymLinks
+                AllowOverride all
+                Order deny,allow
+                Deny from all
+       &lt;/Directory&gt;
+
+        ProxyPass <span class="s2">"/netdata/"</span> <span class="s2">"http://127.0.0.1:19999/"</span> <span class="nv">connectiontimeout</span><span class="o">=</span>5 <span class="nv">timeout</span><span class="o">=</span>30
+        ProxyPassReverse <span class="s2">"/netdata/"</span> <span class="s2">"http://127.0.0.1:19999/"</span></code></pre></figure>
+
+<p>Verify the sintax is correct with:  (should return <em>Syntax OK</em>)</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>apachectl configtest</code></pre></figure>
+
+<p>Now we are going to create the credentials for accessing the dashboard page</p>
+
+<p>Install apache2-utils if you don’t have already and create a netdata user</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo apt install apache2-utils
+<span class="gp">$ </span>sudo htpasswd -c /etc/apache2/.htpasswd netdata</code></pre></figure>
+
+<p>You have to insert the password for the user ‘netdata’ twice.</p>
+
+<p>And restart apache.</p>
+
+<h3 id="netdata-dashboard-1"><strong>Netdata Dashboard</strong></h3>
+
+<p>Create a file into <em>/var/www/netdata-cluster/dashboard.html</em>, this will be your netdata collector.</p>
+
+<p>Here is an example provided by Netdata <a href="https://github.com/firehol/netdata/blob/master/web/tv.html">tv.html</a>. You can copy it into your dashboard.html.
+It provide a simple example with some graph in comparison from 2 different server. We are going to load data from <em>myraspi</em>.com and <em>srv1.com</em>. You can add as many as you want.</p>
+
+<h4 id="configuring-dashboard-to-get-data-from-servers"><strong>Configuring dashboard to get data from servers</strong></h4>
+
+<p>Very simple.</p>
+
+<p>In <em>dashboard.html</em> the first thing to do is to load a dashboard Javascript file located in the Netdata collector (raspi).</p>
+
+<p>Modify near row 52 the  html script tag … to:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"https://myraspi.com/netdata/dashboard.js"</span><span class="nt">&gt;&lt;/script&gt;</span></code></pre></figure>
+
+<p>The rest of the file include two graph for every row in which if you don’t specify the <strong>data-host</strong> value, netdata will set the default one (myraspi).</p>
+
+<p>Every graph starts with e.g</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">data-netdata=</span><span class="s">"system.io"</span> <span class="err">..</span> <span class="nt">&gt;</span></code></pre></figure>
+
+<p>where <em>system.io</em> is the identification name of the graph.</p>
+
+<p>All you need to do is to add/modify the line below:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">data-host="http://registry.my-netdata.io"</code></pre></figure>
+
+<p>To:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html">data-host="https://srv1.com/netdata/"</code></pre></figure>
+
+<p>for every graph (1 per row) in the file.</p>
+
+<p>Results!</p>
+<figure>
+<img src="/assets/netdata-tv2.jpg" alt="cropped screen view of netdata dashboard" />
+<figcaption align="center">Left is srv1.com and right is myraspi.com</figcaption>
+</figure>
+
+<h3 id="security"><strong>Security</strong></h3>
+<p>For now we have made all traffic go through HTTPS and made the dashboard page password protected.. but</p>
+
+<ul>
+  <li>Access to page <em>/netdata/</em> is protected by Apache require host directive, but the IP/domain reverse lookup need to be addressed.</li>
+</ul>
+
+<p>This because for some access restriction Apache will need to do a reverse lookup to check for the IP to hostname match and viceversa.</p>
+
+<blockquote>
+  <p>This configuration will cause Apache to perform a double reverse DNS lookup on the client IP address, regardless of the setting of the HostnameLookups directive. It will do a reverse DNS lookup on the IP address to find the associated hostname, and then do a forward lookup on the hostname to assure that it matches the original IP address. Only if the forward and reverse DNS are consistent and the hostname matches will access be allowed.</p>
+</blockquote>
+
+<p>Ref: <a href="https://httpd.apache.org/docs/2.4/mod/mod_authz_host.html">https://httpd.apache.org/docs/2.4/mod/mod_authz_host.html</a></p>
+
+<p>The only way to allow Apache Require directive to work properly is to maintain updated an entry in the hosts file. We need to do this because free dynamic dns service does not provide a DNS PTR record so reverse lookup will always fail and apache will not be able to use its directives to protect the <em>/netdata/</em> folder path.</p>
+
+<p>Here is the script <a href="https://github.com/bestrocker221/serverstuff/blob/master/update-hosts.sh">update-hosts.sh</a>.</p>
+
+<p>Open the file and edit the field DOMAIN to:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">DOMAIN</span><span class="o">=</span>myraspi.com</code></pre></figure>
+
+<p>You need to copy it into your /etc/cron.d folder and then setup a hourly cron job: (as root user)</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>crontab -e</code></pre></figure>
+
+<p>Now add at the end of the file:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">@hourly root /etc/cron.d/update_iptables_domain_rule.sh</code></pre></figure>
+
+<p>Now the script will automatically refresh the hosts file so that you don’t have to worry about the dynamic IP changes.</p>
+
+<p>This way only the traffic from (-s) <em>myraspi.com</em> will be allowed to access /netdata/ folder.</p>
+
+<p><strong>Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!</strong></p>
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google + -->
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://carloalbertoscola.it//2018/linux/web/netdata-cluster/" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/">Enabling SSL on NGINX reverse proxy towards non-SSL apache</a>
+                    
+                        <small>(Categories: <a href="/category/web">web</a>, <a href="/category/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/notes">notes</a>, <a href="/category/network">network</a>, <a href="/category/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/">TOR SSH Remote Reverse Tunnel - Raspberry Pi</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/">SOCKS PROXY on Reverse SSH tunnel</a>
+                    
+                        <small>(Categories: <a href="/category/security">security</a>, <a href="/category/linux">linux</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/">SSH Reverse Tunnel - Raspberry Pi</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/linux/web/netdata-ubuntu/">Configuring Netdata on Ubuntu + apache proxy + authentication</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/web">web</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://carloalbertoscola.it//2018/linux/web/netdata-ubuntu/">&laquo; Configuring Netdata on Ubuntu + apache proxy + authentication</a>
+  
+  
+    <a class="next pull-right" href="https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/">SSH Reverse Tunnel - Raspberry Pi &raquo;</a>
+  
+</div>
+
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalberto";
+        var disqus_identifier = "https://carloalbertoscola.it/_Netdata cluster - Monitoring multiple server.";
+        var disqus_title = "Netdata cluster - Monitoring multiple server.";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div>
+</div>
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a>.
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63063866-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>
