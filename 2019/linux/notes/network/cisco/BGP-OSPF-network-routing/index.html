@@ -124,7 +124,7 @@ function setCookie(name,value,days) {
 }
 
 function delete_cookie( name ) {
-  document.cookie = name + '=; Path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  document.cookie = name + '=; Path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 function disableCookies(){
@@ -176,7 +176,7 @@ window.addEventListener("load", function(){
     if (type == 'opt-out' && !didConsent) {
       // disable cookies
       disableCookies();
-      window.location.reload(true);
+      //window.location.reload(true);
     }
     if(type == 'opt-out' && didConsent){
       window.location.reload(true);
