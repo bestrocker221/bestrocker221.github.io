@@ -81,6 +81,27 @@
           var tb_pathToImage = "/static/img/loadingAnimation.gif";
         </script>
 
+      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "theme": "classic",
+  "type": "opt-out",
+  "content": {
+    "message": "This website uses cookies just to get simple stats and help understand if the content of this beautiful website is searched or not.\n",
+    "href": "https://carloalbertoscola.it/cookies"
+  }
+})});
+</script>
   </head>
 
   <body class="home overflow-hidden">
@@ -440,7 +461,7 @@
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>
-  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a>.
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a> - <a href="/cookies">Cookie Policy</a>
 </footer>
 <!-- <div align="center">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
