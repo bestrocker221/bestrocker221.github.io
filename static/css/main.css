@@ -286,7 +286,7 @@ footer {
     .menu-fixed{
         position: fixed;
         top: 10px;
-        width: 272.5px;
+        width: 265.5px;
         z-index: 100;
         
     }
@@ -297,6 +297,9 @@ footer {
 }
 
 @media only screen and (min-width: 991px)  and (max-width: 1199px){
+    .menu{
+        width: 222.5px; 
+    }
 
     .menu-fixed{
         position: fixed;
@@ -335,4 +338,18 @@ body .container .jumbotron, body .container .well, body .container-fluid .jumbot
 .headrow{
     display:flex;
     align-items:center;
+}
+
+.row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+.cc-revoke.cc-bottom {
+    left: auto !important;
+    right: 2em;
+}
+
+.post {
+    padding: 10px;
 }
