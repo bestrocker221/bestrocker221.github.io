@@ -335,11 +335,12 @@ body .container .jumbotron, body .container .well, body .container-fluid .jumbot
     padding-left: 10px;
 }
 
+/*
 .headrow{
     display:flex;
     align-items:center;
 }
-
+*/
 .row {
     margin-right: 0px !important;
     margin-left: 0px !important;
@@ -352,4 +353,16 @@ body .container .jumbotron, body .container .well, body .container-fluid .jumbot
 
 .post {
     padding: 10px;
+}
+
+.searchcontrol {
+    margin-top: 10px;
+}
+
+.title-search-row {
+    margin-top: 12px;
+}
+
+.pull-right {
+    float: left!important;
 }
