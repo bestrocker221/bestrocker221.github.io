@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msvalidate.01" content="2968909B8A7C9E7281129471CA8D69D9" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>How to configure FreeRADIUS 3 with MySQL and EAP-TTLS - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="How to configure FreeRADIUS 3 with MySQL and EAP-TTLS" />
+        <meta name="keywords" content="How to configure FreeRADIUS 3 with MySQL and EAP-TTLS, Carlo Alberto Scola, network, security" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="How to configure FreeRADIUS 3 with MySQL and EAP-TTLS" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="Today we are going to explain how to set up a FreeRADIUS server for  Authentication, Authorization and Accounting (AAA) along with a MySQL database for credentials storage accessed only through encrypted TLS connections." property="og:description">
+        
+        
+          <meta content="https://carloalbertoscola.it//2019/network/security/freeradius-3-setup-mysql-eap-ttls/" property="og:url">
+        
+        
+          <meta content="2019-02-25T00:00:00+01:00" property="article:published_time">
+          <meta content="https://carloalbertoscola.it//about/" property="article:author">
+        
+        
+          <meta content="https://carloalbertoscola.it//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="network" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="How to configure FreeRADIUS 3 with MySQL and EAP-TTLS">
+        
+        
+          <meta name="twitter:url" content="https://carloalbertoscola.it//2019/network/security/freeradius-3-setup-mysql-eap-ttls/">
+        
+        
+          <meta name="twitter:description" content="Today we are going to explain how to set up a FreeRADIUS server for  Authentication, Authorization and Accounting (AAA) along with a MySQL database for credentials storage accessed only through encrypted TLS connections.">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
+      
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+<script>
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/; domain=.carloalbertoscola.it";
+}
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; Path=/;domain=.carloalbertoscola.it; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function disableCookies(){
+  var cookies = ["_gat", "_gid", "_ga"];
+  cookies.forEach( function(element, index) {
+    // statements
+    console.log("deleting: " + element);
+    delete_cookie(element);
+    //setCookie("cookieconsent_status", "deny", 7);
+    //window.location.reload(true);
+  });
+}
+
+window.addEventListener("load", function(){
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": {
+        "background": "#000"
+      },
+      "button": {
+        "background": "#f1d600"
+      }
+    },
+    "theme": "classic",
+    "type": "opt-out",
+    "content": {
+      "message": "This website uses cookies just to get simple stats and help understand if the content of this beautiful website is searched or not.\n",
+      "href": "https://carloalbertoscola.it/cookies"
+    },
+    onInitialise: function (status) {
+    //console.log("init");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+      }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      //disableCookies();
+      }
+    },
+   onStatusChange: function(status, chosenBefore) {
+    //console.log("change");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+    }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      disableCookies();
+      window.location.reload(true);
+    }
+    if(type == 'opt-out' && didConsent){
+      window.location.reload(true);
+    }
+  },
+  onRevokeChoice: function() {
+    //console.log("rev");
+    var type = this.options.type;
+    if (type == 'opt-in') {
+      // disable cookies
+      disableCookies();
+    }
+    if (type == 'opt-out') {
+      // enable cookies
+    }
+  }
+  })
+});
+</script>
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row headrow">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">CS Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12 title-search-row">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-8 col-sm-12 col-xs-12 ">How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</h2>
+            
+            <div class="col-md-4 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">25 Feb 2019</span>
+              
+              
+                <span class="categories">
+                  &raquo; categories:
+                  
+                    <a href="/category/network">network</a>
+                    , 
+                  
+                    <a href="/category/security">security</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item freeradius-3-setup-mysql-eap-ttls"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  freeradius-3-setup-mysql-eap-ttls"><a href="/static/curriculum-vitae-eng-2.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 id="-complete-guide-on-how-to-set-up-freeradius-3x-with-mysql-backend-database-"><strong><center> Complete guide on how to set up FreeRADIUS 3.X with MySQL backend database </center></strong></h1>
+<h2 id="-eap-ttls-and-mysql--tls-database-communication-"><center> EAP-TTLS and MySQL  TLS database communication </center></h2>
+<h3 id="8021x-authenticationauthorizationaccounting"><center>802.1X Authentication/Authorization/Accounting</center></h3>
+<h4 id="-alpine-linux-lightweight-docker-container-"><center> Alpine Linux lightweight Docker container </center></h4>
+
+<p><img style="padding-left: 35%" src="/assets/freeRADIUS.png" /></p>
+
+<p>Today we are going to explain how to set up a <strong>FreeRADIUS 3</strong> server for  <em>Authentication</em>, <em>Authorization</em> and <em>Accounting</em> (<strong>AAA</strong>) along with a MySQL database for credentials storage and accounting logs accessed only through encrypted TLS connections. We will show how to set up FreeRADIUS with the secure <strong>EAP-TTLS</strong> (Tunneled TLS) communication.</p>
+
+<h2 id="what-is-freeradius">What is <strong><em>FreeRADIUS</em></strong></h2>
+<p>FreeRADIUS is the most popular and most widely deployed open source RADIUS server. It supports all the most common client authentication protocols and its fast and scalable. It supports also Two Factor Authentication</p>
+
+<p>FreeRADIUS can be used for WiFi client authentication as well as with any other system that require client authentication as for example OpenVPN server.</p>
+
+<p>Each user will have a credential in the form
+<code class="highlighter-rouge">&lt;username&gt;@&lt;domain&gt;</code> and a respective password.</p>
+
+<p>For this tutorial let’s assume we have the <code class="highlighter-rouge">acme.com</code> domain and a <code class="highlighter-rouge">test@acme.com</code> user.</p>
+
+<h3 id="how-does-radius-works">How does RADIUS works?</h3>
+<ol>
+  <li>A client will connect to a <strong><em>Network Access Server</em></strong> (NAS) first. This could be a router providing Wireless access. The client will not have any connectivity, the router is allowing only RADIUS traffic.</li>
+  <li>The router acting as a NAS will receive a <code class="highlighter-rouge">Access Request</code> message from the client and will forward it to the RADIUS server.</li>
+  <li>The RADIUS Server will check the credentials and send back a response that could be <code class="highlighter-rouge">Access-Accept</code> or <code class="highlighter-rouge">Access-Reject</code> or a <code class="highlighter-rouge">Access-Challenge</code>.</li>
+  <li>The NAS will forward the response to the client, and if the authentication succeed, it will then open the communication to the internal network.
+<img style="padding-left: 10%" src="/assets/radius.png" />
+Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-authentication-dial-user-service-radius/12433-32.html">How does RADIUS work? by Cisco</a></li>
+</ol>
+
+<h3 id="eap-ttls-and-pap"><strong>EAP-TTLS</strong> and <strong>PAP</strong></h3>
+<p>We will setup FreeRADIUS with EAP-TTLS. This means each client connecting to the NAS will first establish a secure TLS tunnel. This is called First Phase. In the Second Phase the client will send his credentials in cleartext*  with <strong>Password Authentication Protocol</strong> (<strong>PAP</strong>) but since those are sent over the TLS channel, none can read it and none can eavesdrop which user is trying to authenticate to the NAS.</p>
+
+<blockquote>
+  <p>*The password is not actually sent in cleartext but it is rather hashed with the key shared between the NAS and the RADIUS Server. Still is not considered secure but since it is sent over an encrypted channel, that makes the mitigation.</p>
+</blockquote>
+
+<h2 id="mysql-initialization"><strong><em>MySQL</em></strong> initialization</h2>
+<p>MySQL is used to keep track of clients login attempts, connection times and other accounting features and it will store the user credentials.</p>
+
+<p>First of all you need a MySQL Database running, then you have to create the tables needed for FreeRADIUS.</p>
+
+<p>Here is the FreeRADIUS SQL schema:</p>
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="o">#</span>
+<span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radacct'</span>
+<span class="o">#</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radacct</span> <span class="p">(</span>
+  <span class="n">radacctid</span> <span class="n">bigint</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">acctsessionid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">acctuniqueid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">realm</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">nasipaddress</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">nasportid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">nasporttype</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctstarttime</span> <span class="n">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctupdatetime</span> <span class="n">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctstoptime</span> <span class="n">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctinterval</span> <span class="n">int</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctsessiontime</span> <span class="n">int</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctauthentic</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">connectinfo_start</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">connectinfo_stop</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctinputoctets</span> <span class="n">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctoutputoctets</span> <span class="n">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">calledstationid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">callingstationid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">acctterminatecause</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">servicetype</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">framedprotocol</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">framedipaddress</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">radacctid</span><span class="p">),</span>
+  <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="n">acctuniqueid</span> <span class="p">(</span><span class="n">acctuniqueid</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">username</span> <span class="p">(</span><span class="n">username</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">framedipaddress</span> <span class="p">(</span><span class="n">framedipaddress</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">acctsessionid</span> <span class="p">(</span><span class="n">acctsessionid</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">acctsessiontime</span> <span class="p">(</span><span class="n">acctsessiontime</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">acctstarttime</span> <span class="p">(</span><span class="n">acctstarttime</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">acctinterval</span> <span class="p">(</span><span class="n">acctinterval</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">acctstoptime</span> <span class="p">(</span><span class="n">acctstoptime</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">nasipaddress</span> <span class="p">(</span><span class="n">nasipaddress</span><span class="p">)</span>
+<span class="p">)</span> <span class="n">ENGINE</span> <span class="o">=</span> <span class="n">INNODB</span><span class="p">;</span>
+
+<span class="o">#</span>
+<span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radcheck'</span>
+<span class="o">#</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radcheck</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">attribute</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">op</span> <span class="n">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'=='</span><span class="p">,</span>
+  <span class="n">value</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">username</span> <span class="p">(</span><span class="n">username</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+<span class="p">);</span>
+
+<span class="o">#</span>
+<span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radgroupcheck'</span>
+<span class="o">#</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radgroupcheck</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">groupname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">attribute</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">op</span> <span class="n">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'=='</span><span class="p">,</span>
+  <span class="n">value</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">groupname</span> <span class="p">(</span><span class="n">groupname</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+<span class="p">);</span>
+
+<span class="o">#</span>
+<span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radgroupreply'</span>
+<span class="o">#</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radgroupreply</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">groupname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">attribute</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">op</span> <span class="n">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'='</span><span class="p">,</span>
+  <span class="n">value</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">groupname</span> <span class="p">(</span><span class="n">groupname</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+<span class="p">);</span>
+
+<span class="o">#</span>
+<span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radreply'</span>
+<span class="o">#</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radreply</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">attribute</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">op</span> <span class="n">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'='</span><span class="p">,</span>
+  <span class="n">value</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">username</span> <span class="p">(</span><span class="n">username</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+<span class="p">);</span>
+
+
+<span class="o">#</span>
+<span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radusergroup'</span>
+<span class="o">#</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radusergroup</span> <span class="p">(</span>
+  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">groupname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">priority</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">'1'</span><span class="p">,</span>
+  <span class="k">KEY</span> <span class="n">username</span> <span class="p">(</span><span class="n">username</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
+<span class="p">);</span>
+
+<span class="o">#</span>
+<span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radpostauth'</span>
+<span class="o">#</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radpostauth</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">pass</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">reply</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">authdate</span> <span class="k">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">CURRENT_TIMESTAMP</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">)</span> <span class="n">ENGINE</span> <span class="o">=</span> <span class="n">INNODB</span><span class="p">;</span>
+
+<span class="o">#</span>
+<span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'nas'</span>
+<span class="o">#</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">nas</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">nasname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">shortname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span>
+  <span class="k">type</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'other'</span><span class="p">,</span>
+  <span class="n">ports</span> <span class="n">int</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+  <span class="n">secret</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'secret'</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">server</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+  <span class="n">community</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+  <span class="n">description</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'RADIUS Client'</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
+  <span class="k">KEY</span> <span class="n">nasname</span> <span class="p">(</span><span class="n">nasname</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre>
+</div>
+
+<p>To execute just run:</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>mysql -u root -prootpass radius &lt; schema.sql
+</code></pre>
+</div>
+<p>assuming you already created the <code class="highlighter-rouge">radius</code> database.</p>
+
+<p>And then we are going to create a user “radius” with the right privileges.</p>
+
+<p>Here we create the user <strong><em>radius</em></strong> with password <strong><em>donotuseme</em></strong> (if you want to restrict connections from a specific IP address only, you specify the IP instead of <strong>*</strong>):</p>
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="o">#</span>
+<span class="o">#</span>  <span class="k">Create</span> <span class="k">default</span> <span class="n">administrator</span> <span class="k">for</span> <span class="n">RADIUS</span>
+<span class="o">#</span>
+<span class="k">CREATE</span> <span class="k">USER</span> <span class="s1">'radius'</span><span class="o">@</span><span class="s1">'*'</span><span class="p">;</span>
+<span class="k">SET</span> <span class="n">PASSWORD</span> <span class="k">FOR</span> <span class="s1">'radius'</span><span class="o">@</span><span class="s1">'*'</span> <span class="o">=</span> <span class="s1">'donotuseme'</span><span class="p">;</span>
+
+<span class="k">ALTER</span> <span class="k">USER</span> <span class="s1">'radius'</span><span class="o">@</span><span class="s1">'*'</span> <span class="n">IDENTIFIED</span> <span class="k">WITH</span> <span class="n">mysql_native_password</span> <span class="k">BY</span> <span class="s1">'donotuseme'</span><span class="p">;</span>
+
+<span class="o">#</span> <span class="n">The</span> <span class="n">server</span> <span class="n">can</span> <span class="k">read</span> <span class="k">any</span> <span class="k">table</span> <span class="k">in</span> <span class="k">SQL</span>
+<span class="k">GRANT</span> <span class="k">SELECT</span> <span class="k">ON</span> <span class="n">radius</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">'radius'</span><span class="o">@</span><span class="s1">'*'</span><span class="p">;</span>
+
+<span class="o">#</span> <span class="n">The</span> <span class="n">server</span> <span class="n">can</span> <span class="k">write</span> <span class="k">to</span> <span class="n">the</span> <span class="n">accounting</span> <span class="k">and</span> <span class="n">post</span><span class="o">-</span><span class="n">auth</span> <span class="n">logging</span> <span class="k">table</span><span class="p">.</span>
+<span class="o">#</span>
+<span class="o">#</span>  <span class="n">i</span><span class="p">.</span><span class="n">e</span><span class="p">.</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">on</span> <span class="n">radius</span><span class="p">.</span><span class="n">radacct</span> <span class="k">TO</span> <span class="s1">'radius'</span><span class="o">@</span><span class="s1">'*'</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">on</span> <span class="n">radius</span><span class="p">.</span><span class="n">radpostauth</span> <span class="k">TO</span> <span class="s1">'radius'</span><span class="o">@</span><span class="s1">'*'</span><span class="p">;</span>
+
+
+<span class="o">#</span>
+<span class="o">#</span> <span class="k">Insert</span> <span class="n">a</span> <span class="k">valid</span> <span class="n">FreeRADIUS</span> <span class="k">User</span> <span class="n">credential</span>
+<span class="o">#</span>
+<span class="k">INSERT</span> <span class="k">into</span> <span class="n">radius</span><span class="p">.</span><span class="n">radcheck</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="n">attribute</span><span class="p">,</span><span class="n">op</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="k">values</span><span class="p">(</span><span class="nv">"test@acme.com"</span><span class="p">,</span> <span class="nv">"SSHA2-256-Password"</span><span class="p">,</span> <span class="nv">":="</span><span class="p">,</span> <span class="nv">"ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKxUSiAsFzYWx0c2FsdHNhbHQ="</span><span class="p">);</span>
+
+</code></pre>
+</div>
+<p>In the second part of the SQL code we are going to insert a valid RADIUS user credential for a valid REALM (<em>@acme.com</em> we will get to this later) and generate a <strong>SHA256 salted password</strong> compatible with FreeRADIUS.</p>
+
+<p>To do so I created a Python script <strong><a href="https://gist.github.com/bestrocker221/f506eee8ccadc60cab71d5f633b7cc07">here</a></strong>. Just change “test” to the password you want to hash, and use a random salt. (I set the salt size limit to 12 charaters)</p>
+
+<p>For example the password ‘test’ becomes <code class="highlighter-rouge">ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKxUSiAsFzYWx0c2FsdHNhbHQ=</code>
+and we are going to save it as <strong>SSHA2-256-Password</strong> in the database.</p>
+
+<h3 id="mysql-tls-connection-setup"><strong>MySQL TLS connection setup</strong></h3>
+<p>Now we are setting up MySQL to encrypt each communication with TLS 1.2 and rejecting every cleartext connection.</p>
+
+<p>This is my <code class="highlighter-rouge">/etc/my.cnf</code>:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code># This group is read both both by the client and the server
+# use it for options that affect everything
+[client-server]
+
+# This group is read by the server
+[mysqld]
+ssl-cipher=TLSv1.2
+ssl-ca=/mysql-certs/ca.crt
+ssl-cert=/mysql-certs/mysql.acme.com.crt
+ssl-key=/mysql-certs/mysql.acme.com.pem
+require_secure_transport=ON
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+datadir=/var/lib/mysql
+bind-address=0.0.0.0
+log-error=/var/log/mysql/error.log
+skip-log-bin
+log-output=FILE
+general-log=1
+general_log_file=/var/log/mysql/general.log
+
+port=3306
+user=mysql
+socket=/run/mysqld/mysqld.sock
+pid-file=/run/mysqld/mysqld.pid
+default_authentication_plugin=mysql_native_password
+
+[client]
+ssl-cipher=TLSv1.2
+ssl-ca=/mysql-certs/ca.crt
+</code></pre>
+</div>
+
+<p>Off course make sure to copy your certificates under <code class="highlighter-rouge">/mysql-certs</code>.</p>
+
+<p>The <code class="highlighter-rouge">require_secure_transport=ON</code> directive makes sure to reject every unencrypted connection request.</p>
+
+<p>And we are done with the MySQL part. If you want I wrote a Docker Container with this complete setup. At the end of the tutorial the link.</p>
+
+<h2 id="freeradius-3-configuration"><strong>FreeRadius 3 configuration</strong></h2>
+<p>First install the FreeRADIUS packages required: (alpine linux)</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>apk add freeradius openssl freeradius-mysql freeradius-eap
+</code></pre>
+</div>
+
+<p>then the files we are going to modify are:</p>
+<ul>
+  <li><em>/etc/raddb/clients.conf</em></li>
+  <li><em>/etc/raddb/sites-available/default</em></li>
+  <li><em>/etc/raddb/sites-available/inner-tunnel</em></li>
+  <li><em>/etc/raddb/mods-available/sql</em></li>
+  <li><em>/etc/raddb/mods-available/eap</em></li>
+</ul>
+
+<p><strong>NOTE</strong>: <strong><em>It’s super easy to break the server with wrong configuration, so each time you modify something, make sure the server is starting correctly.</em></strong></p>
+
+<p>To run radius in debug mode: <code class="highlighter-rouge">radiusd -X</code></p>
+
+<h3 id="etcraddbclientconf-configuration-file"><strong>/etc/raddb/client.conf</strong> configuration file</h3>
+<p>Here you need to specify the clients allowed to send requests to the RADIUS server. Most of the times we want to configure a router as <strong>NAS</strong> or <em>Network Access Server</em> so that WiFi clients connecting will communicate to the RADIUS server via the router.</p>
+
+<p>Add these lines at the end of the file:</p>
+<ul>
+  <li><code class="highlighter-rouge">RADIUS_SECRET</code> is a shared password that will be set also on the router.</li>
+  <li><code class="highlighter-rouge">ipaddr</code> is the IP subnet of the router.
+    <div class="highlighter-rouge"><pre class="highlight"><code>client router_nas {
+      ipaddr = 192.168.10.0/24
+      secret = RADIUS_SECRET
+}
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h3 id="etcraddbdefault-configuration-file"><strong>/etc/raddb/default</strong> configuration file</h3>
+<p>Under the <code class="highlighter-rouge">authorize {}</code> section:</p>
+
+<p>Uncomment these lines</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>eap {
+               ok = return
+               updated = return
+    }
+</code></pre>
+</div>
+
+<p>and</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sql
+</code></pre>
+</div>
+
+<p>Under <code class="highlighter-rouge">authenticate {}</code> section make sure to uncomment:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>eap
+</code></pre>
+</div>
+
+<p>Under the <code class="highlighter-rouge">accounting {}</code> section uncomment the sql line:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sql
+</code></pre>
+</div>
+
+<p>Under the <code class="highlighter-rouge">session {}</code> uncomment the <code class="highlighter-rouge">sql</code> line.</p>
+
+<p>Under the <code class="highlighter-rouge">post-auth {}</code> section uncomment the <code class="highlighter-rouge">sql</code> line.</p>
+
+<p>Under the <code class="highlighter-rouge">post-auth {}</code> section, under the <code class="highlighter-rouge">Post-Auth-Type REJECT {}</code> uncomment the <code class="highlighter-rouge">sql</code> line.</p>
+
+<h3 id="etcraddbsites-availableinner-tunnel"><strong>/etc/raddb/sites-available/inner-tunnel</strong></h3>
+<p>This is a virtual server that handles <em>only</em> inner tunnel requests for EAP-TTLS and PEAP types.</p>
+
+<p>Under <code class="highlighter-rouge">authorize {}</code> make sure both <code class="highlighter-rouge">sql</code> and <code class="highlighter-rouge">eap {..}</code> are uncommented.</p>
+
+<p>Under <code class="highlighter-rouge">authenticate {}</code> make sure <code class="highlighter-rouge">eap</code> is uncommented.</p>
+
+<p>Under <code class="highlighter-rouge">session {}</code> make sure <code class="highlighter-rouge">sql</code> is uncommented.</p>
+
+<p>Under <code class="highlighter-rouge">post-auth {}</code> make sure <code class="highlighter-rouge">sql</code> is uncommented as well as in the <code class="highlighter-rouge">Post-Auth-Type REJECT {}</code> subsection.</p>
+
+<h3 id="etcraddbmods-availablesql"><strong>/etc/raddb/mods-available/sql</strong></h3>
+<p>This is the configuration file for the SQL module.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sql {
+        
+        driver = "rlm_sql_mysql"
+
+        mysql {
+               # If any of the files below are set, TLS encryption is enabled
+               tls {
+                       ca_file = "/etc/raddb/ca.crt"
+                       # If you want to use client certificates for MySQL TLS
+                       certificate_file = "/etc/raddb/rad_client.crt"
+                       private_key_file = "/etc/raddb/rad_client.pem"
+               }
+
+               # If yes, (or auto and libmysqlclient reports warnings are
+               # available), will retrieve and log additional warnings from
+               # the server if an error has occured. Defaults to 'auto'
+               warnings = yes
+        }
+        dialect = "mysql"
+
+        # Connection info:
+        server = "RADIUS_SERVER_IP"
+        port = 3306
+        login = "radius"
+        password = "RADIUS_USR_PASSWORD"
+    
+        # Database table configuration for everything except Oracle
+        radius_db = "radius"
+        
+        read_clients = "yes"
+        sql_user_name = "%{User-Name}"
+
+        
+        # If you want both stop and start records logged to the
+        # same SQL table, leave this as is.  If you want them in
+        # different tables, put the start table in acct_table1
+        # and stop table in acct_table2
+        acct_table1 = "radacct"
+        acct_table2 = "radacct"
+
+        # Allow for storing data after authentication
+        postauth_table = "radpostauth"
+
+        # Tables containing 'check' items
+        authcheck_table = "radcheck"
+        groupcheck_table = "radgroupcheck"
+
+        # Tables containing 'reply' items
+        authreply_table = "radreply"
+        groupreply_table = "radgroupreply"
+
+        # Table to keep group info
+        usergroup_table = "radusergroup"
+
+        # Remove stale session if checkrad does not see a double login
+        delete_stale_sessions = yes
+
+        pool {
+                start = ${thread[pool].start_servers}
+
+                #  Minimum number of connections to keep open
+                min = ${thread[pool].min_spare_servers}
+
+                #  Maximum number of connections
+                max = ${thread[pool].max_servers}
+
+                #  Spare connections to be left idle
+                spare = ${thread[pool].max_spare_servers}
+
+                #  Number of uses before the connection is closed
+                uses = 0
+
+                #  The number of seconds to wait after the server tries
+                #  to open a connection, and fails.  During this time,
+                #  no new connections will be opened.
+                retry_delay = 30
+
+                # The lifetime (in seconds) of the connection
+                lifetime = 0
+
+                #  idle timeout (in seconds).  A connection which is
+                #  unused for this length of time will be closed.
+                idle_timeout = 60
+        }
+
+        # Table to keep radius client info
+        client_table = "nas"
+
+        # This entry should be used for the default instance (sql {})
+        # of the SQL module.
+        group_attribute = "SQL-Group"
+
+        # Read database-specific queries
+        $INCLUDE ${modconfdir}/${.:name}/main/${dialect}/queries.conf
+}
+</code></pre>
+</div>
+
+<p>To <strong>enable the SQL module</strong> make sure <code class="highlighter-rouge">/etc/raddb/mods-enabled/sql</code> is existing, otherwise:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ln -s /etc/raddb/mods-available/sql /etc/raddb/mods-enabled/sql
+</code></pre>
+</div>
+<h3 id="etcraddbmods-availableeap"><strong>/etc/raddb/mods-available/eap</strong></h3>
+<p>Among the other options, the ones that need to be changed are:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>eap {
+    ...
+
+    default_eap_type = ttls
+
+    ...
+
+    tls-config tls-common {
+        private_key_file = /etc/raddb/radius.acme.com.key
+        certificate_file = /etc/raddb/radius.acme.com.crt
+        ca_file = /etc/raddb/ca.crt
+
+        #  For DH cipher suites to work, you have to
+        #  run OpenSSL to create the DH file first:
+        #       openssl dhparam -out certs/dh 2048
+        dh_file = /etc/raddb/dh.pem
+        
+        random_file = /dev/urandom
+
+        cipher_list = "HIGH"
+        cipher_server_preference = yes
+        tls_min_version = "1.2"
+        ecdh_curve = "secp384r1"
+    }
+
+    ...
+
+    ttls {
+        # make sure these lines are the same
+
+        tls = tls-common
+
+        virtual_server = "inner-tunnel"
+
+    }
+
+}
+</code></pre>
+</div>
+
+<p>Off course copy the respective certificates to <code class="highlighter-rouge">/etc/raddb/</code></p>
+
+<p>To <strong>enable the EAP module</strong> make sure <code class="highlighter-rouge">/etc/raddb/mods-enabled/eap</code> is existing, otherwise:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ln -s /etc/raddb/mods-available/eap /etc/raddb/mods-enabled/eap
+</code></pre>
+</div>
+
+<p><strong>NOTE</strong> Assuming you have the current latest OPENSSL version installed. If FreeRADIUS is giving some security error related to openssl you need to add <code class="highlighter-rouge">allow_vulnerable_openssl = "CVE-2016-6309"</code> to the <code class="highlighter-rouge">/etc/raddb/radiusd.conf</code> under the <code class="highlighter-rouge">security {}</code> section.</p>
+
+<p>We have now finished with the settings. As said above, after each file configuration change, restart the FreeRADIUS server and check that everything is running without errors.</p>
+
+<h2 id="testing"><strong>Testing</strong></h2>
+<p>You can run FreeRADIUS in debug mode and start to test it.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>radiusd -X
+</code></pre>
+</div>
+
+<p>You can test the basic PAP authentication (without EAP-TTLS) with:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>radtest <span class="nb">test</span>@acme.com <span class="nb">test </span>192.168.5.12 0 testing123 -x
+</code></pre>
+</div>
+
+<p>Assuming:</p>
+<ul>
+  <li><code class="highlighter-rouge">192.168.5.12</code> is the FreeRADIUS IP address</li>
+  <li><code class="highlighter-rouge">testing123</code> is the shared password</li>
+  <li><code class="highlighter-rouge">test@acme.com</code> is a user stored in the database</li>
+</ul>
+
+<p>Now you can try to configure the Router to use EAP for WiFi client authentication. Always look at the logs in the FreeRADIUS server and try to understand what is going on.</p>
+
+<h3 id="testing-eap-ttls"><strong>Testing EAP-TTLS</strong></h3>
+<p><strong>wpa-supplicant</strong> is supplying the <strong><em>eapol_test</em></strong> program to test RADIUS EAP.</p>
+
+<p>Create a file, <code class="highlighter-rouge">eapol-tls.conf</code> for example:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>network={
+     ssid="SSID_OF_THE_WIFI_NETWORK"
+     key_mgmt=WPA-EAP
+     eap=TTLS
+     identity="test@acme.com"
+     anonymous_identity="anonymous"
+     password="INSERT_THE_USER_PASSWORD"
+     phase2="auth=PAP"
+
+     eapol_flags=3
+}
+</code></pre>
+</div>
+
+<p>And run it with:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>eapol_test -a192.168.5.12 -p1812 -stest -ceapol-tls.conf -r0 -stesting123
+</code></pre>
+</div>
+
+<p>Where for example:</p>
+<ul>
+  <li><code class="highlighter-rouge">192.168.5.12</code> is the FreeRADIUS server IP address</li>
+  <li><code class="highlighter-rouge">1812</code> is the default port</li>
+  <li><code class="highlighter-rouge">test</code> is the password</li>
+  <li><code class="highlighter-rouge">eapol-tls.conf</code> is the config file for the test</li>
+  <li><code class="highlighter-rouge">testing1230</code> is the shared key</li>
+</ul>
+
+<p>If everything has been set up correctly you should be able to see <code class="highlighter-rouge">Access-Accept</code>.</p>
+
+<p>Congratulations! Now you can continue setting up the Router with your new FreeRADIUS server!</p>
+
+<p><strong>Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!</strong></p>
+
+<p><strong>Thanks for reading!</strong></p>
+
+<p><em>Last modified:</em> 19 March 2019</p>
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google + -->
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://carloalbertoscola.it//2019/network/security/freeradius-3-setup-mysql-eap-ttls/" data-layout="button_count" style="position: relative; top: -8px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/">Enabling SSL on NGINX reverse proxy towards non-SSL apache</a>
+                    
+                        <small>(Categories: <a href="/category/web">web</a>, <a href="/category/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/notes">notes</a>, <a href="/category/network">network</a>, <a href="/category/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/">TOR SSH Remote Reverse Tunnel - Raspberry Pi</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/">SOCKS PROXY on Reverse SSH tunnel</a>
+                    
+                        <small>(Categories: <a href="/category/security">security</a>, <a href="/category/linux">linux</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/">SSH Reverse Tunnel - Raspberry Pi</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2018/linux/web/security/apache-ssl-tls-domain/">Configuring SSL/TLS for a domain on Apache2</a>
+                    
+                        <small>(Categories: <a href="/category/linux">linux</a>, <a href="/category/web">web</a>, <a href="/category/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/">&laquo; Enabling SSL on NGINX reverse proxy towards non-SSL apache</a>
+  
+  
+</div>
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalberto";
+        var disqus_identifier = "https://carloalbertoscola.it/_How to configure FreeRADIUS 3 with MySQL and EAP-TTLS";
+        var disqus_title = "How to configure FreeRADIUS 3 with MySQL and EAP-TTLS";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div>
+</div>
+
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a> - <a href="/cookies">Cookie Policy</a>
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+	var consent = getCookie("cookieconsent_status");
+	if( consent == "deny"){
+	} else if (consent == null || consent == "allow") {
+		eval('(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })(window,document,"script","https://www.google-analytics.com/analytics.js","ga");  ga("create", "UA-63063866-5", "auto");  ga("send", "pageview");			');
+	}
+
+  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  // ga('create', 'UA-63063866-5', 'auto');
+  // ga('send', 'pageview');
+</script>
+  </body>
+</html>
