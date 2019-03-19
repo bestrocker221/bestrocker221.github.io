@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 19 Mar 2019 01:02:56 +0100</pubDate>
-    <lastBuildDate>Tue, 19 Mar 2019 01:02:56 +0100</lastBuildDate>
+    <pubDate>Tue, 19 Mar 2019 01:05:17 +0100</pubDate>
+    <lastBuildDate>Tue, 19 Mar 2019 01:05:17 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -575,7 +575,7 @@ ssl-ca=/mysql-certs/ca.crt
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;1812&lt;/code&gt; is the default port&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;test&lt;/code&gt; is the password&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;eapol-tls.conf&lt;/code&gt; is the config file for the test&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;testing1230&lt;/code&gt; is the shared key&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;testing123&lt;/code&gt; is the shared key&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;If everything has been set up correctly you should be able to see &lt;code class=&quot;highlighter-rouge&quot;&gt;Access-Accept&lt;/code&gt;.&lt;/p&gt;
@@ -589,13 +589,15 @@ ssl-ca=/mysql-certs/ca.crt
 &lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 19 March 2019&lt;/p&gt;
 </description>
         <pubDate>Mon, 25 Feb 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/security/freeradius-3-setup-mysql-eap-ttls/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/security/freeradius-3-setup-mysql-eap-ttls/</guid>
+        <link>https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</guid>
         
         
         <category>network</category>
         
         <category>security</category>
+        
+        <category>linux</category>
         
       </item>
     
