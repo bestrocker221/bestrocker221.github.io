@@ -5,18 +5,18 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 19 Mar 2019 00:53:51 +0100</pubDate>
-    <lastBuildDate>Tue, 19 Mar 2019 00:53:51 +0100</lastBuildDate>
+    <pubDate>Tue, 19 Mar 2019 01:00:14 +0100</pubDate>
+    <lastBuildDate>Tue, 19 Mar 2019 01:00:14 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
         <title>How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</title>
         <description>&lt;h1 id=&quot;-complete-guide-on-how-to-set-up-freeradius-3x-with-mysql-backend-database-&quot;&gt;&lt;strong&gt;&lt;center&gt; Complete guide on how to set up FreeRADIUS 3.X with MySQL backend database &lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
 &lt;h2 id=&quot;-eap-ttls-and-mysql--tls-database-communication-&quot;&gt;&lt;center&gt; EAP-TTLS and MySQL  TLS database communication &lt;/center&gt;&lt;/h2&gt;
-&lt;h3 id=&quot;8021x-authenticationauthorizationaccounting&quot;&gt;&lt;center&gt;802.1X Authentication/Authorization/Accounting&lt;/center&gt;&lt;/h3&gt;
+&lt;h3 id=&quot;8021x-authentication-authorization-accounting&quot;&gt;&lt;center&gt;802.1X Authentication Authorization Accounting&lt;/center&gt;&lt;/h3&gt;
 &lt;h4 id=&quot;-alpine-linux-lightweight-docker-container-&quot;&gt;&lt;center&gt; Alpine Linux lightweight Docker container &lt;/center&gt;&lt;/h4&gt;
 
-&lt;p&gt;&lt;img style=&quot;padding-left: 35%&quot; src=&quot;/assets/freeRADIUS.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/freeRADIUS.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Today we are going to explain how to set up a &lt;strong&gt;FreeRADIUS 3&lt;/strong&gt; server for  &lt;em&gt;Authentication&lt;/em&gt;, &lt;em&gt;Authorization&lt;/em&gt; and &lt;em&gt;Accounting&lt;/em&gt; (&lt;strong&gt;AAA&lt;/strong&gt;) along with a MySQL database for credentials storage and accounting logs accessed only through encrypted TLS connections. We will show how to set up FreeRADIUS with the secure &lt;strong&gt;EAP-TTLS&lt;/strong&gt; (Tunneled TLS) communication.&lt;/p&gt;
 
@@ -36,7 +36,7 @@
   &lt;li&gt;The router acting as a NAS will receive a &lt;code class=&quot;highlighter-rouge&quot;&gt;Access Request&lt;/code&gt; message from the client and will forward it to the RADIUS server.&lt;/li&gt;
   &lt;li&gt;The RADIUS Server will check the credentials and send back a response that could be &lt;code class=&quot;highlighter-rouge&quot;&gt;Access-Accept&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;Access-Reject&lt;/code&gt; or a &lt;code class=&quot;highlighter-rouge&quot;&gt;Access-Challenge&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;The NAS will forward the response to the client, and if the authentication succeed, it will then open the communication to the internal network.
-&lt;img style=&quot;padding-left: 10%&quot; src=&quot;/assets/radius.png&quot; /&gt;
+&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/radius.png&quot; /&gt;
 Ref: &lt;a href=&quot;https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-authentication-dial-user-service-radius/12433-32.html&quot;&gt;How does RADIUS work? by Cisco&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -231,7 +231,8 @@ Ref: &lt;a href=&quot;https://www.cisco.com/c/en/us/support/docs/security-vpn/re
 
 &lt;p&gt;To do so I created a Python script &lt;strong&gt;&lt;a href=&quot;https://gist.github.com/bestrocker221/f506eee8ccadc60cab71d5f633b7cc07&quot;&gt;here&lt;/a&gt;&lt;/strong&gt;. Just change “test” to the password you want to hash, and use a random salt. (I set the salt size limit to 12 charaters)&lt;/p&gt;
 
-&lt;p&gt;For example the password ‘test’ becomes &lt;code class=&quot;highlighter-rouge&quot;&gt;ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKxUSiAsFzYWx0c2FsdHNhbHQ=&lt;/code&gt;
+&lt;p&gt;For example the password ‘test’ becomes &lt;code class=&quot;highlighter-rouge&quot;&gt;ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKx-
+USiAsFzYWx0c2FsdHNhbHQ=&lt;/code&gt;
 and we are going to save it as &lt;strong&gt;SSHA2-256-Password&lt;/strong&gt; in the database.&lt;/p&gt;
 
 &lt;h3 id=&quot;mysql-tls-connection-setup&quot;&gt;&lt;strong&gt;MySQL TLS connection setup&lt;/strong&gt;&lt;/h3&gt;

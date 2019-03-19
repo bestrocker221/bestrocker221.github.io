@@ -369,10 +369,10 @@ window.addEventListener("load", function(){
 <article class="content">
     <div class="post"><h1 id="-complete-guide-on-how-to-set-up-freeradius-3x-with-mysql-backend-database-"><strong><center> Complete guide on how to set up FreeRADIUS 3.X with MySQL backend database </center></strong></h1>
 <h2 id="-eap-ttls-and-mysql--tls-database-communication-"><center> EAP-TTLS and MySQL  TLS database communication </center></h2>
-<h3 id="8021x-authenticationauthorizationaccounting"><center>802.1X Authentication/Authorization/Accounting</center></h3>
+<h3 id="8021x-authentication-authorization-accounting"><center>802.1X Authentication Authorization Accounting</center></h3>
 <h4 id="-alpine-linux-lightweight-docker-container-"><center> Alpine Linux lightweight Docker container </center></h4>
 
-<p><img style="padding-left: 35%" src="/assets/freeRADIUS.png" /></p>
+<p><img style="display: block; margin: auto;" src="/assets/freeRADIUS.png" /></p>
 
 <p>Today we are going to explain how to set up a <strong>FreeRADIUS 3</strong> server for  <em>Authentication</em>, <em>Authorization</em> and <em>Accounting</em> (<strong>AAA</strong>) along with a MySQL database for credentials storage and accounting logs accessed only through encrypted TLS connections. We will show how to set up FreeRADIUS with the secure <strong>EAP-TTLS</strong> (Tunneled TLS) communication.</p>
 
@@ -392,7 +392,7 @@ window.addEventListener("load", function(){
   <li>The router acting as a NAS will receive a <code class="highlighter-rouge">Access Request</code> message from the client and will forward it to the RADIUS server.</li>
   <li>The RADIUS Server will check the credentials and send back a response that could be <code class="highlighter-rouge">Access-Accept</code> or <code class="highlighter-rouge">Access-Reject</code> or a <code class="highlighter-rouge">Access-Challenge</code>.</li>
   <li>The NAS will forward the response to the client, and if the authentication succeed, it will then open the communication to the internal network.
-<img style="padding-left: 10%" src="/assets/radius.png" />
+<img style="display: block; margin: auto;" src="/assets/radius.png" />
 Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-authentication-dial-user-service-radius/12433-32.html">How does RADIUS work? by Cisco</a></li>
 </ol>
 
@@ -587,7 +587,8 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 
 <p>To do so I created a Python script <strong><a href="https://gist.github.com/bestrocker221/f506eee8ccadc60cab71d5f633b7cc07">here</a></strong>. Just change “test” to the password you want to hash, and use a random salt. (I set the salt size limit to 12 charaters)</p>
 
-<p>For example the password ‘test’ becomes <code class="highlighter-rouge">ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKxUSiAsFzYWx0c2FsdHNhbHQ=</code>
+<p>For example the password ‘test’ becomes <code class="highlighter-rouge">ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKx-
+USiAsFzYWx0c2FsdHNhbHQ=</code>
 and we are going to save it as <strong>SSHA2-256-Password</strong> in the database.</p>
 
 <h3 id="mysql-tls-connection-setup"><strong>MySQL TLS connection setup</strong></h3>
