@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 29 Mar 2019 15:39:33 +0100</pubDate>
-    <lastBuildDate>Fri, 29 Mar 2019 15:39:33 +0100</lastBuildDate>
+    <pubDate>Fri, 29 Mar 2019 17:17:20 +0100</pubDate>
+    <lastBuildDate>Fri, 29 Mar 2019 17:17:20 +0100</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -582,11 +582,15 @@ ssl-ca=/mysql-certs/ca.crt
 
 &lt;p&gt;Congratulations! Now you can continue setting up the Router with your new FreeRADIUS server!&lt;/p&gt;
 
+&lt;h2 id=&quot;github-repository&quot;&gt;GitHub Repository&lt;/h2&gt;
+
+&lt;p&gt;Here is my &lt;strong&gt;&lt;a href=&quot;https://github.com/bestrocker221/freeRADIUS-alpine&quot;&gt;freeRADIUS + MySQL&lt;/a&gt;&lt;/strong&gt; repository.&lt;/p&gt;
+
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 19 March 2019&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 29 March 2019&lt;/p&gt;
 </description>
         <pubDate>Mon, 25 Feb 2019 00:00:00 +0100</pubDate>
         <link>https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
