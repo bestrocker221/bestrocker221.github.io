@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msvalidate.01" content="2968909B8A7C9E7281129471CA8D69D9" />
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>SDN & NFV with POX and Click Modular Router - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="SDN & NFV with POX and Click Modular Router" />
+        <meta name="keywords" content="SDN & NFV with POX and Click Modular Router, Carlo Alberto Scola, network, sdn, python" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="SDN & NFV with POX and Click Modular Router" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="A project with Software Defined Networking and Network Function Virtualization using the popular POX controller platform in Python with OpenFlow and Click." property="og:description">
+        
+        
+          <meta content="https://carloalbertoscola.it//2019/network/sdn/python/snd-nfv-pox-click-openflow-example/" property="og:url">
+        
+        
+          <meta content="2019-05-28T00:00:00+02:00" property="article:published_time">
+          <meta content="https://carloalbertoscola.it//about/" property="article:author">
+        
+        
+          <meta content="https://carloalbertoscola.it//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="network" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="SDN & NFV with POX and Click Modular Router">
+        
+        
+          <meta name="twitter:url" content="https://carloalbertoscola.it//2019/network/sdn/python/snd-nfv-pox-click-openflow-example/">
+        
+        
+          <meta name="twitter:description" content="A project with Software Defined Networking and Network Function Virtualization using the popular POX controller platform in Python with OpenFlow and Click.">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
+      
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+<script>
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/; domain=.carloalbertoscola.it";
+}
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; Path=/;domain=.carloalbertoscola.it; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function disableCookies(){
+  var cookies = ["_gat", "_gid", "_ga"];
+  cookies.forEach( function(element, index) {
+    // statements
+    console.log("deleting: " + element);
+    delete_cookie(element);
+    //setCookie("cookieconsent_status", "deny", 7);
+    //window.location.reload(true);
+  });
+}
+
+window.addEventListener("load", function(){
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": {
+        "background": "#000"
+      },
+      "button": {
+        "background": "#f1d600"
+      }
+    },
+    "theme": "classic",
+    "type": "opt-out",
+    "content": {
+      "message": "This website uses cookies just to get simple stats and help understand if the content of the website is viewed or not.\n",
+      "href": "https://carloalbertoscola.it/cookies"
+    },
+    onInitialise: function (status) {
+    //console.log("init");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+      }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      //disableCookies();
+      }
+    },
+   onStatusChange: function(status, chosenBefore) {
+    //console.log("change");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+    }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      disableCookies();
+      window.location.reload(true);
+    }
+    if(type == 'opt-out' && didConsent){
+      window.location.reload(true);
+    }
+  },
+  onRevokeChoice: function() {
+    //console.log("rev");
+    var type = this.options.type;
+    if (type == 'opt-in') {
+      // disable cookies
+      disableCookies();
+    }
+    if (type == 'opt-out') {
+      // enable cookies
+    }
+  }
+  })
+});
+</script>
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row headrow">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">MSc Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12 title-search-row">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-8 col-sm-12 col-xs-12 ">SDN & NFV with POX and Click Modular Router</h2>
+            
+            <div class="col-md-4 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">28 May 2019</span>
+              
+              
+                <span class="categories">
+                  &raquo; categories:
+                  
+                    <a href="/network">network</a>
+                    , 
+                  
+                    <a href="/sdn">sdn</a>
+                    , 
+                  
+                    <a href="/python">python</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item snd-nfv-pox-click-openflow-example"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  snd-nfv-pox-click-openflow-example"><a href="/static/curriculum-vitae-eng-2.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 id="pox-controller-and-click-in-practice"><strong><center>POX Controller and Click in practice</center></strong></h1>
+<h2 id="-how-to-create-a-simple-sdn-and-nfv-application"><center> How to create a simple SDN and NFV application</center></h2>
+
+<p>This is the first project I did for learning <em>Software Defined Networking</em> and <em>Network Function Virtualization</em>. 
+It makes use of <strong><a href="http://mininet.org/">Mininet</a></strong> for network virtualization, <strong><a href="https://github.com/noxrepo/pox">POX</a></strong> for the python SDN Controller application and <strong><a href="https://github.com/kohler/click">Click Modular Router</a></strong> for networking functions like Load Balancing, IDS and NAPT.</p>
+
+<ol>
+  <li><strong><em>How to setup a topology with Mininet.</em></strong></li>
+  <li><strong><em>How to program POX SDN controller and Switches with OpenFlow.</em></strong></li>
+  <li><strong><em>How to integrate network functions with Click.</em></strong></li>
+</ol>
+
+<h3 id="topology"><strong>Topology</strong></h3>
+
+<p><img style="display: block; margin: auto;" src="/assets/topo-min.png" /></p>
+
+<h3 id="services"><strong>Services</strong></h3>
+<p>These services will run <strong><em>Click</em></strong>:</p>
+
+<ul>
+  <li><strong>lb1</strong>: will serve DNS requests and load balance them towards the three <strong>ds</strong> servers.</li>
+  <li><strong>lb2</strong>: will serve WEB requests and load balance them towards the three <strong>ws</strong> servers.</li>
+  <li><strong>ids</strong>: is an Intrusion Detection System which will do basic filtering on HTTP requests and direct the suspicious ones to the inspector machine, while others will go through to the lb2.</li>
+  <li><strong>napt</strong>: is the Network Address and Port Translator, will translate addresses from the private network 10.0.0.0/24 to 100.0.0.0/24.</li>
+</ul>
+
+<p>These will run POX <strong><em>l2.learning</em></strong> modules:</p>
+
+<ul>
+  <li><strong>Fw1</strong> and <strong>Fw2</strong> are firewalls filtering traffic from/to the Demilitarized Zone and Private Zone.</li>
+  <li>All the others <strong>sw</strong> are simple L2 Learning switches.</li>
+</ul>
+
+<h3 id="1-mininet-topology"><strong>1. Mininet Topology</strong></h3>
+<p>Mininet allows to virtualize a network adding hosts, switches and links as you prefer.</p>
+
+<h4 id="how-to-run-mininet">How to run mininet:</h4>
+<ol>
+  <li>In Mininet you just need a single python file.</li>
+  <li>Define your Topology class extending <strong>Topo</strong></li>
+  <li>Start the mininet with your topology and a controller.</li>
+</ol>
+
+<p>Before launching the mininet script, check ovs-ctl is running, otherwise:</p>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo /usr/share/openvswitch/scripts/ovs-ctl start
+</code></pre>
+</div>
+
+<p>This is a mininet example</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/python2</span>
+
+<span class="kn">from</span> <span class="nn">mininet.net</span> <span class="kn">import</span> <span class="n">Mininet</span>
+<span class="kn">from</span> <span class="nn">mininet.cli</span> <span class="kn">import</span> <span class="n">CLI</span>
+<span class="kn">from</span> <span class="nn">mininet.topo</span> <span class="kn">import</span> <span class="n">Topo</span>
+<span class="kn">from</span> <span class="nn">mininet.node</span> <span class="kn">import</span> <span class="n">RemoteController</span><span class="p">,</span> <span class="n">OVSSwitch</span><span class="p">,</span> <span class="n">Host</span>
+
+<span class="k">class</span> <span class="nc">MyTopology</span><span class="p">(</span><span class="n">Topo</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Topo</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c"># All the elements are basically L2 switches</span>
+        <span class="n">sw1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addSwitch</span><span class="p">(</span><span class="s">"sw1"</span><span class="p">,</span> <span class="n">dpid</span><span class="o">=</span><span class="n">int2dpid</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="o">.</span>
+        <span class="o">.</span>
+        <span class="c"># Add Hosts</span>
+        <span class="n">h1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addHost</span><span class="p">(</span><span class="s">"h1"</span><span class="p">,</span> <span class="n">ip</span><span class="o">=</span><span class="s">"100.0.0.10/24"</span><span class="p">)</span> 
+        <span class="o">.</span>
+        <span class="o">.</span>
+        <span class="c"># Add Links</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addLink</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">sw1</span><span class="p">)</span>               <span class="c">#Create link</span>
+        <span class="o">.</span>
+        <span class="o">.</span> 
+</code></pre>
+</div>
+<p>Importantly every mininet object has a DPID which we can set and can refer later.</p>
+
+<p>Then in the main: (we use a local controller)</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">topo</span> <span class="o">=</span> <span class="n">MyTopology</span><span class="p">()</span>
+    <span class="n">ctrl</span> <span class="o">=</span> <span class="n">RemoteController</span><span class="p">(</span><span class="s">"c0"</span><span class="p">,</span> <span class="n">ip</span><span class="o">=</span><span class="s">"127.0.0.1"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6633</span><span class="p">)</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">Mininet</span><span class="p">(</span>  <span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">,</span>
+                    <span class="n">switch</span><span class="o">=</span><span class="n">OVSSwitch</span><span class="p">,</span>
+                    <span class="n">controller</span><span class="o">=</span><span class="n">ctrl</span><span class="p">,</span>
+                    <span class="n">autoSetMacs</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                    <span class="n">autoStaticArp</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                    <span class="n">build</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                    <span class="n">cleanup</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">net</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="c">##################</span>
+    <span class="c"># Launch services and tests here</span>
+    <span class="o">...</span>
+    <span class="c">###########</span>
+    <span class="n">CLI</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<p>We can launch services in mininet hosts like this:</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>    <span class="n">net</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"ws1"</span><span class="p">)</span><span class="o">.</span><span class="n">cmd</span><span class="p">(</span><span class="s">"python3 -m http.server 80 &amp;"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">CLI(net)</code> allows to have an interactive shell on the mininet environment while it is running.</p>
+
+<p>You can run commands easily.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>mininet&gt; h1 ping h2
+</code></pre>
+</div>
+
+<p>After the inline command <code class="highlighter-rouge">exit</code>, <code class="highlighter-rouge">net.stop()</code> will gracefully stop the network.</p>
+
+<p>If you want to clean the system from the last mininet run, execute:</p>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo mn -c
+</code></pre>
+</div>
+
+<h3 id="2-pox-controller"><strong>2. POX Controller</strong></h3>
+<p>The controller has the role of setting up rules in the OpenFlow switches whenever they encounter a packet for which no routing decision can be made.</p>
+
+<p>The POX controller handles persistent connections from OpenFlow enabled switches, and has a handler for each state of the connection.</p>
+
+<p>For example, each event will fire the appropriate callback:</p>
+<ul>
+  <li><strong>_handle_ConnectionUp</strong></li>
+  <li><strong>_handle_ConnectionDown</strong></li>
+  <li><strong>_handle_PacketIn</strong></li>
+  <li>_handle_PortStatus</li>
+  <li>_handle_FlowRemoved</li>
+  <li>_handle_ErrorIn</li>
+  <li>_handle_BarrierIn</li>
+</ul>
+
+<p>We will focus on the first three: when a SW will first connect, when it will disconnect, and whenever a packet is forwarded from the SW to the Controller.</p>
+
+<p>In this case we use the already present <em>l2 forwarding</em> module which implements standard switch behavior with <em>flood and learn</em> mechanism. We extend that module for the two firewalls adding the rules to block/allow traffic based on port/destination address.</p>
+
+<h4 id="main-controller-file"><strong>Main controller file</strong></h4>
+
+<p>The main controller application can be like this:</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/python2</span>
+<span class="kn">from</span> <span class="nn">pox.core</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span> <span class="nn">forwarding.l2_learning</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># importing MY modules</span>
+<span class="kn">from</span> <span class="nn">myproj.myfw</span> <span class="kn">import</span> <span class="n">MyFw2</span><span class="p">,</span> <span class="n">MyFw1</span>
+<span class="kn">from</span> <span class="nn">myproj.l2_custom</span> <span class="kn">import</span> <span class="n">l2_learning_custom</span>
+<span class="kn">from</span> <span class="nn">myproj.clickElem</span> <span class="kn">import</span> <span class="n">click_device</span>
+
+<span class="k">def</span> <span class="nf">launch</span><span class="p">():</span>
+    <span class="n">fw_list_dpid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">51</span><span class="p">,</span> <span class="mi">52</span><span class="p">]</span>
+    <span class="n">click_dpid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">71</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">73</span><span class="p">,</span> <span class="mi">74</span><span class="p">]</span>
+
+    <span class="n">private_ip_hosts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"10.0.0.50"</span><span class="p">,</span> <span class="s">"10.0.0.51"</span><span class="p">]</span>
+    <span class="n">srv_list</span> <span class="o">=</span> <span class="p">{</span><span class="s">"dns"</span><span class="p">:[</span><span class="s">"100.0.0.20"</span><span class="p">,</span> <span class="s">"100.0.0.21"</span><span class="p">,</span> <span class="s">"100.0.0.22"</span><span class="p">],</span>
+                <span class="s">"web"</span><span class="p">:[</span><span class="s">"100.0.0.40"</span><span class="p">,</span> <span class="s">"100.0.0.41"</span><span class="p">,</span> <span class="s">"100.0.0.42"</span><span class="p">]}</span>
+    
+    <span class="c"># registering the two firewalls</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">registerNew</span><span class="p">(</span><span class="n">MyFw1</span><span class="p">,</span> <span class="n">fw_list_dpid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">srv_list</span><span class="p">)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">registerNew</span><span class="p">(</span><span class="n">MyFw2</span><span class="p">,</span> <span class="n">fw_list_dpid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">private_ip_hosts</span><span class="p">,</span> <span class="n">srv_list</span><span class="p">)</span>
+    <span class="c"># registering click elements (napt, ids and lb)</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">registerNew</span><span class="p">(</span><span class="n">click_device</span><span class="p">,</span> <span class="n">click_dpid</span><span class="p">)</span>
+    
+    <span class="c"># Except firewalls, click elements all the others are l2 learning switches</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">registerNew</span><span class="p">(</span><span class="n">l2_learning_custom</span><span class="p">,</span> <span class="n">click_dpid</span> <span class="o">+</span> <span class="n">fw_list_dpid</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<p>With the DPID list we can set which registered module handle which element. In fact, <code class="highlighter-rouge">click_device</code> class will handle DPID 71,72,73,74.</p>
+
+<p>The class <em>l2_learning_custom</em> takes as argument a list of DPID to ignore, so works in reverse as the others.</p>
+
+<p>Registering a new element will allow each component to manage every incoming switch connection, so a way to distinguish which switch is connecting is to use each DPID as a filter.</p>
+
+<p>Ex: If Fw1 has to manage the DPID 51, then when <code class="highlighter-rouge">_handle_ConnectionUp</code> is raised, we can continue only if the <code class="highlighter-rouge">event.dpid</code> is 51.</p>
+
+<h4 id="custom-component-and-openflow-rule-install"><strong>Custom component and OpenFlow rule install</strong></h4>
+<p>Here we see the base <code class="highlighter-rouge">MyFirewall</code> class. It will install the rules to the switches as soon as they come up and connect to the controller.</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pox.core</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span> <span class="nn">pox.lib.addresses</span> <span class="kn">import</span> <span class="n">IPAddr</span>
+<span class="kn">from</span> <span class="nn">forwarding.l2_learning</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pox.openflow.libopenflow_01</span> <span class="kn">as</span> <span class="nn">of</span>
+<span class="kn">import</span> <span class="nn">pox.lib.packet</span> <span class="kn">as</span> <span class="nn">PKT</span>
+
+<span class="k">class</span> <span class="nc">MyFirewall</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_dpid</span><span class="p">,</span> <span class="n">srv_list</span><span class="p">):</span>
+        <span class="c"># we need to attach this class as listener</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">openflow</span><span class="o">.</span><span class="n">addListeners</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fwdpid</span> <span class="o">=</span> <span class="n">fw_dpid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">srv_list</span> <span class="o">=</span> <span class="n">srv_list</span>
+    <span class="c">#</span>
+    <span class="c">#   Common rules to both firewalls 1 &amp; 2</span>
+    <span class="c">#</span>
+    <span class="k">def</span> <span class="nf">_handle_ConnectionUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="c"># just handle the switches with the wanted DPID</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">dpid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">fwdpid</span><span class="p">:</span>
+            <span class="c"># save the connection object</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">connection</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">"Firewall </span><span class="si">%</span><span class="s">d : </span><span class="si">%</span><span class="s">s has come up."</span> <span class="p">,</span> 
+                            <span class="n">event</span><span class="o">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">dpid_to_str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">dpid</span><span class="p">))</span>
+
+            <span class="c">########## INSTALL THE RULES ON THE SWITCH ##########</span>
+            <span class="n">rules</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">web_server</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">srv_list</span><span class="p">[</span><span class="s">"web"</span><span class="p">]:</span>
+                <span class="c"># generating TCP rules for communication to web servers</span>
+                <span class="c"># from out (public/private zone) to inner</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">ofp_flow_mod</span><span class="p">(</span>
+                    <span class="n">action</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">ofp_action_output</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">ofp_match</span><span class="p">(</span>
+                            <span class="n">in_port</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="n">dl_type</span> <span class="o">=</span> <span class="n">PKT</span><span class="o">.</span><span class="n">ethernet</span><span class="o">.</span><span class="n">IP_TYPE</span><span class="p">,</span>
+                            <span class="n">nw_proto</span> <span class="o">=</span> <span class="n">PKT</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">TCP_PROTOCOL</span><span class="p">,</span>
+                            <span class="n">nw_dst</span> <span class="o">=</span> <span class="n">IPAddr</span><span class="p">(</span><span class="n">web_server</span><span class="p">),</span>    <span class="c"># src=internal IP</span>
+                            <span class="n">tp_dst</span> <span class="o">=</span> <span class="mi">80</span>
+                        <span class="p">),</span>
+                    <span class="n">priority</span> <span class="o">=</span> <span class="mi">111</span>
+                <span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"ALLOWING TCP 80 in FW {} to {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> 
+                                            <span class="n">event</span><span class="o">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">web_server</span><span class="p">))</span>
+                <span class="n">rules</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+                <span class="c"># From inner web services to the outer (public/private zone)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">ofp_flow_mod</span><span class="p">(</span>
+                    <span class="n">action</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">ofp_action_output</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">ofp_match</span><span class="p">(</span>
+                            <span class="n">in_port</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                            <span class="n">dl_type</span> <span class="o">=</span> <span class="n">PKT</span><span class="o">.</span><span class="n">ethernet</span><span class="o">.</span><span class="n">IP_TYPE</span><span class="p">,</span>
+                            <span class="n">nw_proto</span> <span class="o">=</span> <span class="n">PKT</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">TCP_PROTOCOL</span><span class="p">,</span>
+                            <span class="n">nw_src</span> <span class="o">=</span> <span class="n">IPAddr</span><span class="p">(</span><span class="n">web_server</span><span class="p">),</span>    <span class="c"># src=internal IP</span>
+                            <span class="n">tp_src</span> <span class="o">=</span> <span class="mi">80</span>
+                        <span class="p">),</span>
+                    <span class="n">priority</span> <span class="o">=</span> <span class="mi">111</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">rules</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"ALLOWING TCP 80 in FW {} from {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                            <span class="n">event</span><span class="o">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">web_server</span><span class="p">))</span>
+
+                <span class="o">...</span>
+                <span class="o">...</span>
+            <span class="c"># send out all the collected generated rules to the switch</span>
+            <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+
+            <span class="c"># then act as normal L2 Switch</span>
+            <span class="n">LearningSwitch</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">connection</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> 
+
+</code></pre>
+</div>
+
+<p>You have to install a rule <strong>for each direction of the flow</strong>, indeed two rules are needed.</p>
+
+<p>NOTE: remember to set the right priorities for the right rule ordering.</p>
+
+<p>Each rule has an:</p>
+<ul>
+  <li><strong>action</strong>: for example <em>ofp_action_output</em> will send pkt to the <em>port</em></li>
+  <li><strong>match</strong>: will match pkt based on protocol, ports, and type</li>
+  <li><strong>priority</strong>: higher priority takes over</li>
+</ul>
+
+<p>Then I expanded the MyFirewall class to add functionalities unique to each firewall fw1/fw2.</p>
+
+<h4 id="how-to-run-pox-controller"><strong>How to run POX Controller</strong></h4>
+<p>You can start the controller with:</p>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo python2 pox.py my_controller samples.pretty_log log.level --DEBUG
+</code></pre>
+</div>
+<p>you add the modules you want to run, here we added <em>pretty_log</em>.</p>
+
+<h4 id="how-to-check-active-flows"><strong>How to check active flows</strong></h4>
+<p>Once you run a basic topology and a controller you can check at any time active flows with:</p>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="c"># view flows</span>
+<span class="gp">$ </span>sudo ovs-vsctl show
+<span class="c"># view flow details</span>
+<span class="gp">$ </span>sudo ovs-ofctl dump-flows s1
+</code></pre>
+</div>
+
+<h3 id="3-click-programming"><strong>3. Click programming</strong></h3>
+<p>With Click we can program mininet Switches with our own Virtualized Network Functions, without the need of any controller.</p>
+
+<h4 id="what-is-click-the-click-modular-router"><strong>What is Click</strong> (<a href="https://pdos.csail.mit.edu/papers/click:tocs00/paper.pdf">The Click Modular Router</a>)</h4>
+<p>Click Modular Router is a fast C++ router implementation with its own driver for handling traffic which provide extremely efficient routing and packet processing. Click allows to build highly customizable router functions, with extreme ease of deployment and gives an extensible language to do it.</p>
+
+<p>This way routers can be implemented in linux hardware in a more efficient way, in fact Click achieves a very high forwarding rate per second. To do so Click gets rid of the interrupt driven architecture in favor of polling, avoiding expensive context switch and memory accesses.</p>
+
+<p>In Click there are <em>Elements</em> with <em>input</em> and <em>output</em> ports. For example <code class="highlighter-rouge">FromDevice(eth0)</code> gets all the packets from the <em>eth0</em> interface.</p>
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google +
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+ -->
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://carloalbertoscola.it//2019/network/sdn/python/snd-nfv-pox-click-openflow-example/" data-layout="button_count" style="position: relative; top: -6px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/">How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/security">security</a>, <a href="/linux">linux</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    
+                        <small>(Categories: <a href="/linux">linux</a>, <a href="/notes">notes</a>, <a href="/network">network</a>, <a href="/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/">&laquo; How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</a>
+  
+  
+</div>
+
+
+<!-- <div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalbertoscola-it";
+        var disqus_identifier = "https://carloalbertoscola.it/_SDN & NFV with POX and Click Modular Router";
+        var disqus_title = "SDN & NFV with POX and Click Modular Router";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div> -->
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = "https://carloalbertoscola.it/_SDN & NFV with POX and Click Modular Router"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://carloalbertoscola-it.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a> - <a href="/cookies">Cookie Policy</a>
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+	var consent = getCookie("cookieconsent_status");
+	if( consent == "deny"){
+	} else if (consent == null || consent == "allow") {
+		eval('(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })(window,document,"script","https://www.google-analytics.com/analytics.js","ga");  ga("create", "UA-63063866-5", "auto");  ga("send", "pageview");			');
+	}
+
+  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  // ga('create', 'UA-63063866-5', 'auto');
+  // ga('send', 'pageview');
+</script>
+  </body>
+</html>

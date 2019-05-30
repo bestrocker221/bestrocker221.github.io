@@ -375,3 +375,19 @@ body .container .jumbotron, body .container .well, body .container-fluid .jumbot
 .pull-right {
     float: left!important;
 }
+
+/*    added    */
+
+.cc-revoke {
+    padding: 0.2em !important;
+}
+
+.cc-revoke, .cc-window {
+    font-size: 14px !important;
+}
+
+.quote {
+    color: white;
+    font-size: 17px;
+    quotes: "“" "”" ;
+}
