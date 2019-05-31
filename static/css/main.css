@@ -1,4 +1,4 @@
-.main.outer{padding-top: 50px;}
+.main.outer{padding-top: 30px;}
 .header-panel.shadow-z-2 {
     background-color: #009587;
     padding: 30px 0 10px 0;
@@ -331,6 +331,10 @@ footer {
     .container .well, body .container-fluid .jumbotron, body .container-fluid .well {
         padding: 9px !important;
     }
+
+    #bs-example-navbar-collapse-1 {
+        padding: 0px;
+    }
 }
 
 
@@ -388,7 +392,7 @@ body .container .jumbotron, body .container .well, body .container-fluid .jumbot
 
 .quote {
     color: white;
-    font-size: 17px;
+    font-size: 14px;
     quotes: "“" "”" ;
 }
 
@@ -400,4 +404,14 @@ body .container .jumbotron, body .container .well, body .container-fluid .jumbot
 
 code {
     font-family: 'Fira Mono', monospace !important;
+}
+
+.list-group-item-text {
+    margin-bottom: 10px !important;
+}
+
+.github-img {
+    display: inline !important;
+    margin-right:10px;
+    max-width: 5% !important;
 }

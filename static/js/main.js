@@ -8,10 +8,10 @@
 	      //console.log($(window).scrollTop())  //240
 
 
-	      if ($(window).scrollTop() > 250) {
+	      if ($(window).scrollTop() > 220) {
 		      $('.menu').addClass('menu-fixed');
 		    }
-		  if ($(window).scrollTop() < 251) {
+		  if ($(window).scrollTop() < 221) {
 		      $('.menu').removeClass('menu-fixed');
 		    }
 		});
