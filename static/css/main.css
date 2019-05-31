@@ -38,7 +38,7 @@ p.info a {
     color: #fff;
     text-decoration: underline;
 }
-.full ul,.full ol {
+.full ul, .full ol {
     margin-left: 15px;
 }
 .full img{
@@ -390,4 +390,14 @@ body .container .jumbotron, body .container .well, body .container-fluid .jumbot
     color: white;
     font-size: 17px;
     quotes: "“" "”" ;
+}
+
+.blog-title-pro, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat';
+}
+
+/* CODE */
+
+code {
+    font-family: 'Fira Mono', monospace !important;
 }
