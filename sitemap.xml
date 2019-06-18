@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 18 Jun 2019 14:59:24 +0200</pubDate>
-    <lastBuildDate>Tue, 18 Jun 2019 14:59:24 +0200</lastBuildDate>
+    <pubDate>Tue, 18 Jun 2019 15:02:47 +0200</pubDate>
+    <lastBuildDate>Tue, 18 Jun 2019 15:02:47 +0200</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -29,8 +29,8 @@
         <title>Fault-Tolerant IP routing with Cisco HSRP. [Part 2]</title>
         <description>Here we are going to focus on how to set up HSRP fault tolerance to provide IP routing redundancy and availability between two routers and multiple networks.</description>
         <pubDate>Fri, 26 Apr 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/linux/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/linux/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
+        <link>https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
         
         <category>network</category>
         
@@ -38,8 +38,6 @@
         
         <category>cisco</category>
         
-        
-        <category>linux</category>
         
         <category>notes</category>
         
@@ -83,8 +81,8 @@
         <title>A Cisco routing lab network with GNS3. [Part 1]</title>
         <description>Hello everybody, in this post we are going to learn step by step how to setup a fully functioning network environment with the help of Graphical Network Simulator-3 (GNS3). This exercise aims to be helpful with the study of network routing protocols.</description>
         <pubDate>Wed, 02 Jan 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/linux/notes/network/cisco/BGP-OSPF-network-routing/</guid>
+        <link>https://carloalbertoscola.it//2019/notes/network/cisco/BGP-OSPF-network-routing/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/notes/network/cisco/BGP-OSPF-network-routing/</guid>
         
         <category>network</category>
         
@@ -98,8 +96,6 @@
         
         <category>multicast</category>
         
-        
-        <category>linux</category>
         
         <category>notes</category>
         
