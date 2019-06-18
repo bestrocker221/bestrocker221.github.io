@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 18 Jun 2019 12:40:01 +0200</pubDate>
-    <lastBuildDate>Tue, 18 Jun 2019 12:40:01 +0200</lastBuildDate>
+    <pubDate>Tue, 18 Jun 2019 14:59:24 +0200</pubDate>
+    <lastBuildDate>Tue, 18 Jun 2019 14:59:24 +0200</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -474,6 +474,150 @@ ext_ipc[1] -&amp;gt; Print(&quot;IP from EXT to INT&quot;) -&amp;gt; [0]rw;
         <category>sdn</category>
         
         <category>python</category>
+        
+      </item>
+    
+      <item>
+        <title>Fault-Tolerant IP routing with Cisco HSRP. [Part 2]</title>
+        <description>&lt;h1 id=&quot;how-to-configure-cisco-routers-with-hsrp&quot;&gt;&lt;strong&gt;&lt;center&gt;How to configure Cisco routers with HSRP.&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;fault-tolerant-ip-routing&quot;&gt;&lt;strong&gt;&lt;center&gt;Fault-Tolerant IP routing&lt;/center&gt;&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;backup-and-virtual-gateways&quot;&gt;&lt;center&gt;Backup and virtual gateways&lt;/center&gt;&lt;/h3&gt;
+&lt;h4 id=&quot;hot-standby-router-protocol-hsrp&quot;&gt;&lt;center&gt;Hot Standby Router Protocol (HSRP)&lt;/center&gt;&lt;/h4&gt;
+
+&lt;p&gt;If you haven’t read, here is the part 1 of the guide where we can see how to set up OSPF, BGP and Multicast in the network. [&lt;a href=&quot;/2019/linux/notes/network/cisco/BGP-OSPF-network-routing/&quot;&gt;Link to PART 1&lt;/a&gt;]&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Here we will focus only on how to provide fault tolerance IP routing&lt;/strong&gt; from both the server and the host networks. Each subnet will connect physically to the two routers, one being the &lt;strong&gt;active&lt;/strong&gt; and the other being &lt;strong&gt;stand-by&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Three are the protocols mostly used for fault tolerance:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Gateway Load Balancing Protocol (GLBP)&lt;/li&gt;
+  &lt;li&gt;Hot Standby Router Protocol (HSRP)&lt;/li&gt;
+  &lt;li&gt;Virtual Router Redundancy Protocol (VRRP)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Having a &lt;em&gt;backup path&lt;/em&gt; is extremely important in order to satisfy SLA and avoid any downtime to whole networks due to a single link failure. HSRP provides a quick way to recover a faulty link or router malfunctioning and allows other nodes to be quickly and transparently redirected to the standby router which immediately will become the active one.&lt;/p&gt;
+
+&lt;p&gt;&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/hsrp.jpg&quot; /&gt;&lt;/p&gt;
+&lt;center&gt; Figure 1. HSRP Virtual Router (from Cisco). &lt;/center&gt;
+
+&lt;p&gt;HSRP allows multiple routers on a single LAN to share a &lt;strong&gt;virtual IP&lt;/strong&gt; and MAC address which is configured as the default gateway on the hosts. By sharing an IP address and a MAC (Layer 2) address, two or more routers can act as a single “virtual” router. They answer to ARP requests for the virtual IP.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;More here &lt;a href=&quot;https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst3560/software/release/12-2_52_se/configuration/guide/3560scg/swhsrp.html&quot;&gt;Cisco - Configuring HSRP&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;network-equipment--virtual&quot;&gt;Network Equipment  (virtual)&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;4 Cisco 7301 routers&lt;/li&gt;
+  &lt;li&gt;2 HP2524 switches (one is for server network and one for client network)&lt;/li&gt;
+  &lt;li&gt;Virtual Machines (both on server and client network)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;network-topology&quot;&gt;Network Topology&lt;/h2&gt;
+&lt;p&gt;The network topology we are going to recreate is described as follow:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/routers_setup_lab_gns3.png&quot; alt=&quot;lab setup&quot; /&gt;&lt;/p&gt;
+&lt;center&gt; Figure 2. Full Network topology. &lt;/center&gt;
+
+&lt;h3 id=&quot;client-and-server-network-availability&quot;&gt;Client and Server network availability&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;RTC&lt;/strong&gt; and &lt;strong&gt;RTD&lt;/strong&gt; are responsible of providing a backup link for both the client and server networks in case of failure. &lt;a href=&quot;https://www.cisco.com/c/en/us/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.html&quot;&gt;&lt;em&gt;Hot Standby Router Protocol&lt;/em&gt; or  &lt;strong&gt;HSRP&lt;/strong&gt;&lt;/a&gt; is used in both networks.&lt;/p&gt;
+
+&lt;p&gt;HSRP is simpler than &lt;em&gt;Gateway Load Balancing Protocol&lt;/em&gt; (&lt;strong&gt;GLBP&lt;/strong&gt;) which runs on layer 3 and only has an active router to answer &lt;em&gt;ARP&lt;/em&gt; requests for the standby IP with a virtual MAC address. GLBP works on layer 2 and provides multiple virtual MAC addresses which could provide load balancing for huge networks. This is not needed here.&lt;/p&gt;
+
+&lt;p&gt;We will have for servers subnet network (10.5.10.0/24)&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;RTC&lt;/strong&gt; with 10.5.10.1 being the &lt;strong&gt;Active&lt;/strong&gt; Router&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;RTD&lt;/strong&gt; with 10.5.10.2 being the &lt;strong&gt;Stand-By&lt;/strong&gt; Router&lt;/li&gt;
+  &lt;li&gt;The &lt;strong&gt;VIRTUAL&lt;/strong&gt; gateway has the 10.5.10.3 IP address.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We will have for clients subnet network (10.5.15.0/24)&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;RTD&lt;/strong&gt; with 10.5.15.1 being the &lt;strong&gt;Active&lt;/strong&gt; Router&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;RTC&lt;/strong&gt; with 10.5.15.2 being the &lt;strong&gt;StandBy&lt;/strong&gt; Router&lt;/li&gt;
+  &lt;li&gt;the &lt;strong&gt;VIRTUAL&lt;/strong&gt; gateway has the 10.5.15.3 IP address.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;HSRP provides high network availability by providing redundancy for IP traffic from hosts on networks.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;When a router is down, the other quickly become active and start routing traffic on the behalf of the virtual IP. The two routers periodically send control messages to check “health” status, if one fails, the other assumes control. How?&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Devices running HSRP send and receive multicast UDP-based hello packets to detect router failure and to designate active and standby routers.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;timers-value&quot;&gt;Timers value&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;hellotime&lt;/strong&gt;: between routers the &lt;em&gt;hellotime&lt;/em&gt; interval is &lt;strong&gt;3 seconds&lt;/strong&gt; by default. That means the time before other routers declare the active router to be down.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;holdtime&lt;/strong&gt;: the time  before the active or standby router is declared to be down, default is &lt;strong&gt;10 seconds&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;routers-configuration&quot;&gt;&lt;strong&gt;Routers Configuration&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;h3 id=&quot;rtc&quot;&gt;&lt;strong&gt;RTC&lt;/strong&gt;&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;interface gigabitEthernet 0/0
+    ip address 10.5.10.1 255.255.255.0
+    standby version 2
+    standby 10 ip 10.5.10.3
+    standby 10 priority 200
+    standby 10 preempt
+    no shut
+
+interface fastEthernet 1/0
+    ip address 10.5.15.2 255.255.255.0
+    standby version 2
+    standby 15 ip 10.5.15.3
+    no shut
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;rtd&quot;&gt;&lt;strong&gt;RTD&lt;/strong&gt;&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;interface gigabitEthernet 0/0
+    ip address 10.5.15.1 255.255.255.0
+    standby version 2
+    standby 15 ip 10.5.15.3
+    standby 15 priority 200
+    standby 15 preempt
+    no shut
+
+interface fastEthernet 1/0
+    ip address 10.5.10.2 255.255.255.0
+    standby version 2
+    standby 10 ip 10.5.10.3
+    no shut
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;On Hosts the VIRTUAL IP must be set as &lt;strong&gt;default gateway&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;This configuration will allow IP fault tolerance.
+For more detailed explanation look at the cisco documentation &lt;a href=&quot;https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst3560/software/release/12-2_52_se/configuration/guide/3560scg/swhsrp.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post! Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 26 Apr 2019 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2019/linux/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/linux/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
+        
+        <category>network</category>
+        
+        <category>routing</category>
+        
+        <category>cisco</category>
+        
+        
+        <category>linux</category>
+        
+        <category>notes</category>
+        
+        <category>network</category>
+        
+        <category>cisco</category>
         
       </item>
     
@@ -2753,174 +2897,6 @@ var sanitized = sanitizer.Sanitize(html);
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</link>
         <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</guid>
-        
-        
-        <category>notes</category>
-        
-      </item>
-    
-      <item>
-        <title>XSSI and XSS differences</title>
-        <description>&lt;h1 id=&quot;difference-between-xssi-and-xsscsrf&quot;&gt;Difference between XSSI and XSS/CSRF&lt;/h1&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;During an XSS malicious code is placed into a victim’s page, during an XSSI &lt;strong&gt;victim’s code is included in a malicious page&lt;/strong&gt;. On the surface XSSI and CSRF look similar, because in both a request is sent from a malicious page to a different domain and in both cases the request is executed in the context of the logged in user. The key difference is the goal. In a CSRF, the attacker wants to execute state-changing actions inside a victim’s page, like transferring money in an online banking application. &lt;strong&gt;&lt;em&gt;In an XSSI the attacker wants to leak data cross-origin&lt;/em&gt;&lt;/strong&gt;, in order to then execute one of the aforementioned attacks.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;More ref at &lt;a href=&quot;https://www.scip.ch/en/?labs.20160414&quot;&gt;https://www.scip.ch/en/?labs.20160414&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Generally devs use JSONP (see below) to bypass SOP and include resources from esternal sites.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;What is JSONP? or JSON with Padding&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;JSONP is a method for sending JSON data &lt;strong&gt;&lt;em&gt;without worrying about cross-domain issues&lt;/em&gt;&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;JSONP does not use the XMLHttpRequest object.&lt;/li&gt;
-  &lt;li&gt;JSONP uses the &lt;script&gt; tag instead&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;THE &lt;strong&gt;SOP&lt;/strong&gt; IS NOT WORKING HERE&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Server Example:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;?php
-$myJSON = '{ &quot;name&quot;:&quot;John&quot;, &quot;age&quot;:30, &quot;city&quot;:&quot;New York&quot; }';
-
-echo &quot;myFunc(&quot;.$myJSON.&quot;);&quot;;
-?&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This will return: myFunc({ “name”:”John”, “age”:30, “city”:”New York” });&lt;/p&gt;
-
-&lt;p&gt;This could be included in a dynamically created &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; tag:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function clickButton() {
-    var s = document.createElement(&quot;script&quot;);
-    s.src = &quot;demo_jsonp.php&quot;;
-    document.body.appendChild(s);
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;And, having a function called myFunc already defined client-side, this will execute the server instruction in the client browser.&lt;/p&gt;
-
-&lt;h1 id=&quot;so-what-is-xssi&quot;&gt;So what is XSSI&lt;/h1&gt;
-
-&lt;p&gt;So site A includes a script pointing to &lt;a href=&quot;http://b/userdata.js&quot;&gt;http://B/userdata.js&lt;/a&gt; which is something like:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;displayMySecretData({&quot;secret&quot;:&quot;this is very secret&quot;, ...})
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;So A defines a function called displayMySecretData, and when the included script from server B runs, it calls that function and displays the secret data to the user.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Now evil server E comes along. It sees that A is including data from B using JSONP. So server E includes the same script, but defines its own displayMySecretData which instead steals the data. The attacker then tricks the user into visiting his site. When the user goes there and he is logged in to B, the browser automatically sends the authentication cookies for B along with the request to fecth the script from B. B sees an authenticated user, and thus returns the script as expected. E gets the data, and presto…&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-exploit-xssi-&quot;&gt;How to exploit XSSI ?&lt;/h2&gt;
-
-&lt;p&gt;Often scripts included can contains sensitive information in the global variables, allowing an attacker to potentially read all the secret data.&lt;/p&gt;
-
-&lt;p&gt;Some scripts (when requested with cookie, and so the user is authenticated) reply with a different code than when a user make the same request without cookie aside (un-authenticated).&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Dynamic-Authenticated-Javascript-based-XSSI&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.owasp.org/images/9/9a/20160607-xssi-the_tale_of_a_fameless_but_widepsread_vulnerability-Veit_Hailperin.pdf&quot;&gt;https://www.owasp.org/images/9/9a/20160607-xssi-the_tale_of_a_fameless_but_widepsread_vulnerability-Veit_Hailperin.pdf&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://bestrockers.ddns.net/res/XSSI.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Reading variables&lt;/li&gt;
-  &lt;li&gt;Overriding functions
-    &lt;ol&gt;
-      &lt;li&gt;If sensitive content is directly put into the web page global variables, one method to retrieve that data is simply to ask for it.&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Example:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;`&amp;lt;script src=&quot;[https://www.vulnerable-domain.tld/script.js](https://www.vulnerable-domain.tld/script.js)&quot;&amp;gt;&amp;lt;/script&amp;gt;`
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;has a variable like:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;keys = [ domain: 'live.com', apiKey: 'dsd2kgijland3io1', privkey:' *rsa key*',  ... ]&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Then an attacker could just inject an&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;`alert(JSON.stringify(keys))`
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;to retrieve all the secrets.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Override a function which could display user data using JSONP callback.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;where-is-the-vulnerability&quot;&gt;&lt;strong&gt;WHERE IS THE VULNERABILITY?&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;p&gt;If the attacker can OVERRIDE a javascript function then he can read all the data returned by an external source (possibly with authenticated content)!!&lt;/p&gt;
-
-&lt;p&gt;So for example if Angular JS does have a function like this which handle sensitive information:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;`angular.callbacks._7({&quot;status&quot;:STATUS,&quot;body&quot;:{&quot;demographics&quot;:{&quot;email&quot;:......}}})`
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;then an attacker could inject:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-&amp;lt;script&amp;gt;&quot;&gt;          var angular = function () { return 1; };
-          angular.callbacks = function () { return 1; };      
-          angular.callbacks._7 = function (leaked) {
-    			  alert(JSON.stringify(leaked));
-          };  
-    &amp;lt;/script&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Before the inclusion of the external script.&lt;/p&gt;
-
-&lt;p&gt;We could suppose the server is dynamically generating javascript code. How does he know which function to use? We could suppose this is passeb by GET requests?&lt;/p&gt;
-
-&lt;p&gt;For example if the function needed is myFunc then the script will be:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;`&amp;lt;script src=&quot;https://site.tld/p?jsonp=myFunc&quot; type=&quot;text/javascript&quot;&amp;gt;&amp;lt;/script&amp;gt;`
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The function myFunc will be used as callback as soon as data is returned.&lt;/p&gt;
-
-&lt;p&gt;What if an attacker can change the requesting callback and then writes his own in the victim browser? like this?&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;```
-&amp;lt;script&amp;gt;
-      leak = function (leaked) {
-			  alert(JSON.stringify(leaked));
-      };  
-&amp;lt;/script&amp;gt;
-&amp;lt;script src=&quot;https://site.tld/p?jsonp=leak&quot; type=&quot;text/javascript&quot;&amp;gt;&amp;lt;/script&amp;gt;
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;protection-from-xssi&quot;&gt;PROTECTION FROM XSSI&lt;/h2&gt;
-
-&lt;p&gt;Never put sensitive content on Javascript and JSONP.&lt;/p&gt;
-
-&lt;p&gt;Instruct the browser not to guess the &lt;code class=&quot;highlighter-rouge&quot;&gt;Content-Type&lt;/code&gt; with:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;X-Content-Type-Options: nosniff
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;A correct Content-Type is also helpful in reducing the chance of XSSI.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 23 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/notes/xssi-and-xss/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/xssi-and-xss/</guid>
         
         
         <category>notes</category>
