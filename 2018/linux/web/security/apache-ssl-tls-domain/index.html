@@ -393,17 +393,17 @@ window.addEventListener("load", function(){
 
 <p>In <em>/etc/apache2/sites-available/</em> copy the default one into <em>example.com.conf</em></p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/example.com.conf</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">cp</span> /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/example.com.conf</code></pre></figure>
 
 <p>Now open example.com.conf and add "ServerName example.com" under "DocumentRoot ... "</p>
 
 <p>Make sure ssl is enabled in Apache with:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>a2enmod ssl</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>a2enmod ssl</code></pre></figure>
 
 <p>Now restart <em>apache2</em>:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>systemctl restart apache2</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>systemctl restart apache2</code></pre></figure>
 
 <p>You can go to <em>http://example.com</em> to check if it’s working. You should see the standart Apache2 Ubuntu Default Page.</p>
 
@@ -413,22 +413,22 @@ window.addEventListener("load", function(){
 
 <p>For Ubuntu the commands needed are:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo apt-get update
-<span class="gp">$ </span>sudo apt-get install software-properties-common
-<span class="gp">$ </span>sudo add-apt-repository ppa:certbot/certbot
-<span class="gp">$ </span>sudo apt-get update
-<span class="gp">$ </span>sudo apt-get install python-certbot-apache</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>apt-get update
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>software-properties-common
+<span class="nv">$ </span><span class="nb">sudo </span>add-apt-repository ppa:certbot/certbot
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get update
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>python-certbot-apache</code></pre></figure>
 
 <h3><strong>Certificate Generation (RSA 4096bit)</strong></h3>
 
 <p>If you want a simple RSA certificate without further security options go straight with:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>certbot run -d example.com --apache --rsa-key-size 4096 --redirect</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>certbot run <span class="nt">-d</span> example.com <span class="nt">--apache</span> <span class="nt">--rsa-key-size</span> 4096 <span class="nt">--redirect</span></code></pre></figure>
 
 <p>If you want also <strong><a href="https://en.wikipedia.org/wiki/OCSP_stapling">OCSP Stapling</a></strong> then go with this command:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>certbot run -d example.com --apache --rsa-key-size 4096 --redirect
-                    --must-staple --uir --staple-ocsp</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>certbot run <span class="nt">-d</span> example.com <span class="nt">--apache</span> <span class="nt">--rsa-key-size</span> 4096 <span class="nt">--redirect</span>
+                    <span class="nt">--must-staple</span> <span class="nt">--uir</span> <span class="nt">--staple-ocsp</span></code></pre></figure>
 
 <p>The –redirect will automatically configure apache to redirect users from HTTP to HTTPS. At the end, certbot has created and acrivated a new virtual host for the https domain called <strong>example.com-le-sll.conf</strong></p>
 
@@ -465,6 +465,44 @@ window.addEventListener("load", function(){
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
 
     
     

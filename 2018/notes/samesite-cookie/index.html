@@ -382,9 +382,8 @@ window.addEventListener("load", function(){
 
 <h2 id="short-review-of-meta-http-equiv">Short review of <strong><code class="highlighter-rouge">meta http-equiv</code></strong></h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;meta http-equiv="&lt;&gt;" content="&lt;&gt;"&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;meta http-equiv="&lt;&gt;" content="&lt;&gt;"&gt;
+</code></pre></div></div>
 
 <p>The http-equiv attribute provides an <strong>HTTP heade</strong>r for the information/value of the <a href="https://www.w3schools.com/tags/att_meta_content.asp">content</a> attribute.</p>
 
@@ -392,15 +391,13 @@ window.addEventListener("load", function(){
 
 <p>So, basically, using a HTML directive like:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;meta http-equiv="set-cookie" content="id=12345; SameSite=Strict"&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;meta http-equiv="set-cookie" content="id=12345; SameSite=Strict"&gt;
+</code></pre></div></div>
 
 <p>is equivalent to:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Set-Cookie: id=12345; SameSite=Strict;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: id=12345; SameSite=Strict;
+</code></pre></div></div>
 
 <p>sent by the server.</p>
 
@@ -441,10 +438,9 @@ window.addEventListener("load", function(){
 
 <p>HTTP Headers:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Set-Cookie: CookieName=CookieValue; SameSite=Lax;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: CookieName=CookieValue; SameSite=Lax;
 Set-Cookie: CookieName=CookieValue; SameSite=Strict;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Let’s make some examples:</p>
 
@@ -476,7 +472,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 
 <p>From <a href="https://tools.ietf.org/html/draft-west-first-party-cookies-07#section-1.1">https://tools.ietf.org/html/draft-west-first-party-cookies-07#section-1.1</a></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>		Setting the "SameSite" attribute in "strict" mode provides robust
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		Setting the "SameSite" attribute in "strict" mode provides robust
    defense in depth against CSRF attacks, but has the potential to
    confuse users unless sites' developers carefully ensure that their
    session management systems deal reasonably well with top-level
@@ -498,8 +494,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
    The former could drop the "SameSite" attribute entirely, or choose
    the "Lax" version of enforcement, in order to allow users access to
    data via top-level navigation.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Differences between XSSI and XSS? Read <a href="/notes/2018/04/23/xssi-and-xss.html">here</a></p>
 </div>
@@ -528,6 +523,28 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
 
     
     

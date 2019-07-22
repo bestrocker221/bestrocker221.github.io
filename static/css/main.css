@@ -428,3 +428,27 @@ code {
     word-wrap: break-word;  
     font-weight: bold;
 }
+
+
+figcaption {
+    font-family: serif;
+    font-style: oblique;
+    /*font-size: small;*/
+    display: block;
+    width: 75%;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 12px;
+}
+
+.read-time-txt {
+
+}
+
+.read-time-val {
+    font-style: italic;
+}
+.read-time-date {
+
+}

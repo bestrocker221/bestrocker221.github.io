@@ -385,9 +385,8 @@ window.addEventListener("load", function(){
 
 <p>This is done with:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ ssh -D 127.0.0.1:12345 -l &lt;remoteuser&gt; -p &lt;remoteSSHServerport&gt; serveruser@domain
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -D 127.0.0.1:12345 -l &lt;remoteuser&gt; -p &lt;remoteSSHServerport&gt; serveruser@domain
+</code></pre></div></div>
 <p>Where:</p>
 <ul>
   <li><code class="highlighter-rouge">-D</code> tells ssh to create a local SOCKS PROXY</li>
@@ -405,9 +404,8 @@ window.addEventListener("load", function(){
 </ol>
 
 <p>From the dropbox (assume ssh certificate is already copied):</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>$ ssh -N -R 2222:localhost:22 serveruser@serverdomain
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -N -R 2222:localhost:22 serveruser@serverdomain
+</code></pre></div></div>
 <p>Where:</p>
 <ul>
   <li><code class="highlighter-rouge">-N</code> tells ssh that there will be no commands sent</li>
@@ -416,9 +414,8 @@ window.addEventListener("load", function(){
 
 <p>From the server:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ ssh -D 127.0.0.1:12345 -l &lt;dropboxuser&gt; -p 2222 localhost
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -D 127.0.0.1:12345 -l &lt;dropboxuser&gt; -p 2222 localhost
+</code></pre></div></div>
 
 <p>Now you can set the proxy on your browser (for example) and packets will be routed to the dropbox.</p>
 
@@ -449,6 +446,36 @@ window.addEventListener("load", function(){
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
 
     
     

@@ -417,7 +417,7 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <p>First of all you need a MySQL Database running, then you have to create the tables needed for FreeRADIUS.</p>
 
 <p>Here is the FreeRADIUS SQL schema:</p>
-<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="o">#</span>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span>
 <span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radacct'</span>
 <span class="o">#</span>
 
@@ -554,19 +554,17 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
   <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="n">nasname</span> <span class="p">(</span><span class="n">nasname</span><span class="p">)</span>
 <span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To execute just run:</p>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>mysql -u root -prootpass radius &lt; schema.sql
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> root <span class="nt">-prootpass</span> radius &lt; schema.sql
+</code></pre></div></div>
 <p>assuming you already created the <code class="highlighter-rouge">radius</code> database.</p>
 
 <p>And then we are going to create a user “radius” with the right privileges.</p>
 
 <p>Here we create the user <strong><em>radius</em></strong> with password <strong><em>donotuseme</em></strong> (if you want to restrict connections from a specific IP address only, you specify the IP instead of <strong>*</strong>):</p>
-<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="o">#</span>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span>
 <span class="o">#</span>  <span class="k">Create</span> <span class="k">default</span> <span class="n">administrator</span> <span class="k">for</span> <span class="n">RADIUS</span>
 <span class="o">#</span>
 <span class="k">CREATE</span> <span class="k">USER</span> <span class="s1">'radius'</span><span class="o">@</span><span class="s1">'*'</span><span class="p">;</span>
@@ -589,8 +587,7 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span>
 <span class="k">INSERT</span> <span class="k">into</span> <span class="n">radius</span><span class="p">.</span><span class="n">radcheck</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="n">attribute</span><span class="p">,</span><span class="n">op</span><span class="p">,</span><span class="n">value</span><span class="p">)</span> <span class="k">values</span><span class="p">(</span><span class="nv">"test@acme.com"</span><span class="p">,</span> <span class="nv">"SSHA2-256-Password"</span><span class="p">,</span> <span class="nv">":="</span><span class="p">,</span> <span class="nv">"ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKxUSiAsFzYWx0c2FsdHNhbHQ="</span><span class="p">);</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>In the second part of the SQL code we are going to insert a valid RADIUS user credential for a valid REALM (<em>@acme.com</em> we will get to this later) and generate a <strong>SHA256 salted password</strong> compatible with FreeRADIUS.</p>
 
 <p>To do so I created a Python script <strong><a href="https://gist.github.com/bestrocker221/f506eee8ccadc60cab71d5f633b7cc07">here</a></strong>. Just change “test” to the password you want to hash, and use a random salt. (I set the salt size limit to 12 charaters)</p>
@@ -603,7 +600,7 @@ and we are going to save it as <strong>SSHA2-256-Password</strong> in the databa
 <p>Now we are setting up MySQL to encrypt each communication with TLS 1.2 and rejecting every cleartext connection.</p>
 
 <p>This is my <code class="highlighter-rouge">/etc/my.cnf</code>:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code># This group is read both both by the client and the server
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># This group is read both both by the client and the server
 # use it for options that affect everything
 [client-server]
 
@@ -635,8 +632,7 @@ default_authentication_plugin=mysql_native_password
 [client]
 ssl-cipher=TLSv1.2
 ssl-ca=/mysql-certs/ca.crt
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Off course make sure to copy your certificates under <code class="highlighter-rouge">/mysql-certs</code>.</p>
 
@@ -646,9 +642,8 @@ ssl-ca=/mysql-certs/ca.crt
 
 <h2 id="freeradius-3-configuration"><strong>FreeRadius 3 configuration</strong></h2>
 <p>First install the FreeRADIUS packages required: (alpine linux)</p>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>apk add freeradius openssl freeradius-mysql freeradius-eap
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apk add freeradius openssl freeradius-mysql freeradius-eap
+</code></pre></div></div>
 
 <p>then the files we are going to modify are:</p>
 <ul>
@@ -670,12 +665,11 @@ ssl-ca=/mysql-certs/ca.crt
 <ul>
   <li><code class="highlighter-rouge">RADIUS_SECRET</code> is a shared password that will be set also on the router.</li>
   <li><code class="highlighter-rouge">ipaddr</code> is the IP subnet of the router.
-    <div class="highlighter-rouge"><pre class="highlight"><code>client router_nas {
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>client router_nas {
       ipaddr = 192.168.10.0/24
       secret = RADIUS_SECRET
 }
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -684,30 +678,26 @@ ssl-ca=/mysql-certs/ca.crt
 
 <p>Uncomment these lines</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>eap {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap {
                ok = return
                updated = return
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>and</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sql
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql
+</code></pre></div></div>
 
 <p>Under <code class="highlighter-rouge">authenticate {}</code> section make sure to uncomment:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>eap
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap
+</code></pre></div></div>
 
 <p>Under the <code class="highlighter-rouge">accounting {}</code> section uncomment the sql line:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sql
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql
+</code></pre></div></div>
 
 <p>Under the <code class="highlighter-rouge">session {}</code> uncomment the <code class="highlighter-rouge">sql</code> line.</p>
 
@@ -729,7 +719,7 @@ ssl-ca=/mysql-certs/ca.crt
 <h3 id="etcraddbmods-availablesql"><strong>/etc/raddb/mods-available/sql</strong></h3>
 <p>This is the configuration file for the SQL module.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sql {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql {
         
         driver = "rlm_sql_mysql"
 
@@ -824,18 +814,16 @@ ssl-ca=/mysql-certs/ca.crt
         # Read database-specific queries
         $INCLUDE ${modconfdir}/${.:name}/main/${dialect}/queries.conf
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To <strong>enable the SQL module</strong> make sure <code class="highlighter-rouge">/etc/raddb/mods-enabled/sql</code> is existing, otherwise:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ln -s /etc/raddb/mods-available/sql /etc/raddb/mods-enabled/sql
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ln</span> <span class="nt">-s</span> /etc/raddb/mods-available/sql /etc/raddb/mods-enabled/sql
+</code></pre></div></div>
 <h3 id="etcraddbmods-availableeap"><strong>/etc/raddb/mods-available/eap</strong></h3>
 <p>Among the other options, the ones that need to be changed are:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>eap {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap {
     ...
 
     default_eap_type = ttls
@@ -872,16 +860,14 @@ ssl-ca=/mysql-certs/ca.crt
     }
 
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Off course copy the respective certificates to <code class="highlighter-rouge">/etc/raddb/</code></p>
 
 <p>To <strong>enable the EAP module</strong> make sure <code class="highlighter-rouge">/etc/raddb/mods-enabled/eap</code> is existing, otherwise:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ln -s /etc/raddb/mods-available/eap /etc/raddb/mods-enabled/eap
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ln</span> <span class="nt">-s</span> /etc/raddb/mods-available/eap /etc/raddb/mods-enabled/eap
+</code></pre></div></div>
 
 <p><strong>NOTE</strong> Assuming you have the current latest OPENSSL version installed. If FreeRADIUS is giving some security error related to openssl you need to add <code class="highlighter-rouge">allow_vulnerable_openssl = "CVE-2016-6309"</code> to the <code class="highlighter-rouge">/etc/raddb/radiusd.conf</code> under the <code class="highlighter-rouge">security {}</code> section.</p>
 
@@ -890,15 +876,13 @@ ssl-ca=/mysql-certs/ca.crt
 <h2 id="testing"><strong>Testing</strong></h2>
 <p>You can run FreeRADIUS in debug mode and start to test it.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>radiusd -X
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>radiusd <span class="nt">-X</span>
+</code></pre></div></div>
 
 <p>You can test the basic PAP authentication (without EAP-TTLS) with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>radtest <span class="nb">test</span>@acme.com <span class="nb">test </span>192.168.5.12 0 testing123 -x
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>radtest <span class="nb">test</span>@acme.com <span class="nb">test </span>192.168.5.12 0 testing123 <span class="nt">-x</span>
+</code></pre></div></div>
 
 <p>Assuming:</p>
 <ul>
@@ -913,7 +897,7 @@ ssl-ca=/mysql-certs/ca.crt
 <p><strong>wpa-supplicant</strong> is supplying the <strong><em>eapol_test</em></strong> program to test RADIUS EAP.</p>
 
 <p>Create a file, <code class="highlighter-rouge">eapol-tls.conf</code> for example:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>network={
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>network={
      ssid="SSID_OF_THE_WIFI_NETWORK"
      key_mgmt=WPA-EAP
      eap=TTLS
@@ -924,14 +908,12 @@ ssl-ca=/mysql-certs/ca.crt
 
      eapol_flags=3
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And run it with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>eapol_test -a192.168.5.12 -p1812 -stest -ceapol-tls.conf -r0 -stesting123
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>eapol_test <span class="nt">-a192</span>.168.5.12 <span class="nt">-p1812</span> <span class="nt">-stest</span> <span class="nt">-ceapol-tls</span>.conf <span class="nt">-r0</span> <span class="nt">-stesting123</span>
+</code></pre></div></div>
 
 <p>Where for example:</p>
 <ul>
@@ -993,6 +975,64 @@ ssl-ca=/mysql-certs/ca.crt
                 <div class="panel-body">
                 <h4>Related Posts</h4>
                 <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/">Network Function Virtualization, Middleboxes and Cloud Load Balancing</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/sdn">sdn</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/">An introduction to Software Defined Networking</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/sdn">sdn</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
                 
                 <li class="relatedPost">
                     <a href="https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/">SDN & NFV with POX and Click Modular Router</a>
@@ -1164,16 +1204,6 @@ ssl-ca=/mysql-certs/ca.crt
             
         
             
-                
-                <li class="relatedPost">
-                    <a href="https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/">TOR SSH Remote Reverse Tunnel - Raspberry Pi</a>
-                    
-                        <small>(Categories: <a href="/linux">linux</a>, <a href="/security">security</a>)</small>
-                    
-                </li>
-                
-                
-            
         
     
         
@@ -1190,16 +1220,6 @@ ssl-ca=/mysql-certs/ca.crt
         
             
         
-            
-                
-                <li class="relatedPost">
-                    <a href="https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/">SOCKS PROXY on Reverse SSH tunnel</a>
-                    
-                        <small>(Categories: <a href="/security">security</a>, <a href="/linux">linux</a>)</small>
-                    
-                </li>
-                
-                
             
         
             

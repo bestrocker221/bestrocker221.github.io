@@ -390,25 +390,23 @@ window.addEventListener("load", function(){
 
 <p>Server Example:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;?php
-$myJSON = '{ "name":"John", "age":30, "city":"New York" }';
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="nv">$myJSON</span> <span class="o">=</span> <span class="s1">'{ "name":"John", "age":30, "city":"New York" }'</span><span class="p">;</span>
 
-echo "myFunc(".$myJSON.");";
-?&gt;
-</code></pre>
-</div>
+<span class="k">echo</span> <span class="s2">"myFunc("</span><span class="o">.</span><span class="nv">$myJSON</span><span class="o">.</span><span class="s2">");"</span><span class="p">;</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
 
 <p>This will return: myFunc({ “name”:”John”, “age”:30, “city”:”New York” });</p>
 
 <p>This could be included in a dynamically created <code class="highlighter-rouge">script</code> tag:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>function clickButton() {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function clickButton() {
     var s = document.createElement("script");
     s.src = "demo_jsonp.php";
     document.body.appendChild(s);
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And, having a function called myFunc already defined client-side, this will execute the server instruction in the client browser.</p>
 
@@ -416,9 +414,8 @@ echo "myFunc(".$myJSON.");";
 
 <p>So site A includes a script pointing to <a href="http://b/userdata.js">http://B/userdata.js</a> which is something like:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>displayMySecretData({"secret":"this is very secret", ...})
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>displayMySecretData({"secret":"this is very secret", ...})
+</code></pre></div></div>
 
 <p>So A defines a function called displayMySecretData, and when the included script from server B runs, it calls that function and displays the secret data to the user.</p>
 
@@ -447,9 +444,8 @@ echo "myFunc(".$myJSON.");";
 
 <p>Example:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>`&lt;script src="[https://www.vulnerable-domain.tld/script.js](https://www.vulnerable-domain.tld/script.js)"&gt;&lt;/script&gt;`
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`&lt;script src="[https://www.vulnerable-domain.tld/script.js](https://www.vulnerable-domain.tld/script.js)"&gt;&lt;/script&gt;`
+</code></pre></div></div>
 
 <p>has a variable like:</p>
 
@@ -457,9 +453,8 @@ echo "myFunc(".$myJSON.");";
 
 <p>Then an attacker could just inject an</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>`alert(JSON.stringify(keys))`
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`alert(JSON.stringify(keys))`
+</code></pre></div></div>
 
 <p>to retrieve all the secrets.</p>
 
@@ -473,9 +468,8 @@ echo "myFunc(".$myJSON.");";
 
 <p>So for example if Angular JS does have a function like this which handle sensitive information:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>`angular.callbacks._7({"status":STATUS,"body":{"demographics":{"email":......}}})`
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`angular.callbacks._7({"status":STATUS,"body":{"demographics":{"email":......}}})`
+</code></pre></div></div>
 
 <p>then an attacker could inject:</p>
 
@@ -493,15 +487,14 @@ echo "myFunc(".$myJSON.");";
 
 <p>For example if the function needed is myFunc then the script will be:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>`&lt;script src="https://site.tld/p?jsonp=myFunc" type="text/javascript"&gt;&lt;/script&gt;`
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`&lt;script src="https://site.tld/p?jsonp=myFunc" type="text/javascript"&gt;&lt;/script&gt;`
+</code></pre></div></div>
 
 <p>The function myFunc will be used as callback as soon as data is returned.</p>
 
 <p>What if an attacker can change the requesting callback and then writes his own in the victim browser? like this?</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```
 &lt;script&gt;
       leak = function (leaked) {
 			  alert(JSON.stringify(leaked));
@@ -509,8 +502,7 @@ echo "myFunc(".$myJSON.");";
 &lt;/script&gt;
 &lt;script src="https://site.tld/p?jsonp=leak" type="text/javascript"&gt;&lt;/script&gt;
 ```
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="protection-from-xssi">PROTECTION FROM XSSI</h2>
 
@@ -518,9 +510,8 @@ echo "myFunc(".$myJSON.");";
 
 <p>Instruct the browser not to guess the <code class="highlighter-rouge">Content-Type</code> with:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>X-Content-Type-Options: nosniff
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-Content-Type-Options: nosniff
+</code></pre></div></div>
 
 <p>A correct Content-Type is also helpful in reducing the chance of XSSI.</p>
 
@@ -551,6 +542,28 @@ echo "myFunc(".$myJSON.");";
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
 
     
     

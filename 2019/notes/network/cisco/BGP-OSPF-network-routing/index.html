@@ -490,9 +490,8 @@ window.addEventListener("load", function(){
 <p>Let’s assume each router has its interfaces already configured with the IP addresses shown in the Figure 1.</p>
 
 <p>Firstly for each router we set up the <code class="highlighter-rouge">router-id</code> correspondent to the router loopback address with: (RTA’s OSPF mode example)</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>router-id 10.5.4.1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router-id 10.5.4.1
+</code></pre></div></div>
 
 <p>In <strong>RTA</strong>’s OSPF setting, we will use “<em>default-information originate always metric 20</em>” to distribute default route to RTC and RTD. This default route points to RTA. RTB will not apply this default route since it is also a border router.</p>
 
@@ -509,15 +508,14 @@ window.addEventListener("load", function(){
 <p>If the primary link is down, <strong>RTC</strong> and <strong>RTD</strong> will send the packets outside only through <strong>RTB</strong>. <strong>RTB</strong> will then forward the packets to the outside using the private link. If RTA is down, <strong>RTC</strong> and <strong>RTD</strong> will choose <strong>RTB</strong> as default route destination.</p>
 
 <h3 id="rta-ospf-configuration">RTA OSPF Configuration</h3>
-<div class="highlighter-rouge"><pre class="highlight"><code>router ospf 1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router ospf 1
     router-id 10.5.4.1
     network 10.5.1.0 0.0.0.3 area 0
     network 10.5.0.0 0.0.0.3 area 0
     network 10.5.4.1 0.0.0.0 area 0
     default-information originate always metric 20
     exit
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <blockquote>
   <p>[for newcomers]
@@ -533,21 +531,18 @@ window.addEventListener("load", function(){
 <p>Other routers OSPF configurations are at the end of the article.</p>
 <h2 id="bgp-configuration"><strong>BGP configuration</strong></h2>
 <p>Firstly for each router we set up the <code class="highlighter-rouge">router-id</code> correspondent to the router loopback address with:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>bgp router-id 10.5.4.1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bgp router-id 10.5.4.1
+</code></pre></div></div>
 
 <p>In <strong>RTA</strong>’s BGP setting, we aggregate the addresses to 10.5.0.0/20 (since our network is using this segment we don’t want to advertise multiple useless routes, just the main one is necessary to reach AS13). We also redistribute our OSPF route in BGP (or we could add RTA’s nearby network 10.5.0.0/30 and 10.5.1.0/30). 
 This is done with: (RTA)</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>aggregate-address 10.5.0.0 255.255.240.0 summary-only
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aggregate-address 10.5.0.0 255.255.240.0 summary-only
+</code></pre></div></div>
 
 <p>In <strong>RTA</strong>’s routing table, we also add a static route to <strong>RTB</strong>’s Loopback address for network 10.5.5.0/30. Since we use aggregate-address in RTA’s BGP setting, it will include 10.5.5.0/30. Actually RTA does not know where <strong>RTB</strong>’s Loopback is at all. RTB will not advertise that network to OSPF or BGP.
 This is done with: (RTA)</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>ip route 10.5.5.0 255.255.255.252 10.5.4.2
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip route 10.5.5.0 255.255.255.252 10.5.4.2
+</code></pre></div></div>
 
 <p>In addition, we are also using Loopback of RTA and RTB to establish the BGP TCP connections. This avoids failed interfaces and links with the help of OSPF routing.</p>
 
@@ -557,31 +552,27 @@ This is done with: (RTA)</p>
 <p>In RTA we will set up AS2 as <strong>E-BGP</strong> peer and RTB as <strong>I-BGP</strong> peer.</p>
 
 <p>We set up the neighboring to the destination IP as:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.0.32.1 remote-as 2
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.0.32.1 remote-as 2
 neighbor 10.5.4.2 remote-as 13
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Next we set up the <strong>next-hop-self</strong> bgp attribute.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.5.4.2 next-hop-self
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.4.2 next-hop-self
+</code></pre></div></div>
 <p>When a new route from an e-bgp peer is learned from RTA, the internal peer (RTB) will learn the prefix through i-bgp. If RTB does not have a route towards that IP, RTB will not be able to forward packets.
 The <strong>next-hop-self</strong> BGP attribute allow the internal bgp peer (RTB) to set the RTA address as ‘<em>next-hop</em>’ for routes learned from i-bgp. This way RTB will forward packets to RTA, and than it is RTA responsibility to forward out those packets.</p>
 
 <p>BGP gives us an option to change the source of packets sent. In this case we can use Loopback interface as source of BGP packets sent between these neighbors. This way if one of the paths fails, the other will be used. Moreover by using loopback interface as update source, the benefit is that the BGP session won’t go down when physical interface goes down.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.5.4.2 update-source loopback 1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.4.2 update-source loopback 1
+</code></pre></div></div>
 
 <p>Finally to redistribute OSPF routes into BGP:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>redistribute ospf 1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redistribute ospf 1
+</code></pre></div></div>
 
 <h3 id="complete-bgp-configuration-of-router-rta">Complete BGP configuration of Router RTA</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>router bgp 13
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router bgp 13
     bgp router-id 10.5.4.1
     aggregate-address 10.5.0.0 255.255.240.0 summary-only
     redistribute ospf 1
@@ -593,8 +584,7 @@ The <strong>next-hop-self</strong> BGP attribute allow the internal bgp peer (RT
     no auto-summary
     no synchronization
     exit
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="fault-tolerant-ip-routing"><strong>Fault-tolerant IP routing</strong></h2>
 <h3 id="from-as13-to-the-internet">From AS13 To the Internet</h3>
@@ -608,49 +598,43 @@ The <strong>next-hop-self</strong> BGP attribute allow the internal bgp peer (RT
 
 <h3 id="how-to-setup-primary-and-secondary-link">How to setup primary and secondary link</h3>
 <p>To set default route to RTA, and back up route to RTB for outgoing connections to outside we first create a <code class="highlighter-rouge">route-map</code> for <strong>incoming</strong> routes in BGP config mode: (RTA)</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
 exit
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>“PREF_FROM_AS2” is the name of the route-map.
 It means “all the routes coming (<strong>in</strong>) from AS2”.</p>
 
 <p>then we define the route-map this way: (RTA)</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>route-map PREF_FROM_AS2 permit 20
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route-map PREF_FROM_AS2 permit 20
 set local-preference 300
 exit
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>While in RTB the local preference is lower:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>neighbor 10.5.5.1 route-map PREF_FROM_AS14 in  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.5.1 route-map PREF_FROM_AS14 in  
 exit
-</code></pre>
-</div>
-<div class="highlighter-rouge"><pre class="highlight"><code>route-map PREF_FROM_AS14 permit 10
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route-map PREF_FROM_AS14 permit 10
 set local-preference 200
 exit
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="multicast-routing"><strong>Multicast Routing</strong></h2>
 <p>RTC’s loopback1 will act as PIM <em>Rendezvous Point</em> <strong>RP</strong>. In addition, we will not enable PIM on RTA and RTB’s fa1/1 interfaces 
 avoiding multicast protocol to affect other AS.</p>
 
 <p>To set up PIM on an interface:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>ip pim sparse-mode
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip pim sparse-mode
+</code></pre></div></div>
 <p>To set the RP:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>ip pim rp-address 10.5.4.3
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip pim rp-address 10.5.4.3
+</code></pre></div></div>
 
 <p>We set up the PIM RP close to the server network, since the servers usually mostly provide the multicast services.</p>
 
 <h3 id="complete-rta-router-configuration"><strong>Complete RTA router configuration</strong></h3>
 <p>This config is ready to be copy-pasted in the router config mode.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>conf t
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conf t
 hostname RTA
 ip multicast-routing 
 
@@ -704,12 +688,11 @@ no synchronization
 exit
 
 ip route 10.5.5.0 255.255.255.252 10.5.4.2
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="complete-rtb-router-configuration"><strong>Complete RTB router configuration</strong></h3>
 <p>This config is ready to be copy-pasted in the router config mode.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>conf t
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conf t
 hostname RTB
 ip multicast-routing 
 
@@ -759,8 +742,7 @@ aggregate-address 10.5.0.0 255.255.240.0 summary-only
 no auto-summary
 no synchronization
 exit
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the second part of this guide we will see how to set up a redundant, fault tolerant, always available link for the client and server networks. We will setup <a href="https://www.cisco.com/c/en/us/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.html"><em>Hot Standby Router Protocol</em> or  <strong>HSRP</strong></a> in both <strong>RTD</strong> and <strong>RTC</strong> towards the client and server networks.</p>
 
@@ -804,6 +786,64 @@ exit
                 <div class="panel-body">
                 <h4>Related Posts</h4>
                 <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/">Network Function Virtualization, Middleboxes and Cloud Load Balancing</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/sdn">sdn</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/">An introduction to Software Defined Networking</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/sdn">sdn</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
                 
                 <li class="relatedPost">
                     <a href="https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/">SDN & NFV with POX and Click Modular Router</a>
@@ -1018,16 +1058,6 @@ exit
     
         
             
-                
-                <li class="relatedPost">
-                    <a href="https://carloalbertoscola.it//2018/notes/http-header-security/">HTTP Headers security</a>
-                    
-                        <small>(Categories: <a href="/notes">notes</a>)</small>
-                    
-                </li>
-                
-                
-            
         
             
         
@@ -1038,16 +1068,6 @@ exit
     
     
         
-            
-                
-                <li class="relatedPost">
-                    <a href="https://carloalbertoscola.it//2018/notes/sop-xss-introduction/">SOP and XSS introduction</a>
-                    
-                        <small>(Categories: <a href="/notes">notes</a>)</small>
-                    
-                </li>
-                
-                
             
         
             

@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msvalidate.01" content="2968909B8A7C9E7281129471CA8D69D9" />
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/icons/network.png" />
+        <title>An introduction to Software Defined Networking - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="An introduction to Software Defined Networking" />
+        <meta name="keywords" content="An introduction to Software Defined Networking, Carlo Alberto Scola, network, sdn" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="An introduction to Software Defined Networking" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="A walk-through from the beginning of SDN networks and applications, towards testing, model checking, scaling and SDN applied to Internet Exchange Point. Research papers summary." property="og:description">
+        
+        
+          <meta content="https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/" property="og:url">
+        
+        
+          <meta content="2019-07-05T00:00:00+02:00" property="article:published_time">
+          <meta content="https://carloalbertoscola.it//about/" property="article:author">
+        
+        
+          <meta content="https://carloalbertoscola.it//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="network" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="An introduction to Software Defined Networking">
+        
+        
+          <meta name="twitter:url" content="https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/">
+        
+        
+          <meta name="twitter:description" content="A walk-through from the beginning of SDN networks and applications, towards testing, model checking, scaling and SDN applied to Internet Exchange Point. Research papers summary.">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
+              <link href="https://fonts.googleapis.com/css?family=Fira+Mono&display=swap" rel="stylesheet">
+
+        <!-- Custom Fonts 
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+-->
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto&display=swap" rel="stylesheet">
+
+      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+<script>
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/; domain=.carloalbertoscola.it";
+}
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; Path=/;domain=.carloalbertoscola.it; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function disableCookies(){
+  var cookies = ["_gat", "_gid", "_ga"];
+  cookies.forEach( function(element, index) {
+    // statements
+    console.log("deleting: " + element);
+    delete_cookie(element);
+    //setCookie("cookieconsent_status", "deny", 7);
+    //window.location.reload(true);
+  });
+}
+
+window.addEventListener("load", function(){
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": {
+        "background": "#000"
+      },
+      "button": {
+        "background": "#f1d600"
+      }
+    },
+    "theme": "classic",
+    "type": "opt-out",
+    "content": {
+      "message": "This website uses cookies just to get simple stats and help understand if the content of the website is viewed or not.\n",
+      "href": "https://carloalbertoscola.it/cookies"
+    },
+    onInitialise: function (status) {
+    //console.log("init");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+      }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      //disableCookies();
+      }
+    },
+   onStatusChange: function(status, chosenBefore) {
+    //console.log("change");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+    }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      disableCookies();
+      window.location.reload(true);
+    }
+    if(type == 'opt-out' && didConsent){
+      window.location.reload(true);
+    }
+  },
+  onRevokeChoice: function() {
+    //console.log("rev");
+    var type = this.options.type;
+    if (type == 'opt-in') {
+      // disable cookies
+      disableCookies();
+    }
+    if (type == 'opt-out') {
+      // enable cookies
+    }
+  }
+  })
+});
+</script>
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row headrow">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">MSc Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12 title-search-row">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-9 col-sm-12 col-xs-12 ">An introduction to Software Defined Networking</h2>
+            
+            <div class="col-md-3 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">05 Jul 2019</span>
+              
+              
+                <span class="categories">
+                  &raquo; categories:
+                  
+                    <a href="/network">network</a>
+                    , 
+                  
+                    <a href="/sdn">sdn</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item software-defined-networking-introduction"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  software-defined-networking-introduction"><a href="/static/Curriculum_Vitae_Carlo_Alberto_Scola-en.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 class="no_toc" id="the-new-way-to-do-networking-with-sdn"><strong><center>The "new" way to do networking with SDN</center></strong></h1>
+<h2 class="no_toc" id="sdn-applications-analysis-and-scaling-"><strong><center>SDN applications, analysis and scaling </center></strong></h2>
+<h3 class="no_toc" id="-research-papers-review-and-summary-"><center> Research papers review and summary </center></h3>
+<p>In <strong><a href="/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/">this post</a></strong> there is a practical step-by-step project with POX SDN, OpenFlow, Click and NFV.</p>
+
+<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
+<div id="inline_toc">
+<ul id="markdown-toc">
+  <li><a href="#the-arrival-of-sdn-and-openflow" id="markdown-toc-the-arrival-of-sdn-and-openflow"><strong>The arrival of SDN and OpenFlow</strong></a>    <ul>
+      <li><a href="#contributions" id="markdown-toc-contributions">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#how-to-implement-sdn" id="markdown-toc-how-to-implement-sdn"><strong>How to implement SDN?</strong></a>    <ul>
+      <li><a href="#contributions-1" id="markdown-toc-contributions-1">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#how-to-test-and-debug-sdn-applications" id="markdown-toc-how-to-test-and-debug-sdn-applications"><strong>How to test and debug SDN applications?</strong></a>    <ul>
+      <li><a href="#header-space-analysis" id="markdown-toc-header-space-analysis"><strong>Header Space Analysis</strong></a></li>
+      <li><a href="#contributions-2" id="markdown-toc-contributions-2">Contributions</a></li>
+      <li><a href="#a-nice-way-to-test-openflow-applications" id="markdown-toc-a-nice-way-to-test-openflow-applications"><strong>A NICE Way to Test OpenFlow Applications</strong></a></li>
+      <li><a href="#contributions-3" id="markdown-toc-contributions-3">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#how-to-scale-sdn-applications-at-large" id="markdown-toc-how-to-scale-sdn-applications-at-large"><strong>How to scale SDN applications at large?</strong></a>    <ul>
+      <li><a href="#contributions-4" id="markdown-toc-contributions-4">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#the-sdx---software-defined-internet-exchange" id="markdown-toc-the-sdx---software-defined-internet-exchange"><strong>The SDX - Software Defined Internet Exchange</strong></a>    <ul>
+      <li><a href="#contributions-5" id="markdown-toc-contributions-5">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#references" id="markdown-toc-references"><strong>References</strong></a></li>
+</ul>
+
+</div>
+<hr />
+
+<div>
+<span class="read-time-txt">Reading time:</span>
+<span class="read-time-val">
+
+
+  12 mins
+
+</span>
+	 
+<p class="read-time-date">
+	<script>
+	var today = new Date();
+	weekday = ["Sunday", "Monday","Tuesday", "Wednesday","Thursday", "Friday","Saturday"];
+	mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+	var time = today.getHours() + ":" + today.getMinutes();
+	var d = weekday[today.getDay()] + " " +today.getDate() + " " + mlist[today.getMonth()] + " " + today.getFullYear();
+	document.write(d + "  " + time);
+	</script>
+</p>
+</div>
+
+<h3 id="the-arrival-of-sdn-and-openflow"><strong>The arrival of SDN and OpenFlow</strong></h3>
+<figure>
+    <img style="display: block; margin: auto; width: 80%; padding-top:25px" src="/assets/sdn-draw.jpeg" />
+    <figcaption>Figure from <a href="https://www.starwindsoftware.com/blog/how-to-deploy-and-manage-software-defined-networking-using-scvmm-2016-part-iii">here </a></figcaption>
+    
+</figure>
+<p>Improving networks protocols and deploying new features or applications is very hard on traditional networks. The time needed for designing to implementing changes is extremely long and costly. Today network functions can be virtualized and aggregated into one single machine acting as <em>controller</em>. The control plane on routers and switches is decoupled from the data plane and put into another device. Here the concept of SDNs comes with many pros: higher <em>flexibility</em>, better <em>scaling</em>, and <em>ease of implementation and maintenance</em> from developers thus reducing cost for hardware. The key idea is that <strong>network devices now only implements basic primitives</strong> and constantly talk with the <strong>Domain Controller</strong> to push statistics and pull routing information. The protocol utilized to push and set rules into the “dumb” switches is called <strong>OpenFlow</strong>.</p>
+
+<p>In the paper  <a class="citation" href="#onix">[1]</a>, jumping back into the 2010, <strong><em>ONIX</em></strong> is explained as a <em>control platform</em> exposing simple API and introducing a <em>Network Information Base (<strong>NIB</strong>)</em> similar to the RIB. There are four basic components in ONIX: the <em>physical infrastructure</em> (switches and routers), <em>connectivity infrastructure</em> (used as a management network), <em>Onix distributed system</em> (single instance / cluster) and the <em>Control logic</em> (implemented on top of API) and failures can happen on each one of these parts. It is built on <em>NOX</em> and distributed among multiple servers. The API allow read/write data object <em>state</em> into/from the NIB which is the main focus point of the system.</p>
+
+<figure>
+    <img style="display: block; margin: auto; width: 80%; padding-top:25px" src="/assets/onix.png" />
+    <figcaption>Figure 1. Onix Infrastructure - from <a href="https://muratbuffalo.blogspot.com/2010/12/onix-distributed-control-platform-for.html">here </a></figcaption>
+    
+</figure>
+
+<p><strong>The NIB is the complete network graph</strong> containing each device, link, routes and attributes all put into <em>Entities</em>.<br />
+Onix allows easy scaling through <strong>Partitioning and Aggregation</strong>, replicating the controller, making switches only contact a subset of them and making each controller manage only a subset of the whole NIB.</p>
+
+<p>When there is a change in the NIB, it will translate the change into an OpenFlow message and then push to the affected device. For this, import/export modules sit behind the NIB waiting for polls or changes.</p>
+
+<p>Another feature of ONIX is the possibility to store data in two different ways, through a SQL database for stable states and to a DHT for dynamic states.</p>
+
+<h4 id="contributions">Contributions</h4>
+<p>ONIX doesn’t introduce anything totally new, in fact it derives some work from <em>Ethane</em>, <em>SANE</em>, <em>RCP</em> and <em>NOX</em>. But those did not address reliability and flexibility as ONIX does but instead presented the idea of a physically separated control plane.</p>
+
+<p>Indeed among the top contributions of ONIX, we can see the use of <strong>general APIs and flexible distribution primitives</strong> which allow designers to work on a pre-tested and established base and implement control application with all the flexibility they need.</p>
+
+<p>APIs allow read/write state to any element in the network which corresponds to data-objects in the NIB. Since switches have narrower requirements along with a limited quantity of RAM and CPU, most of the work can be done on platforms that don’t have such limitations such as the Domain Controller.</p>
+
+<p>Here ONIX presents two way of storing state information: a <strong>persistent SQL transactional database</strong> for slowly changing state and a <strong>memory-only DHT</strong> for dynamic and mostly inconsistent state. ONIX allow developers to choose their own trade-off, for example: more consistency and durability or more efficiency.</p>
+
+<h2 id="how-to-implement-sdn"><strong>How to implement SDN?</strong></h2>
+<p>SDNs application development does not offer great flexibility in terms of modularity which is instead the focus of the paper <a class="citation" href="#pyretic">[2]</a>. It introduces a new language and abstractions for <strong>building modular applications</strong> on top of SDNs. <strong><em>Pyretic</em></strong> allows packets to be processed <em>sequentially</em> or <em>concurrently</em>, thus producing different results for different use cases. It gives developers great building blocks and <em>high-level policy functions</em> with extreme shortness of code and readability. Physical switches can now be virtually merged into single devices (many-to-one) or instead single physical switches can be logically divided into multiple virtual switch handling different modules (one-to-many).</p>
+<figure>
+<img style="display: block; margin: auto; width: 80%; padding-top:25px" src="/assets/pyretic.png" />
+    <figcaption>Figure 2. Some primitive examples from Pyretic</figcaption>
+    
+</figure>
+<p>Monitoring, Firewall and Load balancing examples are shown in the paper which use different features of the language like static policy language (called NetCore) which includes <em>primitive actions</em> (drop, flood, passthrough ..), <em>predicates</em> (act on subset of packets), <em>policies</em> and <em>queries</em>. 
+In Pyretic, a policy receives a packet as input and returns a multiset of localized packets as output and packets in order to be processed need to be “lifted” from physical switches to the virtual instances. This up/down process is achieved with the use of <strong>virtual tags</strong> and <strong>headers</strong> specifying input/output ports and switches name. This allows developers to better abstract a <strong>derived</strong> network from the <strong>underlying</strong> one.
+Finally the high level of abstraction provides an elegant mechanism to implement different networks topologies and writing self-contained modules.</p>
+
+<h4 id="contributions-1">Contributions</h4>
+
+<p>Software Defined Networking has limited support for modular components design and programming, in fact the paper target is to show and explain a new way of composing SDNs with multiple components. <strong>Modularity is the key</strong>, it allows developers to not implement monolithic applications with API (like in ONIX) and just focus on high level policies. The paper presents two way of handling packets, a <strong><em>sequential composition</em></strong> and a <strong><em>parallel composition</em></strong>. It also proposes “Network object” which constrain the modules and allow information hiding and protection.</p>
+
+<p>The <strong>Pyretic Language</strong> shown here is a step further in the development of SDNs with the concept of modular and extensible programming. Here the <strong>packets are represented as dictionaries</strong>, and the addition of <strong>virtual headers</strong> is made simple and allows fine-grained modularity and policy development.</p>
+
+<p>Other control platform such <strong><em>NOX</em></strong> used to offer low-level interfaces, but composition isolation and virtualization are plus added by Pyretic and programmers do not need to resolve conflicts by hand.</p>
+
+<p>Pyretic is able to build sophisticated controller applications for large networks with the use of a simple language as Python. Details about Pyretic here <a class="citation" href="#programming-with-pyretic">[3]</a></p>
+
+<h2 id="how-to-test-and-debug-sdn-applications"><strong>How to test and debug SDN applications?</strong></h2>
+<p>Two papers go through the testing and debugging of SDN applications:</p>
+<ul>
+  <li>“<em>Header Space Analysis: Static Checking For Networks</em>”</li>
+  <li>“<em>A NICE Way to Test OpenFlow Applications</em>”</li>
+</ul>
+
+<h4 id="header-space-analysis"><strong>Header Space Analysis</strong></h4>
+<p>In the old times network devices were very simple with just the role of forwarding packets, today there is a large number of protocols, encapsulation methods and policies to keep in mind. This makes debugging problems very hard and long to resolve and that is one reason why the paper <a class="citation" href="#hsa">[4]</a> exposes <strong>Header Space Analysis</strong> framework for a <strong>static analysis</strong> of production networks.</p>
+
+<p>The key idea is that the framework is protocol agnostic, allowing to test different environment with different header formats and syntax without reinventing the wheel. <strong>Hassel</strong> doesn’t care about the semantic, it just matches series of {0,1} in the space <em>L</em> of the packet headers, since the data part has been proven to be irrelevant for the calculations. With the use of <strong>transfer functions</strong>, the framework is able to map, simulate and test the network for <em>forwarding loops</em> (finite and infinite) and <em>configuration errors</em>.</p>
+
+<figure>
+<img style="display: block; margin: auto; width: 60%; padding-top:25px" src="/assets/hsa1.png" />
+<figcaption>Figure 3. (a) Changes to a flow as it passes through two boxes with transfer function TA and TB . (b) Composing transfer functions to model end to end behavior of a network. Figure from <a href="https://www.semanticscholar.org/paper/Header-Space-Analysis%3A-Static-Checking-for-Networks-Kazemian-Varghese/19114b7a2f5243a47e80590cc11a2d8ec5b96308">here </a> </figcaption>
+</figure>
+
+<p>The framework <strong>geometrically models network boxes and applications</strong> like firewall and NAT with transfer functions which operates through the use of algebra <strong>primitive operations</strong> (intersection, union, complementation and difference). Loops can be detected <strong>injecting packet</strong> in the network and looking if the same packet come back to the injection port. <strong>Static analysis</strong> can be applied for reachability checking to verify if packets can logically reach a destination and if a destination can possibly receive packet from a determined source using the <em>range inverse</em> computation.</p>
+
+<p>Hassel is implemented in Python 2.6 along with a parser for Cisco IOS configuration output that <strong>automatically generate transfer functions and model of the router</strong>. The implementation also employs optimizations that allowed a 19x to 400x speed increment.</p>
+
+<p>Tests on the Stanford network showed that the tool has been of great usefulness in detecting loops and configuration mistakes.</p>
+
+<h4 id="contributions-2">Contributions</h4>
+
+<p>The idea of <strong><em>transfer functions</em></strong> used by Hassel is very similar to the ASE Mapping in axiomatic routing. Here instead, Hassel does not try to understand protocols and packet headers, <strong>it treats everything like a point {0,1} in space large <em>L</em></strong>, being <em>L</em> the header length. In fact Hassel introduces different new terms to define a domain for the analysis like Header and Network Space along with the transfer functions. The Transfer functions “move” packets from one port to another, “transforming” the packet at each step.</p>
+
+<p>Another important feature is the possibility to <em>slice</em> the network in different part (like MPLS, VLANs and FlowVisor), and test each one for security isolation and leaks. This is done by detecting if a possible function output of a domain ends up in another un-allowed domain, for example if a packet from one VLAN can pass to another VLAN while processing and rewriting its headers.</p>
+
+<figure>
+<img style="display: block; margin: auto; width: 60%; padding-top:25px" src="/assets/hsa-slice.png" />
+<figcaption>Figure 4.  Detecting slice leakage. Although slice a and b have disjoint slice reservation on S1 and S2, but slice a’s reservation on S1 can leak to slice b’s reservation os S2 after it is rewritten by slice a’s transfer function rules. Figure from <a href="https://www.semanticscholar.org/paper/Header-Space-Analysis%3A-Static-Checking-for-Networks-Kazemian-Varghese/19114b7a2f5243a47e80590cc11a2d8ec5b96308">here </a> </figcaption>
+</figure>
+
+<p>A great contribution of Hassel is the fact that it made it <strong>easier to spot network violations</strong> with network transfer function in a static and non-risky way. In fact the implementation was proven to find real mistakes in the Stanford network in a considerable short time.</p>
+
+<h4 id="a-nice-way-to-test-openflow-applications"><strong>A NICE Way to Test OpenFlow Applications</strong></h4>
+<p>With the increasing adoption of SDN technology, asynchronous and distributed systems become difficult to test for certain class of bugs. This is where <strong>NICE</strong> or <em>No bugs In Controller Execution</em> tries to fill the gap <a class="citation" href="#nice">[5]</a>.</p>
+
+<p>NICE is a tool for testing <strong>unmodified controller programs</strong> on the NOX platform. It makes use of two important techniques: <strong>model checking</strong> and <strong>symbolic execution</strong>.</p>
+
+<figure>
+<img style="display: block; margin: auto; width: 60%; padding-top:25px" src="/assets/nice1.png" />
+<figcaption>Figure 5. Given an OpenFlow program, a network topology, and correctness properties, NICE performs a statespace search and outputs traces of property violations. Figure from <a href="https://www.semanticscholar.org/paper/A-NICE-Way-to-Test-OpenFlow-Applications-Canini-Venzano/04b319357d6bab89ec9575f4b044d7609aa4296a/figure/0">here </a> </figcaption>
+</figure>
+
+<p>In order to test an app, it is needed to <em>model</em> the system acquiring the possible <em>states</em> which could be infinite. <strong>Model checking gather all the possible states</strong>, but being the output too large, <strong>symbolic execution is coupled to test only the relevant code paths</strong>. Model checking explore system states  and model the execution with <em>components</em>, <em>channels</em>, <em>components states</em> and <em>transitions</em>. It define “class of packets” and chooses a “representative packet” to be the tester for that specific state case, defining this way different <em>domain specific search strategies</em>.</p>
+
+<p>NICE sends packet at different events interleaving, simulating as close as possible the real world execution scenario. Controller programs are viewed as set of event handlers that create transitions (changes in global var settings). Symbolic execution instead does not model the system space but rather focuses on <strong>identifying relevant inputs</strong> but it’s still not sufficient “per se”.</p>
+
+<p>The combination of the two is what allows NICE to scale and uncover tricky bugs in potentially interminable possible states. If a transition violates a certain correctness property (these are configurable), than NICE records the state and log the error.</p>
+
+<h4 id="contributions-3">Contributions</h4>
+<p>A significant problem in SDN applications is the <strong>delay on rule install</strong> across different switches which <strong>cause unintended behavior</strong> and performance degradation. Challenges that NICE try to solve are in the range of large space of inputs like switches states, input packets and event ordering.</p>
+
+<figure>
+<img style="display: block; margin: auto; width: 60%; padding-top:25px" src="/assets/nice.png" />
+<figcaption>Figure 6. An example of OpenFlow network traversed by a packet. In a plausible scenario, due to delays between controller and switches, the packet does not encounter an installed rule in the second switch. Figure from <a href="https://www.semanticscholar.org/paper/A-NICE-Way-to-Test-OpenFlow-Applications-Canini-Venzano/04b319357d6bab89ec9575f4b044d7609aa4296a/figure/0">here </a> </figcaption>
+</figure>
+
+<p>An important contribution of NICE is its ability to <strong>generate streams of packets depending on controller state</strong> in order to test the program and uncover forwarding loops and black holes. Its important to note that NICE relieves work from the developer, asking only to provide network topology and hosts.</p>
+
+<p><strong>NICE couples symbolic execution with model checking in order to lower the number of states and focus on the ones that can create meaningful transitions.</strong> This allow to test applications without worrying about the huge system state space scalability problems. Furthermore NICE provides a set of <em>correctness properties</em> with their own testing implementation which allows developers to quickly test and build custom modules.</p>
+
+<p>In fact NICE has proven to find different class of bugs in standard unmodified controller programs.</p>
+
+<h2 id="how-to-scale-sdn-applications-at-large"><strong>How to scale SDN applications at large?</strong></h2>
+
+<p>OpenFlow imposes <strong>excessive overheads</strong> on the controller when it comes to <em>high performance networks</em>, thing that introduces unacceptable latencies and restricts system performances. The visibility over all the flows is simply un-achievable in High Performance networks. <strong>Openflow is inherently not scalable</strong> and its design has two steps that involve the controller and create too much heavy load on it: <em>flows setup</em> and <em>statistic gathering</em>.</p>
+
+<p>The paper exposes <strong><em>DevoFlow</em></strong> <a class="citation" href="#devoflow">[6]</a>, which is a slightly modified version of OpenFlow which aims to overcome such disadvantages. In fact it gives back to routers the forwarding decisions on most flows. 
+Paper shows an analysis of trade-offs between centralized management and costs, and shows DevoFlows new mechanisms. <strong>Its goal is to keep as many flow entry in data plane as possible</strong> (passing on control plane is expensive), while always maintaining enough visibility over the network.</p>
+
+<p>Central control gives a lot of good points like: <em>near optimal traffic management</em>, <em>simplified policy development</em> and simplicity and future-proof of switches but it creates overhead both in hardware resources, communication load and delay and latency which become the bottleneck.</p>
+
+<p>Devoflow introduces <em>rule cloning</em> and <em>local actions</em> which aims to relieves TCAM usage and controller overload. Also, multipath is supported with little difference from ECMP, here the paths are not constrained to be of the same cost to be chosen.</p>
+
+<p>Finally evaluations shows that DevoFlow can improve throughput of 32% with Clos and 55% with HyperX networks which is a great increase .</p>
+
+<h4 id="contributions-4">Contributions</h4>
+<p>The important takeaway from DevoFlow is the fact to <strong>give back to routers routing decision</strong> on most of the flows called <em>microflows</em> while only the significant ones, the <em>elephant flows</em> are managed by the controller.</p>
+
+<p>Paper shows pro and cons of traditional OpenFlow centralized management and compares with DevoFlow devolving control and statistic collection. Here its important to point out the <strong>huge difference in bandwidth</strong> between line card speed and ASICs-CPUs which is therefore limited to 17Mbps compared to 300Gbps of the line card.</p>
+
+<p><strong>Stats gathering and flow setup compete for the limited bandwidth.</strong> DevoFlows introduces <em>rule cloning</em> in order to augment action of wildcard rules, saving them to the data plane thus relieving TCAM memory. <strong>Hedera</strong> consider 5 secs to be the good pull time but for HPN it must be less than 500ms. <strong>Maestro</strong> multi-thread controller can install rules twice as fast than NOX but DevoFlow introduces different statistic collection mechanisms like <em>sampling</em>, <em>triggers</em> and <em>approximation counters</em>.</p>
+
+<p>Ultimately DevoFlows uses <strong><em>oblivious routing</em></strong> which distributes fairly path probability in correlation of the link bandwidth, for example two links A (10Gbps) and B (1Gbps) will have different probability of being chosen, 10/11 for A and 1/11 for B, which is the exact perfect balancing.</p>
+
+<p>In fact it was showed to achieve “94% of the throughput that dynamic routing does on the worst case”.</p>
+
+<h2 id="the-sdx---software-defined-internet-exchange"><strong>The SDX - Software Defined Internet Exchange</strong></h2>
+
+<p>One of the reason this paper is trying to address is the limited way of todays network of being capable of forwarding packets. In fact, it is <strong>based on destination IP prefixes</strong> which does not offer flexibility and functionalities like a more useful matching towards header fields or BGP attributes.</p>
+
+<p><strong>Software defined Internet Exchange</strong> <strong><em>(SDX)</em></strong> <a class="citation" href="#sdx">[7]</a> is a good solution to the problem, allowing peers to run SDN application, ensuring system scalability and avoiding BGP routes conflicts. Indeed paper addresses major problems of BGP like the one mentioned, a difficult and indirect way of express policies (AS path, local pref, etc) and the impossibility to have more control over end-end flows instead of just neighbors.</p>
+
+<figure>
+    <img style="display: block; margin: auto; width: 100%; padding-top:25px" src="/assets/sdx.png" />
+<figcaption>Figure 7. SDX programming abstractions. Figure from <a href="https://www.semanticscholar.org/paper/SDX%3A-a-software-defined-internet-exchange-Gupta-Vanbever/1942aff3bb24d4ff9c1e8688b1104a767f0bc346/figure/0">here </a> </figcaption>
+    
+</figure>
+
+<p>Furthermore the approach <strong>must be scalable</strong>, <strong>deployable</strong> and providing a <strong>good programming abstraction</strong>. SDX also provide TE inbound support, at the central location AS can install rules and control traffic according to IP/port.</p>
+
+<p>Anycast is supported for load balancing and SDX can also redirect flows to middleboxes when possible DOS are detected. <strong>Pyretic</strong> is the language used to write policies, and SDX works by gathering them from ASs, augmenting and then translating into flow rules. The process is multi-stage and involves a <strong>route server</strong> which actually calculate best path for each prefix and re-advertise the routes. Augmenting policies involves an explosion in size, but it can be largely reduced by grouping prefixes into <strong>FEC</strong> and tagging different type of traffic directly on Border Routers.</p>
+
+<h4 id="contributions-5">Contributions</h4>
+<p><strong>The main goal of SDX is to provide each participant (physical or remote) the illusion of a SDN switch</strong> which simplifies policies creation and management in multiple ways.</p>
+
+<p>The paper also identifies class of applications that can be deployed one of which is “<em>Application specific peering</em>” that allows ASs to exchange traffic only for a subset of application classes. ex (only youtube traffic) and SDX easily integrate this by installing rules for group of flows.</p>
+
+<p>Importantly SDX allow ASs <strong>isolation</strong> while aggregating participants policies so that each one can only act on  its own traffic. SDX also ensure consistency among BGP routes with the use of filters and no loops can be created.</p>
+
+<p>The paper also points out that prefixes tend to be stable , BGP routes only affects small part of forwarding table and BGP route changes occur in bursts and are followed by long periods. These aspects have greatly helped to better think and improve the policy compilation processes.</p>
+
+<h2 id="references"><strong>References</strong></h2>
+
+<ol class="bibliography"><li><span id="onix">[1]T. Koponen, M. Casado, and N. Gude, “Onix: A distributed control platform for large-scale production networks,” <i>Proceedings of the 9th USENIX Symposium on Operating Systems Design and Implementation</i>, Jan. 2010. </span>
+
+
+</li>
+<li><span id="pyretic">[2]C. Monsanto, J. Reich, N. Foster, J. Rexford, and D. Walker, “Composing Software Defined Networks,” in <i>10th USENIX Symposium on Networked Systems Design and Implementation (NSDI 13)</i>, Lombard, IL, 2013, pp. 1–13 [Online]. Available at: https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/monsanto</span>
+
+
+</li>
+<li><span id="programming-with-pyretic">[3]J. Reich, C. Monsanto, N. Foster, J. Rexford, and D. Walker, “Modular SDN programming with pyretic,” <i>USENIX Login</i>, vol. 38, pp. 128–134, Jan. 2013. </span>
+
+
+</li>
+<li><span id="hsa">[4]P. Kazemian, G. Varghese, and N. McKeown, “Header Space Analysis: Static Checking for Networks,” in <i>Presented as part of the 9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)</i>, San Jose, CA, 2012, pp. 113–126 [Online]. Available at: https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/kazemian</span>
+
+
+</li>
+<li><span id="nice">[5]M. Canini, D. Venzano, P. Peresini, D. Kostic, and J. Rexford, “A NICE Way to Test OpenFlow Applications,” in <i>Presented as part of the 9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)</i>, San Jose, CA, 2012, pp. 127–140 [Online]. Available at: https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/canini</span>
+
+
+</li>
+<li><span id="devoflow">[6]A. R. Curtis, J. Mogul, J. Tourrilhes, P. Yalagandula, P. Sharma, and S. Banerjee, “DevoFlow: Scaling Flow Management for High-Performance Networks,” in <i>Proceedings of the ACM SIGCOMM 2011 Conference, SIGCOMM’11</i>, 2011, vol. 41, pp. 254–265. </span>
+
+
+</li>
+<li><span id="sdx">[7]A. Gupta <i>et al.</i>, “SDX: A Software Defined Internet Exchange,” in <i>Proceedings of the 2014 ACM Conference on SIGCOMM</i>, New York, NY, USA, 2014, pp. 551–562 [Online]. Available at: http://doi.acm.org/10.1145/2619239.2626300</span>
+
+
+</li></ol>
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google +
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+ -->
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/" data-layout="button_count" style="position: relative; top: -6px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/">Network Function Virtualization, Middleboxes and Cloud Load Balancing</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/sdn">sdn</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/">SDN & NFV with POX and Click Modular Router</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/sdn">sdn</a>, <a href="/python">python</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/">Fault-Tolerant IP routing with Cisco HSRP. [Part 2]</a>
+                    
+                        <small>(Categories: <a href="/notes">notes</a>, <a href="/network">network</a>, <a href="/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/">How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/security">security</a>, <a href="/linux">linux</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/notes/network/cisco/BGP-OSPF-network-routing/">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    
+                        <small>(Categories: <a href="/notes">notes</a>, <a href="/network">network</a>, <a href="/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/">&laquo; SDN & NFV with POX and Click Modular Router</a>
+  
+  
+    <a class="next pull-right" href="https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/">Network Function Virtualization, Middleboxes and Cloud Load Balancing &raquo;</a>
+  
+</div>
+
+
+<!-- <div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalbertoscola-it";
+        var disqus_identifier = "https://carloalbertoscola.it/_An introduction to Software Defined Networking";
+        var disqus_title = "An introduction to Software Defined Networking";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div> -->
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = "https://carloalbertoscola.it/_An introduction to Software Defined Networking"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://carloalbertoscola-it.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a> - <a href="/cookies">Cookie Policy</a>
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+	var consent = getCookie("cookieconsent_status");
+	if( consent == "deny"){
+	} else if (consent == null || consent == "allow") {
+		eval('(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })(window,document,"script","https://www.google-analytics.com/analytics.js","ga");  ga("create", "UA-63063866-5", "auto");  ga("send", "pageview");			');
+	}
+
+  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  // ga('create', 'UA-63063866-5', 'auto');
+  // ga('send', 'pageview');
+</script>
+  </body>
+</html>

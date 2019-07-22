@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en-EN">
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msvalidate.01" content="2968909B8A7C9E7281129471CA8D69D9" />
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/icons/network.png" />
+        <title>Network Function Virtualization, Middleboxes and Cloud Load Balancing - Carlo Alberto Scola</title>
+        <meta name="author" content="Carlo Alberto Scola" />
+        <meta name="description" content="Network Function Virtualization, Middleboxes and Cloud Load Balancing" />
+        <meta name="keywords" content="Network Function Virtualization, Middleboxes and Cloud Load Balancing, Carlo Alberto Scola, network, sdn" />
+
+        <meta content="1082525865223478" property="fb:app_id">
+        <meta content="Carlo Alberto Scola" property="og:site_name">
+        
+          <meta content="Network Function Virtualization, Middleboxes and Cloud Load Balancing" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="From Network Function Virtualization to Middleboxes outsourcing to the cloud, load balancing and in-data-plane connectivity recovery. Research papers summary." property="og:description">
+        
+        
+          <meta content="https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/" property="og:url">
+        
+        
+          <meta content="2019-07-19T00:00:00+02:00" property="article:published_time">
+          <meta content="https://carloalbertoscola.it//about/" property="article:author">
+        
+        
+          <meta content="https://carloalbertoscola.it//static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="network" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@bestrocker221">
+        <meta name="twitter:creator" content="@bestrocker221">
+        
+          <meta name="twitter:title" content="Network Function Virtualization, Middleboxes and Cloud Load Balancing">
+        
+        
+          <meta name="twitter:url" content="https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/">
+        
+        
+          <meta name="twitter:description" content="From Network Function Virtualization to Middleboxes outsourcing to the cloud, load balancing and in-data-plane connectivity recovery. Research papers summary.">
+        
+        
+
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
+              <link href="https://fonts.googleapis.com/css?family=Fira+Mono&display=swap" rel="stylesheet">
+
+        <!-- Custom Fonts 
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+-->
+
+        <!-- FontAwesome icons -->
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/thickbox.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "/static/img/loadingAnimation.gif";
+        </script>
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto&display=swap" rel="stylesheet">
+
+      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+<script>
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/; domain=.carloalbertoscola.it";
+}
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; Path=/;domain=.carloalbertoscola.it; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function disableCookies(){
+  var cookies = ["_gat", "_gid", "_ga"];
+  cookies.forEach( function(element, index) {
+    // statements
+    console.log("deleting: " + element);
+    delete_cookie(element);
+    //setCookie("cookieconsent_status", "deny", 7);
+    //window.location.reload(true);
+  });
+}
+
+window.addEventListener("load", function(){
+  window.cookieconsent.initialise({
+    "palette": {
+      "popup": {
+        "background": "#000"
+      },
+      "button": {
+        "background": "#f1d600"
+      }
+    },
+    "theme": "classic",
+    "type": "opt-out",
+    "content": {
+      "message": "This website uses cookies just to get simple stats and help understand if the content of the website is viewed or not.\n",
+      "href": "https://carloalbertoscola.it/cookies"
+    },
+    onInitialise: function (status) {
+    //console.log("init");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+      }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      //disableCookies();
+      }
+    },
+   onStatusChange: function(status, chosenBefore) {
+    //console.log("change");
+    var type = this.options.type;
+    var didConsent = this.hasConsented();
+    if (type == 'opt-in' && didConsent) {
+      // enable cookies
+    }
+    if (type == 'opt-out' && !didConsent) {
+      // disable cookies
+      disableCookies();
+      window.location.reload(true);
+    }
+    if(type == 'opt-out' && didConsent){
+      window.location.reload(true);
+    }
+  },
+  onRevokeChoice: function() {
+    //console.log("rev");
+    var type = this.options.type;
+    if (type == 'opt-in') {
+      // disable cookies
+      disableCookies();
+    }
+    if (type == 'opt-out') {
+      // enable cookies
+    }
+  }
+  })
+});
+</script>
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row headrow">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <a href="/"><img id="about" class="logo-img" src="/static/img/avatar.jpg" height="75px" width="75px"></a>
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading"><a href="/" style="color:white;">Carlo Alberto Scola</a></h4>
+              <p class="list-group-item-text">MSc Student</p>
+              <div class="social-icons" style="display: initial !important;">
+	
+        <a class="icon" target="_blank" href="https://github.com/bestrocker221"><i class="fab fab fa-github" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.linkedin.com/in/carlo-alberto-scola-75653b128/"><i class="fab fa-linkedin" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.facebook.com/carloalberto.scola"><i class="fab fa-facebook" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://twitter.com/bestrocker221"><i class="fab fa-twitter" ></i></a>
+    
+        <a class="icon" target="_blank" href="https://www.instagram.com/carlettoo_22/"><i class="fab fa-instagram" ></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12 title-search-row">
+          <div class="row">
+            <h2 class="blog-title-pro col-md-9 col-sm-12 col-xs-12 ">Network Function Virtualization, Middleboxes and Cloud Load Balancing</h2>
+            
+            <div class="col-md-3 col-sm-12 col-xs-12 searchcontrol" id="js-search">
+              <input class="form-control" type="text" id="js-search__input" placeholder="Search">
+              <ul class="search__results" id="js-search__results"></ul>
+            </div>
+            
+            </div>
+            <p class="info">
+              
+                <span class="time">19 Jul 2019</span>
+              
+              
+                <span class="categories">
+                  &raquo; categories:
+                  
+                    <a href="/network">network</a>
+                    , 
+                  
+                    <a href="/sdn">sdn</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div id="menu-div" class="col-md-3 col-xs-12 menu-div">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/linux" target="_self"><i class="fab fa-linux"></i> Linux</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/security" target="_self"><i class="fas fa-lock"></i> Security</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/web" target="_self"><i class="fas fa-globe"></i> Web</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/notes" target="_self"><i class="fas fa-book"></i> Notes</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/python" target="_self"><i class="fab fa-python"></i> Python</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/photography" target="_self"><i class="fas fa-camera"></i> Photography</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/projects" target="_self"><i class="fa fa-desktop"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  network-function-virtualization-cloud-load-balancing-middleboxes"><a href="/static/Curriculum_Vitae_Carlo_Alberto_Scola-en.pdf" target="_blank"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h1 class="no_toc" id="nfv-cloud-and-middleboxes"><strong><center>NFV, Cloud and Middleboxes</center></strong></h1>
+<h2 class="no_toc" id="in-data-plane-recovery"><strong><center>In-data-plane recovery</center></strong></h2>
+<h3 class="no_toc" id="-research-papers-review-and-summary-"><center> Research papers review and summary </center></h3>
+<h3 class="no_toc" id="-part-2--here-link-to-part-1--"><center> PART 2.  <a href="/2019/network/sdn/software-defined-networking-introduction/">Here Link to part 1.</a>  </center></h3>
+<p>In <strong><a href="/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/">this post</a></strong> there is a practical step-by-step project with POX SDN, OpenFlow, Click and NFV.</p>
+
+<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
+<div id="inline_toc">
+<ul id="markdown-toc">
+  <li><a href="#what-about-middleboxes" id="markdown-toc-what-about-middleboxes"><strong>What about MIDDLEBOXES?</strong></a>    <ul>
+      <li><a href="#contributions" id="markdown-toc-contributions">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#outsourcing-middleboxes-to-the-cloud-any-benefits" id="markdown-toc-outsourcing-middleboxes-to-the-cloud-any-benefits"><strong>Outsourcing Middleboxes to the cloud, any benefits?</strong></a>    <ul>
+      <li><a href="#contributions-1" id="markdown-toc-contributions-1">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#a-network-function-virtualization-platform" id="markdown-toc-a-network-function-virtualization-platform"><strong>A Network Function Virtualization Platform</strong></a>    <ul>
+      <li><a href="#contributions-2" id="markdown-toc-contributions-2">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#cloud-load-balancing" id="markdown-toc-cloud-load-balancing"><strong>Cloud load balancing</strong></a>    <ul>
+      <li><a href="#contributions-3" id="markdown-toc-contributions-3">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#connectivity-recovery-directly-in-the-data-plane" id="markdown-toc-connectivity-recovery-directly-in-the-data-plane"><strong>Connectivity recovery directly in the Data-Plane</strong></a>    <ul>
+      <li><a href="#contributions-4" id="markdown-toc-contributions-4">Contributions</a></li>
+    </ul>
+  </li>
+  <li><a href="#references" id="markdown-toc-references"><strong>References</strong></a></li>
+</ul>
+
+</div>
+<hr />
+
+<div>
+<span class="read-time-txt">Reading time:</span>
+<span class="read-time-val">
+
+
+  9 mins
+
+</span>
+	 
+<p class="read-time-date">
+	<script>
+	var today = new Date();
+	weekday = ["Sunday", "Monday","Tuesday", "Wednesday","Thursday", "Friday","Saturday"];
+	mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+	var time = today.getHours() + ":" + today.getMinutes();
+	var d = weekday[today.getDay()] + " " +today.getDate() + " " + mlist[today.getMonth()] + " " + today.getFullYear();
+	document.write(d + "  " + time);
+	</script>
+</p>
+</div>
+
+<h2 id="what-about-middleboxes"><strong>What about MIDDLEBOXES?</strong></h2>
+<p>Networks need middleboxes like IDS, Firewalls, Concentrator, Proxy for further packet processing, fact is that interconnecting and manually configuring the routing policies is <strong>hard and error prone</strong>. An SDN approach could greatly improve the flexibility but does not offer the required L2/L3 methods out-of-the-box.</p>
+
+<p><strong>SIMPLE</strong>’s <a class="citation" href="#simple">[1]</a> aim is to <strong>simplify the policy enforcement</strong> for an efficient <strong>traffic steering</strong> in the network. It faces some challenges like <em>composition</em>, <em>load balancing</em> and <em>packet modifications</em>. Packets in the network need to follow specific middleboxes paths, they can flow in different direction and can <strong>raise ambiguous forwarding decisions</strong>, also Middleboxes can modify part of packets, making it harder for the SDN to determine the right paths.</p>
+
+<p>This is what SIMPLE addresses with the use of a <strong>unified resource management</strong> together with a dynamic packet handler which automatically adapts rules to middleboxes packets modifications.</p>
+
+<p>SIMPLE is composed of <em>ResMgr</em> which takes the network as input and outputs a set of of rules, the <em>DynHandler</em> which keeps mappings between packets and a <em>RuleGen</em> which actually generate the configurations. It is important to note that all the operations are resource limited by the amount of CPU, memory and especially switches TCAM flow table size. In fact the optimization decomposition is part of the challenges SIMPLE try to address with an <strong>offline pruning stage followed by a more frequent online LP calculation</strong> when traffic pattern changes. SIMPLE showed to have very low controller overhead but can gain over 6 times more performances on load balancing compared with today implementations.</p>
+
+<h4 id="contributions">Contributions</h4>
+<p>The aim of the paper is to propose <strong>a way to relieve network operators from thinking where to apply policies and instead focusing on what</strong>. In fact SIMPLE <strong>does not change anything in the middleboxes</strong>, it is only allowed to configure the SDN switches.</p>
+
+<p>The basic policy element here is the <em>PolicyChain</em> which is the set of requirements for a specific traffic class that must undergo a specific middleboxes path. Great work is done by the <em>DynHandler</em> to map incoming/outgoing packets using <em>payload similarity</em> and <em>flow correlation</em> techniques (achieving 95% of marching accuracy). This can happen because first few packets of each new flow are sent to the DynHandler for evaluation.</p>
+
+<p>The ambiguous forwarding is greatly solved with the use of <strong><em>SwitchTunnel</em></strong> together with a <em>ProcState</em> and <em>Tag</em> element. Even though these approach are not new, here they are firstly applied to middleboxes. These allow switches to understand in which “state” a packet is and deal with the right forwarding decision (ex: when a packet has to go backwards two or more times to the same switch).</p>
+
+<p>Failures and Policy changes are dealt with the pre-computation of a set of configurations (like a <strong>fast-reroute</strong>).</p>
+
+<h2 id="outsourcing-middleboxes-to-the-cloud-any-benefits"><strong>Outsourcing Middleboxes to the cloud, any benefits?</strong></h2>
+
+<p>In large networks today the <strong>number of middleboxes deployed is very high</strong>, expensive to manage and brings difficult manual policy management. Middleboxes are used for security reasons like IDS, Firewalls, performance improving like Proxies and caching and finally for reducing bandwidth usage costs with WAN optimizers. Hardware has to be replaced on average every five years and costs can rise very high depending on the network scale, <strong>for example for a network of 2850 routers, around 1940 middleboxes have been counted</strong>.</p>
+
+<p>The paper shows <strong>APLOMB</strong> <a class="citation" href="#midd-outsourc">[2]</a>, a way of outsourcing such middlebox burden to the cloud along with advantages and disadvantages.
+Middleboxes are often required some properties like <strong>being on-path</strong>, choke points and local to an enterprise, but with outsourcing these requirements can be shifted.</p>
+
+<figure>
+    <img style="display: block; margin: auto; width: 60%; padding-top:25px" src="/assets/aplomb1.png" />
+<figcaption>Figure 8. Fraction of network administrators who estimated misconfiguration, overload, or physical/electrical failure as the most common cause of middlebox failure. Figure from <a href="https://www.semanticscholar.org/paper/Making-middleboxes-someone-else's-problem%3A-network-Sherry-Hasan/742c42f5cd7c1f195fa83c8c1611ee7e62c9c81f/figure/1">here </a> </figcaption>
+    
+</figure>
+<p>APLOMB aims to have the <strong>same functional equivalence as traditional deployments</strong>, adding no complexity at the enterprise while, most importantly, <strong>maintaining an acceptable performance/latency overhead.</strong></p>
+
+<p>Paper shows latency differences between three approaches for relying traffic to Cloud Providers, but the DNS is chosen over the IP redirection because allows flows to be routed towards and from the same CP (Cloud Provider) POP.</p>
+
+<p>Substantially the CP provides the enterprise DNS resolution service and traffic from the Internet immediately reach the CP, and is then tunneled towards the enterprise. One or multiple (for scaling and load balancing) APLOMB gateways are deployed at the enterprise which are the endpoints connecting to the CP.</p>
+
+<figure>
+    <img style="display: block; margin: auto; width: 70%; padding-top:25px" src="/assets/aplomb-dns.png" />
+<figcaption>Figure 9. DNS-based redirection minimizes latency and allows providers to control PoP selection for each request. Figure from <a href="https://www.semanticscholar.org/paper/Making-middleboxes-someone-else's-problem%3A-network-Sherry-Hasan/742c42f5cd7c1f195fa83c8c1611ee7e62c9c81f/figure/7">here </a> </figcaption>
+    
+</figure>
+
+<p>Evaluations have shown that on average 60% of the middleboxes can be outsourced with less than 5ms latency and low bandwidth increase.</p>
+
+<h4 id="contributions-1">Contributions</h4>
+<p>The paper points out an analysis whether outsourcing the deployment of middleboxes from large networks is feasible, convenient and simple. In fact it provides a study of pros and cons applied to <strong>57 real world deployments</strong> along with a complete implementation and evaluation.</p>
+
+<p>The use of CP for middleboxes outsourcing <strong>may bring benefits to all sized businesses</strong>, because the cost for maintaining and over-provisioning such infrastructure is quite high, especially for small and home offices.</p>
+
+<p>Paper shows <strong>different designs of traffic redirection</strong> available and evaluate logical correctness and latency of each one, in fact APLOMB chose to use DNS redirection along with <strong>compression support in the APLOMB+ gateway</strong> for better bandwidth usage.</p>
+
+<p><em>Smart Redirection</em> is a great feature introduced were to reduce latency, the path is not chosen to be the best from POP to the enterprise, instead it is <em>destination dependent</em> and computed as e2e best latency path from user to POP to the enterprise.</p>
+
+<p>The <em>Cloud controller</em> acts as control plane and has a central role of optimizing redirection strategies, pushing policies to Middleboxes and dynamically scaling capacity in order to meet usage demands.</p>
+
+<h2 id="a-network-function-virtualization-platform"><strong>A Network Function Virtualization Platform</strong></h2>
+
+<p>The paper <a class="citation" href="#metron">[3]</a> presents <strong><em>Metron</em></strong>, a <em>Network Function Virtualization</em> platform that allows to achieve very <strong>high resource utilization</strong> in commodity server hardware and <strong>very high throughput</strong> while inspecting traffic.</p>
+
+<p>It achieves so by <strong>offloading</strong> part of the <strong>computation to the network device</strong>, using <strong>smart tagging</strong> for classifying traffic classes and utilizing those tags for quick <strong>hardware dispatching</strong>.</p>
+
+<p>Indeed one of the biggest problem is when a packet arrives, <em>how to locate the core responsible for processing it</em>. This would cause <strong>costly inter-core communication</strong> in the case the wrong core is chosen so packet has to be transferred from a core’s L2/L3 cache to another core’s L2/L3 cache and that is what Metron solves.</p>
+
+<p>Metron allows packet to always stay in the same cache, raising the maximum speed to the cache’s highest one. Packet classification also greatly simplify the load balancing, introducing a quick way to split traffic among different classes or cores, in fact if there is overload the controller (<em>ONOS</em>) can re-balance the traffic classes.</p>
+
+<figure>
+    <img style="display: block; margin: auto; width: 70%; padding-top:25px" src="/assets/metron.png" />
+<figcaption>Figure 10. Metron NFV Service Chain. From Source, to Tagging to Hardware Dispatching. Figure from <a href="https://www.kth.se/blogs/tcc/2018/04/metron-presentation-with-video-at-nsdi-2018-nfv-service-chains-at-the-true-speed-of-the-underlying-hardware/">here </a> </figcaption>
+    
+</figure>
+
+<p>Data Plane follows a master/slave architecture where the master is an agent that interact with HW and the controller, then there is the TAG module with dynamically associates tags to traffic classes to control load distribution and advertise to the controller. As in the Control Plane instead, Metron combines all the pkt processing graphs into a <em>Service Chain</em> with NFs.</p>
+
+<p>In case of failures Metron has always a <strong>backup configuration precomputed</strong>, stored and replicated to each controller which can apply immediately.</p>
+
+<p>Finally, Metron is able to fully inspect traffic at 40Gbps and 100Gbps with low latency outperforming state of the art current NFV like OpenBox and EC2.</p>
+
+<h4 id="contributions-2">Contributions</h4>
+<p>A key point in Metron is that <strong>it cuts away all the expensive inter-core communication allowing a huge increase in overall performances</strong>.</p>
+
+<p>In fact using smart tagging allows to very efficiently dispatch the packets to the right core thus eliminating the need of a dispatcher running on its own thread, this way some important work is relayed to the NIC.</p>
+
+<p>There are way to achieve this like “augmenting the NIC with a software layer” (EC2) or with a series of pipeline each one attributed to one core or with RSS flow hashing but none of these guarantees that the core receiving the packet will also be the one processing it.</p>
+
+<p>This is why <strong>for the first time Metron leverages the NIC capabilities</strong>, offloading the traffic classification so that packets are tagged as soon as possible. (with SNF)</p>
+
+<p>About the statistic gathering throughout the network, instead of polling each device, adding delay and bandwidth and causing interrupts, Metron uses a smart approach called “<em>power of two random choices</em>” where it actually just asks to two random devices and take the least loaded. These stats along with others from key locations allow Metron to <strong>dynamically scale resources</strong>, duplicating instances of NFs and splitting flows among them.</p>
+
+<h2 id="cloud-load-balancing"><strong>Cloud load balancing</strong></h2>
+<p>The paper <a class="citation" href="#ananta">[4]</a> proposes <strong>ANANTA</strong>, a Layer 4 load balancing and NAT software architecture able to satisfy multi tenant cloud requirements scaling-out web services and running on commodity servers.</p>
+
+<p>It has been proposed to achieve that level of reliability, scaling and performance and isolation needed in today cloud’s datacenter.  Essentially <strong>Ananta divides the load balancer into a decentralized horizontally scalable data plane and a consensus-based reliable control plane</strong>.</p>
+
+<p>This architecture has been used by Microsoft Azure cloud with success <strong>achieving more than 100Gbps throughput for a single IP</strong> and an aggregated one reaching 1Tbps.</p>
+
+<p>There are three tiers in the data plane: first the packet arrives at routers, here via ECMP (L3) load is randomly distributed to <em>MUX</em> devices, second MUX provide a connection-level (L4) load balancing spreading load to the servers, third the virtual switch in each server provide stateful NAT.</p>
+
+<p>There is a controller <strong>Ananta Manager</strong> (AM), one or more <strong>Multiplexer</strong> (MUX) and the <strong>Host Agent</strong> (HA) in each server. Each server has assigned a private Direct IP (DIP) and each service a Public Virtual IP (VIP).</p>
+
+<figure>
+    <img style="display: block; margin: auto; width: 80%; padding-top:25px" src="/assets/ananta.png" />
+<figcaption>Figure 11. Ananta Data Plane Tiers. Figure from <a href="https://www.semanticscholar.org/paper/Ananta%3A-cloud-scale-load-balancing-Patel-Bansal/5b999d36d5230eca01532b357c7cf338a5e0d641/figure/0">here </a> </figcaption>
+    
+</figure>
+
+<p>The Manager is critical for configuring Host Agents and MUXs but also because provides port allocation for outbound SNAT to the Host Agent. The <strong>MUX is a BGP speaker</strong> which advertise itself to the Manager for routes towards its DIPs. And the Host Agent manages DSR and NAT along with FastPath and VM health monitoring.</p>
+
+<h4 id="contributions-3">Contributions</h4>
+<p>The paper identifies the most important requirements and overcome them introducing Ananta, being able to provide cloud-scale solution for load balancing.</p>
+
+<p>A key difference from Ananta and other load balancer systems is that here <strong>Data/Control plane processing is in part offloaded to the end systems</strong> relieving the network from load and more difficult state management.</p>
+
+<p>Ananta makes use of <strong><em>Direct Server Return</em></strong> or <strong>DSR</strong> to relieve Load balancers (MUX) from the useless work of processing the packets back to destination. Indeed the packet leaves the Host Agent with the destination IP already set so that it can reach the client without passing through the MUX.</p>
+
+<figure>
+    <img style="display: block; margin: auto; width: 60%; padding-top:25px" src="/assets/ananta2.png" />
+<figcaption>Figure 12. The Ananta Architecture. Ananta consists of three components — Ananta Manager, Ananta Mux and Host Agent. Each component is independently scalable. Manager coordinates state across Agents and Muxes. Mux is responsible for packet forwarding for inbound packets. Agent implements NAT, which allows all outbound traffic to bypass Mux. Agents are co-located with destination servers. Figure from <a href="https://www.semanticscholar.org/paper/Ananta%3A-cloud-scale-load-balancing-Patel-Bansal/5b999d36d5230eca01532b357c7cf338a5e0d641/figure/4">here </a> </figcaption>
+    
+</figure>
+
+<p>Furthermore using a Virtual IP allows easy enforcement and management of ACL lists and make it easier to handle disaster recovery or upgrades since it can be dynamically mapped to another instance. Ananta makes use of BGP between Manager and MUXs which allows automatic failure detection and recovery.</p>
+
+<p>Importantly, the network scales as it increases because much work is done by hosts and MUX are horizontally scalable.</p>
+
+<h2 id="connectivity-recovery-directly-in-the-data-plane"><strong>Connectivity recovery directly in the Data-Plane</strong></h2>
+<p>The paper <a class="citation" href="#blink">[5]</a> proposes <strong>BLINK</strong> a completely new approach for dealing with <strong>network failures</strong>.</p>
+
+<p><strong>It recovers from failures leveraging TCP signals directly within the data plane  with no expensive calls to the control plane</strong>. It does take advantage from the key intuition that TCP flows experience a predictable behavior in case of disruption (retransmission).</p>
+
+<p>BLINK first <strong>selects TCP flows to track</strong> (limited amount due to memory constraints) then <strong>detect major disruptions</strong> (if majority of flows experience retransmission) and in the end <strong>recover connectivity</strong> (mainly applying backup path) all in the data plane.</p>
+
+<p>BLINK is able to recover in <strong>sub-second</strong> through fast rerouting and quick activation of backup path and is thus able to solve problem of the long convergence time for <strong>remote</strong> failures (frequent and slow to repair) which used to invoke the control plane to let the topology converge (BGP updates).</p>
+
+<p>Challenges to achieve this are multiple and between them we see memory constraints (sampling), rerouting must apply only on major disruptions and must ignore temporary or casual retransmissions (noisy signals) and the impossibility to know the root cause of those failures (forwarding correctness).</p>
+
+<p>BLINK is implemented in Python and tested on a Tofino hardware switch and provide a good balance between detection and robustness to noisy signals offering on the average a fast sub-second recover. Importantly BLINK is <strong>able to be insensitive to normal congestion events</strong>.</p>
+
+<h4 id="contributions-4">Contributions</h4>
+<p>The paper exposes a completely new approach to recover from failures directly in the data plane leveraging TCP signaling. In fact it introduces a new framework for fast rerouting (sub-seconds) for both local and <em>remote</em> failures.</p>
+
+<p>BLINK <strong>avoids memory problems</strong> with a <em>Flow selector</em> which keeps track of the 64 most active flows evicting the non active, and also the active ones after a certain amount of time.</p>
+
+<p>Blink importantly allows to <em>quickly recover</em> from loops and blackholes by <strong>checking connectivity of each backup path before and after being applied</strong>.</p>
+
+<p>Blinks leverage TCP congestion knowledge about RTO to set the right timer (default 2 sec) for flows eviction and avoid noisy signals causing useless temporary re-routing.</p>
+
+<p>BLINK make use of a logic <em>pipeline</em> for processing the various stages which are Selection, Detection and ReRouting.</p>
+
+<h2 id="references"><strong>References</strong></h2>
+
+<ol class="bibliography"><li><span id="simple">[1]Z. A. Qazi, C.-C. Tu, L. Chiang, R. Miao, V. Sekar, and M. Yu, “SIMPLE-fying Middlebox Policy Enforcement Using SDN,” in <i>Proceedings of the ACM SIGCOMM 2013 Conference on SIGCOMM</i>, New York, NY, USA, 2013, pp. 27–38 [Online]. Available at: http://doi.acm.org/10.1145/2486001.2486022</span>
+
+
+</li>
+<li><span id="midd-outsourc">[2]J. Sherry, S. Hasan, C. Scott, A. Krishnamurthy, S. Ratnasamy, and V. Sekar, “Making Middleboxes Someone else’s Problem: Network Processing As a Cloud Service,” in <i>Proceedings of the ACM SIGCOMM 2012 Conference on Applications, Technologies, Architectures, and Protocols for Computer Communication</i>, New York, NY, USA, 2012, pp. 13–24 [Online]. Available at: http://doi.acm.org/10.1145/2342356.2342359</span>
+
+
+</li>
+<li><span id="metron">[3]G. P. Katsikas, T. Barbette, D. Kostić, R. Steinert, and G. Q. M. Jr., “Metron: NFV Service Chains at the True Speed of the Underlying Hardware,” in <i>15th USENIX Symposium on Networked Systems Design and Implementation (NSDI 18)</i>, Renton, WA, 2018, pp. 171–186 [Online]. Available at: https://www.usenix.org/conference/nsdi18/presentation/katsikas</span>
+
+
+</li>
+<li><span id="ananta">[4]P. Patel <i>et al.</i>, “Ananta: Cloud Scale Load Balancing,” <i>ACM SIGCOMM Computer Communication Review</i>, vol. 43, Aug. 2013. </span>
+
+
+</li>
+<li><span id="blink">[5]T. Holterbach, E. C. Molero, M. Apostolaki, A. Dainotti, S. Vissicchio, and L. Vanbever, “Blink: Fast Connectivity Recovery Entirely in the Data Plane,” in <i>16th USENIX Symposium on Networked Systems Design and Implementation (NSDI 19)</i>, Boston, MA, 2019, pp. 161–176 [Online]. Available at: https://www.usenix.org/conference/nsdi19/presentation/holterbach</span>
+
+
+</li></ol>
+</div>
+    <hr />
+    <div class="share-page">
+    Share this on &rarr;
+ <a href="https://twitter.com/share" class="twitter-share-button" data-via="bestrocker221">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Google +
+<div class="g-plus" data-action="share" data-annotation="bubble"></div>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+ -->
+
+<!-- Facebook -->
+<div class="fb-share-button" data-href="https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/" data-layout="button_count" style="position: relative; top: -6px; left: 3px;"></div>
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=1082525865223478";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/">An introduction to Software Defined Networking</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/sdn">sdn</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/">SDN & NFV with POX and Click Modular Router</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/sdn">sdn</a>, <a href="/python">python</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/">Fault-Tolerant IP routing with Cisco HSRP. [Part 2]</a>
+                    
+                        <small>(Categories: <a href="/notes">notes</a>, <a href="/network">network</a>, <a href="/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/">How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</a>
+                    
+                        <small>(Categories: <a href="/network">network</a>, <a href="/security">security</a>, <a href="/linux">linux</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2019/notes/network/cisco/BGP-OSPF-network-routing/">A Cisco routing lab network with GNS3. [Part 1]</a>
+                    
+                        <small>(Categories: <a href="/notes">notes</a>, <a href="/network">network</a>, <a href="/cisco">cisco</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/">&laquo; An introduction to Software Defined Networking</a>
+  
+  
+</div>
+
+
+<!-- <div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* <![CDATA[ */
+
+        var disqus_shortname = "carloalbertoscola-it";
+        var disqus_identifier = "https://carloalbertoscola.it/_Network Function Virtualization, Middleboxes and Cloud Load Balancing";
+        var disqus_title = "Network Function Virtualization, Middleboxes and Cloud Load Balancing";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    /* ]]> */
+    </script>
+</div> -->
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = "https://carloalbertoscola.it/_Network Function Virtualization, Middleboxes and Cloud Load Balancing"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://carloalbertoscola-it.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2019 - Scola Carlo Alberto <!--<a href="#">Privacy link</a>--> - <a href="/static/albertoscola221@gmail.com.pgp">GPG key </a> - <a href="/cookies">Cookie Policy</a>
+</footer>
+<!-- <div align="center">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0000000000000000"
+    data-ad-slot="0000000000"
+    data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+ -->
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
+<script src="/static/js/super-search.js"></script>
+
+<script src="/static/js/thickbox-compressed.js"></script>
+<script src="/static/js/material.min.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/js/projects.js"></script>
+
+    <script>
+	var consent = getCookie("cookieconsent_status");
+	if( consent == "deny"){
+	} else if (consent == null || consent == "allow") {
+		eval('(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })(window,document,"script","https://www.google-analytics.com/analytics.js","ga");  ga("create", "UA-63063866-5", "auto");  ga("send", "pageview");			');
+	}
+
+  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  // ga('create', 'UA-63063866-5', 'auto');
+  // ga('send', 'pageview');
+</script>
+  </body>
+</html>

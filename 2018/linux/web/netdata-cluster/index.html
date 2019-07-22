@@ -428,18 +428,18 @@ window.addEventListener("load", function(){
 
 <p>Create a directory on the raspi which will contain the dashboard.</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo mkdir /var/www/netdata-cluster</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo mkdir</span> /var/www/netdata-cluster</code></pre></figure>
 
 <p> We first need to install some modules for Apache: </p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo apt install libxml2-dev libapache2-mod-proxy-html</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install </span>libxml2-dev libapache2-mod-proxy-html</code></pre></figure>
 
 <p> Then we need to activate the mods: </p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo a2enmod proxy
-<span class="gp">$ </span>sudo a2enmod proxy_html
-<span class="gp">$ </span>sudo a2enmod proxy_http
-<span class="gp">$ </span>sudo a2enmod xml2enc</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>a2enmod proxy
+<span class="nv">$ </span><span class="nb">sudo </span>a2enmod proxy_html
+<span class="nv">$ </span><span class="nb">sudo </span>a2enmod proxy_http
+<span class="nv">$ </span><span class="nb">sudo </span>a2enmod xml2enc</code></pre></figure>
 
 <p>Open the default <em>vhost</em> file for the HTTPS domain and add these lines at the end right before the enclosing VirtualHost tag.</p>
 
@@ -449,7 +449,7 @@ window.addEventListener("load", function(){
         ProxyRequests Off
         ProxyPreserveHost on
 
-        &lt;location /netdata/ &gt;
+        &lt;location /netdata/ <span class="o">&gt;</span>
                Require host &lt;YOUR DASHBOARD HOSTING DOMAIN&gt;  //e.g. myraspi.com
         &lt;/location&gt;
 
@@ -465,26 +465,26 @@ window.addEventListener("load", function(){
                 Order deny,allow
                 Allow from all
         &lt;/location&gt;
-        &lt;Directory /netdata/ &gt;
-                Options -Indexes +FollowSymLinks
+        &lt;Directory /netdata/ <span class="o">&gt;</span>
+                Options <span class="nt">-Indexes</span> +FollowSymLinks
                 AllowOverride all
                 Order deny,allow
                 Deny from all
        &lt;/Directory&gt;
 
-        ProxyPass <span class="s2">"/netdata/"</span> <span class="s2">"http://127.0.0.1:19999/"</span> <span class="nv">connectiontimeout</span><span class="o">=</span>5 <span class="nv">timeout</span><span class="o">=</span>30
+        ProxyPass <span class="s2">"/netdata/"</span> <span class="s2">"http://127.0.0.1:19999/"</span> <span class="nv">connectiontimeout</span><span class="o">=</span>5 <span class="nb">timeout</span><span class="o">=</span>30
         ProxyPassReverse <span class="s2">"/netdata/"</span> <span class="s2">"http://127.0.0.1:19999/"</span></code></pre></figure>
 
 <p>Verify the sintax is correct with:  (should return <em>Syntax OK</em>)</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>apachectl configtest</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>apachectl configtest</code></pre></figure>
 
 <p>Now we are going to create the credentials for accessing the dashboard page</p>
 
 <p>Install apache2-utils if you don’t have already and create a netdata user</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo apt install apache2-utils
-<span class="gp">$ </span>sudo htpasswd -c /etc/apache2/.htpasswd netdata</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install </span>apache2-utils
+<span class="nv">$ </span><span class="nb">sudo </span>htpasswd <span class="nt">-c</span> /etc/apache2/.htpasswd netdata</code></pre></figure>
 
 <p>You have to insert the password for the user ‘netdata’ twice.</p>
 
@@ -556,7 +556,7 @@ It provide a simple example with some graph in comparison from 2 different serve
 
 <p>You need to copy it into your /etc/cron.d folder and then setup a hourly cron job: (as root user)</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>crontab -e</code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>crontab <span class="nt">-e</span></code></pre></figure>
 
 <p>Now add at the end of the file:</p>
 
@@ -593,6 +593,36 @@ It provide a simple example with some graph in comparison from 2 different serve
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
 
     
     

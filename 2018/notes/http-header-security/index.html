@@ -374,13 +374,12 @@ window.addEventListener("load", function(){
 
 <h2 id="secure-cookie">Secure Cookie</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Set-Cookie: &lt;name&gt;=&lt;value&gt;[; &lt;Max-Age&gt;=&lt;age&gt;]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: &lt;name&gt;=&lt;value&gt;[; &lt;Max-Age&gt;=&lt;age&gt;]
               [; expires=&lt;date&gt;]
                 [; domain=&lt;domain_name&gt;]
                   [; path=&lt;some_path&gt;]
                     [; secure][; HttpOnly]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><strong>HttpOnly</strong>: any script can’t access cookie data, an empty string is returned.</li>
@@ -411,23 +410,22 @@ window.addEventListener("load", function(){
 
 <p>Suppose web content on domain http://foo.example wishes to invoke content on domain http://bar.other. Code of this sort might be used within JavaScript deployed on foo.example:</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">invocation</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
-<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'http://bar.other/resources/public-data/'</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">invocation</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://bar.other/resources/public-data/</span><span class="dl">'</span><span class="p">;</span>
 
 <span class="kd">function</span> <span class="nx">callOtherDomain</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">if</span><span class="p">(</span><span class="nx">invocation</span><span class="p">)</span> <span class="p">{</span>    
-    <span class="nx">invocation</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nx">invocation</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
     <span class="nx">invocation</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="nx">handler</span><span class="p">;</span>
     <span class="nx">invocation</span><span class="p">.</span><span class="nx">send</span><span class="p">();</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This will lead to a simple exchange between the client and the server, using CORS headers to handle the privileges:</p>
 
 <p>Let us look at what the browser will send to the server in this case, and let’s see how the server responds:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>GET /resources/public-data/ HTTP/1.1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /resources/public-data/ HTTP/1.1
 Host: bar.other
 User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1b3pre) Gecko/20081130 Minefield/3.1b3pre
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
@@ -448,8 +446,7 @@ Connection: Keep-Alive
 Transfer-Encoding: chunked
 Content-Type: application/xml
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>To note:</p>
 <ul>
   <li><strong>Origin</strong> header in the request from <em>foo.example</em></li>
@@ -543,11 +540,10 @@ if the server sends a <code class="highlighter-rouge">nosniff</code> directive i
 <p>indicate if a browser should be allowed to render a page in an <code class="highlighter-rouge">&lt;iframe&gt;</code>, <code class="highlighter-rouge">&lt;frame&gt;</code> or <code class="highlighter-rouge">&lt;object&gt;</code>. This in order to avoid <a href="https://en.wikipedia.org/wiki/Clickjacking">clickjacking attacks</a> (also known as “User Interface redress attack, UI redress attack,”).</p>
 
 <p>Possible directives:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>X-Frame-Options: DENY
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-Frame-Options: DENY
 X-Frame-Options: SAMEORIGIN
 X-Frame-Options: ALLOW-FROM https://example.com/
-</code></pre>
-</div>
+</code></pre></div></div>
 <ul>
   <li><strong>DENY</strong> : attempts to load page in a frame will fail also whed the page is loaded from the same site.</li>
   <li><strong>SAMEORIGIN</strong>: only allow page from the same origin to be loaded into the page itself.</li>
@@ -626,6 +622,28 @@ X-Frame-Options: ALLOW-FROM https://example.com/
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
 
     
     

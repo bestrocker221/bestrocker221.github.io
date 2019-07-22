@@ -398,7 +398,7 @@ window.addEventListener("load", function(){
 <p><strong><em>Without enabling SSL on prestashop, it doesnt rewrite URLs to the correct https scheme.</em></strong></p>
 
 <p>My actual _nginx.conf:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>server {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
         listen      80 reuseport;
         server_name  localhost &lt;domain&gt;;
         
@@ -462,29 +462,26 @@ window.addEventListener("load", function(){
 
 }
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note:</p>
 
 <p>If you also need <a href="https://github.com/SpiderLabs/ModSecurity"><strong><em>ModSecurity Web Application Firewall</em></strong></a>, you just need to install first the rules (<a href="https://coreruleset.org/">OWASP core ruleset</a>) and then use these two lines:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>modsecurity on;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modsecurity on;
 modsecurity_rules_file /etc/nginx/modsecurity.d/include.conf;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="solution"><strong>Solution</strong></h2>
 <p>On NGINX using</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>rewrite ^ https://&lt;DOMAIN&gt;$request_uri? permanent;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rewrite ^ https://&lt;DOMAIN&gt;$request_uri? permanent;
+</code></pre></div></div>
 
 <p>First:  I need prestashop to create <strong>https</strong> links instead of <strong>http</strong> link though the function <strong><em>BaseLink</em></strong> so i changed “http” to “https” in the last row:</p>
 
 <p>File: <em>classes/Link.php</em></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>public function getBaseLink($idShop = null, $ssl = null, $relativeProtocol = false)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public function getBaseLink($idShop = null, $ssl = null, $relativeProtocol = false)
     {
    ﻿     static $force_ssl = true;  /*CHANGED null to true */
 
@@ -509,8 +506,7 @@ modsecurity_rules_file /etc/nginx/modsecurity.d/include.conf;
 
         return $base.$shop-&gt;getBaseURI();
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>I just forced PS to use https whether it is activated or not.</p>
 
@@ -518,10 +514,9 @@ modsecurity_rules_file /etc/nginx/modsecurity.d/include.conf;
 
 <p><strong>Now you just need to make apache believe those are HTTPS requests even if those are actually HTTP so add these lines in NGINX reverse proxy nginx.conf:</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>proxy_set_header X-Scheme https;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>proxy_set_header X-Scheme https;
 proxy_set_header X-Forwarded-Proto https;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>and everything works!</p>
 
@@ -553,6 +548,36 @@ proxy_set_header X-Forwarded-Proto https;
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
+        
+    
+        
+            
+        
+            
+        
+    
 
     
     
