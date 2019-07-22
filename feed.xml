@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 23 Jul 2019 00:00:27 +0200</pubDate>
-    <lastBuildDate>Tue, 23 Jul 2019 00:00:27 +0200</lastBuildDate>
+    <pubDate>Tue, 23 Jul 2019 00:09:08 +0200</pubDate>
+    <lastBuildDate>Tue, 23 Jul 2019 00:09:08 +0200</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
@@ -40,6 +40,7 @@
       &lt;li&gt;&lt;a href=&quot;#contributions-4&quot; id=&quot;markdown-toc-contributions-4&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#here-link-to-part-1&quot; id=&quot;markdown-toc-here-link-to-part-1&quot;&gt;&lt;strong&gt;Here link to PART 1&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#references&quot; id=&quot;markdown-toc-references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -215,6 +216,8 @@ Middleboxes are often required some properties like &lt;strong&gt;being on-path&
 
 &lt;p&gt;BLINK make use of a logic &lt;em&gt;pipeline&lt;/em&gt; for processing the various stages which are Selection, Detection and ReRouting.&lt;/p&gt;
 
+&lt;h2 id=&quot;here-link-to-part-1&quot;&gt;&lt;strong&gt;&lt;a href=&quot;/2019/network/sdn/software-defined-networking-introduction/&quot;&gt;Here link to PART 1&lt;/a&gt;&lt;/strong&gt;&lt;/h2&gt;
+&lt;hr /&gt;
 &lt;h2 id=&quot;references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/h2&gt;
 
 &lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;simple&quot;&gt;[1]Z. A. Qazi, C.-C. Tu, L. Chiang, R. Miao, V. Sekar, and M. Yu, “SIMPLE-fying Middlebox Policy Enforcement Using SDN,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2013 Conference on SIGCOMM&lt;/i&gt;, New York, NY, USA, 2013, pp. 27–38 [Online]. Available at: http://doi.acm.org/10.1145/2486001.2486022&lt;/span&gt;
@@ -253,7 +256,8 @@ Middleboxes are often required some properties like &lt;strong&gt;being on-path&
         <title>An introduction to Software Defined Networking</title>
         <description>&lt;h1 class=&quot;no_toc&quot; id=&quot;the-new-way-to-do-networking-with-sdn&quot;&gt;&lt;strong&gt;&lt;center&gt;The &quot;new&quot; way to do networking with SDN&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
 &lt;h2 class=&quot;no_toc&quot; id=&quot;sdn-applications-analysis-and-scaling-&quot;&gt;&lt;strong&gt;&lt;center&gt;SDN applications, analysis and scaling &lt;/center&gt;&lt;/strong&gt;&lt;/h2&gt;
-&lt;h3 class=&quot;no_toc&quot; id=&quot;-research-papers-review-and-summary-&quot;&gt;&lt;center&gt; Research papers review and summary &lt;/center&gt;&lt;/h3&gt;
+&lt;h3 class=&quot;no_toc&quot; id=&quot;-research-papers-review-and-summary-&quot;&gt;&lt;center&gt; Research papers review and summary. &lt;/center&gt;&lt;/h3&gt;
+&lt;h3 class=&quot;no_toc&quot; id=&quot;-part-1---here-link-to-part-2&quot;&gt;&lt;center&gt; PART 1 - &lt;a href=&quot;/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/&quot;&gt;Here link to PART 2&lt;/a&gt;&lt;/center&gt;&lt;/h3&gt;
 &lt;p&gt;In &lt;strong&gt;&lt;a href=&quot;/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/&quot;&gt;this post&lt;/a&gt;&lt;/strong&gt; there is a practical step-by-step project with POX SDN, OpenFlow, Click and NFV.&lt;/p&gt;
 
 &lt;h3 class=&quot;no_toc&quot; id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
@@ -282,6 +286,7 @@ Middleboxes are often required some properties like &lt;strong&gt;being on-path&
       &lt;li&gt;&lt;a href=&quot;#contributions-5&quot; id=&quot;markdown-toc-contributions-5&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#here-link-to-part-2&quot; id=&quot;markdown-toc-here-link-to-part-2&quot;&gt;&lt;strong&gt;Here link to PART 2&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#references&quot; id=&quot;markdown-toc-references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -477,6 +482,8 @@ Paper shows an analysis of trade-offs between centralized management and costs, 
 
 &lt;p&gt;The paper also points out that prefixes tend to be stable , BGP routes only affects small part of forwarding table and BGP route changes occur in bursts and are followed by long periods. These aspects have greatly helped to better think and improve the policy compilation processes.&lt;/p&gt;
 
+&lt;h2 id=&quot;here-link-to-part-2&quot;&gt;&lt;strong&gt;&lt;a href=&quot;/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/&quot;&gt;Here link to PART 2&lt;/a&gt;&lt;/strong&gt;&lt;/h2&gt;
+&lt;hr /&gt;
 &lt;h2 id=&quot;references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/h2&gt;
 
 &lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;onix&quot;&gt;[1]T. Koponen, M. Casado, and N. Gude, “Onix: A distributed control platform for large-scale production networks,” &lt;i&gt;Proceedings of the 9th USENIX Symposium on Operating Systems Design and Implementation&lt;/i&gt;, Jan. 2010. &lt;/span&gt;
