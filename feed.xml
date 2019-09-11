@@ -5,9 +5,195 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 23 Jul 2019 00:09:08 +0200</pubDate>
-    <lastBuildDate>Tue, 23 Jul 2019 00:09:08 +0200</lastBuildDate>
+    <pubDate>Wed, 11 Sep 2019 22:45:14 +0200</pubDate>
+    <lastBuildDate>Wed, 11 Sep 2019 22:45:14 +0200</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
+    
+      <item>
+        <title>What is Subdomain Takeover and how to defend.</title>
+        <description>&lt;h1 id=&quot;-subdomain-takeover-and-how-to-avoid-it-&quot;&gt;&lt;strong&gt;&lt;center&gt; SubDomain Takeover and how to avoid it. &lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;how-to-spot-unused-subdomains&quot;&gt;&lt;strong&gt;&lt;center&gt;How to spot unused subdomains&lt;/center&gt;&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;Note, this is a very high level introduction and overview of what a subdomain takeover is, with some examples happened against known websites.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-is-dns-zone-delegation&quot;&gt;What is DNS Zone Delegation&lt;/h3&gt;
+
+&lt;p&gt;DNS is a  hierarchy structure made of a series of delegations: from the root (&lt;strong&gt;.&lt;/strong&gt;) zone, to (&lt;strong&gt;.com&lt;/strong&gt;) zone (alias &lt;strong&gt;Top Level Domain&lt;/strong&gt; or &lt;strong&gt;TLD&lt;/strong&gt;), to (&lt;strong&gt;example.com&lt;/strong&gt;) zone. How are all the zones linked? Delegation.&lt;/p&gt;
+
+&lt;p&gt;In fact the &lt;strong&gt;.com&lt;/strong&gt; &lt;em&gt;delegate&lt;/em&gt; the authority of &lt;strong&gt;example.com&lt;/strong&gt; to its own &lt;em&gt;zone&lt;/em&gt;.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/zone-delegation-dns.gif&quot; /&gt;
+&lt;figcaption&gt;Figure 1. from &lt;a href=&quot;https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc771640(v=ws.11)&quot;&gt;here &lt;/a&gt;&lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+&lt;p&gt;DNS provide options to divide name-spaces into one or more zones, which can be stored or replicated to others DNS servers. If you want to create additional zones keep in mind:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Do you want to delegate part of DNS management to another location?&lt;/li&gt;
+  &lt;li&gt;Do you want to distribute traffic, load balance, have redundancy and ultimately to improve resolutions?&lt;/li&gt;
+  &lt;li&gt;Do you want to extend name-spaces by adding multiple subdomains at once?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Remember that for each new zone that you create, you need delegation records in other zones that point to the authoritative DNS servers for the new zone.&lt;/p&gt;
+
+&lt;p&gt;When a standard primary zone is first created, all the resource record information is stored as a text file on a single DNS server. This server acts as the primary master for the zone. Zone information can be replicated to other DNS servers to improve fault tolerance and server performance.&lt;/p&gt;
+
+&lt;h2 id=&quot;subdomain-to-a-new-zone&quot;&gt;Subdomain to a new zone&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://bestrockers.ddns.net/res/zone-deleg.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;&lt;em&gt;Figure 1.&lt;/em&gt;&lt;/strong&gt; shows a DNS hierarchy for a new &lt;strong&gt;&lt;em&gt;example.microsoft.com&lt;/em&gt;&lt;/strong&gt; domain zone (&lt;strong&gt;ns.1.us.example.microsoft.com&lt;/strong&gt;).&lt;/p&gt;
+
+&lt;p&gt;To make authoritative DNS servers know about the new delegated zone, two DNS resource record are required:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;A name-server NS RR to advertise that &lt;strong&gt;&lt;a href=&quot;http://ns.1.us.example.microsoft.com&quot;&gt;ns.1.us.example.microsoft.com&lt;/a&gt;&lt;/strong&gt; is an authoritative DNS server for the delegated domain.&lt;/li&gt;
+  &lt;li&gt;A host (A or AAAA) RR to necessarily resolve the name to its IP address.
+Ref: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc771640(v=ws.11)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;the-subdomain-takeover&quot;&gt;&lt;strong&gt;The Subdomain Takeover&lt;/strong&gt;&lt;/h1&gt;
+
+&lt;p&gt;It is considered a high severity threat and boils down to the registration of a domain by somebody else (with bad intentions) in order to gain control over one or more (sub)domains. This attack vector could lead to authentication bypass for example:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://hackerone.com/reports/172137&quot;&gt;Authentication bypass on sso.ubnt.com via subdomain takeover of ping.ubnt.com&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This is not a standard vulnerability, but a chain of two more exotic vulnerabilities leading to a full authentication bypass of your SSO login system at &lt;strong&gt;sso.ubnt.com&lt;/strong&gt; (via account.ubnt.com). The root cause of this authentication bypass is two-fold:&lt;/p&gt;
+  &lt;ol&gt;
+    &lt;li&gt;Subdomain &lt;strong&gt;ping.ubnt.com&lt;/strong&gt; was pointing to Amazon Cloudfront CDN, but the hostname was not registered there anymore. This allowed me to fully takeover this domain. It is now serving content of my own webserver, both over http and https.&lt;/li&gt;
+    &lt;li&gt;The session cookie of your SSO subdomain &lt;strong&gt;sso.ubnt.com&lt;/strong&gt; is (deliberately?) shared with all &lt;strong&gt;https://*.ubnt.com&lt;/strong&gt; subdomains through its “domain=.ubnt.com” attribute. This allows leakage of this high-value session cookie to the overtaken subdomain &lt;strong&gt;https://ping.ubnt.com&lt;/strong&gt; in all modern browsers.&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;scenario&quot;&gt;Scenario&lt;/h2&gt;
+
+&lt;p&gt;Let’s say a business (e-commerce) is using &lt;strong&gt;&lt;a href=&quot;http://example.com&quot;&gt;example.com&lt;/a&gt;&lt;/strong&gt; as primary domain. E-commerce providers (e.g. Shopify, BigCommerce, Magento, Yokart, Big Kartel) will give you a domain for your store like &lt;strong&gt;&lt;em&gt;&lt;a href=&quot;http://shopexample.ecommerceplatform.com&quot;&gt;shopexample.ecommerceplatform.com&lt;/a&gt;&lt;/em&gt;&lt;/strong&gt; but you want to use your own domain for example &lt;strong&gt;shop.example.com.&lt;/strong&gt; You have two options.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;A &lt;strong&gt;301/302 HTTP redirect&lt;/strong&gt; from &lt;a href=&quot;http://shop.example.com&quot;&gt;shop.example.com&lt;/a&gt; to the domain of the ecommerce platform but will replace the URL in the browser URL bar.&lt;/li&gt;
+  &lt;li&gt;A &lt;strong&gt;CNAME DNS record&lt;/strong&gt; that delegate DNS resolution directly to the e-commerce provider. Here the URL in the bar remain unchanged.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;if one year later you dismiss the subscription, it can happen to &lt;strong&gt;forget to update or simply remove the CNAME record in your DNS zone file.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;remove-the-cname-record-to-avoid-subdomain-takeover&quot;&gt;&lt;strong&gt;Remove the CNAME record to avoid Subdomain Takeover&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;When you don’t remove the CNAME record from your DNS zone file, &lt;strong&gt;anybody&lt;/strong&gt; can register a new store in the same e-commerce platform suppliers environment &lt;strong&gt;and therefore aim to takeover &lt;a href=&quot;http://shop.example.com/&quot;&gt;shop.example.com&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Rule N.1:  Check DNS configurations for subdomains pointing at services not in use.&lt;/p&gt;
+
+&lt;h2 id=&quot;cloud-providers-and-cdns&quot;&gt;Cloud providers and CDNs&lt;/h2&gt;
+
+&lt;p&gt;Example. Amazon CloudFront (CDN service) works with the concept of “distributions” (set of static files hosted on the Amazon Cloudfront Edge servers.). After creating a new distribution a new domain name is randomly generated like &lt;em&gt;&lt;a href=&quot;http://r42opslbajrw244.cloudfront.net&quot;&gt;r42opslbajrw244.cloudfront.net&lt;/a&gt; but:&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;No 1:1 mapping, no dedicated IP address for every distribution but m:n mapping (virtual hosting in Edge servers). HTTP Host Header tells the server which hostname to serve.&lt;/p&gt;
+
+&lt;p&gt;If you want to use &lt;a href=&quot;http://shop.example.com&quot;&gt;shop.example.com&lt;/a&gt; then a CNAME record like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shop.example.com.	600	IN	CNAME	r42opslbajrw244.cloudfront.net.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;with an Alternate Domain Name set on Cloudfront for shop.example.com&lt;/p&gt;
+
+&lt;h1 id=&quot;what-does-this-mean&quot;&gt;WHAT DOES THIS MEAN?&lt;/h1&gt;
+
+&lt;p&gt;If an attacker can spot a subdomain unused with improper (but still valid) DNS configuration, he can register a new domain with the same name and being pointed to the “takeovered” one. He can trick users to visit the domain as they will not know if they are surfing an illegitimate website, an an attacker can easily steal an &lt;strong&gt;authentication cookie&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;usagov-vulnerable-to-subdomain-takeover&quot;&gt;&lt;a href=&quot;http://usa.gov/&quot;&gt;USA.gov&lt;/a&gt; vulnerable to Subdomain Takeover&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;suspicious subdomain &lt;a href=&quot;http://api.usa.gov/&quot;&gt;api.usa.gov&lt;/a&gt; with 404 HTTP code&lt;/li&gt;
+  &lt;li&gt;the &lt;a href=&quot;http://api.usa.gov/&quot;&gt;api.usa.gov&lt;/a&gt; points to CNAME record &lt;a href=&quot;http://api-usa-gov.domains.api.data.gov/&quot;&gt;api-usa-gov.domains.api.data.gov&lt;/a&gt; which in turn has A records pointing to AWS servers.&lt;/li&gt;
+  &lt;li&gt;subdomain not registered in GitHub pages anymore.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Ref: &lt;a href=&quot;https://blog.sweepatic.com/usa-secured-by-sweepatic/&quot;&gt;https://blog.sweepatic.com/usa-secured-by-sweepatic/&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;subdomain-enumeration&quot;&gt;&lt;strong&gt;Subdomain Enumeration&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;h3 id=&quot;how-can-we-spot-subdomains&quot;&gt;How can we spot subdomains?&lt;/h3&gt;
+
+&lt;p&gt;Subdomain enumeration is an important part of the reconnaissance phase in the &lt;strong&gt;cyber kill chain.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Subdomain enumeration is the process of finding valid (resolvable) subdomains for one or more domain(s). Unless the DNS server exposes a full DNS zone (via &lt;a href=&quot;https://cr.yp.to/djbdns/axfr-notes.html&quot;&gt;AFXR&lt;/a&gt; or a “mechanism for replicating DNS data across DNS servers”), it is really hard to obtain a list of existing subdomains.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;dictionary of common names (no strange names)&lt;/li&gt;
+  &lt;li&gt;crawl second level domain to find links to subdomains (google dorks is faster)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Facebook Certificate Transparency&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developers.facebook.com/tools/ct&quot;&gt;https://developers.facebook.com/tools/ct&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;let you subscribe to every change in a domain /subdomain certificate&lt;/p&gt;
+
+&lt;h3 id=&quot;tools&quot;&gt;&lt;strong&gt;Tools&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;h4 id=&quot;dns-zone-transfer-very-uncommon-nowadays&quot;&gt;DNS Zone Transfer (very uncommon nowadays)&lt;/h4&gt;
+
+&lt;p&gt;AXFR request directly on the DNS server:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dig @ns.example.com example=.com AXFR
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The best practice advises administrators to allow AXFR requests only from authorized DNS servers, so the above technique will probably not work.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;NSEC walking attack&lt;/strong&gt;, which enumerates DNSSEC-signed zones. (&lt;a href=&quot;https://nmap.org/nsedoc/scripts/dns-nsec-enum.html&quot;&gt;https://nmap.org/nsedoc/scripts/dns-nsec-enum.html&lt;/a&gt;)&lt;/p&gt;
+
+&lt;h3 id=&quot;google-dorks&quot;&gt;Google Dorks&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;site:example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;rapid7-dns-dataset&quot;&gt;Rapid7 DNS dataset&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://opendata.rapid7.com/sonar.fdns_v2/&quot;&gt;https://opendata.rapid7.com/sonar.fdns_v2/&lt;/a&gt; provide a large dataset of domains found on the internet.&lt;/p&gt;
+
+&lt;p&gt;To skim and search for:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;zcat snapshop.json.gz | 
+jq -r 'if (.name | test(&quot;\\.example\\.com$&quot;)) then .name else empty end'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;jq&lt;/strong&gt; (&lt;a href=&quot;https://stedolan.github.io/jq/&quot;&gt;https://stedolan.github.io/jq/&lt;/a&gt;) is like &lt;strong&gt;sed&lt;/strong&gt; for large json data&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Or just use —&amp;gt; &lt;a href=&quot;https://dnsdumpster.com/&quot;&gt;https://dnsdumpster.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;subject-alternative-name&quot;&gt;Subject Alternative Name&lt;/h2&gt;
+&lt;p&gt;Some tools for finding subdomains:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://censys.io/&quot;&gt;Censys.io&lt;/a&gt; —&amp;gt;  &lt;a href=&quot;https://censys.io/certificates?q=.example.com&quot;&gt;https://censys.io/certificates?q=.example.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://crt.sh/&quot;&gt;Crt.sh&lt;/a&gt; —&amp;gt; &lt;a href=&quot;https://crt.sh/?q=%25.example.com&quot;&gt;https://crt.sh/?q=%.example.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/aboul3la/Sublist3r&quot;&gt;Sublist3r&lt;/a&gt; —&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;python [sublist3r.py](http://sublist3r.py/) -d [example.com](http://example.com/)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Refs at &lt;a href=&quot;https://blog.sweepatic.com/art-of-subdomain-enumeration/&quot;&gt;https://blog.sweepatic.com/art-of-subdomain-enumeration/&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;More coming soon! Stay cool! and safe ;)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Carlo Alberto&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 05 Sep 2019 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2019/web/security/SubDomain-Takeover/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/web/security/SubDomain-Takeover/</guid>
+        
+        
+        <category>web</category>
+        
+        <category>security</category>
+        
+      </item>
     
       <item>
         <title>Network Function Virtualization, Middleboxes and Cloud Load Balancing</title>
@@ -2404,146 +2590,6 @@ HiddenServicePort 30022 127.0.0.1:22
         <category>security</category>
         
         <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>SameSite cookie security</title>
-        <description>&lt;h1 id=&quot;samesite-and-xssi&quot;&gt;SameSite and XSSI&lt;/h1&gt;
-
-&lt;p&gt;What is here:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;http-equiv&lt;/li&gt;
-  &lt;li&gt;SameSite cookie&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;short-review-of-meta-http-equiv&quot;&gt;Short review of &lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;meta http-equiv&lt;/code&gt;&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;meta http-equiv=&quot;&amp;lt;&amp;gt;&quot; content=&quot;&amp;lt;&amp;gt;&quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The http-equiv attribute provides an &lt;strong&gt;HTTP heade&lt;/strong&gt;r for the information/value of the &lt;a href=&quot;https://www.w3schools.com/tags/att_meta_content.asp&quot;&gt;content&lt;/a&gt; attribute.&lt;/p&gt;
-
-&lt;p&gt;The http-equiv attribute can be used to simulate an HTTP response header.&lt;/p&gt;
-
-&lt;p&gt;So, basically, using a HTML directive like:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;meta http-equiv=&quot;set-cookie&quot; content=&quot;id=12345; SameSite=Strict&quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;is equivalent to:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Set-Cookie: id=12345; SameSite=Strict;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;sent by the server.&lt;/p&gt;
-
-&lt;h1 id=&quot;samesite-cookie&quot;&gt;&lt;strong&gt;SameSite cookie&lt;/strong&gt;&lt;/h1&gt;
-
-&lt;p&gt;The aims of this cookie attribute are:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;prevent cross origin timing attacks:&lt;/p&gt;
-
-    &lt;p&gt;( &lt;a href=&quot;https://aaltodoc.aalto.fi/handle/123456789/23955&quot;&gt;https://aaltodoc.aalto.fi/handle/123456789/23955&lt;/a&gt; and &lt;a href=&quot;https://www.sjoerdlangkemper.nl/2016/04/21/combining-csrf-with-timing-attacks/&quot;&gt;https://www.sjoerdlangkemper.nl/2016/04/21/combining-csrf-with-timing-attacks/&lt;/a&gt;)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;prevent cross origin script inclusion (XSSI):&lt;/p&gt;
-
-    &lt;p&gt;“XSSI is a fancy way of saying: you are including in your program, someone elses code; You don’t have any control over what is in that code, and you don’t have any control over the security of the server on which it is hosted.&lt;/p&gt;
-
-    &lt;script type=&quot;text/javascript&quot; src=&quot;http://mymatedave.com/js/coolwidget.js&quot;&gt;&lt;/script&gt;
-
-    &lt;p&gt;That script will run in my webapp with the same level of trust as any of my own javascript code. It will have access to the the full page content and DOM, it will be able to read all my app’s cookies and read the users keypresses and mouse movements, and everything else that javascript can do.&lt;/p&gt;
-
-    &lt;p&gt;If my mate dave, then decides to put something malicious in his cool widget (say, a sniffer/keylogger that sends all the user’s cookies, form data and keypresses to his server) then I won’t necessarily know. Also, the security of my app now depends on the security of dave’s server. If dave’s server gets compromised and coolwidget.js is replaced by the attacker, i again won’t necessarily know and the malicious code will run as part of my app. “(&lt;a href=&quot;https://stackoverflow.com/questions/8028511/what-is-cross-site-script-inclusion-xssi&quot;&gt;https://stackoverflow.com/questions/8028511/what-is-cross-site-script-inclusion-xssi&lt;/a&gt;)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;prevent CSRF: SameSite cookies are only sent if the site the request originated from is in the same origin as the target site (in strict mode for GET and POST, in lax mode only for POST requests).&lt;/p&gt;
-
-    &lt;p&gt;NOTE: The cookies are, as also with cross-site request forgery (CSRF), included when requesting a resource from a different host.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;SameSite cookie flag can be &lt;strong&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;strict&lt;/code&gt;&lt;/em&gt;&lt;/strong&gt; or &lt;strong&gt;&lt;em&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lax:&lt;/code&gt;&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;strict:&lt;/strong&gt; will prevent the cookie from being sent by the browser to the target site in all cross-site browsing context. A bank website however most likely doesn’t want to allow any transactional pages to be linked from external sites so the strict flag would be most appropriate here. It can affect negatively the user experience, if a user click on a FB profile page on a site diverse than &lt;a href=&quot;http://facebook.com&quot;&gt;facebook.com&lt;/a&gt; he will see error 404.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;lax&lt;/strong&gt;: the browser is sending the cookie if the user clicks on a &lt;strong&gt;top level URL&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;HTTP Headers:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Set-Cookie: CookieName=CookieValue; SameSite=Lax;
-Set-Cookie: CookieName=CookieValue; SameSite=Strict;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Let’s make some examples:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/same-site-cookie-diagram-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Many times the browser will send some requests cross origin when the page is loaded, could it be advertisements, tracking, analitycs, Facebook like buttons and so more. Along with these requests, the cookies present in the victim browser that belong to that domains will also be sent.&lt;/p&gt;
-
-&lt;p&gt;This is how &lt;strong&gt;Third-Party&lt;/strong&gt; can track their users.&lt;/p&gt;
-
-&lt;p&gt;With &lt;em&gt;SameSite&lt;/em&gt; &lt;strong&gt;&lt;em&gt;lax&lt;/em&gt;&lt;/strong&gt; only &lt;strong&gt;TOP LEVEL NAVIGATION&lt;/strong&gt; allow requests to include cookies.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/same-site-cookie-diagram-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Basically, they don’t change the URL in your address bar. Because these GET requests do not cause a TOP LEVEL navigation, thus cookies set to Lax won’t be sent with them.&lt;/p&gt;
-
-&lt;p&gt;Should i use GET or POST?&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;When the parameters are carried by GET, they stay in the browser history. They also will be placed in server logs and the Referrer header in the request made toward third parties.&lt;/li&gt;
-  &lt;li&gt;Another reason for not using GET requests is that cookies set to Lax are still sent along with GET requests, giving attackers another opportunity to exploit users.&lt;/li&gt;
-  &lt;li&gt;Lastly, exploiting a CSRF vulnerability by using GET is much easier. To exploit a CSRF vulnerability in a form using GET, an attacker does not have to own a site. He can inject this payload into a forum message, post comment or image tag.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;GOOD reference for SameSite explanation&lt;/strong&gt; → &lt;a href=&quot;https://www.netsparker.com/blog/web-security/same-site-cookie-attribute-prevent-cross-site-request-forgery/&quot;&gt;https://www.netsparker.com/blog/web-security/same-site-cookie-attribute-prevent-cross-site-request-forgery/&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;problems-with-samesite&quot;&gt;Problems with SameSite&lt;/h2&gt;
-
-&lt;p&gt;Blocking all third party cookies could make the browser experience very poor.&lt;/p&gt;
-
-&lt;p&gt;From &lt;a href=&quot;https://tools.ietf.org/html/draft-west-first-party-cookies-07#section-1.1&quot;&gt;https://tools.ietf.org/html/draft-west-first-party-cookies-07#section-1.1&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;		Setting the &quot;SameSite&quot; attribute in &quot;strict&quot; mode provides robust
-   defense in depth against CSRF attacks, but has the potential to
-   confuse users unless sites' developers carefully ensure that their
-   session management systems deal reasonably well with top-level
-   navigations.
-
-	   Consider the scenario in which a user reads their email at MegaCorp
-   Inc's webmail provider &quot;https://example.com/&quot;.  They might expect
-   that clicking on an emailed link to &quot;https://projects.com/secret/project&quot; would show them the secret project that they're authorized
-   to see, but if &quot;projects.com&quot; has marked their session cookies as
-   &quot;SameSite&quot;, then this cross-site navigation won't send them along
-   with the request. &quot;projects.com&quot; will render a 404 error to avoid
-   leaking secret information, and the user will be quite confused.
-
-	   Developers can avoid this confusion by adopting a session management
-   system that relies on not one, but two cookies: one conceptualy
-   granting &quot;read&quot; access, another granting &quot;write&quot; access.  The latter
-   could be marked as &quot;SameSite&quot;, and its absence would provide a
-   reauthentication step before executing any non-idempotent action.
-   The former could drop the &quot;SameSite&quot; attribute entirely, or choose
-   the &quot;Lax&quot; version of enforcement, in order to allow users access to
-   data via top-level navigation.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Differences between XSSI and XSS? Read &lt;a href=&quot;/notes/2018/04/23/xssi-and-xss.html&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/notes/samesite-cookie/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/samesite-cookie/</guid>
-        
-        
-        <category>notes</category>
         
       </item>
     
