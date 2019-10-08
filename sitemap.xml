@@ -5,9 +5,23 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Sep 2019 23:08:38 +0200</pubDate>
-    <lastBuildDate>Wed, 11 Sep 2019 23:08:38 +0200</lastBuildDate>
+    <pubDate>Tue, 08 Oct 2019 21:47:19 +0200</pubDate>
+    <lastBuildDate>Tue, 08 Oct 2019 21:47:19 +0200</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
+    
+      <item>
+        <title>Full and Responsible disclosure, the debate.</title>
+        <description>The debate on the different vulnerability disclosure options is still running without a decisive winning answer. Cyber Security is not an option for companies but they often seem to not give it much attention.</description>
+        <pubDate>Sun, 29 Sep 2019 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</guid>
+        
+        
+        <category>security</category>
+        
+        <category>vulnerability</category>
+        
+      </item>
     
       <item>
         <title>What is Subdomain Takeover and how to defend.</title>

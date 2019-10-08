@@ -5,9 +5,132 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Sep 2019 23:08:38 +0200</pubDate>
-    <lastBuildDate>Wed, 11 Sep 2019 23:08:38 +0200</lastBuildDate>
+    <pubDate>Tue, 08 Oct 2019 21:47:19 +0200</pubDate>
+    <lastBuildDate>Tue, 08 Oct 2019 21:47:19 +0200</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
+    
+      <item>
+        <title>Full and Responsible disclosure, the debate.</title>
+        <description>&lt;h1 id=&quot;vulnerability-disclosure---ethical-hacking&quot;&gt;&lt;strong&gt;&lt;center&gt;Vulnerability disclosure - Ethical Hacking&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;responsible-vs-full-vulnerability-disclosure&quot;&gt;&lt;center&gt;Responsible vs Full vulnerability disclosure&lt;/center&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;the-never-ending-debate&quot;&gt;&lt;center&gt;The never ending debate&lt;/center&gt;&lt;/h3&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;read-time-txt&quot;&gt;Reading time:&lt;/span&gt;
+&lt;span class=&quot;read-time-val&quot;&gt;
+
+
+  6 mins
+
+&lt;/span&gt;
+	 
+&lt;p class=&quot;read-time-date&quot;&gt;
+	&lt;script&gt;
+	var today = new Date();
+	weekday = [&quot;Sunday&quot;, &quot;Monday&quot;,&quot;Tuesday&quot;, &quot;Wednesday&quot;,&quot;Thursday&quot;, &quot;Friday&quot;,&quot;Saturday&quot;];
+	mlist = [ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot; ];
+	var time = today.getHours() + &quot;:&quot; + today.getMinutes();
+	var d = weekday[today.getDay()] + &quot; &quot; +today.getDate() + &quot; &quot; + mlist[today.getMonth()] + &quot; &quot; + today.getFullYear();
+	document.write(d + &quot;  &quot; + time);
+	&lt;/script&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/windows-zero-day-twitter.png&quot; /&gt;
+&lt;figcaption&gt;&quot;Microsoft Windows zero-day disclosed on Twitter, again&quot; ZDnet &lt;a href=&quot;https://www.zdnet.com/article/microsoft-windows-zero-day-disclosed-on-twitter-again/&quot;&gt;here &lt;/a&gt;&lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+&lt;p&gt;Software and hardware vulnerabilities are found every day, this means that especially we, users, are under the constant risk of losing the most important asset we have today, &lt;strong&gt;information&lt;/strong&gt;. Cyber Security vulnerabilities are weaknesses and flaws in computer systems, they can be of many different types and can be exploited in many different ways, ultimately exposing the system to external, probably malicious, threats. Vulnerabilities can aim to take down systems availability, ex-filtrate credentials, user data, secrets documents and much more.&lt;/p&gt;
+
+&lt;p&gt;Security has been underrated by a large number of companies and SW houses for quite a while, it is mainly thanks to the more sensitization that in the recent years more focus has started to been put into applying better security policies and best practices. Although the main problem is that &lt;strong&gt;absolute security is hard if not impossible to achieve&lt;/strong&gt;, it is costly, it is broad and it is complex to implement requiring deep technical knowledge.      &lt;br /&gt;
+Security is also taught to be as a “&lt;strong&gt;&lt;em&gt;process&lt;/em&gt;&lt;/strong&gt;”, in fact, following a structured way, adopting the correct mindset, from the various stages of planning and design to the multiple stages of implementation and testing is one of the best ways to decrease risks for businesses and users.&lt;/p&gt;
+
+&lt;p&gt;The Secure Software Development Life Cycle (SDLC) is an example of such a framework that “help discover and reduce vulnerabilities early, effectively building security in it” [1]. Unfortunately, it is very easy for programmers to make errors, and those commonly turn out as vulnerabilities, found by hackers and bug hunters for example. Bulletins, CERTs, forums, mailing lists and social media are the most used means for vulnerability reporting.&lt;/p&gt;
+
+&lt;p&gt;When it comes to vulnerabilities disclosure the topic is controversial in many ways that a clear solution is not easily pointed out. First of all, what are the types of vulnerability disclosure?&lt;/p&gt;
+
+&lt;p&gt;Mainly, who finds a vulnerability can usually go for three options: no disclosure, &lt;em&gt;responsible disclosure&lt;/em&gt; and &lt;em&gt;full disclosure&lt;/em&gt;. The last two are the most debated since they involve different course of action for the company who needs to fix the vulnerability. Every one of the two has different pros that are backed up by competent and respected people in the field.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-responsible-disclosure&quot;&gt;The Responsible Disclosure&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Responsible disclosure&lt;/strong&gt; is essentially a way to give companies a chance to patch the security issue before the vulnerability is disclosed to the public. This involves an agreement between the two parties, in which on one side an amount of time is given to the company to fix the problem and on the other, the finder of the vulnerability agrees on not disclosing any details about it. Often it may require collaboration between the two to explain the issue and find the correct way of fixing it.&lt;/p&gt;
+
+&lt;p&gt;Responsible disclosure is often pointed out as the preferred “ethical way to go” because it avoids putting unexpectedly out into the wild the potential tools for attacking unpatched versions of the software. This involves that companies &lt;strong&gt;do want&lt;/strong&gt; to know if there exists actual vulnerabilities in their software and are ready to take action and develop security updates.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately that is not always the case, in fact, at times the “&lt;em&gt;desire by organizations to know about their vulnerabilities is not always matched by a willingness to act on the information. This is one of the issues at the heart of the disclosure debate.&lt;/em&gt;” [2]&lt;/p&gt;
+
+&lt;p&gt;Sometimes companies can also threaten legal actions against researchers who find out vulnerabilities in their products, that is another aspect that leads to full disclosure, in fact, not every organization employs &lt;em&gt;Bug Bounty&lt;/em&gt; programs which legally allows and stimulates researchers to find out bugs in production environments.&lt;/p&gt;
+
+&lt;p&gt;To let more researchers find vulnerabilities, organizations should establish &lt;strong&gt;easier responsible disclosure processes and create preferential channels for faster responses&lt;/strong&gt;. That could be quite hard since all the security aspects do not bring direct benefits and income to the company, thus they tend to delay such matters.&lt;/p&gt;
+
+&lt;p&gt;On the other hand &lt;em&gt;Travis Ormandy&lt;/em&gt;, the Google &lt;em&gt;Project Zero&lt;/em&gt; researcher uncovered in September 2019 a security bug in the famous &lt;strong&gt;Lastpass&lt;/strong&gt; password manager [3]. The bug could allow an attacker to ex-filtrate user’s previously used password from their browser. The responsible disclosure allowed Lastpass to immediately recover, fix the bug and roll the update making people safer before they even knew could be at risk.&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;&lt;em&gt;BlueKeep&lt;/em&gt;&lt;/strong&gt; vulnerability reported by Microsoft on May 2019 is another case of responsible disclosure which helped the organization rolling out a security update before going public with all the details.&lt;/p&gt;
+
+&lt;p&gt;These are a good example of how useful and safe could the responsible disclosure be, even if the major problem remains the amount of &lt;em&gt;outdated&lt;/em&gt; computers and applications still running.&lt;/p&gt;
+
+&lt;h3 id=&quot;full-disclosure&quot;&gt;Full disclosure&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Full disclosure&lt;/strong&gt; is on the other hand when someone discovers a vulnerability and without reporting it first to the organization, he publishes it on the Internet through social networks or mailing lists. The main intent of the researcher is to &lt;strong&gt;spur companies to act immediately&lt;/strong&gt; and putting them in a potential disadvantageous situation helps to reach the goal. Furthermore, full disclosure will worsen the organization’s reputation and the only thing that can be done to get back is to fastly develop security updates.&lt;/p&gt;
+
+&lt;p&gt;This has multiple side effects, &lt;strong&gt;the company must now address the issue as soon as possible&lt;/strong&gt; (is a good thing) but &lt;strong&gt;it is racing against attackers&lt;/strong&gt; who want to develop a working exploit to take advantage of the unpatched systems.&lt;/p&gt;
+
+&lt;p&gt;This means the company is under bigger pressure but now is obliged to deal with it in the shortest time possible, which means there isn’t enough time to go thoroughly into the issue and a simpler workaround solution is the first thing to come up. That is a downside though, since quickest solutions are often the worse ones, and there is the risk to add other types of issues while trying to fix the previous one in the first place.&lt;/p&gt;
+
+&lt;p&gt;In fact, &lt;em&gt;Mark Miller&lt;/em&gt;, director of &lt;em&gt;Microsoft Security Response Center&lt;/em&gt; is pro responsible disclosure and points out that “responsible disclosure, while not perfect, doesn’t increase risk as full disclosure can. Generally, responsible disclosure benefits everyone involved by providing the best possible protection for customers without forcing vendors into sacrificing quality or security or introducing additional risk.” [4]&lt;/p&gt;
+
+&lt;p&gt;It is very common indeed that researchers alert the companies of actual vulnerabilities and that those companies do not answer at all, or even worse, as it happened to &lt;em&gt;Troy Hunt&lt;/em&gt;, the same company’s Twitter page has blocked the researcher along with his tweets about an &lt;em&gt;insecure direct object reference&lt;/em&gt; vulnerability discovery. The vulnerability allows an attacker to ex-filtrate data of each user registered on the website. [5] Troy also pointed out how difficult it has been to reach to organizations for vulnerabilities reporting. This aspect contributes to choose full disclosure.&lt;/p&gt;
+
+&lt;p&gt;On the other hand, another big example, this time in favour of responsible disclosure, was the one in 2017 of &lt;strong&gt;&lt;em&gt;Meltdown and Spectre&lt;/em&gt;&lt;/strong&gt;, hardware vulnerabilities in central processing units (CPU) that exploit the “speculative execution”, a feature designed to improve performance of modern Intel, AMD, and ARM processors. The vulnerabilities (dated back to as far as 1995) were critical and allowed an attacker to read memory from the secure kernel space. The researchers behind it understood that the immediate future impact of this vulnerability was catastrophic with full disclosure, allowing attackers to impact almost every desktop, server, cloud, mobile device around the world. [6] Researchers used the responsible disclosure and worked with the organizations to help mitigate the issues. After the patches were rolled out, they released the PoC exploit code. This is an example of how impact less could be a responsible disclosure instead of a full disclosure since the main interest is protecting the users&lt;/p&gt;
+
+&lt;p&gt;Although industry thought leaders like &lt;em&gt;Bruce Schneier&lt;/em&gt; argues that full disclosure provokes an immediate urgent response from organizations that otherwise, very probably, would have taken the issue very lightly. [7]&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;It wasn’t until researchers published complete details of the vulnerabilities that the software companies started fixing them.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And about responsible disclosure &lt;em&gt;Schneier&lt;/em&gt; says that “&lt;strong&gt;&lt;em&gt;it remains a good idea only as long as full disclosure is the threat.&lt;/em&gt;&lt;/strong&gt;” with which I agree with.&lt;/p&gt;
+
+&lt;p&gt;I think that responsible disclosure could be the right starting point, both ethically and consequences-wise, as soon as the company cooperates and fulfills his duty to quickly patch the vulnerabilities. In any other case, if the organization refuses to cooperate, or if the organization takes too much unmotivated time, the threat to go full disclosure is more than justified. If an individual wants to help the society and be ethical, the goal is to improve the general awareness and security of users, not to let big companies grow their profit without even trying to protect their first income source.&lt;/p&gt;
+
+&lt;p&gt;Another aspect to consider is that undisclosed vulnerabilities or &lt;em&gt;zero days&lt;/em&gt; are worth huge amounts of money on the black markets. That is another factor that, ethic aside, could change a researcher’s mind. Prices for zero-days can easily go from &lt;code class=&quot;highlighter-rouge&quot;&gt;$10'000&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;$2'500'000&lt;/code&gt; and more according to &lt;strong&gt;&lt;em&gt;Zerodium&lt;/em&gt;&lt;/strong&gt; [8] which is an exploit acquisition platform.&lt;/p&gt;
+
+&lt;p&gt;A different example was the big windows hacking tools leak from the NSA by the &lt;em&gt;Shadow Brokers&lt;/em&gt; hacking group [9], in this case, ready and working exploits for zero-day vulnerabilities went directly public. This resulted in an important race in which hackers took advantage and developed different malware and ransomware based on the ready exploits. It is the example of the infamous &lt;strong&gt;&lt;em&gt;Wannacry&lt;/em&gt;&lt;/strong&gt; and &lt;strong&gt;&lt;em&gt;Petya&lt;/em&gt;&lt;/strong&gt; ransomware which caused several important damages to businesses and public services around the world. These ransom exploited the &lt;em&gt;EthernalBlue&lt;/em&gt; vulnerability released in 2017 [10], Microsoft quickly developed security updates, but not every device gets updated immediately and so the ransomware campaign succeeded very well.&lt;/p&gt;
+
+&lt;p&gt;There seems to be no clear answer to the debate since the various motivations can be all seen with some level of agreement&lt;/p&gt;
+
+&lt;p&gt;Thanks for reading&lt;/p&gt;
+
+&lt;p&gt;/Carlo Alberto&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;[1] https://dzone.com/articles/ssdlc-101-what-is-the-secure-software-development&lt;/li&gt;
+  &lt;li&gt;[2] https://www.csoonline.com/article/3259882/has-responsible-disclosure-won-the-debate.html&lt;/li&gt;
+  &lt;li&gt;[3] https://www.zdnet.com/article/lastpass-bug-leaks-credentials-from-previous-site/&lt;/li&gt;
+  &lt;li&gt;[4] https://www.csoonline.com/article/2121631/microsoft–responsible-vulnerability-disclosure-protects-users.html&lt;/li&gt;
+  &lt;li&gt;[5] https://www.troyhunt.com/kids-pass-just-reminded-us-how-hard-responsible-disclosure-is/&lt;/li&gt;
+  &lt;li&gt;[6] https://www.recordedfuture.com/meltdown-spectre-vulnerabilities/&lt;/li&gt;
+  &lt;li&gt;[7] https://www.schneier.com/blog/archives/2007/01/debating_full_d.html&lt;/li&gt;
+  &lt;li&gt;[8] https://zerodium.com/program.html&lt;/li&gt;
+  &lt;li&gt;[9] https://www.zdnet.com/article/shadow-brokers-latest-file-drop-shows-nsa-targeted-windows-pcs-banks/&lt;/li&gt;
+  &lt;li&gt;[10] https://www.zdnet.com/article/why-the-fixed-windows-eternalblue-exploit-wont-die/&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 29 Sep 2019 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</guid>
+        
+        
+        <category>security</category>
+        
+        <category>vulnerability</category>
+        
+      </item>
     
       <item>
         <title>What is Subdomain Takeover and how to defend.</title>
@@ -2528,68 +2651,6 @@ HiddenServicePort 30022 127.0.0.1:22
         <category>linux</category>
         
         <category>security</category>
-        
-      </item>
-    
-      <item>
-        <title>SOCKS PROXY on Reverse SSH tunnel</title>
-        <description>&lt;h1 id=&quot;socks-proxy-through-ssh-reverse-tunnel&quot;&gt;SOCKS Proxy through SSH REVERSE TUNNEL&lt;/h1&gt;
-&lt;h2 id=&quot;using-only-ssh&quot;&gt;Using only SSH&lt;/h2&gt;
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 17 January 2019&lt;/p&gt;
-
-&lt;p&gt;How to set up a SOCKS proxy with SSH reverse tunnel. The tunnel will be ssh-encrypted and each traffic will pass through the tunnel, like in a VPN.
-&lt;img src=&quot;/assets/socks-ssh.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Usually you may need to have an encrypted SOCKS proxy on a network you trust in order to be able to use it whenever you are on a network you &lt;strong&gt;don’t trust&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;In order to do this you just need to have &lt;strong&gt;ssh server&lt;/strong&gt; active on your remote server, and then just setup a local SOCKS proxy which will redirect traffic through the ssh tunnel.&lt;/p&gt;
-
-&lt;p&gt;This is done with:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ssh -D 127.0.0.1:12345 -l &amp;lt;remoteuser&amp;gt; -p &amp;lt;remoteSSHServerport&amp;gt; serveruser@domain
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Where:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; tells ssh to create a local SOCKS PROXY&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;and SSH will do the rest.&lt;/p&gt;
-
-&lt;h1 id=&quot;i-want-to-do-the-opposite&quot;&gt;I want to do the opposite&lt;/h1&gt;
-&lt;h2 id=&quot;what-if-the-server-is-a-dropbox-behind-a-secure-network&quot;&gt;What if the server is a dropbox behind a secure network?&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The dropbox need to connect to the server.&lt;/li&gt;
-  &lt;li&gt;The server can setup a SOCKS PROXY&lt;/li&gt;
-  &lt;li&gt;The proxy will redirect traffic through the secure channel&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;From the dropbox (assume ssh certificate is already copied):&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ssh -N -R 2222:localhost:22 serveruser@serverdomain
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Where:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-N&lt;/code&gt; tells ssh that there will be no commands sent&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-R [bind_address:]port:host:hostport&lt;/code&gt; enable port forward generating a listening socket on port 2222 on the remote server and redirecting it to the local one on port 22&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;From the server:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ssh -D 127.0.0.1:12345 -l &amp;lt;dropboxuser&amp;gt; -p 2222 localhost
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Now you can set the proxy on your browser (for example) and packets will be routed to the dropbox.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
-</description>
-        <pubDate>Wed, 02 May 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/</guid>
-        
-        
-        <category>security</category>
-        
-        <category>linux</category>
         
       </item>
     
