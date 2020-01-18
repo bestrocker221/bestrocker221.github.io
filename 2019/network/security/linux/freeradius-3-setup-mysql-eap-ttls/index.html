@@ -58,19 +58,24 @@
     
       <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
       <script type="text/javascript">window.baseurl = 'https://carloalbertoscola.it/';</script>
-              <link href="https://fonts.googleapis.com/css?family=Fira+Mono&display=swap" rel="stylesheet">
-
+              <!-- Custom Fonts 
+        <link href="https://fonts.googleapis.com/css?family=Fira+Mono&display=swap" rel="stylesheet">
+-->     
+        <link href="/static/css/FiraMono.css" rel="stylesheet">
         <!-- Custom Fonts 
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 -->
 
         <!-- FontAwesome icons -->
         <!--<link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">-->
+        <!-- 
         <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-
+        -->
+        
+        <link href="/static/css/all.css" rel="stylesheet">
 
         <!-- Core BootStrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
         
         <!-- Material Design CSS -->
         <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
@@ -88,10 +93,10 @@
           var tb_pathToImage = "/static/img/loadingAnimation.gif";
         </script>
 
-        <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto&display=swap" rel="stylesheet">
+        <link href="/static/css/montserrat-robo.css" rel="stylesheet">
 
-      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="/static/css/cookieconsent.min.css" />
+<script src="/static/js/cookieconsent.min.js"></script>
 <script>
 
 function getCookie(name) {
@@ -422,30 +427,30 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span>
 
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radacct</span> <span class="p">(</span>
-  <span class="n">radacctid</span> <span class="n">bigint</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
-  <span class="n">acctsessionid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">acctuniqueid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">realm</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">nasipaddress</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">nasportid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">nasporttype</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">acctstarttime</span> <span class="n">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">acctupdatetime</span> <span class="n">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">acctstoptime</span> <span class="n">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">acctinterval</span> <span class="n">int</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">acctsessiontime</span> <span class="n">int</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">acctauthentic</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">connectinfo_start</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">connectinfo_stop</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">acctinputoctets</span> <span class="n">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">acctoutputoctets</span> <span class="n">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">calledstationid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">callingstationid</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">acctterminatecause</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">servicetype</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">framedprotocol</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">framedipaddress</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">radacctid</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">acctsessionid</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">acctuniqueid</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">username</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">realm</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">nasipaddress</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">nasportid</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">nasporttype</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctstarttime</span> <span class="nb">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctupdatetime</span> <span class="nb">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctstoptime</span> <span class="nb">datetime</span> <span class="k">NULL</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctinterval</span> <span class="nb">int</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctsessiontime</span> <span class="nb">int</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctauthentic</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">connectinfo_start</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">connectinfo_stop</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctinputoctets</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">acctoutputoctets</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">calledstationid</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">callingstationid</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">acctterminatecause</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">servicetype</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">framedprotocol</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">default</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">framedipaddress</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">radacctid</span><span class="p">),</span>
   <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="n">acctuniqueid</span> <span class="p">(</span><span class="n">acctuniqueid</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="n">username</span> <span class="p">(</span><span class="n">username</span><span class="p">),</span>
@@ -463,11 +468,11 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span>
 
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radcheck</span> <span class="p">(</span>
-  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
-  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">attribute</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">op</span> <span class="n">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'=='</span><span class="p">,</span>
-  <span class="n">value</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">username</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">attribute</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">op</span> <span class="nb">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'=='</span><span class="p">,</span>
+  <span class="n">value</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="n">username</span> <span class="p">(</span><span class="n">username</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
 <span class="p">);</span>
@@ -477,11 +482,11 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span>
 
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radgroupcheck</span> <span class="p">(</span>
-  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
-  <span class="n">groupname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">attribute</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">op</span> <span class="n">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'=='</span><span class="p">,</span>
-  <span class="n">value</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">groupname</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">attribute</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">op</span> <span class="nb">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'=='</span><span class="p">,</span>
+  <span class="n">value</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="n">groupname</span> <span class="p">(</span><span class="n">groupname</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
 <span class="p">);</span>
@@ -491,11 +496,11 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span>
 
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radgroupreply</span> <span class="p">(</span>
-  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
-  <span class="n">groupname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">attribute</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">op</span> <span class="n">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'='</span><span class="p">,</span>
-  <span class="n">value</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">groupname</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">attribute</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">op</span> <span class="nb">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'='</span><span class="p">,</span>
+  <span class="n">value</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span>  <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="n">groupname</span> <span class="p">(</span><span class="n">groupname</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
 <span class="p">);</span>
@@ -505,11 +510,11 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span>
 
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radreply</span> <span class="p">(</span>
-  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="n">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
-  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">attribute</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">op</span> <span class="n">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'='</span><span class="p">,</span>
-  <span class="n">value</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">username</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">attribute</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">op</span> <span class="nb">char</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="s1">'='</span><span class="p">,</span>
+  <span class="n">value</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">253</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="n">username</span> <span class="p">(</span><span class="n">username</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
 <span class="p">);</span>
@@ -520,9 +525,9 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span>
 
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radusergroup</span> <span class="p">(</span>
-  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">groupname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">priority</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">'1'</span><span class="p">,</span>
+  <span class="n">username</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">groupname</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">priority</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">'1'</span><span class="p">,</span>
   <span class="k">KEY</span> <span class="n">username</span> <span class="p">(</span><span class="n">username</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span>
 <span class="p">);</span>
 
@@ -530,11 +535,11 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'radpostauth'</span>
 <span class="o">#</span>
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">radpostauth</span> <span class="p">(</span>
-  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
-  <span class="n">username</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">pass</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">reply</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
-  <span class="n">authdate</span> <span class="k">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">CURRENT_TIMESTAMP</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">username</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">pass</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">reply</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">default</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="n">authdate</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">CURRENT_TIMESTAMP</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span>  <span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="p">)</span> <span class="n">ENGINE</span> <span class="o">=</span> <span class="n">INNODB</span><span class="p">;</span>
 
@@ -542,15 +547,15 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <span class="o">#</span> <span class="k">Table</span> <span class="k">structure</span> <span class="k">for</span> <span class="k">table</span> <span class="s1">'nas'</span>
 <span class="o">#</span>
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">nas</span> <span class="p">(</span>
-  <span class="n">id</span> <span class="n">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
-  <span class="n">nasname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">shortname</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span>
-  <span class="k">type</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'other'</span><span class="p">,</span>
-  <span class="n">ports</span> <span class="n">int</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
-  <span class="n">secret</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'secret'</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="n">server</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
-  <span class="n">community</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
-  <span class="n">description</span> <span class="n">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'RADIUS Client'</span><span class="p">,</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">auto_increment</span><span class="p">,</span>
+  <span class="n">nasname</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">shortname</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span>
+  <span class="k">type</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'other'</span><span class="p">,</span>
+  <span class="n">ports</span> <span class="nb">int</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+  <span class="n">secret</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'secret'</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">server</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
+  <span class="n">community</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+  <span class="n">description</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">'RADIUS Client'</span><span class="p">,</span>
   <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">),</span>
   <span class="k">KEY</span> <span class="n">nasname</span> <span class="p">(</span><span class="n">nasname</span><span class="p">)</span>
 <span class="p">);</span>
@@ -973,10 +978,47 @@ ssl-ca=/mysql-certs/ca.crt
             
         
             
+        
+            
+        
+    
+        
+            
+        
+            
+        
+            
                 
                 <div class="panel-body">
                 <h4>Related Posts</h4>
                 <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2020/notes/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/">A secure, easy and encrypted cloud backup</a>
+                    
+                        <small>(Categories: <a href="/notes">notes</a>, <a href="/linux">linux</a>, <a href="/network">network</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+        
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+            
                 
                 <li class="relatedPost">
                     <a href="https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/">Full and Responsible disclosure, the debate.</a>
@@ -1135,16 +1177,6 @@ ssl-ca=/mysql-certs/ca.crt
         
     
         
-            
-                
-                <li class="relatedPost">
-                    <a href="https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/">Fault-Tolerant IP routing with Cisco HSRP. [Part 2]</a>
-                    
-                        <small>(Categories: <a href="/notes">notes</a>, <a href="/network">network</a>, <a href="/cisco">cisco</a>)</small>
-                    
-                </li>
-                
-                
             
         
             
@@ -1479,8 +1511,9 @@ s.setAttribute('data-timestamp', +new Date());
     </div>
 
     
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="/static/js/jquery.min.js"></script>
+
+<script src="/static/js/bootstrap.min.js"></script>
 
 <!--<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
