@@ -18,3 +18,6 @@ cd _site
 git add *
 git commit -m "${COMMIT}"
 git push origin master
+
+# to set remote url git to ssh instead of https
+# git remote set-url origin git@github.com:url..

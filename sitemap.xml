@@ -5,16 +5,16 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 18 Jan 2020 16:56:48 +0100</pubDate>
-    <lastBuildDate>Sat, 18 Jan 2020 16:56:48 +0100</lastBuildDate>
+    <pubDate>Sat, 14 Mar 2020 11:49:24 +0100</pubDate>
+    <lastBuildDate>Sat, 14 Mar 2020 11:49:24 +0100</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
         <title>A secure, easy and encrypted cloud backup</title>
         <description>How to setup the most simple remote backup solution for your needs. Rsync and EncFS will incrementally store only the encrypted files on your &quot;cloud&quot; providing complete privacy.</description>
         <pubDate>Sat, 18 Jan 2020 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2020/notes/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2020/notes/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
+        <link>https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
         
         <category>network</category>
         
@@ -27,7 +27,7 @@
         <category>cloud</category>
         
         
-        <category>notes</category>
+        <category>security</category>
         
         <category>linux</category>
         

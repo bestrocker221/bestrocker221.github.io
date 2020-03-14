@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 18 Jan 2020 16:56:48 +0100</pubDate>
-    <lastBuildDate>Sat, 18 Jan 2020 16:56:48 +0100</lastBuildDate>
+    <pubDate>Sat, 14 Mar 2020 11:49:24 +0100</pubDate>
+    <lastBuildDate>Sat, 14 Mar 2020 11:49:24 +0100</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
@@ -19,7 +19,7 @@
 &lt;figcaption&gt;EncFS and Rsync - the &quot;almost&quot; perfect match.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 18 January 2020&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 14 March 2020&lt;/p&gt;
 
 &lt;h1 id=&quot;how-does-it-work&quot;&gt;How does it work&lt;/h1&gt;
 &lt;p&gt;Firstly &lt;a href=&quot;https://github.com/vgough/encfs&quot;&gt;&lt;strong&gt;Encfs&lt;/strong&gt;&lt;/a&gt; is a &lt;a href=&quot;https://en.wikipedia.org/wiki/EncFS&quot;&gt;&lt;em&gt;FUSE-based cryptographic filesystem&lt;/em&gt;&lt;/a&gt; which will transparently encrypt files using an arbitrary directory as storage. This way you will have two directories, one with the encrypted files (the one to be synchronized remotely) and the other (virtual)
@@ -94,10 +94,16 @@ will be mounted (with password) and will show the cleartext files.&lt;/p&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;All your files are synchronized between the two machines, leaving only the encrypted files over the server.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Carlo Alberto&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 18 Jan 2020 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2020/notes/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2020/notes/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
+        <link>https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
         
         <category>network</category>
         
@@ -110,7 +116,7 @@ will be mounted (with password) and will show the cleartext files.&lt;/p&gt;
         <category>cloud</category>
         
         
-        <category>notes</category>
+        <category>security</category>
         
         <category>linux</category>
         
@@ -638,26 +644,31 @@ Middleboxes are often required some properties like &lt;strong&gt;being on-path&
 &lt;hr /&gt;
 &lt;h2 id=&quot;references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/h2&gt;
 
-&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;simple&quot;&gt;[1]Z. A. Qazi, C.-C. Tu, L. Chiang, R. Miao, V. Sekar, and M. Yu, “SIMPLE-fying Middlebox Policy Enforcement Using SDN,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2013 Conference on SIGCOMM&lt;/i&gt;, New York, NY, USA, 2013, pp. 27–38, doi: 10.1145/2486001.2486022 [Online]. Available at: http://doi.acm.org/10.1145/2486001.2486022&lt;/span&gt;
+&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;simple&quot;&gt;[1]Z. A. Qazi, C.-C. Tu, L. Chiang, R. Miao, V. Sekar, and M. Yu, “SIMPLE-fying Middlebox Policy Enforcement Using SDN,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2013 Conference on SIGCOMM&lt;/i&gt;, New York, NY, USA, 2013, pp. 27–38, doi: 10.1145/2486001.2486022 [Online]. Available at: http://doi.acm.org/10.1145/2486001.2486022&lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;midd-outsourc&quot;&gt;[2]J. Sherry, S. Hasan, C. Scott, A. Krishnamurthy, S. Ratnasamy, and V. Sekar, “Making Middleboxes Someone else’s Problem: Network Processing As a Cloud Service,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2012 Conference on Applications, Technologies, Architectures, and Protocols for Computer Communication&lt;/i&gt;, New York, NY, USA, 2012, pp. 13–24, doi: 10.1145/2342356.2342359 [Online]. Available at: http://doi.acm.org/10.1145/2342356.2342359&lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;midd-outsourc&quot;&gt;[2]J. Sherry, S. Hasan, C. Scott, A. Krishnamurthy, S. Ratnasamy, and V. Sekar, “Making Middleboxes Someone else’s Problem: Network Processing As a Cloud Service,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2012 Conference on Applications, Technologies, Architectures, and Protocols for Computer Communication&lt;/i&gt;, New York, NY, USA, 2012, pp. 13–24, doi: 10.1145/2342356.2342359 [Online]. Available at: http://doi.acm.org/10.1145/2342356.2342359&lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;metron&quot;&gt;[3]G. P. Katsikas, T. Barbette, D. Kostić, R. Steinert, and G. Q. M. Jr., “Metron: NFV Service Chains at the True Speed of the Underlying Hardware,” in &lt;i&gt;15th USENIX Symposium on Networked Systems Design and Implementation (NSDI 18)&lt;/i&gt;, Renton, WA, 2018, pp. 171–186 [Online]. Available at: https://www.usenix.org/conference/nsdi18/presentation/katsikas&lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;metron&quot;&gt;[3]G. P. Katsikas, T. Barbette, D. Kostić, R. Steinert, and G. Q. M. Jr., “Metron: NFV Service Chains at the True Speed of the Underlying Hardware,” in &lt;i&gt;15th USENIX Symposium on Networked Systems Design and Implementation (NSDI 18)&lt;/i&gt;, Renton, WA, 2018, pp. 171–186 [Online]. Available at: https://www.usenix.org/conference/nsdi18/presentation/katsikas&lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;ananta&quot;&gt;[4]P. Patel &lt;i&gt;et al.&lt;/i&gt;, “Ananta: Cloud Scale Load Balancing,” &lt;i&gt;ACM SIGCOMM Computer Communication Review&lt;/i&gt;, vol. 43, Aug. 2013, doi: 10.1145/2486001.2486026. &lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;ananta&quot;&gt;[4]P. Patel &lt;i&gt;et al.&lt;/i&gt;, “Ananta: Cloud Scale Load Balancing,” &lt;i&gt;ACM SIGCOMM Computer Communication Review&lt;/i&gt;, vol. 43, Aug. 2013, doi: 10.1145/2486001.2486026. &lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;blink&quot;&gt;[5]T. Holterbach, E. C. Molero, M. Apostolaki, A. Dainotti, S. Vissicchio, and L. Vanbever, “Blink: Fast Connectivity Recovery Entirely in the Data Plane,” in &lt;i&gt;16th USENIX Symposium on Networked Systems Design and Implementation (NSDI 19)&lt;/i&gt;, Boston, MA, 2019, pp. 161–176 [Online]. Available at: https://www.usenix.org/conference/nsdi19/presentation/holterbach&lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;blink&quot;&gt;[5]T. Holterbach, E. C. Molero, M. Apostolaki, A. Dainotti, S. Vissicchio, and L. Vanbever, “Blink: Fast Connectivity Recovery Entirely in the Data Plane,” in &lt;i&gt;16th USENIX Symposium on Networked Systems Design and Implementation (NSDI 19)&lt;/i&gt;, Boston, MA, 2019, pp. 161–176 [Online]. Available at: https://www.usenix.org/conference/nsdi19/presentation/holterbach&lt;/span&gt;
 
 
-&lt;/li&gt;&lt;/ol&gt;
+&lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;
 </description>
         <pubDate>Fri, 19 Jul 2019 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
@@ -904,34 +915,41 @@ Paper shows an analysis of trade-offs between centralized management and costs, 
 &lt;hr /&gt;
 &lt;h2 id=&quot;references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/h2&gt;
 
-&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;onix&quot;&gt;[1]T. Koponen, M. Casado, and N. Gude, “Onix: A distributed control platform for large-scale production networks,” &lt;i&gt;Proceedings of the 9th USENIX Symposium on Operating Systems Design and Implementation&lt;/i&gt;, Jan. 2010. &lt;/span&gt;
+&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;onix&quot;&gt;[1]T. Koponen, M. Casado, and N. Gude, “Onix: A distributed control platform for large-scale production networks,” &lt;i&gt;Proceedings of the 9th USENIX Symposium on Operating Systems Design and Implementation&lt;/i&gt;, Jan. 2010. &lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;pyretic&quot;&gt;[2]C. Monsanto, J. Reich, N. Foster, J. Rexford, and D. Walker, “Composing Software Defined Networks,” in &lt;i&gt;10th USENIX Symposium on Networked Systems Design and Implementation (NSDI 13)&lt;/i&gt;, Lombard, IL, 2013, pp. 1–13 [Online]. Available at: https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/monsanto&lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;pyretic&quot;&gt;[2]C. Monsanto, J. Reich, N. Foster, J. Rexford, and D. Walker, “Composing Software Defined Networks,” in &lt;i&gt;10th USENIX Symposium on Networked Systems Design and Implementation (NSDI 13)&lt;/i&gt;, Lombard, IL, 2013, pp. 1–13 [Online]. Available at: https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/monsanto&lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;programming-with-pyretic&quot;&gt;[3]J. Reich, C. Monsanto, N. Foster, J. Rexford, and D. Walker, “Modular SDN programming with pyretic,” &lt;i&gt;USENIX Login&lt;/i&gt;, vol. 38, pp. 128–134, Jan. 2013. &lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;programming-with-pyretic&quot;&gt;[3]J. Reich, C. Monsanto, N. Foster, J. Rexford, and D. Walker, “Modular SDN programming with pyretic,” &lt;i&gt;USENIX Login&lt;/i&gt;, vol. 38, pp. 128–134, Jan. 2013. &lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;hsa&quot;&gt;[4]P. Kazemian, G. Varghese, and N. McKeown, “Header Space Analysis: Static Checking for Networks,” in &lt;i&gt;Presented as part of the 9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)&lt;/i&gt;, San Jose, CA, 2012, pp. 113–126 [Online]. Available at: https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/kazemian&lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;hsa&quot;&gt;[4]P. Kazemian, G. Varghese, and N. McKeown, “Header Space Analysis: Static Checking for Networks,” in &lt;i&gt;Presented as part of the 9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)&lt;/i&gt;, San Jose, CA, 2012, pp. 113–126 [Online]. Available at: https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/kazemian&lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;nice&quot;&gt;[5]M. Canini, D. Venzano, P. Peresini, D. Kostic, and J. Rexford, “A NICE Way to Test OpenFlow Applications,” in &lt;i&gt;Presented as part of the 9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)&lt;/i&gt;, San Jose, CA, 2012, pp. 127–140 [Online]. Available at: https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/canini&lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;nice&quot;&gt;[5]M. Canini, D. Venzano, P. Peresini, D. Kostic, and J. Rexford, “A NICE Way to Test OpenFlow Applications,” in &lt;i&gt;Presented as part of the 9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)&lt;/i&gt;, San Jose, CA, 2012, pp. 127–140 [Online]. Available at: https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/canini&lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;devoflow&quot;&gt;[6]A. R. Curtis, J. Mogul, J. Tourrilhes, P. Yalagandula, P. Sharma, and S. Banerjee, “DevoFlow: Scaling Flow Management for High-Performance Networks,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2011 Conference, SIGCOMM’11&lt;/i&gt;, 2011, vol. 41, pp. 254–265, doi: 10.1145/2018436.2018466. &lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;devoflow&quot;&gt;[6]A. R. Curtis, J. Mogul, J. Tourrilhes, P. Yalagandula, P. Sharma, and S. Banerjee, “DevoFlow: Scaling Flow Management for High-Performance Networks,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2011 Conference, SIGCOMM’11&lt;/i&gt;, 2011, vol. 41, pp. 254–265, doi: 10.1145/2018436.2018466. &lt;/span&gt;
 
 
-&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;sdx&quot;&gt;[7]A. Gupta &lt;i&gt;et al.&lt;/i&gt;, “SDX: A Software Defined Internet Exchange,” in &lt;i&gt;Proceedings of the 2014 ACM Conference on SIGCOMM&lt;/i&gt;, New York, NY, USA, 2014, pp. 551–562, doi: 10.1145/2619239.2626300 [Online]. Available at: http://doi.acm.org/10.1145/2619239.2626300&lt;/span&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
+&lt;span id=&quot;sdx&quot;&gt;[7]A. Gupta &lt;i&gt;et al.&lt;/i&gt;, “SDX: A Software Defined Internet Exchange,” in &lt;i&gt;Proceedings of the 2014 ACM Conference on SIGCOMM&lt;/i&gt;, New York, NY, USA, 2014, pp. 551–562, doi: 10.1145/2619239.2626300 [Online]. Available at: http://doi.acm.org/10.1145/2619239.2626300&lt;/span&gt;
 
 
-&lt;/li&gt;&lt;/ol&gt;
+&lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;
 </description>
         <pubDate>Fri, 05 Jul 2019 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</link>
