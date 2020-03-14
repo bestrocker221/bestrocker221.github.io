@@ -56,7 +56,8 @@ p.info a {
     text-align: center;
     line-height: 20px;
     font-size: 20px;
-    color: #009688;
+    /*color: #009688; green */
+    color: #202924;
     padding: 5px;
     width: 30px;
     height: 30px;
@@ -64,7 +65,8 @@ p.info a {
 }
 .icon:hover {
     color: rgba(255, 255, 255, 0.63);
-    background: #009688;
+    /*background: #009688; green */
+    background: #202924;
 }
 
 /* ADDED *******************/
@@ -81,7 +83,8 @@ p.info a {
 }
 
 .menu ul li a:hover, .menu ul li a:focus, li.current-menu-item > a{
-    background: #007D72;
+    /*background: #007D72; hover green */
+    background: #000;
 }
 li.current-menu-item:before {
     content: "";
