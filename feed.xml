@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 14 Mar 2020 14:00:18 +0100</pubDate>
-    <lastBuildDate>Sat, 14 Mar 2020 14:00:18 +0100</lastBuildDate>
+    <pubDate>Sat, 14 Mar 2020 14:06:11 +0100</pubDate>
+    <lastBuildDate>Sat, 14 Mar 2020 14:06:11 +0100</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
@@ -93,7 +93,18 @@ will be mounted (with password) and will show the cleartext files.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;h2 id=&quot;shortcuts&quot;&gt;Shortcuts&lt;/h2&gt;
+&lt;p&gt;I personally have &lt;em&gt;alias&lt;/em&gt; that helps me, like for example:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias syncNotesDown='rsync -arvzz --whole-file --progress myvps:/home/my/mycloud/ --exclude .encfs6.xml ~/.MyNoteEncrypted '
+alias syncNotesUp='rsync -arvzz --whole-file --progress ~/.MyNoteEncrypted/ myvps:/home/my/mycloud/ --exclude .encfs6.xml'
+alias mountNotes='encfs ~/.MyNoteEncrypted ~/MyNotes/'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;then at startup when I want to mount my decrypted notes folder I just do &lt;code class=&quot;highlighter-rouge&quot;&gt;mountNotes&lt;/code&gt;.&lt;/p&gt;
+
 &lt;p&gt;All your files are synchronized between the two machines, leaving only the encrypted files over the server.&lt;/p&gt;
+
+&lt;hr /&gt;
 
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!&lt;/strong&gt;&lt;/p&gt;
 

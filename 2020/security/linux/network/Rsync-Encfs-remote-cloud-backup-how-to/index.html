@@ -472,7 +472,18 @@ will be mounted (with password) and will show the cleartext files.</p>
   </li>
 </ol>
 
+<h2 id="shortcuts">Shortcuts</h2>
+<p>I personally have <em>alias</em> that helps me, like for example:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alias syncNotesDown='rsync -arvzz --whole-file --progress myvps:/home/my/mycloud/ --exclude .encfs6.xml ~/.MyNoteEncrypted '
+alias syncNotesUp='rsync -arvzz --whole-file --progress ~/.MyNoteEncrypted/ myvps:/home/my/mycloud/ --exclude .encfs6.xml'
+alias mountNotes='encfs ~/.MyNoteEncrypted ~/MyNotes/'
+</code></pre></div></div>
+
+<p>then at startup when I want to mount my decrypted notes folder I just do <code class="highlighter-rouge">mountNotes</code>.</p>
+
 <p>All your files are synchronized between the two machines, leaving only the encrypted files over the server.</p>
+
+<hr />
 
 <p><strong>Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!</strong></p>
 
