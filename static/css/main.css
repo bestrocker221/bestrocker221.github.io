@@ -73,7 +73,11 @@ p.info a {
 
 
 
-
+.social-share-list li {
+    display: inline-flex;
+    list-style: none;
+     margin: 0 auto;
+}
 
 /* ***** ********************/
 
@@ -84,7 +88,7 @@ p.info a {
 
 .menu ul li a:hover, .menu ul li a:focus, li.current-menu-item > a{
     /*background: #007D72; hover green */
-    background: #000;
+    background: #009442;
 }
 li.current-menu-item:before {
     content: "";
