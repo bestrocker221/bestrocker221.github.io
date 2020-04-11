@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 12 Apr 2020 01:12:44 +0200</pubDate>
-    <lastBuildDate>Sun, 12 Apr 2020 01:12:44 +0200</lastBuildDate>
+    <pubDate>Sun, 12 Apr 2020 01:23:12 +0200</pubDate>
+    <lastBuildDate>Sun, 12 Apr 2020 01:23:12 +0200</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
@@ -38,6 +38,8 @@
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;strong&gt;If you want to skip the quick Autopsy introduction, jump below.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the view of Autopsy windows after a successful disk import.&lt;/p&gt;
 
 &lt;figure&gt;
 &lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/autopsy-windows.png&quot; /&gt;
@@ -78,7 +80,7 @@
   &lt;li&gt;generate report&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;1-add-new-data-source&quot;&gt;1. Add new data source&lt;/h2&gt;
+&lt;h2 id=&quot;add-new-data-source&quot;&gt;Add new data source&lt;/h2&gt;
 &lt;p&gt;These type of data sources can be imported and analyzed by Autopsy.&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Disk images, Virtual machine drives (vhdi, ..)&lt;/li&gt;
@@ -131,11 +133,15 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Currently not supported data sources are RAID, LVM, Bitlocker.&lt;/p&gt;
 
+&lt;p&gt;By clicking on each file you will have many tabs showing all the information, from a hex view of the data, to the parsed output from an application or an ingestor module. Metadata and many other info are showed as well.&lt;/p&gt;
+
 &lt;figure&gt;
 &lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/autopsy-strings.png
 &quot; /&gt;
 &lt;figcaption&gt;Autopsy hex viewer and strings extractor&lt;/figcaption&gt;
 &lt;/figure&gt;
+
+&lt;p&gt;You can see on the left panel, Autopsy automatically group files both per extension, MIME type, and size.&lt;/p&gt;
 
 &lt;h1 id=&quot;autopsy-gui&quot;&gt;Autopsy GUI&lt;/h1&gt;
 &lt;p&gt;Each file showed:&lt;/p&gt;
@@ -153,7 +159,7 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 &lt;figcaption&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;h2 id=&quot;2-run-ingestion-modules&quot;&gt;2. Run ingestion modules&lt;/h2&gt;
+&lt;h2 id=&quot;run-ingestion-modules&quot;&gt;Run ingestion modules&lt;/h2&gt;
 &lt;p&gt;When importing a data source, ingestor modules can be set up and run to obtain all kinds of information, some of the pre-packaged are:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;hash calculation&lt;/li&gt;
@@ -219,13 +225,15 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 
 &lt;p&gt;When doing the indexing, do it on Linux, way more memory efficient, NOT ON WINDOWS.&lt;/p&gt;
 
+&lt;p&gt;Here an example of the “Communication” tab showing all kinds of communications found on the disk, from emails, to phone calls and messages in case of an phone disk.&lt;/p&gt;
+
 &lt;figure&gt;
 &lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/autipsy-mail.png&quot; /&gt;
 &lt;figcaption&gt;Autopsy &quot;communication&quot; tab showing all emails found&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;h2 id=&quot;create-a-new-file-type&quot;&gt;Create a new File type&lt;/h2&gt;
-&lt;p&gt;You want to create a new file type to be highlighted for the investigation&lt;/p&gt;
+&lt;h3 id=&quot;create-a-new-file-type&quot;&gt;Create a new File type&lt;/h3&gt;
+&lt;p&gt;You want to create a new file type, because the standard ones do not include a specific one? A new one to be highlighted for the investigation?&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;custom –&amp;gt; tools/options/file types&lt;/li&gt;
   &lt;li&gt;add the new magic bytes&lt;/li&gt;
@@ -235,10 +243,23 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 
 &lt;p&gt;Finally Autopsy can generate a HTML navigable report where all the findings, the manual tagged files and the suspicious files are listed.&lt;/p&gt;
 
+&lt;p&gt;The timeline feature could come quite useful as well!&lt;/p&gt;
 &lt;figure&gt;
 &lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/autopsy-timeline.png&quot; /&gt;
 &lt;figcaption&gt;Autopsy timeline feature&lt;/figcaption&gt;
 &lt;/figure&gt;
+
+&lt;p&gt;PS: data in the screenshot is not real, it is fake data :)&lt;/p&gt;
+
+&lt;p&gt;This was a basic walkthrough of the Autopsy GUI application, and notes from the official online training.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Carlo Alberto&lt;/em&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 10 Apr 2020 00:00:00 +0200</pubDate>

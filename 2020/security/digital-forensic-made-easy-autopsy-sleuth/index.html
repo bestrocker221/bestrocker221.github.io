@@ -406,6 +406,8 @@ window.addEventListener("load", function(){
 
 <p><strong>If you want to skip the quick Autopsy introduction, jump below.</strong></p>
 
+<p>Here is the view of Autopsy windows after a successful disk import.</p>
+
 <figure>
 <img style="display: block; margin: auto;" src="/assets/autopsy-windows.png" />
 <figcaption>Autopsy main windows after a disk import</figcaption>
@@ -445,7 +447,7 @@ window.addEventListener("load", function(){
   <li>generate report</li>
 </ol>
 
-<h2 id="1-add-new-data-source">1. Add new data source</h2>
+<h2 id="add-new-data-source">Add new data source</h2>
 <p>These type of data sources can be imported and analyzed by Autopsy.</p>
 <ul>
   <li>Disk images, Virtual machine drives (vhdi, ..)</li>
@@ -498,11 +500,15 @@ finding them in FAT is time intensive, remember to disable it!</p>
 
 <p><strong>NOTE:</strong> Currently not supported data sources are RAID, LVM, Bitlocker.</p>
 
+<p>By clicking on each file you will have many tabs showing all the information, from a hex view of the data, to the parsed output from an application or an ingestor module. Metadata and many other info are showed as well.</p>
+
 <figure>
 <img style="display: block; margin: auto;" src="/assets/autopsy-strings.png
 " />
 <figcaption>Autopsy hex viewer and strings extractor</figcaption>
 </figure>
+
+<p>You can see on the left panel, Autopsy automatically group files both per extension, MIME type, and size.</p>
 
 <h1 id="autopsy-gui">Autopsy GUI</h1>
 <p>Each file showed:</p>
@@ -520,7 +526,7 @@ finding them in FAT is time intensive, remember to disable it!</p>
 <figcaption></figcaption>
 </figure>
 
-<h2 id="2-run-ingestion-modules">2. Run ingestion modules</h2>
+<h2 id="run-ingestion-modules">Run ingestion modules</h2>
 <p>When importing a data source, ingestor modules can be set up and run to obtain all kinds of information, some of the pre-packaged are:</p>
 <ul>
   <li>hash calculation</li>
@@ -586,13 +592,15 @@ finding them in FAT is time intensive, remember to disable it!</p>
 
 <p>When doing the indexing, do it on Linux, way more memory efficient, NOT ON WINDOWS.</p>
 
+<p>Here an example of the “Communication” tab showing all kinds of communications found on the disk, from emails, to phone calls and messages in case of an phone disk.</p>
+
 <figure>
 <img style="display: block; margin: auto;" src="/assets/autipsy-mail.png" />
 <figcaption>Autopsy "communication" tab showing all emails found</figcaption>
 </figure>
 
-<h2 id="create-a-new-file-type">Create a new File type</h2>
-<p>You want to create a new file type to be highlighted for the investigation</p>
+<h3 id="create-a-new-file-type">Create a new File type</h3>
+<p>You want to create a new file type, because the standard ones do not include a specific one? A new one to be highlighted for the investigation?</p>
 <ul>
   <li>custom –&gt; tools/options/file types</li>
   <li>add the new magic bytes</li>
@@ -602,10 +610,23 @@ finding them in FAT is time intensive, remember to disable it!</p>
 
 <p>Finally Autopsy can generate a HTML navigable report where all the findings, the manual tagged files and the suspicious files are listed.</p>
 
+<p>The timeline feature could come quite useful as well!</p>
 <figure>
 <img style="display: block; margin: auto;" src="/assets/autopsy-timeline.png" />
 <figcaption>Autopsy timeline feature</figcaption>
 </figure>
+
+<p>PS: data in the screenshot is not real, it is fake data :)</p>
+
+<p>This was a basic walkthrough of the Autopsy GUI application, and notes from the official online training.</p>
+
+<hr />
+
+<p><strong>Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!</strong></p>
+
+<p><strong>Thanks for reading!</strong></p>
+
+<p><em>Carlo Alberto</em></p>
 
 </div>
     <hr />
