@@ -5,16 +5,16 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 12 Apr 2020 01:23:12 +0200</pubDate>
-    <lastBuildDate>Sun, 12 Apr 2020 01:23:12 +0200</lastBuildDate>
+    <pubDate>Sun, 12 Apr 2020 01:24:58 +0200</pubDate>
+    <lastBuildDate>Sun, 12 Apr 2020 01:24:58 +0200</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
         <title>Autopsy - A Digital Forensic Lab</title>
         <description>&lt;h1 id=&quot;autopsy-digital-forensic&quot;&gt;&lt;strong&gt;&lt;center&gt;Autopsy Digital Forensic&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
-&lt;h2 id=&quot;quick-lab-walkthrough&quot;&gt;&lt;center&gt;Quick lab walkthrough&lt;/center&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;quick-lab-walk-through&quot;&gt;&lt;center&gt;Quick lab walk-through&lt;/center&gt;&lt;/h2&gt;
 
-&lt;p&gt;After following the &lt;a href=&quot;https://www.sleuthkit.org/index.php&quot;&gt;Autopsy&lt;/a&gt; (The Sleuth Kit) online training I decided to recap the basic functions of the Autopsy GUI digital forensic framework in a short blog post.&lt;/p&gt;
+&lt;p&gt;After following the &lt;a href=&quot;https://www.sleuthkit.org/index.php&quot;&gt;Autopsy&lt;/a&gt; (The Sleuth Kit) on-line training I decided to recap the basic functions of the Autopsy GUI digital forensic framework in a short blog post.&lt;/p&gt;
 
 &lt;figure&gt;
 &lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/autopsy-digital-forensic.png&quot; /&gt;
@@ -251,7 +251,7 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 
 &lt;p&gt;PS: data in the screenshot is not real, it is fake data :)&lt;/p&gt;
 
-&lt;p&gt;This was a basic walkthrough of the Autopsy GUI application, and notes from the official online training.&lt;/p&gt;
+&lt;p&gt;This was a basic walk-through of the Autopsy GUI application, and notes from the official online training.&lt;/p&gt;
 
 &lt;hr /&gt;
 
