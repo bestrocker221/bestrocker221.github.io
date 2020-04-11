@@ -5,9 +5,25 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 14 Mar 2020 14:06:11 +0100</pubDate>
-    <lastBuildDate>Sat, 14 Mar 2020 14:06:11 +0100</lastBuildDate>
+    <pubDate>Sun, 12 Apr 2020 01:12:44 +0200</pubDate>
+    <lastBuildDate>Sun, 12 Apr 2020 01:12:44 +0200</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Autopsy - A Digital Forensic Lab</title>
+        <description>A quick walkthrough the basic functions of the Autopsy framework for computer digital forensic and investigations.</description>
+        <pubDate>Fri, 10 Apr 2020 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2020/security/digital-forensic-made-easy-autopsy-sleuth/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/digital-forensic-made-easy-autopsy-sleuth/</guid>
+        
+        <category>security</category>
+        
+        <category>forensic</category>
+        
+        
+        <category>security</category>
+        
+      </item>
     
       <item>
         <title>A secure, easy and encrypted cloud backup</title>
