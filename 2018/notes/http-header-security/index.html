@@ -379,7 +379,7 @@ window.addEventListener("load", function(){
 
 <h2 id="secure-cookie">Secure Cookie</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: &lt;name&gt;=&lt;value&gt;[; &lt;Max-Age&gt;=&lt;age&gt;]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: &lt;name&gt;=&lt;value&gt;[; &lt;Max-Age&gt;=&lt;age&gt;]
               [; expires=&lt;date&gt;]
                 [; domain=&lt;domain_name&gt;]
                   [; path=&lt;some_path&gt;]
@@ -401,12 +401,12 @@ window.addEventListener("load", function(){
 <p>Examples:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">Origin: Server.com</code></li>
-  <li><code class="highlighter-rouge">Access-Control-Allow-Origin: *</code></li>
-  <li><code class="highlighter-rouge">Access-Control-Allow-Methods: POST,GET</code></li>
-  <li><code class="highlighter-rouge">Access-Control-Allow-Headers: POST, GET, OPTIONS</code></li>
-  <li><code class="highlighter-rouge">Access-Control-Request-Method: POST,GET</code></li>
-  <li><code class="highlighter-rouge">Access-Control-Request-Headers: Content-Type</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Origin: Server.com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Access-Control-Allow-Origin: *</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Access-Control-Allow-Methods: POST,GET</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Access-Control-Allow-Headers: POST, GET, OPTIONS</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Access-Control-Request-Method: POST,GET</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Access-Control-Request-Headers: Content-Type</code></li>
 </ul>
 
 <p>When a browser send a cross-origin XMLHttpRequest to a server that <strong>doesn’t respond</strong> with these headers, <strong>no access</strong> will be given to the response.</p>
@@ -430,7 +430,7 @@ window.addEventListener("load", function(){
 <p>This will lead to a simple exchange between the client and the server, using CORS headers to handle the privileges:</p>
 
 <p>Let us look at what the browser will send to the server in this case, and let’s see how the server responds:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /resources/public-data/ HTTP/1.1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /resources/public-data/ HTTP/1.1
 Host: bar.other
 User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1b3pre) Gecko/20081130 Minefield/3.1b3pre
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
@@ -460,15 +460,15 @@ Content-Type: application/xml
 
 <h3 id="summary">Summary</h3>
 
-<p>The <code class="highlighter-rouge">Origin</code> header clearly shows by whom the invocation has been done.</p>
+<p>The <code class="language-plaintext highlighter-rouge">Origin</code> header clearly shows by whom the invocation has been done.</p>
 
 <p>The domain <em>bar.others</em> answering with</p>
 
-<p><code class="highlighter-rouge">Access-Control-Allow-Origin: *</code></p>
+<p><code class="language-plaintext highlighter-rouge">Access-Control-Allow-Origin: *</code></p>
 
 <p>has allowed <strong>anyone</strong> to include his content through cross-origin requests. If it would have restricted access only to <em>foo.example</em> then it would have sent back</p>
 
-<p><code class="highlighter-rouge">Access-Control-Allow-Origin: http://foo.example</code></p>
+<p><code class="language-plaintext highlighter-rouge">Access-Control-Allow-Origin: http://foo.example</code></p>
 
 <p>For more in depth and other cases than this “simple request”:
 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS</a></p>
@@ -476,13 +476,13 @@ Content-Type: application/xml
 <h2 id="csp-or-content-security-policy">CSP or <em>Content Security Policy</em></h2>
 <p>Its aim is to mitigate XSS and data injection attacks by differentiating <strong>instructions</strong> and <strong>content</strong>.</p>
 
-<p><code class="highlighter-rouge">Content-Security-Policy: &lt;policy&gt; </code> or <code class="highlighter-rouge">X-Content-Security-Policy: &lt;policy&gt;</code></p>
+<p><code class="language-plaintext highlighter-rouge">Content-Security-Policy: &lt;policy&gt; </code> or <code class="language-plaintext highlighter-rouge">X-Content-Security-Policy: &lt;policy&gt;</code></p>
 
 <p>are sent by server to stipulate locations where scripts can be loaded. It also stipulate restrictions on which JavaScript function is allowed to use or not.</p>
 
-<p>Alternatively, the <code class="highlighter-rouge">&lt;meta&gt;</code> element can be used to configure a policy, for example:</p>
+<p>Alternatively, the <code class="language-plaintext highlighter-rouge">&lt;meta&gt;</code> element can be used to configure a policy, for example:</p>
 
-<p><code class="highlighter-rouge">&lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';"&gt;</code></p>
+<p><code class="language-plaintext highlighter-rouge">&lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none';"&gt;</code></p>
 
 <p>CSP permits to specify domains that browser should consider to be valid sources of executable scripts.
 CSP can specify also the protocol to use like the encrypted HTTPS.</p>
@@ -490,21 +490,21 @@ CSP can specify also the protocol to use like the encrypted HTTPS.</p>
 <h3 id="policies">Policies</h3>
 <p>Are directives each of which describes the policy for a certain resource type or area.</p>
 
-<p>A policy needs to include a <strong>default-src</strong> or <strong>script-src</strong> directive to prevent inline scripts from running, as well as blocking the use of <code class="highlighter-rouge">eval()</code>.</p>
+<p>A policy needs to include a <strong>default-src</strong> or <strong>script-src</strong> directive to prevent inline scripts from running, as well as blocking the use of <code class="language-plaintext highlighter-rouge">eval()</code>.</p>
 
-<p>A policy needs to include a <strong>default-src</strong> or <strong>style-src</strong> directive to restrict inline styles from being applied from a <code class="highlighter-rouge">&lt;style&gt;</code> element or a style attribute.</p>
+<p>A policy needs to include a <strong>default-src</strong> or <strong>style-src</strong> directive to restrict inline styles from being applied from a <code class="language-plaintext highlighter-rouge">&lt;style&gt;</code> element or a style attribute.</p>
 
-<p><code class="highlighter-rouge">Content-Security-Policy: </code> [directive] [source-expression]</p>
+<p><code class="language-plaintext highlighter-rouge">Content-Security-Policy: </code> [directive] [source-expression]</p>
 
 <p>Examples</p>
 
 <ul>
-  <li><code class="highlighter-rouge">Content-Security-Policy: default-src 'self'</code> : All content must come from site’s own origin.</li>
-  <li><code class="highlighter-rouge">Content-Security-Policy: default-src 'self' *.trusted.com
+  <li><code class="language-plaintext highlighter-rouge">Content-Security-Policy: default-src 'self'</code> : All content must come from site’s own origin.</li>
+  <li><code class="language-plaintext highlighter-rouge">Content-Security-Policy: default-src 'self' *.trusted.com
 </code> : allow a trusted domain and its subdomains.</li>
-  <li><code class="highlighter-rouge">Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com</code> : images can be included from any domain but media (audio/video) is restricted. All scripts must come from that domain.</li>
-  <li><code class="highlighter-rouge">Content-Security-Policy: default-src https://onlinebanking.jumbobank.com</code>: if you want <strong>all</strong> content to be loaded under SSL/TLS just set the default-src domain under HTTPS.</li>
-  <li><code class="highlighter-rouge">Content-Security-Policy: default-src 'self' *.mailsite.com; img-src *</code>: allow html and images but not Javascript. The tag <code class="highlighter-rouge">script-src</code> is not specified, so the default setting will follow <code class="highlighter-rouge">default-src</code> or “all must be loaded from the originating server”.</li>
+  <li><code class="language-plaintext highlighter-rouge">Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com</code> : images can be included from any domain but media (audio/video) is restricted. All scripts must come from that domain.</li>
+  <li><code class="language-plaintext highlighter-rouge">Content-Security-Policy: default-src https://onlinebanking.jumbobank.com</code>: if you want <strong>all</strong> content to be loaded under SSL/TLS just set the default-src domain under HTTPS.</li>
+  <li><code class="language-plaintext highlighter-rouge">Content-Security-Policy: default-src 'self' *.mailsite.com; img-src *</code>: allow html and images but not Javascript. The tag <code class="language-plaintext highlighter-rouge">script-src</code> is not specified, so the default setting will follow <code class="language-plaintext highlighter-rouge">default-src</code> or “all must be loaded from the originating server”.</li>
 </ul>
 
 <p>Other directives:</p>
@@ -525,27 +525,27 @@ CSP can specify also the protocol to use like the encrypted HTTPS.</p>
 <ul>
   <li>‘<strong>none</strong>’ : Allows no resources.</li>
   <li>‘<strong>self</strong>’: Allows resources from the host that served the page.</li>
-  <li>‘<strong>unsafe‑inline</strong>’: Allows resources embedded in the page, such as inline <code class="highlighter-rouge">&lt;script&gt;</code> elements, <code class="highlighter-rouge">&lt;style&gt;</code> elements, and javascript: URLs</li>
+  <li>‘<strong>unsafe‑inline</strong>’: Allows resources embedded in the page, such as inline <code class="language-plaintext highlighter-rouge">&lt;script&gt;</code> elements, <code class="language-plaintext highlighter-rouge">&lt;style&gt;</code> elements, and javascript: URLs</li>
   <li>‘<strong>unsafe‑eval</strong>’: Allows the use of the JavaScript eval function.</li>
 </ul>
 
 <p>Further docs in ref: <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP</a></p>
 
 <h2 id="x-content-type-options">X-Content-Type-Options</h2>
-<p>This header is used by the server to indicate that the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME types</a> written in the <code class="highlighter-rouge">Content-Type</code> header <strong>should not</strong> be changed and <strong>be followed</strong>.</p>
+<p>This header is used by the server to indicate that the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME types</a> written in the <code class="language-plaintext highlighter-rouge">Content-Type</code> header <strong>should not</strong> be changed and <strong>be followed</strong>.</p>
 
-<p><code class="highlighter-rouge">X-Content-Type-Options: nosniff</code></p>
+<p><code class="language-plaintext highlighter-rouge">X-Content-Type-Options: nosniff</code></p>
 
-<p>When a <code class="highlighter-rouge">Content-Type</code> is not specified, the browser take a guess on what type of content it has received. The directive <code class="highlighter-rouge">nosniff</code> just disable this behaviour.</p>
+<p>When a <code class="language-plaintext highlighter-rouge">Content-Type</code> is not specified, the browser take a guess on what type of content it has received. The directive <code class="language-plaintext highlighter-rouge">nosniff</code> just disable this behaviour.</p>
 
 <p>Example:
-if the server sends a <code class="highlighter-rouge">nosniff</code> directive in response to a <code class="highlighter-rouge">script</code> tag, then the browser will ignore the response unless the MIME type matches <code class="highlighter-rouge">application/javascript</code>.</p>
+if the server sends a <code class="language-plaintext highlighter-rouge">nosniff</code> directive in response to a <code class="language-plaintext highlighter-rouge">script</code> tag, then the browser will ignore the response unless the MIME type matches <code class="language-plaintext highlighter-rouge">application/javascript</code>.</p>
 
 <h2 id="x-frame-options">X-Frame-Options</h2>
-<p>indicate if a browser should be allowed to render a page in an <code class="highlighter-rouge">&lt;iframe&gt;</code>, <code class="highlighter-rouge">&lt;frame&gt;</code> or <code class="highlighter-rouge">&lt;object&gt;</code>. This in order to avoid <a href="https://en.wikipedia.org/wiki/Clickjacking">clickjacking attacks</a> (also known as “User Interface redress attack, UI redress attack,”).</p>
+<p>indicate if a browser should be allowed to render a page in an <code class="language-plaintext highlighter-rouge">&lt;iframe&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;frame&gt;</code> or <code class="language-plaintext highlighter-rouge">&lt;object&gt;</code>. This in order to avoid <a href="https://en.wikipedia.org/wiki/Clickjacking">clickjacking attacks</a> (also known as “User Interface redress attack, UI redress attack,”).</p>
 
 <p>Possible directives:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-Frame-Options: DENY
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-Frame-Options: DENY
 X-Frame-Options: SAMEORIGIN
 X-Frame-Options: ALLOW-FROM https://example.com/
 </code></pre></div></div>
@@ -562,7 +562,7 @@ X-Frame-Options: ALLOW-FROM https://example.com/
 
 <p>It tells the browser to only access the domain using secure HTTPS connections and never via HTTP. Note that the there will always be the firstconnection to a server on a standard unsecure port.</p>
 
-<p><code class="highlighter-rouge">Strict-Transport-Security: max-age=31536000 ; includeSubDomains; preload</code></p>
+<p><code class="language-plaintext highlighter-rouge">Strict-Transport-Security: max-age=31536000 ; includeSubDomains; preload</code></p>
 
 <h2 id="hpkp-public-key-pinning-extension">HPKP <em>Public Key Pinning Extension</em></h2>
 <p>is a security mechanism which allow HTTPS websites to resist impersonation by attackers using mis-issued or fraudolent certificates.</p>
@@ -571,25 +571,25 @@ X-Frame-Options: ALLOW-FROM https://example.com/
 
 <p>Example</p>
 
-<p><code class="highlighter-rouge">Public-Key-Pins: pin-sha256="d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM="; pin-sha256="E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g="; report-uri="http://example.com/pkp-report"; max-age=10000; includeSubDomains</code></p>
+<p><code class="language-plaintext highlighter-rouge">Public-Key-Pins: pin-sha256="d6qzRu9zOECb90Uez27xWltNsj0e1Md7GkYYkVoZWmM="; pin-sha256="E9CZ9INDbd+2eRQozYqqbQ2yXLVKB9+xcprMF+44U1g="; report-uri="http://example.com/pkp-report"; max-age=10000; includeSubDomains</code></p>
 
 <ul>
-  <li><strong>pin-sha256=”<code class="highlighter-rouge">&lt;sha256&gt;</code>“</strong>: base64 encoded Subject Public Key Information fingerprint.</li>
+  <li><strong>pin-sha256=”<code class="language-plaintext highlighter-rouge">&lt;sha256&gt;</code>“</strong>: base64 encoded Subject Public Key Information fingerprint.</li>
   <li><strong>max-age=SECONDS</strong>: time that the browser should remember the rule.</li>
   <li><strong>includeSubDomains</strong>: (optional) apply to all subdomains.</li>
-  <li><strong>report-uri=”<code class="highlighter-rouge">&lt;URL&gt;</code>“</strong>: (optional) pin validation failures will be reported to the given URL.</li>
+  <li><strong>report-uri=”<code class="language-plaintext highlighter-rouge">&lt;URL&gt;</code>“</strong>: (optional) pin validation failures will be reported to the given URL.</li>
 </ul>
 
 <h2 id="x-xss-protection">X-XSS-Protection</h2>
 <p>This header enables the Cross-site scripting (XSS) filter in your browser.</p>
 
-<p><code class="highlighter-rouge">X-XSS-Protection: 1; mode=block</code></p>
+<p><code class="language-plaintext highlighter-rouge">X-XSS-Protection: 1; mode=block</code></p>
 
 <ul>
   <li><strong>0</strong> : filter disabled</li>
   <li><strong>1</strong> : filter enabled, browser will sanitize tha page</li>
   <li><strong>mode=block</strong>: rather than sanitize the browser will block the render of the page</li>
-  <li><strong>report=”<code class="highlighter-rouge">&lt;url&gt;</code>”“</strong>: sanitize + report violation</li>
+  <li><strong>report=”<code class="language-plaintext highlighter-rouge">&lt;url&gt;</code>”“</strong>: sanitize + report violation</li>
 </ul>
 
 <hr />
@@ -597,9 +597,9 @@ X-Frame-Options: ALLOW-FROM https://example.com/
 <p>Other header examples are</p>
 
 <ul>
-  <li><code class="highlighter-rouge">Referrer-Policy: no-referrer</code></li>
-  <li><code class="highlighter-rouge">Expect-CT: max-age=86400, enforce, report-uri=&lt;url&gt;</code></li>
-  <li><code class="highlighter-rouge">X-Permitted-Cross-Domain-Policies: none</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">Referrer-Policy: no-referrer</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Expect-CT: max-age=86400, enforce, report-uri=&lt;url&gt;</code></li>
+  <li><code class="language-plaintext highlighter-rouge">X-Permitted-Cross-Domain-Policies: none</code>.</li>
 </ul>
 </div>
     <hr />
@@ -943,13 +943,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_HTTP Headers security";
+        var disqus_identifier = "carloalbertoscola-it_HTTP Headers security";
         var disqus_title = "HTTP Headers security";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -960,9 +960,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -971,7 +971,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_HTTP Headers security"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_HTTP Headers security"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -984,7 +984,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>

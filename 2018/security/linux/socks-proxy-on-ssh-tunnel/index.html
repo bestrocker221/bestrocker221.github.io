@@ -379,7 +379,7 @@ window.addEventListener("load", function(){
 <article class="content">
     <div class="post"><h1 id="socks-proxy-through-ssh-reverse-tunnel">SOCKS Proxy through SSH REVERSE TUNNEL</h1>
 <h2 id="using-only-ssh">Using only SSH</h2>
-<p><em>Last modified:</em> 17 January 2019</p>
+<p><em>Last modified:</em> 26 January 2022</p>
 
 <p>How to set up a SOCKS proxy with SSH reverse tunnel. The tunnel will be ssh-encrypted and each traffic will pass through the tunnel, like in a VPN.
 <img src="/assets/socks-ssh.png" alt="" /></p>
@@ -390,11 +390,11 @@ window.addEventListener("load", function(){
 
 <p>This is done with:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -D 127.0.0.1:12345 -l &lt;remoteuser&gt; -p &lt;remoteSSHServerport&gt; serveruser@domain
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -D 127.0.0.1:12345 -l &lt;remoteuser&gt; -p &lt;remoteSSHServerport&gt; serveruser@domain
 </code></pre></div></div>
 <p>Where:</p>
 <ul>
-  <li><code class="highlighter-rouge">-D</code> tells ssh to create a local SOCKS PROXY</li>
+  <li><code class="language-plaintext highlighter-rouge">-D</code> tells ssh to create a local SOCKS PROXY</li>
 </ul>
 
 <p>and SSH will do the rest.</p>
@@ -409,17 +409,17 @@ window.addEventListener("load", function(){
 </ol>
 
 <p>From the dropbox (assume ssh certificate is already copied):</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -N -R 2222:localhost:22 serveruser@serverdomain
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -N -R 2222:localhost:22 serveruser@serverdomain
 </code></pre></div></div>
 <p>Where:</p>
 <ul>
-  <li><code class="highlighter-rouge">-N</code> tells ssh that there will be no commands sent</li>
-  <li><code class="highlighter-rouge">-R [bind_address:]port:host:hostport</code> enable port forward generating a listening socket on port 2222 on the remote server and redirecting it to the local one on port 22</li>
+  <li><code class="language-plaintext highlighter-rouge">-N</code> tells ssh that there will be no commands sent</li>
+  <li><code class="language-plaintext highlighter-rouge">-R [bind_address:]port:host:hostport</code> enable port forward generating a listening socket on port 2222 on the remote server and redirecting it to the local one on port 22</li>
 </ul>
 
 <p>From the server:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -D 127.0.0.1:12345 -l &lt;dropboxuser&gt; -p 2222 localhost
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -D 127.0.0.1:12345 -l &lt;dropboxuser&gt; -p 2222 localhost
 </code></pre></div></div>
 
 <p>Now you can set the proxy on your browser (for example) and packets will be routed to the dropbox.</p>
@@ -863,13 +863,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_SOCKS PROXY on Reverse SSH tunnel";
+        var disqus_identifier = "carloalbertoscola-it_SOCKS PROXY on Reverse SSH tunnel";
         var disqus_title = "SOCKS PROXY on Reverse SSH tunnel";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -880,9 +880,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -891,7 +891,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_SOCKS PROXY on Reverse SSH tunnel"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_SOCKS PROXY on Reverse SSH tunnel"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -904,7 +904,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>

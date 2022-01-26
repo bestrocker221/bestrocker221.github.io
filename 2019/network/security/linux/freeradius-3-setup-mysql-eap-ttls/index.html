@@ -395,15 +395,15 @@ window.addEventListener("load", function(){
 <p>FreeRADIUS can be used for WiFi client authentication as well as with any other system that require client authentication as for example OpenVPN server.</p>
 
 <p>Each user will have a credential in the form
-<code class="highlighter-rouge">&lt;username&gt;@&lt;domain&gt;</code> and a respective password.</p>
+<code class="language-plaintext highlighter-rouge">&lt;username&gt;@&lt;domain&gt;</code> and a respective password.</p>
 
-<p>For this tutorial let’s assume we have the <code class="highlighter-rouge">acme.com</code> domain and a <code class="highlighter-rouge">test@acme.com</code> user.</p>
+<p>For this tutorial let’s assume we have the <code class="language-plaintext highlighter-rouge">acme.com</code> domain and a <code class="language-plaintext highlighter-rouge">test@acme.com</code> user.</p>
 
 <h3 id="how-does-radius-works">How does RADIUS works?</h3>
 <ol>
   <li>A client will connect to a <strong><em>Network Access Server</em></strong> (NAS) first. This could be a router providing Wireless access. The client will not have any connectivity, the router is allowing only RADIUS traffic.</li>
-  <li>The router acting as a NAS will receive a <code class="highlighter-rouge">Access Request</code> message from the client and will forward it to the RADIUS server.</li>
-  <li>The RADIUS Server will check the credentials and send back a response that could be <code class="highlighter-rouge">Access-Accept</code> or <code class="highlighter-rouge">Access-Reject</code> or a <code class="highlighter-rouge">Access-Challenge</code>.</li>
+  <li>The router acting as a NAS will receive a <code class="language-plaintext highlighter-rouge">Access Request</code> message from the client and will forward it to the RADIUS server.</li>
+  <li>The RADIUS Server will check the credentials and send back a response that could be <code class="language-plaintext highlighter-rouge">Access-Accept</code> or <code class="language-plaintext highlighter-rouge">Access-Reject</code> or a <code class="language-plaintext highlighter-rouge">Access-Challenge</code>.</li>
   <li>The NAS will forward the response to the client, and if the authentication succeed, it will then open the communication to the internal network.
 <img style="display: block; margin: auto;" src="/assets/radius.png" />
 Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-authentication-dial-user-service-radius/12433-32.html">How does RADIUS work? by Cisco</a></li>
@@ -564,7 +564,7 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 <p>To execute just run:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> root <span class="nt">-prootpass</span> radius &lt; schema.sql
 </code></pre></div></div>
-<p>assuming you already created the <code class="highlighter-rouge">radius</code> database.</p>
+<p>assuming you already created the <code class="language-plaintext highlighter-rouge">radius</code> database.</p>
 
 <p>And then we are going to create a user “radius” with the right privileges.</p>
 
@@ -597,15 +597,15 @@ Ref: <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-aut
 
 <p>To do so I created a Python script <strong><a href="https://gist.github.com/bestrocker221/f506eee8ccadc60cab71d5f633b7cc07">here</a></strong>. Just change “test” to the password you want to hash, and use a random salt. (I set the salt size limit to 12 charaters)</p>
 
-<p>For example the password ‘test’ becomes <code class="highlighter-rouge">ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKx-
+<p>For example the password ‘test’ becomes <code class="language-plaintext highlighter-rouge">ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKx-
 USiAsFzYWx0c2FsdHNhbHQ=</code>
 and we are going to save it as <strong>SSHA2-256-Password</strong> in the database.</p>
 
 <h3 id="mysql-tls-connection-setup"><strong>MySQL TLS connection setup</strong></h3>
 <p>Now we are setting up MySQL to encrypt each communication with TLS 1.2 and rejecting every cleartext connection.</p>
 
-<p>This is my <code class="highlighter-rouge">/etc/my.cnf</code>:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># This group is read both both by the client and the server
+<p>This is my <code class="language-plaintext highlighter-rouge">/etc/my.cnf</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># This group is read both both by the client and the server
 # use it for options that affect everything
 [client-server]
 
@@ -639,9 +639,9 @@ ssl-cipher=TLSv1.2
 ssl-ca=/mysql-certs/ca.crt
 </code></pre></div></div>
 
-<p>Off course make sure to copy your certificates under <code class="highlighter-rouge">/mysql-certs</code>.</p>
+<p>Off course make sure to copy your certificates under <code class="language-plaintext highlighter-rouge">/mysql-certs</code>.</p>
 
-<p>The <code class="highlighter-rouge">require_secure_transport=ON</code> directive makes sure to reject every unencrypted connection request.</p>
+<p>The <code class="language-plaintext highlighter-rouge">require_secure_transport=ON</code> directive makes sure to reject every unencrypted connection request.</p>
 
 <p>And we are done with the MySQL part. If you want I wrote a Docker Container with this complete setup. At the end of the tutorial the link.</p>
 
@@ -661,16 +661,16 @@ ssl-ca=/mysql-certs/ca.crt
 
 <p><strong>NOTE</strong>: <strong><em>It’s super easy to break the server with wrong configuration, so each time you modify something, make sure the server is starting correctly.</em></strong></p>
 
-<p>To run radius in debug mode: <code class="highlighter-rouge">radiusd -X</code></p>
+<p>To run radius in debug mode: <code class="language-plaintext highlighter-rouge">radiusd -X</code></p>
 
 <h3 id="etcraddbclientconf-configuration-file"><strong>/etc/raddb/client.conf</strong> configuration file</h3>
 <p>Here you need to specify the clients allowed to send requests to the RADIUS server. Most of the times we want to configure a router as <strong>NAS</strong> or <em>Network Access Server</em> so that WiFi clients connecting will communicate to the RADIUS server via the router.</p>
 
 <p>Add these lines at the end of the file:</p>
 <ul>
-  <li><code class="highlighter-rouge">RADIUS_SECRET</code> is a shared password that will be set also on the router.</li>
-  <li><code class="highlighter-rouge">ipaddr</code> is the IP subnet of the router.
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>client router_nas {
+  <li><code class="language-plaintext highlighter-rouge">RADIUS_SECRET</code> is a shared password that will be set also on the router.</li>
+  <li><code class="language-plaintext highlighter-rouge">ipaddr</code> is the IP subnet of the router.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>client router_nas {
       ipaddr = 192.168.10.0/24
       secret = RADIUS_SECRET
 }
@@ -679,11 +679,11 @@ ssl-ca=/mysql-certs/ca.crt
 </ul>
 
 <h3 id="etcraddbdefault-configuration-file"><strong>/etc/raddb/default</strong> configuration file</h3>
-<p>Under the <code class="highlighter-rouge">authorize {}</code> section:</p>
+<p>Under the <code class="language-plaintext highlighter-rouge">authorize {}</code> section:</p>
 
 <p>Uncomment these lines</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap {
                ok = return
                updated = return
     }
@@ -691,40 +691,40 @@ ssl-ca=/mysql-certs/ca.crt
 
 <p>and</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql
 </code></pre></div></div>
 
-<p>Under <code class="highlighter-rouge">authenticate {}</code> section make sure to uncomment:</p>
+<p>Under <code class="language-plaintext highlighter-rouge">authenticate {}</code> section make sure to uncomment:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap
 </code></pre></div></div>
 
-<p>Under the <code class="highlighter-rouge">accounting {}</code> section uncomment the sql line:</p>
+<p>Under the <code class="language-plaintext highlighter-rouge">accounting {}</code> section uncomment the sql line:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql
 </code></pre></div></div>
 
-<p>Under the <code class="highlighter-rouge">session {}</code> uncomment the <code class="highlighter-rouge">sql</code> line.</p>
+<p>Under the <code class="language-plaintext highlighter-rouge">session {}</code> uncomment the <code class="language-plaintext highlighter-rouge">sql</code> line.</p>
 
-<p>Under the <code class="highlighter-rouge">post-auth {}</code> section uncomment the <code class="highlighter-rouge">sql</code> line.</p>
+<p>Under the <code class="language-plaintext highlighter-rouge">post-auth {}</code> section uncomment the <code class="language-plaintext highlighter-rouge">sql</code> line.</p>
 
-<p>Under the <code class="highlighter-rouge">post-auth {}</code> section, under the <code class="highlighter-rouge">Post-Auth-Type REJECT {}</code> uncomment the <code class="highlighter-rouge">sql</code> line.</p>
+<p>Under the <code class="language-plaintext highlighter-rouge">post-auth {}</code> section, under the <code class="language-plaintext highlighter-rouge">Post-Auth-Type REJECT {}</code> uncomment the <code class="language-plaintext highlighter-rouge">sql</code> line.</p>
 
 <h3 id="etcraddbsites-availableinner-tunnel"><strong>/etc/raddb/sites-available/inner-tunnel</strong></h3>
 <p>This is a virtual server that handles <em>only</em> inner tunnel requests for EAP-TTLS and PEAP types.</p>
 
-<p>Under <code class="highlighter-rouge">authorize {}</code> make sure both <code class="highlighter-rouge">sql</code> and <code class="highlighter-rouge">eap {..}</code> are uncommented.</p>
+<p>Under <code class="language-plaintext highlighter-rouge">authorize {}</code> make sure both <code class="language-plaintext highlighter-rouge">sql</code> and <code class="language-plaintext highlighter-rouge">eap {..}</code> are uncommented.</p>
 
-<p>Under <code class="highlighter-rouge">authenticate {}</code> make sure <code class="highlighter-rouge">eap</code> is uncommented.</p>
+<p>Under <code class="language-plaintext highlighter-rouge">authenticate {}</code> make sure <code class="language-plaintext highlighter-rouge">eap</code> is uncommented.</p>
 
-<p>Under <code class="highlighter-rouge">session {}</code> make sure <code class="highlighter-rouge">sql</code> is uncommented.</p>
+<p>Under <code class="language-plaintext highlighter-rouge">session {}</code> make sure <code class="language-plaintext highlighter-rouge">sql</code> is uncommented.</p>
 
-<p>Under <code class="highlighter-rouge">post-auth {}</code> make sure <code class="highlighter-rouge">sql</code> is uncommented as well as in the <code class="highlighter-rouge">Post-Auth-Type REJECT {}</code> subsection.</p>
+<p>Under <code class="language-plaintext highlighter-rouge">post-auth {}</code> make sure <code class="language-plaintext highlighter-rouge">sql</code> is uncommented as well as in the <code class="language-plaintext highlighter-rouge">Post-Auth-Type REJECT {}</code> subsection.</p>
 
 <h3 id="etcraddbmods-availablesql"><strong>/etc/raddb/mods-available/sql</strong></h3>
 <p>This is the configuration file for the SQL module.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql {
         
         driver = "rlm_sql_mysql"
 
@@ -821,14 +821,14 @@ ssl-ca=/mysql-certs/ca.crt
 }
 </code></pre></div></div>
 
-<p>To <strong>enable the SQL module</strong> make sure <code class="highlighter-rouge">/etc/raddb/mods-enabled/sql</code> is existing, otherwise:</p>
+<p>To <strong>enable the SQL module</strong> make sure <code class="language-plaintext highlighter-rouge">/etc/raddb/mods-enabled/sql</code> is existing, otherwise:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ln</span> <span class="nt">-s</span> /etc/raddb/mods-available/sql /etc/raddb/mods-enabled/sql
 </code></pre></div></div>
 <h3 id="etcraddbmods-availableeap"><strong>/etc/raddb/mods-available/eap</strong></h3>
 <p>Among the other options, the ones that need to be changed are:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eap {
     ...
 
     default_eap_type = ttls
@@ -867,14 +867,14 @@ ssl-ca=/mysql-certs/ca.crt
 }
 </code></pre></div></div>
 
-<p>Off course copy the respective certificates to <code class="highlighter-rouge">/etc/raddb/</code></p>
+<p>Off course copy the respective certificates to <code class="language-plaintext highlighter-rouge">/etc/raddb/</code></p>
 
-<p>To <strong>enable the EAP module</strong> make sure <code class="highlighter-rouge">/etc/raddb/mods-enabled/eap</code> is existing, otherwise:</p>
+<p>To <strong>enable the EAP module</strong> make sure <code class="language-plaintext highlighter-rouge">/etc/raddb/mods-enabled/eap</code> is existing, otherwise:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ln</span> <span class="nt">-s</span> /etc/raddb/mods-available/eap /etc/raddb/mods-enabled/eap
 </code></pre></div></div>
 
-<p><strong>NOTE</strong> Assuming you have the current latest OPENSSL version installed. If FreeRADIUS is giving some security error related to openssl you need to add <code class="highlighter-rouge">allow_vulnerable_openssl = "CVE-2016-6309"</code> to the <code class="highlighter-rouge">/etc/raddb/radiusd.conf</code> under the <code class="highlighter-rouge">security {}</code> section.</p>
+<p><strong>NOTE</strong> Assuming you have the current latest OPENSSL version installed. If FreeRADIUS is giving some security error related to openssl you need to add <code class="language-plaintext highlighter-rouge">allow_vulnerable_openssl = "CVE-2016-6309"</code> to the <code class="language-plaintext highlighter-rouge">/etc/raddb/radiusd.conf</code> under the <code class="language-plaintext highlighter-rouge">security {}</code> section.</p>
 
 <p>We have now finished with the settings. As said above, after each file configuration change, restart the FreeRADIUS server and check that everything is running without errors.</p>
 
@@ -891,9 +891,9 @@ ssl-ca=/mysql-certs/ca.crt
 
 <p>Assuming:</p>
 <ul>
-  <li><code class="highlighter-rouge">192.168.5.12</code> is the FreeRADIUS IP address</li>
-  <li><code class="highlighter-rouge">testing123</code> is the shared password</li>
-  <li><code class="highlighter-rouge">test@acme.com</code> is a user stored in the database</li>
+  <li><code class="language-plaintext highlighter-rouge">192.168.5.12</code> is the FreeRADIUS IP address</li>
+  <li><code class="language-plaintext highlighter-rouge">testing123</code> is the shared password</li>
+  <li><code class="language-plaintext highlighter-rouge">test@acme.com</code> is a user stored in the database</li>
 </ul>
 
 <p>Now you can try to configure the Router to use EAP for WiFi client authentication. Always look at the logs in the FreeRADIUS server and try to understand what is going on.</p>
@@ -901,8 +901,8 @@ ssl-ca=/mysql-certs/ca.crt
 <h3 id="testing-eap-ttls"><strong>Testing EAP-TTLS</strong></h3>
 <p><strong>wpa-supplicant</strong> is supplying the <strong><em>eapol_test</em></strong> program to test RADIUS EAP.</p>
 
-<p>Create a file, <code class="highlighter-rouge">eapol-tls.conf</code> for example:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>network={
+<p>Create a file, <code class="language-plaintext highlighter-rouge">eapol-tls.conf</code> for example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>network={
      ssid="SSID_OF_THE_WIFI_NETWORK"
      key_mgmt=WPA-EAP
      eap=TTLS
@@ -922,14 +922,14 @@ ssl-ca=/mysql-certs/ca.crt
 
 <p>Where for example:</p>
 <ul>
-  <li><code class="highlighter-rouge">192.168.5.12</code> is the FreeRADIUS server IP address</li>
-  <li><code class="highlighter-rouge">1812</code> is the default port</li>
-  <li><code class="highlighter-rouge">test</code> is the password</li>
-  <li><code class="highlighter-rouge">eapol-tls.conf</code> is the config file for the test</li>
-  <li><code class="highlighter-rouge">testing123</code> is the shared key</li>
+  <li><code class="language-plaintext highlighter-rouge">192.168.5.12</code> is the FreeRADIUS server IP address</li>
+  <li><code class="language-plaintext highlighter-rouge">1812</code> is the default port</li>
+  <li><code class="language-plaintext highlighter-rouge">test</code> is the password</li>
+  <li><code class="language-plaintext highlighter-rouge">eapol-tls.conf</code> is the config file for the test</li>
+  <li><code class="language-plaintext highlighter-rouge">testing123</code> is the shared key</li>
 </ul>
 
-<p>If everything has been set up correctly you should be able to see <code class="highlighter-rouge">Access-Accept</code>.</p>
+<p>If everything has been set up correctly you should be able to see <code class="language-plaintext highlighter-rouge">Access-Accept</code>.</p>
 
 <p>Congratulations! Now you can continue setting up the Router with your new FreeRADIUS server!</p>
 
@@ -944,7 +944,7 @@ ssl-ca=/mysql-certs/ca.crt
 
 <p><strong>Thanks for reading!</strong></p>
 
-<p><em>Last modified:</em> 31 May 2019</p>
+<p><em>Last modified:</em> 26 January 2022</p>
 </div>
     <hr />
     <ul class="social-share-list">
@@ -1469,13 +1469,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_How to configure FreeRADIUS 3 with MySQL and EAP-TTLS";
+        var disqus_identifier = "carloalbertoscola-it_How to configure FreeRADIUS 3 with MySQL and EAP-TTLS";
         var disqus_title = "How to configure FreeRADIUS 3 with MySQL and EAP-TTLS";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -1486,9 +1486,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -1497,7 +1497,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_How to configure FreeRADIUS 3 with MySQL and EAP-TTLS"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_How to configure FreeRADIUS 3 with MySQL and EAP-TTLS"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -1510,7 +1510,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>
