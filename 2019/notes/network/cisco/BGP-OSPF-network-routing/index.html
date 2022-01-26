@@ -395,7 +395,7 @@ window.addEventListener("load", function(){
     <div class="post"><h1 id="-how-to-configure-cisco-routers-with-routing-protocols-"><center style="font-weight: bold"> How to configure Cisco routers with routing protocols. </center></h1>
 <h2 id="bgp-ospf-hsrp-and-multicast-routing-part-1">BGP, OSPF, HSRP and Multicast routing. <strong>[PART 1]</strong></h2>
 <h3 id="lets-set-up-a-virtual-router-environment-from-scratch">Let’s set up a virtual router environment from scratch!</h3>
-<p><em>Last modified:</em> 18 June 2019</p>
+<p><em>Last modified:</em> 26 January 2022</p>
 
 <p>Hello everybody, in this post we are going to learn step by step how to setup a fully functioning network environment with the help of <a href="https://www.gns3.com/"><em>Graphical Network Simulator-3</em></a> (<strong>GNS3</strong>). This exercise aims to be helpful with the study of network routing protocols.</p>
 
@@ -494,8 +494,8 @@ window.addEventListener("load", function(){
 <h2 id="ospf-configuration"><strong>OSPF Configuration</strong></h2>
 <p>Let’s assume each router has its interfaces already configured with the IP addresses shown in the Figure 1.</p>
 
-<p>Firstly for each router we set up the <code class="highlighter-rouge">router-id</code> correspondent to the router loopback address with: (RTA’s OSPF mode example)</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router-id 10.5.4.1
+<p>Firstly for each router we set up the <code class="language-plaintext highlighter-rouge">router-id</code> correspondent to the router loopback address with: (RTA’s OSPF mode example)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router-id 10.5.4.1
 </code></pre></div></div>
 
 <p>In <strong>RTA</strong>’s OSPF setting, we will use “<em>default-information originate always metric 20</em>” to distribute default route to RTC and RTD. This default route points to RTA. RTB will not apply this default route since it is also a border router.</p>
@@ -513,7 +513,7 @@ window.addEventListener("load", function(){
 <p>If the primary link is down, <strong>RTC</strong> and <strong>RTD</strong> will send the packets outside only through <strong>RTB</strong>. <strong>RTB</strong> will then forward the packets to the outside using the private link. If RTA is down, <strong>RTC</strong> and <strong>RTD</strong> will choose <strong>RTB</strong> as default route destination.</p>
 
 <h3 id="rta-ospf-configuration">RTA OSPF Configuration</h3>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router ospf 1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router ospf 1
     router-id 10.5.4.1
     network 10.5.1.0 0.0.0.3 area 0
     network 10.5.0.0 0.0.0.3 area 0
@@ -524,7 +524,7 @@ window.addEventListener("load", function(){
 
 <blockquote>
   <p>[for newcomers]
-<code class="highlighter-rouge">network &lt;ip-address&gt; &lt;wildcard-mask&gt; area &lt;area-id&gt;</code> : Defines an interface on which OSPF runs and defines the area ID for that interface.</p>
+<code class="language-plaintext highlighter-rouge">network &lt;ip-address&gt; &lt;wildcard-mask&gt; area &lt;area-id&gt;</code> : Defines an interface on which OSPF runs and defines the area ID for that interface.</p>
 </blockquote>
 
 <p>For each router we are telling OSPF to advertise the ip and the netmask reachable by the router to the selected <em>area</em> (in this case 0, backbone).</p>
@@ -535,18 +535,18 @@ window.addEventListener("load", function(){
 
 <p>Other routers OSPF configurations are at the end of the article.</p>
 <h2 id="bgp-configuration"><strong>BGP configuration</strong></h2>
-<p>Firstly for each router we set up the <code class="highlighter-rouge">router-id</code> correspondent to the router loopback address with:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bgp router-id 10.5.4.1
+<p>Firstly for each router we set up the <code class="language-plaintext highlighter-rouge">router-id</code> correspondent to the router loopback address with:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bgp router-id 10.5.4.1
 </code></pre></div></div>
 
 <p>In <strong>RTA</strong>’s BGP setting, we aggregate the addresses to 10.5.0.0/20 (since our network is using this segment we don’t want to advertise multiple useless routes, just the main one is necessary to reach AS13). We also redistribute our OSPF route in BGP (or we could add RTA’s nearby network 10.5.0.0/30 and 10.5.1.0/30). 
 This is done with: (RTA)</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aggregate-address 10.5.0.0 255.255.240.0 summary-only
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aggregate-address 10.5.0.0 255.255.240.0 summary-only
 </code></pre></div></div>
 
 <p>In <strong>RTA</strong>’s routing table, we also add a static route to <strong>RTB</strong>’s Loopback address for network 10.5.5.0/30. Since we use aggregate-address in RTA’s BGP setting, it will include 10.5.5.0/30. Actually RTA does not know where <strong>RTB</strong>’s Loopback is at all. RTB will not advertise that network to OSPF or BGP.
 This is done with: (RTA)</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip route 10.5.5.0 255.255.255.252 10.5.4.2
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip route 10.5.5.0 255.255.255.252 10.5.4.2
 </code></pre></div></div>
 
 <p>In addition, we are also using Loopback of RTA and RTB to establish the BGP TCP connections. This avoids failed interfaces and links with the help of OSPF routing.</p>
@@ -557,27 +557,27 @@ This is done with: (RTA)</p>
 <p>In RTA we will set up AS2 as <strong>E-BGP</strong> peer and RTB as <strong>I-BGP</strong> peer.</p>
 
 <p>We set up the neighboring to the destination IP as:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.0.32.1 remote-as 2
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.0.32.1 remote-as 2
 neighbor 10.5.4.2 remote-as 13
 </code></pre></div></div>
 
 <p>Next we set up the <strong>next-hop-self</strong> bgp attribute.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.4.2 next-hop-self
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.4.2 next-hop-self
 </code></pre></div></div>
 <p>When a new route from an e-bgp peer is learned from RTA, the internal peer (RTB) will learn the prefix through i-bgp. If RTB does not have a route towards that IP, RTB will not be able to forward packets.
 The <strong>next-hop-self</strong> BGP attribute allow the internal bgp peer (RTB) to set the RTA address as ‘<em>next-hop</em>’ for routes learned from i-bgp. This way RTB will forward packets to RTA, and than it is RTA responsibility to forward out those packets.</p>
 
 <p>BGP gives us an option to change the source of packets sent. In this case we can use Loopback interface as source of BGP packets sent between these neighbors. This way if one of the paths fails, the other will be used. Moreover by using loopback interface as update source, the benefit is that the BGP session won’t go down when physical interface goes down.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.4.2 update-source loopback 1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.4.2 update-source loopback 1
 </code></pre></div></div>
 
 <p>Finally to redistribute OSPF routes into BGP:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redistribute ospf 1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redistribute ospf 1
 </code></pre></div></div>
 
 <h3 id="complete-bgp-configuration-of-router-rta">Complete BGP configuration of Router RTA</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router bgp 13
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>router bgp 13
     bgp router-id 10.5.4.1
     aggregate-address 10.5.0.0 255.255.240.0 summary-only
     redistribute ospf 1
@@ -602,24 +602,24 @@ The <strong>next-hop-self</strong> BGP attribute allow the internal bgp peer (RT
 <p>When the link to AS2 is down, after a timer timeout, <strong>RTB</strong> will spread its BGP route to OSPF so that the <em>default route</em> to AS2 will be through AS14.</p>
 
 <h3 id="how-to-setup-primary-and-secondary-link">How to setup primary and secondary link</h3>
-<p>To set default route to RTA, and back up route to RTB for outgoing connections to outside we first create a <code class="highlighter-rouge">route-map</code> for <strong>incoming</strong> routes in BGP config mode: (RTA)</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
+<p>To set default route to RTA, and back up route to RTB for outgoing connections to outside we first create a <code class="language-plaintext highlighter-rouge">route-map</code> for <strong>incoming</strong> routes in BGP config mode: (RTA)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.0.32.1 route-map PREF_FROM_AS2 in
 exit
 </code></pre></div></div>
 <p>“PREF_FROM_AS2” is the name of the route-map.
 It means “all the routes coming (<strong>in</strong>) from AS2”.</p>
 
 <p>then we define the route-map this way: (RTA)</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route-map PREF_FROM_AS2 permit 20
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route-map PREF_FROM_AS2 permit 20
 set local-preference 300
 exit
 </code></pre></div></div>
 
 <p>While in RTB the local preference is lower:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.5.1 route-map PREF_FROM_AS14 in  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>neighbor 10.5.5.1 route-map PREF_FROM_AS14 in  
 exit
 </code></pre></div></div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route-map PREF_FROM_AS14 permit 10
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route-map PREF_FROM_AS14 permit 10
 set local-preference 200
 exit
 </code></pre></div></div>
@@ -629,17 +629,17 @@ exit
 avoiding multicast protocol to affect other AS.</p>
 
 <p>To set up PIM on an interface:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip pim sparse-mode
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip pim sparse-mode
 </code></pre></div></div>
 <p>To set the RP:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip pim rp-address 10.5.4.3
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip pim rp-address 10.5.4.3
 </code></pre></div></div>
 
 <p>We set up the PIM RP close to the server network, since the servers usually mostly provide the multicast services.</p>
 
 <h3 id="complete-rta-router-configuration"><strong>Complete RTA router configuration</strong></h3>
 <p>This config is ready to be copy-pasted in the router config mode.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conf t
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conf t
 hostname RTA
 ip multicast-routing 
 
@@ -697,7 +697,7 @@ ip route 10.5.5.0 255.255.255.252 10.5.4.2
 
 <h3 id="complete-rtb-router-configuration"><strong>Complete RTB router configuration</strong></h3>
 <p>This config is ready to be copy-pasted in the router config mode.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conf t
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conf t
 hostname RTB
 ip multicast-routing 
 
@@ -1278,13 +1278,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_A Cisco routing lab network with GNS3. [Part 1]";
+        var disqus_identifier = "carloalbertoscola-it_A Cisco routing lab network with GNS3. [Part 1]";
         var disqus_title = "A Cisco routing lab network with GNS3. [Part 1]";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -1295,9 +1295,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -1306,7 +1306,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_A Cisco routing lab network with GNS3. [Part 1]"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_A Cisco routing lab network with GNS3. [Part 1]"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -1319,7 +1319,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>

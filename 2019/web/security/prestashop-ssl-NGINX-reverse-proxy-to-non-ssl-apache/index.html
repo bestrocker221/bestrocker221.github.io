@@ -379,7 +379,7 @@ window.addEventListener("load", function(){
 <article class="content">
     <div class="post"><h1 id="enabling-ssl-on-nginx-reverse-proxy-towards-non-ssl-apache"><strong>Enabling SSL on NGINX reverse proxy towards non-SSL apache</strong></h1>
 <h2 id="nginx-and-apache-prestashop-docker-containers">NGINX and APACHE Prestashop Docker containers</h2>
-<center> Last modified: 17 January 2019 </center>
+<center> Last modified: 26 January 2022 </center>
 
 <p>My Setup is as follow:</p>
 <ul>
@@ -403,7 +403,7 @@ window.addEventListener("load", function(){
 <p><strong><em>Without enabling SSL on prestashop, it doesnt rewrite URLs to the correct https scheme.</em></strong></p>
 
 <p>My actual _nginx.conf:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
         listen      80 reuseport;
         server_name  localhost &lt;domain&gt;;
         
@@ -473,20 +473,20 @@ window.addEventListener("load", function(){
 
 <p>If you also need <a href="https://github.com/SpiderLabs/ModSecurity"><strong><em>ModSecurity Web Application Firewall</em></strong></a>, you just need to install first the rules (<a href="https://coreruleset.org/">OWASP core ruleset</a>) and then use these two lines:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modsecurity on;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>modsecurity on;
 modsecurity_rules_file /etc/nginx/modsecurity.d/include.conf;
 </code></pre></div></div>
 
 <h2 id="solution"><strong>Solution</strong></h2>
 <p>On NGINX using</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rewrite ^ https://&lt;DOMAIN&gt;$request_uri? permanent;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rewrite ^ https://&lt;DOMAIN&gt;$request_uri? permanent;
 </code></pre></div></div>
 
 <p>First:  I need prestashop to create <strong>https</strong> links instead of <strong>http</strong> link though the function <strong><em>BaseLink</em></strong> so i changed “http” to “https” in the last row:</p>
 
 <p>File: <em>classes/Link.php</em></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public function getBaseLink($idShop = null, $ssl = null, $relativeProtocol = false)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public function getBaseLink($idShop = null, $ssl = null, $relativeProtocol = false)
     {
    ﻿     static $force_ssl = true;  /*CHANGED null to true */
 
@@ -519,7 +519,7 @@ modsecurity_rules_file /etc/nginx/modsecurity.d/include.conf;
 
 <p><strong>Now you just need to make apache believe those are HTTPS requests even if those are actually HTTP so add these lines in NGINX reverse proxy nginx.conf:</strong></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>proxy_set_header X-Scheme https;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>proxy_set_header X-Scheme https;
 proxy_set_header X-Forwarded-Proto https;
 </code></pre></div></div>
 
@@ -965,13 +965,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_Enabling SSL on NGINX reverse proxy towards non-SSL apache";
+        var disqus_identifier = "carloalbertoscola-it_Enabling SSL on NGINX reverse proxy towards non-SSL apache";
         var disqus_title = "Enabling SSL on NGINX reverse proxy towards non-SSL apache";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -982,9 +982,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -993,7 +993,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_Enabling SSL on NGINX reverse proxy towards non-SSL apache"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_Enabling SSL on NGINX reverse proxy towards non-SSL apache"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -1006,7 +1006,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>

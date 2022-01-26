@@ -458,7 +458,7 @@ Ref: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-s
 
 <p>If you want to use <a href="http://shop.example.com">shop.example.com</a> then a CNAME record like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shop.example.com.	600	IN	CNAME	r42opslbajrw244.cloudfront.net.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shop.example.com.	600	IN	CNAME	r42opslbajrw244.cloudfront.net.
 </code></pre></div></div>
 
 <p>with an Alternate Domain Name set on Cloudfront for shop.example.com</p>
@@ -502,7 +502,7 @@ Ref: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-s
 
 <p>AXFR request directly on the DNS server:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dig @ns.example.com example=.com AXFR
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dig @ns.example.com example=.com AXFR
 </code></pre></div></div>
 
 <p>The best practice advises administrators to allow AXFR requests only from authorized DNS servers, so the above technique will probably not work.</p>
@@ -511,7 +511,7 @@ Ref: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-s
 
 <h3 id="google-dorks">Google Dorks</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>site:example.com
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>site:example.com
 </code></pre></div></div>
 
 <h3 id="rapid7-dns-dataset">Rapid7 DNS dataset</h3>
@@ -520,7 +520,7 @@ Ref: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-s
 
 <p>To skim and search for:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zcat snapshop.json.gz | 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zcat snapshop.json.gz | 
 jq -r 'if (.name | test("\\.example\\.com$")) then .name else empty end'
 </code></pre></div></div>
 
@@ -535,7 +535,7 @@ jq -r 'if (.name | test("\\.example\\.com$")) then .name else empty end'
 <ul>
   <li><a href="https://censys.io/">Censys.io</a> —&gt;  <a href="https://censys.io/certificates?q=.example.com">https://censys.io/certificates?q=.example.com</a></li>
   <li><a href="http://crt.sh/">Crt.sh</a> —&gt; <a href="https://crt.sh/?q=%25.example.com">https://crt.sh/?q=%.example.com</a></li>
-  <li><a href="https://github.com/aboul3la/Sublist3r">Sublist3r</a> —&gt; <code class="highlighter-rouge">python [sublist3r.py](http://sublist3r.py/) -d [example.com](http://example.com/)</code></li>
+  <li><a href="https://github.com/aboul3la/Sublist3r">Sublist3r</a> —&gt; <code class="language-plaintext highlighter-rouge">python [sublist3r.py](http://sublist3r.py/) -d [example.com](http://example.com/)</code></li>
 </ul>
 
 <p>Refs at <a href="https://blog.sweepatic.com/art-of-subdomain-enumeration/">https://blog.sweepatic.com/art-of-subdomain-enumeration/</a></p>
@@ -987,13 +987,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_What is Subdomain Takeover and how to defend.";
+        var disqus_identifier = "carloalbertoscola-it_What is Subdomain Takeover and how to defend.";
         var disqus_title = "What is Subdomain Takeover and how to defend.";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -1004,9 +1004,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -1015,7 +1015,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_What is Subdomain Takeover and how to defend."; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_What is Subdomain Takeover and how to defend."; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -1028,7 +1028,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>

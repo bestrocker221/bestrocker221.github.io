@@ -395,18 +395,18 @@ window.addEventListener("load", function(){
 
 <p>Server Example:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
-<span class="nv">$myJSON</span> <span class="o">=</span> <span class="s1">'{ "name":"John", "age":30, "city":"New York" }'</span><span class="p">;</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
+$myJSON = '{ "name":"John", "age":30, "city":"New York" }';
 
-<span class="k">echo</span> <span class="s2">"myFunc("</span><span class="o">.</span><span class="nv">$myJSON</span><span class="o">.</span><span class="s2">");"</span><span class="p">;</span>
-<span class="cp">?&gt;</span>
+echo "myFunc(".$myJSON.");";
+?&gt;
 </code></pre></div></div>
 
 <p>This will return: myFunc({ “name”:”John”, “age”:30, “city”:”New York” });</p>
 
-<p>This could be included in a dynamically created <code class="highlighter-rouge">script</code> tag:</p>
+<p>This could be included in a dynamically created <code class="language-plaintext highlighter-rouge">script</code> tag:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function clickButton() {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function clickButton() {
     var s = document.createElement("script");
     s.src = "demo_jsonp.php";
     document.body.appendChild(s);
@@ -419,7 +419,7 @@ window.addEventListener("load", function(){
 
 <p>So site A includes a script pointing to <a href="http://b/userdata.js">http://B/userdata.js</a> which is something like:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>displayMySecretData({"secret":"this is very secret", ...})
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>displayMySecretData({"secret":"this is very secret", ...})
 </code></pre></div></div>
 
 <p>So A defines a function called displayMySecretData, and when the included script from server B runs, it calls that function and displays the secret data to the user.</p>
@@ -449,16 +449,16 @@ window.addEventListener("load", function(){
 
 <p>Example:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`&lt;script src="[https://www.vulnerable-domain.tld/script.js](https://www.vulnerable-domain.tld/script.js)"&gt;&lt;/script&gt;`
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`&lt;script src="[https://www.vulnerable-domain.tld/script.js](https://www.vulnerable-domain.tld/script.js)"&gt;&lt;/script&gt;`
 </code></pre></div></div>
 
 <p>has a variable like:</p>
 
-<p><code class="highlighter-rouge">keys = [ domain: 'live.com', apiKey: 'dsd2kgijland3io1', privkey:' *rsa key*',  ... ]</code></p>
+<p><code class="language-plaintext highlighter-rouge">keys = [ domain: 'live.com', apiKey: 'dsd2kgijland3io1', privkey:' *rsa key*',  ... ]</code></p>
 
 <p>Then an attacker could just inject an</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`alert(JSON.stringify(keys))`
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`alert(JSON.stringify(keys))`
 </code></pre></div></div>
 
 <p>to retrieve all the secrets.</p>
@@ -473,7 +473,7 @@ window.addEventListener("load", function(){
 
 <p>So for example if Angular JS does have a function like this which handle sensitive information:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`angular.callbacks._7({"status":STATUS,"body":{"demographics":{"email":......}}})`
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`angular.callbacks._7({"status":STATUS,"body":{"demographics":{"email":......}}})`
 </code></pre></div></div>
 
 <p>then an attacker could inject:</p>
@@ -492,14 +492,14 @@ window.addEventListener("load", function(){
 
 <p>For example if the function needed is myFunc then the script will be:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`&lt;script src="https://site.tld/p?jsonp=myFunc" type="text/javascript"&gt;&lt;/script&gt;`
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`&lt;script src="https://site.tld/p?jsonp=myFunc" type="text/javascript"&gt;&lt;/script&gt;`
 </code></pre></div></div>
 
 <p>The function myFunc will be used as callback as soon as data is returned.</p>
 
 <p>What if an attacker can change the requesting callback and then writes his own in the victim browser? like this?</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```
 &lt;script&gt;
       leak = function (leaked) {
 			  alert(JSON.stringify(leaked));
@@ -513,9 +513,9 @@ window.addEventListener("load", function(){
 
 <p>Never put sensitive content on Javascript and JSONP.</p>
 
-<p>Instruct the browser not to guess the <code class="highlighter-rouge">Content-Type</code> with:</p>
+<p>Instruct the browser not to guess the <code class="language-plaintext highlighter-rouge">Content-Type</code> with:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-Content-Type-Options: nosniff
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-Content-Type-Options: nosniff
 </code></pre></div></div>
 
 <p>A correct Content-Type is also helpful in reducing the chance of XSSI.</p>
@@ -863,13 +863,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_XSSI and XSS differences";
+        var disqus_identifier = "carloalbertoscola-it_XSSI and XSS differences";
         var disqus_title = "XSSI and XSS differences";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -880,9 +880,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -891,7 +891,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_XSSI and XSS differences"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_XSSI and XSS differences"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -904,7 +904,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>

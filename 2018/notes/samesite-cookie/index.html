@@ -385,9 +385,9 @@ window.addEventListener("load", function(){
 
 <hr />
 
-<h2 id="short-review-of-meta-http-equiv">Short review of <strong><code class="highlighter-rouge">meta http-equiv</code></strong></h2>
+<h2 id="short-review-of-meta-http-equiv">Short review of <strong><code class="language-plaintext highlighter-rouge">meta http-equiv</code></strong></h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;meta http-equiv="&lt;&gt;" content="&lt;&gt;"&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;meta http-equiv="&lt;&gt;" content="&lt;&gt;"&gt;
 </code></pre></div></div>
 
 <p>The http-equiv attribute provides an <strong>HTTP heade</strong>r for the information/value of the <a href="https://www.w3schools.com/tags/att_meta_content.asp">content</a> attribute.</p>
@@ -396,12 +396,12 @@ window.addEventListener("load", function(){
 
 <p>So, basically, using a HTML directive like:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;meta http-equiv="set-cookie" content="id=12345; SameSite=Strict"&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;meta http-equiv="set-cookie" content="id=12345; SameSite=Strict"&gt;
 </code></pre></div></div>
 
 <p>is equivalent to:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: id=12345; SameSite=Strict;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: id=12345; SameSite=Strict;
 </code></pre></div></div>
 
 <p>sent by the server.</p>
@@ -434,7 +434,7 @@ window.addEventListener("load", function(){
   </li>
 </ul>
 
-<p>SameSite cookie flag can be <strong><em><code class="highlighter-rouge">strict</code></em></strong> or <strong><em><code class="highlighter-rouge">lax:</code></em></strong></p>
+<p>SameSite cookie flag can be <strong><em><code class="language-plaintext highlighter-rouge">strict</code></em></strong> or <strong><em><code class="language-plaintext highlighter-rouge">lax:</code></em></strong></p>
 
 <ul>
   <li><strong>strict:</strong> will prevent the cookie from being sent by the browser to the target site in all cross-site browsing context. A bank website however most likely doesn’t want to allow any transactional pages to be linked from external sites so the strict flag would be most appropriate here. It can affect negatively the user experience, if a user click on a FB profile page on a site diverse than <a href="http://facebook.com">facebook.com</a> he will see error 404.</li>
@@ -443,7 +443,7 @@ window.addEventListener("load", function(){
 
 <p>HTTP Headers:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: CookieName=CookieValue; SameSite=Lax;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: CookieName=CookieValue; SameSite=Lax;
 Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 </code></pre></div></div>
 
@@ -477,7 +477,7 @@ Set-Cookie: CookieName=CookieValue; SameSite=Strict;
 
 <p>From <a href="https://tools.ietf.org/html/draft-west-first-party-cookies-07#section-1.1">https://tools.ietf.org/html/draft-west-first-party-cookies-07#section-1.1</a></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		Setting the "SameSite" attribute in "strict" mode provides robust
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		Setting the "SameSite" attribute in "strict" mode provides robust
    defense in depth against CSRF attacks, but has the potential to
    confuse users unless sites' developers carefully ensure that their
    session management systems deal reasonably well with top-level
@@ -844,13 +844,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </div>
 
 
-<!-- <div class="disqus-comments">
+<div class="disqus-comments">
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         /* <![CDATA[ */
 
         var disqus_shortname = "carloalbertoscola-it";
-        var disqus_identifier = "https://carloalbertoscola.it/_SameSite cookie security";
+        var disqus_identifier = "carloalbertoscola-it_SameSite cookie security";
         var disqus_title = "SameSite cookie security";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -861,9 +861,9 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
         })();
     /* ]]> */
     </script>
-</div> -->
+</div>
 
-<div id="disqus_thread"></div>
+<!-- <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -872,7 +872,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 
 var disqus_config = function () {
 this.page.url = "https://carloalbertoscola.it/";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "https://carloalbertoscola.it/_SameSite cookie security"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+this.page.identifier = "carloalbertoscola-it_SameSite cookie security"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
@@ -885,7 +885,9 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </div>
+-->
 
+<script id="dsq-count-scr" src="//carloalbertoscola-it.disqus.com/count.js" async></script> 
           <div class="row">
             <div class="col-md-12 col-xs-12 footer">
               <footer>
