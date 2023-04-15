@@ -7,3 +7,15 @@
 
 # Generated site
 is under _site
+
+
+# code highligting
+`gem install kramdown rouge`
+
+After installing kramdown and rouge, you can add the following to your _config.yml file.
+
+```
+markdown: kramdown
+highlighter: rouge
+    input: GFM
+```
