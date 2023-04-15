@@ -3,10 +3,10 @@
   <channel>
     <title>Carlo Alberto Scola</title>
     <description>My Personal Blog</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 15 Apr 2023 21:29:13 +0200</pubDate>
-    <lastBuildDate>Sat, 15 Apr 2023 21:29:13 +0200</lastBuildDate>
+    <link>https://carloalbertoscola.it//</link>
+    <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 15 Apr 2023 21:31:06 +0200</pubDate>
+    <lastBuildDate>Sat, 15 Apr 2023 21:31:06 +0200</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
     
       <item>
@@ -218,8 +218,8 @@ AWS Login URL: ${aws_login_url}
 
 </description>
         <pubDate>Sat, 15 Apr 2023 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</link>
-        <guid isPermaLink="true">http://localhost:4000/2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</guid>
+        <link>https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</guid>
         
         <category>linux</category>
         
@@ -488,8 +488,8 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 10 Apr 2020 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2020/security/digital-forensic-made-easy-autopsy-sleuth/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/security/digital-forensic-made-easy-autopsy-sleuth/</guid>
+        <link>https://carloalbertoscola.it//2020/security/digital-forensic-made-easy-autopsy-sleuth/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/digital-forensic-made-easy-autopsy-sleuth/</guid>
         
         <category>security</category>
         
@@ -603,8 +603,8 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Carlo Alberto&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 18 Jan 2020 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
+        <link>https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
         
         <category>network</category>
         
@@ -738,8 +738,8 @@ Security is also taught to be as a “&lt;strong&gt;&lt;em&gt;process&lt;/em&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 29 Sep 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</guid>
+        <link>https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</guid>
         
         
         <category>security</category>
@@ -924,8 +924,8 @@ jq -r &apos;if (.name | test(&quot;\\.example\\.com$&quot;)) then .name else emp
 &lt;p&gt;&lt;em&gt;Carlo Alberto&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 05 Sep 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2019/web/security/SubDomain-Takeover/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/web/security/SubDomain-Takeover/</guid>
+        <link>https://carloalbertoscola.it//2019/web/security/SubDomain-Takeover/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/web/security/SubDomain-Takeover/</guid>
         
         
         <category>web</category>
@@ -1172,8 +1172,8 @@ Middleboxes are often required some properties like &lt;strong&gt;being on-path&
 &lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;
 </description>
         <pubDate>Fri, 19 Jul 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</guid>
+        <link>https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</guid>
         
         
         <category>network</category>
@@ -1453,8 +1453,8 @@ Paper shows an analysis of trade-offs between centralized management and costs, 
 &lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;
 </description>
         <pubDate>Fri, 05 Jul 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2019/network/sdn/software-defined-networking-introduction/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/software-defined-networking-introduction/</guid>
+        <link>https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</guid>
         
         
         <category>network</category>
@@ -1899,8 +1899,8 @@ ext_ipc[1] -&amp;gt; Print(&quot;IP from EXT to INT&quot;) -&amp;gt; [0]rw;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
         <pubDate>Tue, 28 May 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</guid>
+        <link>https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</guid>
         
         
         <category>network</category>
@@ -2033,8 +2033,8 @@ For more detailed explanation look at the cisco documentation &lt;a href=&quot;h
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post! Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 26 Apr 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
+        <link>https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
         
         <category>network</category>
         
@@ -2620,8 +2620,8 @@ ssl-ca=/mysql-certs/ca.crt
 &lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 26 January 2022&lt;/p&gt;
 </description>
         <pubDate>Mon, 25 Feb 2019 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</guid>
+        <link>https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</guid>
         
         
         <category>network</category>
