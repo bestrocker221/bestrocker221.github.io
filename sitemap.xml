@@ -3,18 +3,18 @@
   <channel>
     <title>Carlo Alberto Scola</title>
     <description>My Personal Blog</description>
-    <link>https://carloalbertoscola.it//</link>
-    <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 15 Apr 2023 21:20:34 +0200</pubDate>
-    <lastBuildDate>Sat, 15 Apr 2023 21:20:34 +0200</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/sitemap.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 15 Apr 2023 21:29:13 +0200</pubDate>
+    <lastBuildDate>Sat, 15 Apr 2023 21:29:13 +0200</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
     
       <item>
         <title>How to do create and manage IAM AWS users with Terraform</title>
         <description>How to easily manage IAM users with Terraform in AWS. Create and manage users and access keys in a fast and reproducible manner.</description>
         <pubDate>Sat, 15 Apr 2023 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</guid>
+        <link>http://localhost:4000/2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</guid>
         
         <category>linux</category>
         
@@ -33,8 +33,8 @@
         <title>Autopsy - A Digital Forensic Lab</title>
         <description>A quick walk-through the basic functions of the Autopsy framework for computer digital forensic and investigations.</description>
         <pubDate>Fri, 10 Apr 2020 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2020/security/digital-forensic-made-easy-autopsy-sleuth/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/digital-forensic-made-easy-autopsy-sleuth/</guid>
+        <link>http://localhost:4000/2020/security/digital-forensic-made-easy-autopsy-sleuth/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/security/digital-forensic-made-easy-autopsy-sleuth/</guid>
         
         <category>security</category>
         
@@ -49,8 +49,8 @@
         <title>A secure, easy and encrypted cloud backup</title>
         <description>How to setup the most simple remote backup solution for your needs. Rsync and EncFS will incrementally store only the encrypted files on your &quot;cloud&quot; providing complete privacy.</description>
         <pubDate>Sat, 18 Jan 2020 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
+        <link>http://localhost:4000/2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
         
         <category>network</category>
         
@@ -75,8 +75,8 @@
         <title>Full and Responsible disclosure, the debate.</title>
         <description>The debate on the different vulnerability disclosure options is still running without a decisive winning answer. Cyber Security is not an option for companies but they often seem to not give it much attention.</description>
         <pubDate>Sun, 29 Sep 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</guid>
+        <link>http://localhost:4000/2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</guid>
         
         
         <category>security</category>
@@ -89,8 +89,8 @@
         <title>What is Subdomain Takeover and how to defend.</title>
         <description>Subdomain takeover is a threat that comes down to a registration of an unused subdomain by an attacker which is then able to own a valid subdomain and launch different attacks.</description>
         <pubDate>Thu, 05 Sep 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/web/security/SubDomain-Takeover/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/web/security/SubDomain-Takeover/</guid>
+        <link>http://localhost:4000/2019/web/security/SubDomain-Takeover/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/web/security/SubDomain-Takeover/</guid>
         
         
         <category>web</category>
@@ -103,8 +103,8 @@
         <title>Network Function Virtualization, Middleboxes and Cloud Load Balancing</title>
         <description>From Network Function Virtualization to Middleboxes outsourcing to the cloud, load balancing and in-data-plane connectivity recovery. Research papers summary.</description>
         <pubDate>Fri, 19 Jul 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</guid>
+        <link>http://localhost:4000/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</guid>
         
         
         <category>network</category>
@@ -117,8 +117,8 @@
         <title>An introduction to Software Defined Networking</title>
         <description>A walk-through from the beginning of SDN networks and applications, towards testing, model checking, scaling and SDN applied to Internet Exchange Point. Research papers summary.</description>
         <pubDate>Fri, 05 Jul 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</guid>
+        <link>http://localhost:4000/2019/network/sdn/software-defined-networking-introduction/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/software-defined-networking-introduction/</guid>
         
         
         <category>network</category>
@@ -131,8 +131,8 @@
         <title>SDN &amp; NFV with POX and Click Modular Router</title>
         <description>A project experiencing Software Defined Networking and Network Function Virtualization using the popular POX controller platform in Python with OpenFlow and Click Modular Router.</description>
         <pubDate>Tue, 28 May 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</guid>
+        <link>http://localhost:4000/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</guid>
         
         
         <category>network</category>
@@ -147,8 +147,8 @@
         <title>Fault-Tolerant IP routing with Cisco HSRP. [Part 2]</title>
         <description>Here we are going to focus on how to set up HSRP fault tolerance to provide IP routing redundancy and availability between two routers and multiple networks.</description>
         <pubDate>Fri, 26 Apr 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
+        <link>http://localhost:4000/2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
         
         <category>network</category>
         
@@ -169,8 +169,8 @@
         <title>How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</title>
         <description>Today we are going to explain how to set up a FreeRADIUS server for  Authentication, Authorization and Accounting (AAA) along with a MySQL database for credentials storage accessed only through encrypted TLS connections.</description>
         <pubDate>Mon, 25 Feb 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</guid>
+        <link>http://localhost:4000/2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</guid>
         
         
         <category>network</category>
@@ -185,8 +185,8 @@
         <title>Enabling SSL on NGINX reverse proxy towards non-SSL apache</title>
         <description>The goal is to enable Prestashop SSL/TLS on a NGINX reverse proxy which is acting as SSL/TLS concentrator to an internal non-SSL apache web server.</description>
         <pubDate>Tue, 15 Jan 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/</guid>
+        <link>http://localhost:4000/2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/web/security/prestashop-ssl-NGINX-reverse-proxy-to-non-ssl-apache/</guid>
         
         
         <category>web</category>
@@ -199,8 +199,8 @@
         <title>A Cisco routing lab network with GNS3. [Part 1]</title>
         <description>Hello everybody, in this post we are going to learn step by step how to setup a fully functioning network environment with the help of Graphical Network Simulator-3 (GNS3). This exercise aims to be helpful with the study of network routing protocols.</description>
         <pubDate>Wed, 02 Jan 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2019/notes/network/cisco/BGP-OSPF-network-routing/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/notes/network/cisco/BGP-OSPF-network-routing/</guid>
+        <link>http://localhost:4000/2019/notes/network/cisco/BGP-OSPF-network-routing/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/notes/network/cisco/BGP-OSPF-network-routing/</guid>
         
         <category>network</category>
         
@@ -227,8 +227,8 @@
         <title>TOR SSH Remote Reverse Tunnel - Raspberry Pi</title>
         <description>How to use TOR hidden service with SSH remote tunnel. How to use  hidden service as an anonymous SSH proxy. We will set a remote ssh tunnel from a raspi client towards a hidden service, accessible by an attacker.</description>
         <pubDate>Wed, 09 May 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/</guid>
+        <link>http://localhost:4000/2018/linux/security/tor-ssh-reverse-tunnel/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/linux/security/tor-ssh-reverse-tunnel/</guid>
         
         
         <category>linux</category>
@@ -241,8 +241,8 @@
         <title>SOCKS PROXY on Reverse SSH tunnel</title>
         <description>How to set up a SOCKS proxy with SSH reverse tunnel. The tunnel will be ssh-encrypted and each traffic will pass through the tunnel, like in a VPN.</description>
         <pubDate>Wed, 02 May 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/security/linux/socks-proxy-on-ssh-tunnel/</guid>
+        <link>http://localhost:4000/2018/security/linux/socks-proxy-on-ssh-tunnel/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/security/linux/socks-proxy-on-ssh-tunnel/</guid>
         
         
         <category>security</category>
@@ -255,8 +255,8 @@
         <title>SameSite cookie security</title>
         <description>SameSite cookies are only sent if the site the request originated from is in the same origin as the target site. They can be set as Strict or Lax..</description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/notes/samesite-cookie/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/samesite-cookie/</guid>
+        <link>http://localhost:4000/2018/notes/samesite-cookie/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/notes/samesite-cookie/</guid>
         
         
         <category>notes</category>
@@ -267,8 +267,8 @@
         <title>HTTP Headers security</title>
         <description>Summary of HTTP headers useful and fundamental for securing web pages, clients, and communication from malicious activities. HSTS, CORS, CSP, HPKP and many many others.</description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/notes/http-header-security/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/http-header-security/</guid>
+        <link>http://localhost:4000/2018/notes/http-header-security/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/notes/http-header-security/</guid>
         
         
         <category>notes</category>
@@ -279,8 +279,8 @@
         <title>SOP and XSS introduction</title>
         <description>Malicious scripts are executed by the victim&apos;s browser because the browser trusts the source of the content, even when it&apos;s not coming from where it seems to be coming from.</description>
         <pubDate>Thu, 26 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/sop-xss-introduction/</guid>
+        <link>http://localhost:4000/2018/notes/sop-xss-introduction/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/notes/sop-xss-introduction/</guid>
         
         
         <category>notes</category>
@@ -291,8 +291,8 @@
         <title>XSSI and XSS differences</title>
         <description>During an XSS malicious code is placed into a victim’s page, during an XSSI victim’s code is included in a malicious page. In an XSSI the attacker wants to leak data cross-origin.</description>
         <pubDate>Mon, 23 Apr 2018 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2018/notes/xssi-and-xss/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/notes/xssi-and-xss/</guid>
+        <link>http://localhost:4000/2018/notes/xssi-and-xss/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/notes/xssi-and-xss/</guid>
         
         
         <category>notes</category>
@@ -303,8 +303,8 @@
         <title>SSH Reverse Tunnel - Raspberry Pi</title>
         <description>How to set up a persistent, always available, SSH remote tunnel (reverse SSH tunnel).</description>
         <pubDate>Tue, 13 Mar 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/security/ssh-reverse-tunnel/</guid>
+        <link>http://localhost:4000/2018/linux/security/ssh-reverse-tunnel/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/linux/security/ssh-reverse-tunnel/</guid>
         
         
         <category>linux</category>
@@ -317,8 +317,8 @@
         <title>Netdata cluster - Monitoring multiple server.</title>
         <description>How to set up a netdata cluster monitoring multiple servers. One dashboard, multiple server monitoring instances.</description>
         <pubDate>Sun, 18 Feb 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2018/linux/web/netdata-cluster/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/web/netdata-cluster/</guid>
+        <link>http://localhost:4000/2018/linux/web/netdata-cluster/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/linux/web/netdata-cluster/</guid>
         
         
         <category>linux</category>
@@ -331,8 +331,8 @@
         <title>Configuring Netdata on Ubuntu + apache proxy + authentication</title>
         <description>Configuring netdata on ubuntu with SSL/TLS and Apache web server.</description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2018/linux/web/netdata-ubuntu/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/web/netdata-ubuntu/</guid>
+        <link>http://localhost:4000/2018/linux/web/netdata-ubuntu/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/linux/web/netdata-ubuntu/</guid>
         
         
         <category>linux</category>
@@ -345,8 +345,8 @@
         <title>Configuring SSL/TLS for a domain on Apache2</title>
         <description>How to set up SSL/TLS on Apache for securing web communication. Let&apos;s Encrypt certificate generation.</description>
         <pubDate>Thu, 15 Feb 2018 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2018/linux/web/security/apache-ssl-tls-domain/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2018/linux/web/security/apache-ssl-tls-domain/</guid>
+        <link>http://localhost:4000/2018/linux/web/security/apache-ssl-tls-domain/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/linux/web/security/apache-ssl-tls-domain/</guid>
         
         
         <category>linux</category>

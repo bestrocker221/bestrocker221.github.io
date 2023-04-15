@@ -3,10 +3,10 @@
   <channel>
     <title>Carlo Alberto Scola</title>
     <description>My Personal Blog</description>
-    <link>https://carloalbertoscola.it//</link>
-    <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 15 Apr 2023 21:20:34 +0200</pubDate>
-    <lastBuildDate>Sat, 15 Apr 2023 21:20:34 +0200</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 15 Apr 2023 21:29:13 +0200</pubDate>
+    <lastBuildDate>Sat, 15 Apr 2023 21:29:13 +0200</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
     
       <item>
@@ -218,8 +218,8 @@ AWS Login URL: ${aws_login_url}
 
 </description>
         <pubDate>Sat, 15 Apr 2023 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</guid>
+        <link>http://localhost:4000/2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</link>
+        <guid isPermaLink="true">http://localhost:4000/2023/linux/terraform/how-to-manage-iam-users-terraform-aws/</guid>
         
         <category>linux</category>
         
@@ -488,8 +488,8 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 10 Apr 2020 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2020/security/digital-forensic-made-easy-autopsy-sleuth/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/digital-forensic-made-easy-autopsy-sleuth/</guid>
+        <link>http://localhost:4000/2020/security/digital-forensic-made-easy-autopsy-sleuth/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/security/digital-forensic-made-easy-autopsy-sleuth/</guid>
         
         <category>security</category>
         
@@ -512,11 +512,14 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 26 January 2022&lt;/p&gt;
 
-&lt;h1 id=&quot;how-does-it-work&quot;&gt;How does it work&lt;/h1&gt;
-&lt;p&gt;Firstly &lt;a href=&quot;https://github.com/vgough/encfs&quot;&gt;&lt;strong&gt;Encfs&lt;/strong&gt;&lt;/a&gt; is a &lt;a href=&quot;https://en.wikipedia.org/wiki/EncFS&quot;&gt;&lt;em&gt;FUSE-based cryptographic filesystem&lt;/em&gt;&lt;/a&gt; which will transparently encrypt files using an arbitrary directory as storage. This way you will have two directories, one with the encrypted files (the one to be synchronized remotely) and the other (virtual)
-will be mounted (with password) and will show the cleartext files.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;EncFS&lt;/strong&gt; and &lt;strong&gt;Rsync&lt;/strong&gt; together make a great combination for keeping your files safe and synced. EncFS is a FUSE-based cryptographic filesystem that encrypts files using an arbitrary directory as storage. Rsync, on the other hand, synchronizes the encrypted folder with the remote cloud so that only the already encrypted files are stored.&lt;/p&gt;
 
-&lt;p&gt;Encfs is considered &lt;a href=&quot;https://wiki.archlinux.org/index.php/EncFS&quot;&gt;&lt;em&gt;the simplest software if you want to try disk encryption on Linux.&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;how-encfs-works&quot;&gt;How EncFS Works&lt;/h1&gt;
+&lt;p&gt;Encfs is the simplest software you can use for disk encryption on Linux. It creates two directories: one with the encrypted files to be synchronized remotely, and the other (virtual) to be mounted with a password that will show the clear text files.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/vgough/encfs&quot;&gt;&lt;strong&gt;Encfs&lt;/strong&gt;&lt;/a&gt; is a &lt;a href=&quot;https://en.wikipedia.org/wiki/EncFS&quot;&gt;&lt;em&gt;FUSE-based cryptographic filesystem&lt;/em&gt;&lt;/a&gt; which will transparently encrypt files using an arbitrary directory as storage.&lt;/p&gt;
+
+&lt;p&gt;Encfs has been considered &lt;a href=&quot;https://wiki.archlinux.org/index.php/EncFS&quot;&gt;&lt;em&gt;the simplest software if you want to try disk encryption on Linux.&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Secondly, &lt;strong&gt;rsync&lt;/strong&gt; will keep the encrypted folder synchronized so that only the already encrypted files will be stored on the remote cloud (Dropbox, Google Drive, OneDrive, etc. or your own).&lt;/p&gt;
 
@@ -529,25 +532,21 @@ will be mounted (with password) and will show the cleartext files.&lt;/p&gt;
 
 &lt;p&gt;NOTE: a probably better version in term of performance (not personally tested yet) is &lt;strong&gt;&lt;a href=&quot;https://github.com/rfjakob/gocryptfs&quot;&gt;gocryptfs&lt;/a&gt;&lt;/strong&gt;. (aspiring successor).&lt;/p&gt;
 
-&lt;h2 id=&quot;0-installation&quot;&gt;&lt;strong&gt;0. Installation&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;installation&quot;&gt;&lt;strong&gt;Installation&lt;/strong&gt;&lt;/h2&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;from source -&amp;gt; &lt;a href=&quot;https://github.com/vgough/encfs&quot;&gt;https://github.com/vgough/encfs&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;apt install encfs&lt;/li&gt;
-  &lt;li&gt;pacman -Syyu encfs&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;You can install EncFS in three different ways: from source, using apt or using pacman. You can find the details of each method on the EncFS GitHub page.&lt;/p&gt;
 
-&lt;h2 id=&quot;1-initialize-your-local-encrypted-folder&quot;&gt;&lt;strong&gt;1. Initialize your local encrypted folder&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;initialize-your-local-encrypted-folder&quot;&gt;&lt;strong&gt;Initialize your Local Encrypted Folder&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;To initialize your local encrypted folder, use the following command:&lt;/p&gt;
+
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;encfs ~/encrypted ~/cleartext
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Then it will ask for &lt;em&gt;defailt&lt;/em&gt; or &lt;em&gt;paranoia&lt;/em&gt; mode, with the latter you choose the security parameters you want. (AES 256)&lt;/p&gt;
+&lt;p&gt;You will be asked to choose between &lt;em&gt;default&lt;/em&gt; or &lt;em&gt;paranoia&lt;/em&gt; mode. Choose the latter if you want to set the security parameters (AES 256). The command will create an &lt;strong&gt;.encfs6.xml&lt;/strong&gt; file in the directory. This file must be kept secret and copied over to other devices you want to have clear text synchronization too.&lt;/p&gt;
 
-&lt;p&gt;This will create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.encfs6.xml&lt;/code&gt; file in the directory. That file must be kept secret. And you have to copy it over other devices you want to have cleartext synchronization too.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-use-the-cleartext-folder&quot;&gt;&lt;strong&gt;2. Use the cleartext folder&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;use-the-clear-text-folder&quot;&gt;&lt;strong&gt;Use the Clear Text Folder&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;Now you can use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/cleartext&lt;/code&gt; folder and files will appear encrypted in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/encrypted&lt;/code&gt; folder.&lt;/p&gt;
 
-&lt;h2 id=&quot;3-rsync-to-the-cloud&quot;&gt;&lt;strong&gt;3. rsync TO the cloud&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;rsync-to-the-cloud&quot;&gt;&lt;strong&gt;Rsync TO the Cloud&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;Now you can rsync the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/encrypted&lt;/code&gt; folder to your cloud of choice with &lt;strong&gt;rsync&lt;/strong&gt; :&lt;/p&gt;
 
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rsync &lt;span class=&quot;nt&quot;&gt;-arvz&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--whole-file&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--progress&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; ~/encrypted/ user@domain:/home/mycloud/
@@ -556,42 +555,42 @@ will be mounted (with password) and will show the cleartext files.&lt;/p&gt;
 &lt;p&gt;And it’s done! Now only the encrypted files will be on your remote storage.&lt;/p&gt;
 
 &lt;p&gt;Let’s see how to have multiple setups.&lt;/p&gt;
-&lt;h1 id=&quot;on-another-machine&quot;&gt;&lt;strong&gt;On another machine&lt;/strong&gt;&lt;/h1&gt;
+&lt;h1 id=&quot;-encfs-on-another-machine&quot;&gt;** EncFS On Another Machine**&lt;/h1&gt;
 
-&lt;h2 id=&quot;1-copy-the-encfs6xml&quot;&gt;&lt;strong&gt;1. Copy the .encfs6.xml&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;copy-the-encfs6xml&quot;&gt;&lt;strong&gt;Copy the .encfs6.xml&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;Copy the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.encfs6.xml&lt;/code&gt; file from the previous &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/cleartext&lt;/code&gt; to this machine &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/encrypted&lt;/code&gt; folder. (recreate your two folders in this machine)&lt;/p&gt;
 
-&lt;h2 id=&quot;2-initialize-your-local-encrypted-folder&quot;&gt;&lt;strong&gt;2. Initialize your local encrypted folder&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;initialize-your-local-encrypted-folder-1&quot;&gt;&lt;strong&gt;Initialize your local encrypted folder&lt;/strong&gt;&lt;/h2&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;encfs ~/encrypted ~/cleartext
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Now we are going to syncronize the local &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/encrypted&lt;/code&gt; folder with the files from the cloud.&lt;/p&gt;
 
-&lt;h2 id=&quot;3-rsync-from-the-cloud&quot;&gt;&lt;strong&gt;3. rsync FROM the cloud&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;rsync-from-the-cloud&quot;&gt;&lt;strong&gt;Rsync FROM the cloud&lt;/strong&gt;&lt;/h2&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rsync &lt;span class=&quot;nt&quot;&gt;-arvz&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--whole-file&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--progress&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; user@domain:/home/mycloud/ ~/encrypted/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;4-add-a-file-and-sync&quot;&gt;&lt;strong&gt;4. add a file and sync&lt;/strong&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;add-a-file-and-sync&quot;&gt;&lt;strong&gt;Add a file and sync&lt;/strong&gt;&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;Now try to create a new file in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/cleartext/&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;Push to cloud
     &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rsync &lt;span class=&quot;nt&quot;&gt;-arvz&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--whole-file&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--progress&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; ~/encrypted/ user@domain:/home/mycloud/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-  &lt;li&gt;back from the first machine
+  &lt;li&gt;Back from the first machine
     &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rsync &lt;span class=&quot;nt&quot;&gt;-arvz&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--whole-file&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--progress&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; user@domain:/home/mycloud/ ~/encrypted/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&quot;shortcuts&quot;&gt;Shortcuts&lt;/h2&gt;
-&lt;p&gt;I personally have &lt;em&gt;alias&lt;/em&gt; that helps me, like for example:&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;alias syncNotesDown=&apos;rsync -arvzz --whole-file --progress myvps:/home/my/mycloud/ --exclude .encfs6.xml ~/.MyNoteEncrypted &apos;
-alias syncNotesUp=&apos;rsync -arvzz --whole-file --progress ~/.MyNoteEncrypted/ myvps:/home/my/mycloud/ --exclude .encfs6.xml&apos;
-alias mountNotes=&apos;encfs ~/.MyNoteEncrypted ~/MyNotes/&apos;
+&lt;p&gt;Create an alias to help you, for example:&lt;/p&gt;
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;syncNotesDown&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;rsync -arvzz --whole-file --progress myvps:/home/my/mycloud/ --exclude .encfs6.xml ~/.MyNoteEncrypted &apos;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;syncNotesUp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;rsync -arvzz --whole-file --progress ~/.MyNoteEncrypted/ myvps:/home/my/mycloud/ --exclude .encfs6.xml&apos;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;mountNotes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;encfs ~/.MyNoteEncrypted ~/MyNotes/&apos;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;then at startup when I want to mount my decrypted notes folder I just do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mountNotes&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;At startup when you want to mount your decrypted notes folder, just do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mountNotes&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;All your files are synchronized between the two machines, leaving only the encrypted files over the server.&lt;/p&gt;
 
@@ -604,8 +603,8 @@ alias mountNotes=&apos;encfs ~/.MyNoteEncrypted ~/MyNotes/&apos;
 &lt;p&gt;&lt;em&gt;Carlo Alberto&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 18 Jan 2020 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
+        <link>http://localhost:4000/2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/</guid>
         
         <category>network</category>
         
@@ -739,8 +738,8 @@ Security is also taught to be as a “&lt;strong&gt;&lt;em&gt;process&lt;/em&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 29 Sep 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</guid>
+        <link>http://localhost:4000/2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/security/vulnerability/Full-and-Responsible-vulnerability-disclosure/</guid>
         
         
         <category>security</category>
@@ -925,8 +924,8 @@ jq -r &apos;if (.name | test(&quot;\\.example\\.com$&quot;)) then .name else emp
 &lt;p&gt;&lt;em&gt;Carlo Alberto&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 05 Sep 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/web/security/SubDomain-Takeover/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/web/security/SubDomain-Takeover/</guid>
+        <link>http://localhost:4000/2019/web/security/SubDomain-Takeover/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/web/security/SubDomain-Takeover/</guid>
         
         
         <category>web</category>
@@ -1173,8 +1172,8 @@ Middleboxes are often required some properties like &lt;strong&gt;being on-path&
 &lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;
 </description>
         <pubDate>Fri, 19 Jul 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</guid>
+        <link>http://localhost:4000/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</guid>
         
         
         <category>network</category>
@@ -1454,8 +1453,8 @@ Paper shows an analysis of trade-offs between centralized management and costs, 
 &lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;
 </description>
         <pubDate>Fri, 05 Jul 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</guid>
+        <link>http://localhost:4000/2019/network/sdn/software-defined-networking-introduction/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/software-defined-networking-introduction/</guid>
         
         
         <category>network</category>
@@ -1900,8 +1899,8 @@ ext_ipc[1] -&amp;gt; Print(&quot;IP from EXT to INT&quot;) -&amp;gt; [0]rw;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
         <pubDate>Tue, 28 May 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</guid>
+        <link>http://localhost:4000/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</guid>
         
         
         <category>network</category>
@@ -2034,8 +2033,8 @@ For more detailed explanation look at the cisco documentation &lt;a href=&quot;h
 &lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post! Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 26 Apr 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
+        <link>http://localhost:4000/2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
         
         <category>network</category>
         
@@ -2621,8 +2620,8 @@ ssl-ca=/mysql-certs/ca.crt
 &lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 26 January 2022&lt;/p&gt;
 </description>
         <pubDate>Mon, 25 Feb 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</guid>
+        <link>http://localhost:4000/2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</guid>
         
         
         <category>network</category>
