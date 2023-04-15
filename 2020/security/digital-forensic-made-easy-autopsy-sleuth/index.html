@@ -413,16 +413,16 @@ window.addEventListener("load", function(){
 
 <h2 id="central-repository-and-multi-user">Central repository and multi user</h2>
 <ul>
-  <li>it stores hashset to be shared with others</li>
-  <li>access older hashsets from older cases</li>
-  <li>it uses PostgresSQL (for distributed) or SQLite (for local)</li>
-  <li>it is not enabled by default</li>
-  <li>useful to share data to multiple users, work together on cases</li>
+  <li>It stores hashset to be shared with others</li>
+  <li>Access older hashsets from older cases</li>
+  <li>It uses PostgresSQL (for distributed) or SQLite (for local)</li>
+  <li>It is not enabled by default</li>
+  <li>Useful to share data to multiple users, work together on cases</li>
 </ul>
 
 <p>Want multi user deployment? Need central shared storage and 2 servers</p>
 <ul>
-  <li>all users need to have access to the same base dir (ex. \\crserver.local\data..)</li>
+  <li>All users need to have access to the same base dir (ex. \\crserver.local\data..)</li>
   <li>One case can be open at a time, it will be automatically saved</li>
   <li>autopsy.db –&gt; SQLite file will store basic case info
     <ul>
@@ -435,14 +435,14 @@ window.addEventListener("load", function(){
 
 <h1 id="basic-forensic-workflow"><strong>Basic Forensic Workflow</strong></h1>
 <ol>
-  <li>create case</li>
-  <li>add data source</li>
-  <li>configure keywords</li>
-  <li>run ingest with all modules</li>
-  <li>start review as data  comes in</li>
-  <li>update keywords as you find stuff</li>
-  <li>tag interesting files</li>
-  <li>generate report</li>
+  <li>Create case</li>
+  <li>Add data source</li>
+  <li>Configure keywords</li>
+  <li>Run ingest with all modules</li>
+  <li>Start review as data  comes in</li>
+  <li>Update keywords as you find stuff</li>
+  <li>Tag interesting files</li>
+  <li>Generate report</li>
 </ol>
 
 <h2 id="add-new-data-source">Add new data source</h2>
@@ -482,10 +482,10 @@ finding them in FAT is time intensive, remember to disable it!</p>
 <h3 id="carving">Carving</h3>
 <p>Carving is the act of recovering deleted files without relying on fs knowledge but on file structure internals: ($CarvedFiles folder, done with the Ingest module)</p>
 <ul>
-  <li>it scans the raw data and determine starting and ending of each file type, using the so called <code class="language-plaintext highlighter-rouge">magic bytes</code></li>
-  <li>this way it can recover the files from unpartitioned/unformatted data</li>
+  <li>It scans the raw data and determine starting and ending of each file type, using the so called <code class="language-plaintext highlighter-rouge">magic bytes</code></li>
+  <li>It can recover the files from unpartitioned/unformatted data</li>
   <li>jpeg, pdf, word, zip, db, exe..</li>
-  <li>needed when no pointers to the files exist anymore (also for deleted files!)</li>
+  <li>Needed when no pointers to the files exist anymore (also for deleted files!)</li>
 </ul>
 
 <p>What happens when a file is deleted?</p>
@@ -614,7 +614,7 @@ finding them in FAT is time intensive, remember to disable it!</p>
 <figcaption>Autopsy timeline feature</figcaption>
 </figure>
 
-<p>PS: data in the screenshot is not real, it is fake data :)</p>
+<p>Note: data in the screenshot is not real, it is fake data.</p>
 
 <p>This was a basic walk-through of the Autopsy GUI application, and notes from the official online training.</p>
 
@@ -674,22 +674,47 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
             
         
     
-
-    
-    
-        
-            
-        
-    
-
-    
-    
         
             
                 
                 <div class="panel-body">
                 <h4>Related Posts</h4>
                 <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2023/linux/docker/security/how-to-securely-run-docker-containers/">How to securely run Docker containers</a>
+                    
+                        <small>(Categories: <a href="/linux">linux</a>, <a href="/docker">docker</a>, <a href="/security">security</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
                 
                 <li class="relatedPost">
                     <a href="https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/">A secure, easy and encrypted cloud backup</a>
@@ -874,16 +899,6 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
     
         
             
-                
-                <li class="relatedPost">
-                    <a href="https://carloalbertoscola.it//2018/linux/security/tor-ssh-reverse-tunnel/">TOR SSH Remote Reverse Tunnel - Raspberry Pi</a>
-                    
-                        <small>(Categories: <a href="/linux">linux</a>, <a href="/security">security</a>)</small>
-                    
-                </li>
-                
-                
-            
         
     
 
@@ -984,7 +999,7 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
     <a class="prev pull-left" href="https://carloalbertoscola.it//2020/security/linux/network/Rsync-Encfs-remote-cloud-backup-how-to/">&laquo; A secure, easy and encrypted cloud backup</a>
   
   
-    <a class="next pull-right" href="https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/">How to do create and manage IAM AWS users with Terraform &raquo;</a>
+    <a class="next pull-right" href="https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/">How to do create and manage Amazon IAM users with Terraform &raquo;</a>
   
 </div>
 

@@ -5,12 +5,92 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 15 Apr 2023 23:30:49 +0200</pubDate>
-    <lastBuildDate>Sat, 15 Apr 2023 23:30:49 +0200</lastBuildDate>
+    <pubDate>Sun, 16 Apr 2023 01:11:52 +0200</pubDate>
+    <lastBuildDate>Sun, 16 Apr 2023 01:11:52 +0200</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
     
       <item>
-        <title>How to do create and manage IAM AWS users with Terraform</title>
+        <title>How to securely run Docker containers</title>
+        <description>&lt;h1 id=&quot;securing-docker-containers&quot;&gt;&lt;strong&gt;&lt;center&gt;Securing Docker Containers&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;how-to-increase-the-security-of-your-containers&quot;&gt;&lt;center&gt;How to increase the security of your containers&lt;/center&gt;&lt;/h2&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:70%&quot; src=&quot;/assets/docker-logo.png&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 16 April 2023&lt;/p&gt;
+
+&lt;p&gt;Running Docker containers securely can be challenging and involves taking several important steps to protect both the host system and the data within the container.  Privilege escalation has been trivial in default cases, which are seen quite commonly.&lt;/p&gt;
+
+&lt;p&gt;Use an &lt;strong&gt;up-to-date Docker image&lt;/strong&gt;: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.&lt;/p&gt;
+
+&lt;p&gt;Use a &lt;strong&gt;non-root user&lt;/strong&gt;: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the &lt;em&gt;–user&lt;/em&gt; flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
+Moreover, on the host, often it is told to add the user to the &lt;strong&gt;docker&lt;/strong&gt; group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, &lt;a href=&quot;https://docs.docker.com/engine/security/rootless/&quot;&gt;complete guide here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Limit the &lt;strong&gt;network&lt;/strong&gt;: If no networking is needed, it can be completely disabled thus further reducing possible network movements.&lt;/p&gt;
+
+&lt;p&gt;Limit &lt;strong&gt;container capabilities&lt;/strong&gt;: By default, Docker containers have access to all capabilities of the host system. It is good practice to limit the capabilities of the container using the &lt;strong&gt;–cap-drop&lt;/strong&gt; flag.&lt;/p&gt;
+
+&lt;p&gt;Use &lt;strong&gt;read-only file systems&lt;/strong&gt;: Mount the container’s file system as read-only to prevent any changes to the host system.&lt;/p&gt;
+
+&lt;p&gt;Limit &lt;strong&gt;resource exhaustion&lt;/strong&gt;: Use the &lt;em&gt;–memory&lt;/em&gt; and &lt;em&gt;–cpu&lt;/em&gt; flags to limit the amount of memory and CPU resources that the container can use.&lt;/p&gt;
+
+&lt;p&gt;Use &lt;strong&gt;Docker secrets&lt;/strong&gt;: Avoid hard-coding sensitive information such as passwords and API keys in Dockerfiles or environment variables (only in swarm mode, &lt;a href=&quot;https://docs.docker.com/engine/swarm/secrets/&quot;&gt;info here&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;Use &lt;strong&gt;&lt;a href=&quot;https://docs.docker.com/compose/&quot;&gt;Docker Compose&lt;/a&gt;&lt;/strong&gt; (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.&lt;/p&gt;
+
+&lt;h2 id=&quot;securely-run-docker-from-command-line&quot;&gt;Securely Run Docker from Command Line&lt;/h2&gt;
+&lt;p&gt;Some good command line arguments examples:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;-it&lt;/strong&gt; starts the container in interactive mode and attaches a TTY for console access.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–network=none&lt;/strong&gt; disables networking for the container.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–read-only&lt;/strong&gt; mounts the container’s file system as read-only to prevent any changes.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–security-opt no-new-privileges&lt;/strong&gt; prevents the container from acquiring additional privileges.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–security-opt apparmor=docker-default&lt;/strong&gt; enables AppArmor security profiles for the container.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–cap-drop=all&lt;/strong&gt; drops all Linux capabilities from the container, limiting its abilities.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–rm&lt;/strong&gt; automatically removes the container when it exits.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–user 1001&lt;/strong&gt; runs the container as a non-root user with UID 1001.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–memory=512m&lt;/strong&gt; limits the amount of memory the container can use to 512MB.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–tmpfs  /tmp&lt;/strong&gt; mounts temporary file systems in memory to avoid writing to disk.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–mount type=tmpfs,destination=/var/tmp&lt;/strong&gt; mounts temporary file systems in memory for specific directories like /var/tmp, /var/log, and /var/lib/mysql.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;–secret id=my_secret,src=/run/secrets/my_secret&lt;/strong&gt; mounts a secret in the container’s file system to securely store and manage sensitive information.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Official documentation on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;run&lt;/code&gt; command &lt;a href=&quot;https://docs.docker.com/engine/reference/run/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One more important piece of advice is to carefully give the container the right &lt;strong&gt;file permissions&lt;/strong&gt; on the mounted volumes. Read only volumes, easily definable with for example &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-v /data:/data:ro&lt;/code&gt;, make sure the container will not be able to alter the data, restricting even further the locations where any write action is allowed at all.&lt;/p&gt;
+
+&lt;p&gt;Giving &lt;strong&gt;read-only&lt;/strong&gt; permissions to the container also further reduce the risk of remnant data being copied over the file system or volume. Temporary data can reside in-memory only, with the use of temporary file systems (&lt;strong&gt;tmpfs&lt;/strong&gt;), which gets deleted when the container stops. The same happens for the container itself when ran with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--rm&lt;/code&gt;, by deleting the whole container after its exit.&lt;/p&gt;
+
+&lt;p&gt;Running docker as root is simpler, requires less configuration and testing, but it exposes the host system to an uncontrolled and non-acceptable level of risk, in my opinion. Running docker as root provides more flexibility and simplicity, but it comes with a significant security risk.&lt;/p&gt;
+
+&lt;p&gt;Finally, &lt;strong&gt;immutable&lt;/strong&gt; containers are something I would recommend as I do like that approach quite a lot.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I hope you found this post helpful. If you have any questions or feedback, feel free to leave a comment below.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 15 Apr 2023 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2023/linux/docker/security/how-to-securely-run-docker-containers/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/docker/security/how-to-securely-run-docker-containers/</guid>
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+        <category>docker</category>
+        
+        
+        <category>linux</category>
+        
+        <category>docker</category>
+        
+        <category>security</category>
+        
+      </item>
+    
+      <item>
+        <title>How to do create and manage Amazon IAM users with Terraform</title>
         <description>&lt;h1 id=&quot;automating-aws-iam-user-management-with-terraform&quot;&gt;&lt;strong&gt;&lt;center&gt;Automating AWS IAM User Management with Terraform&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
 &lt;h2 id=&quot;a-guide-to-quickly-create-and-manage-iam-users-and-roles-in-aws-with-terraform&quot;&gt;&lt;center&gt;A guide to quickly create and manage IAM users and roles in AWS with Terraform&lt;/center&gt;&lt;/h2&gt;
 
@@ -273,16 +353,16 @@ AWS Login URL: ${aws_login_url}
 
 &lt;h2 id=&quot;central-repository-and-multi-user&quot;&gt;Central repository and multi user&lt;/h2&gt;
 &lt;ul&gt;
-  &lt;li&gt;it stores hashset to be shared with others&lt;/li&gt;
-  &lt;li&gt;access older hashsets from older cases&lt;/li&gt;
-  &lt;li&gt;it uses PostgresSQL (for distributed) or SQLite (for local)&lt;/li&gt;
-  &lt;li&gt;it is not enabled by default&lt;/li&gt;
-  &lt;li&gt;useful to share data to multiple users, work together on cases&lt;/li&gt;
+  &lt;li&gt;It stores hashset to be shared with others&lt;/li&gt;
+  &lt;li&gt;Access older hashsets from older cases&lt;/li&gt;
+  &lt;li&gt;It uses PostgresSQL (for distributed) or SQLite (for local)&lt;/li&gt;
+  &lt;li&gt;It is not enabled by default&lt;/li&gt;
+  &lt;li&gt;Useful to share data to multiple users, work together on cases&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Want multi user deployment? Need central shared storage and 2 servers&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;all users need to have access to the same base dir (ex. \\crserver.local\data..)&lt;/li&gt;
+  &lt;li&gt;All users need to have access to the same base dir (ex. \\crserver.local\data..)&lt;/li&gt;
   &lt;li&gt;One case can be open at a time, it will be automatically saved&lt;/li&gt;
   &lt;li&gt;autopsy.db –&amp;gt; SQLite file will store basic case info
     &lt;ul&gt;
@@ -295,14 +375,14 @@ AWS Login URL: ${aws_login_url}
 
 &lt;h1 id=&quot;basic-forensic-workflow&quot;&gt;&lt;strong&gt;Basic Forensic Workflow&lt;/strong&gt;&lt;/h1&gt;
 &lt;ol&gt;
-  &lt;li&gt;create case&lt;/li&gt;
-  &lt;li&gt;add data source&lt;/li&gt;
-  &lt;li&gt;configure keywords&lt;/li&gt;
-  &lt;li&gt;run ingest with all modules&lt;/li&gt;
-  &lt;li&gt;start review as data  comes in&lt;/li&gt;
-  &lt;li&gt;update keywords as you find stuff&lt;/li&gt;
-  &lt;li&gt;tag interesting files&lt;/li&gt;
-  &lt;li&gt;generate report&lt;/li&gt;
+  &lt;li&gt;Create case&lt;/li&gt;
+  &lt;li&gt;Add data source&lt;/li&gt;
+  &lt;li&gt;Configure keywords&lt;/li&gt;
+  &lt;li&gt;Run ingest with all modules&lt;/li&gt;
+  &lt;li&gt;Start review as data  comes in&lt;/li&gt;
+  &lt;li&gt;Update keywords as you find stuff&lt;/li&gt;
+  &lt;li&gt;Tag interesting files&lt;/li&gt;
+  &lt;li&gt;Generate report&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&quot;add-new-data-source&quot;&gt;Add new data source&lt;/h2&gt;
@@ -342,10 +422,10 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 &lt;h3 id=&quot;carving&quot;&gt;Carving&lt;/h3&gt;
 &lt;p&gt;Carving is the act of recovering deleted files without relying on fs knowledge but on file structure internals: ($CarvedFiles folder, done with the Ingest module)&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;it scans the raw data and determine starting and ending of each file type, using the so called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;magic bytes&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;this way it can recover the files from unpartitioned/unformatted data&lt;/li&gt;
+  &lt;li&gt;It scans the raw data and determine starting and ending of each file type, using the so called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;magic bytes&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;It can recover the files from unpartitioned/unformatted data&lt;/li&gt;
   &lt;li&gt;jpeg, pdf, word, zip, db, exe..&lt;/li&gt;
-  &lt;li&gt;needed when no pointers to the files exist anymore (also for deleted files!)&lt;/li&gt;
+  &lt;li&gt;Needed when no pointers to the files exist anymore (also for deleted files!)&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;What happens when a file is deleted?&lt;/p&gt;
@@ -474,7 +554,7 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 &lt;figcaption&gt;Autopsy timeline feature&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;PS: data in the screenshot is not real, it is fake data :)&lt;/p&gt;
+&lt;p&gt;Note: data in the screenshot is not real, it is fake data.&lt;/p&gt;
 
 &lt;p&gt;This was a basic walk-through of the Autopsy GUI application, and notes from the official online training.&lt;/p&gt;
 
@@ -2048,587 +2128,6 @@ For more detailed explanation look at the cisco documentation &lt;a href=&quot;h
         <category>network</category>
         
         <category>cisco</category>
-        
-      </item>
-    
-      <item>
-        <title>How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</title>
-        <description>&lt;h1 id=&quot;-complete-guide-on-how-to-set-up-freeradius-3x-with-mysql-backend-database-&quot;&gt;&lt;strong&gt;&lt;center&gt; Complete guide on how to set up FreeRADIUS 3.X with MySQL backend database &lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
-&lt;h2 id=&quot;-eap-ttls-and-mysql--tls-database-communication-&quot;&gt;&lt;center&gt; EAP-TTLS and MySQL  TLS database communication &lt;/center&gt;&lt;/h2&gt;
-&lt;h3 id=&quot;8021x-authentication-authorization-accounting&quot;&gt;&lt;center&gt;802.1X Authentication Authorization Accounting&lt;/center&gt;&lt;/h3&gt;
-&lt;h4 id=&quot;-alpine-linux-lightweight-docker-container-&quot;&gt;&lt;center&gt; Alpine Linux lightweight Docker container &lt;/center&gt;&lt;/h4&gt;
-
-&lt;p&gt;&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/freeRADIUS.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Today we are going to explain how to set up a &lt;strong&gt;FreeRADIUS 3&lt;/strong&gt; server for  &lt;em&gt;Authentication&lt;/em&gt;, &lt;em&gt;Authorization&lt;/em&gt; and &lt;em&gt;Accounting&lt;/em&gt; (&lt;strong&gt;AAA&lt;/strong&gt;) along with a MySQL database for credentials storage and accounting logs accessed only through encrypted TLS connections. We will show how to set up FreeRADIUS with the secure &lt;strong&gt;EAP-TTLS&lt;/strong&gt; (Tunneled TLS) communication.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-freeradius&quot;&gt;What is &lt;strong&gt;&lt;em&gt;FreeRADIUS&lt;/em&gt;&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;FreeRADIUS is the most popular and most widely deployed open source RADIUS server. It supports all the most common client authentication protocols and its fast and scalable. It supports also Two Factor Authentication&lt;/p&gt;
-
-&lt;p&gt;FreeRADIUS can be used for WiFi client authentication as well as with any other system that require client authentication as for example OpenVPN server.&lt;/p&gt;
-
-&lt;p&gt;Each user will have a credential in the form
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;username&amp;gt;@&amp;lt;domain&amp;gt;&lt;/code&gt; and a respective password.&lt;/p&gt;
-
-&lt;p&gt;For this tutorial let’s assume we have the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;acme.com&lt;/code&gt; domain and a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test@acme.com&lt;/code&gt; user.&lt;/p&gt;
-
-&lt;h3 id=&quot;how-does-radius-works&quot;&gt;How does RADIUS works?&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;A client will connect to a &lt;strong&gt;&lt;em&gt;Network Access Server&lt;/em&gt;&lt;/strong&gt; (NAS) first. This could be a router providing Wireless access. The client will not have any connectivity, the router is allowing only RADIUS traffic.&lt;/li&gt;
-  &lt;li&gt;The router acting as a NAS will receive a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access Request&lt;/code&gt; message from the client and will forward it to the RADIUS server.&lt;/li&gt;
-  &lt;li&gt;The RADIUS Server will check the credentials and send back a response that could be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Accept&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Reject&lt;/code&gt; or a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Challenge&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;The NAS will forward the response to the client, and if the authentication succeed, it will then open the communication to the internal network.
-&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/radius.png&quot; /&gt;
-Ref: &lt;a href=&quot;https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-authentication-dial-user-service-radius/12433-32.html&quot;&gt;How does RADIUS work? by Cisco&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;eap-ttls-and-pap&quot;&gt;&lt;strong&gt;EAP-TTLS&lt;/strong&gt; and &lt;strong&gt;PAP&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;We will setup FreeRADIUS with EAP-TTLS. This means each client connecting to the NAS will first establish a secure TLS tunnel. This is called First Phase. In the Second Phase the client will send his credentials in cleartext*  with &lt;strong&gt;Password Authentication Protocol&lt;/strong&gt; (&lt;strong&gt;PAP&lt;/strong&gt;) but since those are sent over the TLS channel, none can read it and none can eavesdrop which user is trying to authenticate to the NAS.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;*The password is not actually sent in cleartext but it is rather hashed with the key shared between the NAS and the RADIUS Server. Still is not considered secure but since it is sent over an encrypted channel, that makes the mitigation.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;mysql-initialization&quot;&gt;&lt;strong&gt;&lt;em&gt;MySQL&lt;/em&gt;&lt;/strong&gt; initialization&lt;/h2&gt;
-&lt;p&gt;MySQL is used to keep track of clients login attempts, connection times and other accounting features and it will store the user credentials.&lt;/p&gt;
-
-&lt;p&gt;First of all you need a MySQL Database running, then you have to create the tables needed for FreeRADIUS.&lt;/p&gt;
-
-&lt;p&gt;Here is the FreeRADIUS SQL schema:&lt;/p&gt;
-&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;structure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radacct&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radacct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;radacctid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auto_increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctsessionid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctuniqueid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;realm&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;nasipaddress&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;nasportid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;nasporttype&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctstarttime&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;datetime&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctupdatetime&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;datetime&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctstoptime&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;datetime&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctinterval&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctsessiontime&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctauthentic&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;connectinfo_start&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;connectinfo_stop&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctinputoctets&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctoutputoctets&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bigint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;calledstationid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;callingstationid&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;acctterminatecause&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;servicetype&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;framedprotocol&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;framedipaddress&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;radacctid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;UNIQUE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acctuniqueid&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;acctuniqueid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;framedipaddress&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;framedipaddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acctsessionid&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;acctsessionid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acctsessiontime&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;acctsessiontime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acctstarttime&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;acctstarttime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acctinterval&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;acctinterval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;acctstoptime&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;acctstoptime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nasipaddress&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nasipaddress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ENGINE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INNODB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;structure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radcheck&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radcheck&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auto_increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;attribute&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;op&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;==&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;253&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;structure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radgroupcheck&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radgroupcheck&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auto_increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;groupname&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;attribute&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;op&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;==&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;253&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;groupname&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;groupname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;structure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radgroupreply&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radgroupreply&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auto_increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;groupname&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;attribute&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;op&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;=&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;253&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;groupname&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;groupname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;structure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radreply&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radreply&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auto_increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;attribute&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;op&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;=&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;253&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;structure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radusergroup&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radusergroup&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;groupname&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;priority&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;1&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;structure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radpostauth&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radpostauth&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auto_increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;pass&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;reply&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;authdate&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;timestamp&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CURRENT_TIMESTAMP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;UPDATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CURRENT_TIMESTAMP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ENGINE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;INNODB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;structure&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;nas&apos;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TABLE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nas&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;auto_increment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;nasname&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;128&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;shortname&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;other&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;ports&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;secret&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;secret&apos;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NOT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;community&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DEFAULT&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;RADIUS Client&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;PRIMARY&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;KEY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nasname&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nasname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;To execute just run:&lt;/p&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mysql &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; root &lt;span class=&quot;nt&quot;&gt;-prootpass&lt;/span&gt; radius &amp;lt; schema.sql
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;assuming you already created the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;radius&lt;/code&gt; database.&lt;/p&gt;
-
-&lt;p&gt;And then we are going to create a user “radius” with the right privileges.&lt;/p&gt;
-
-&lt;p&gt;Here we create the user &lt;strong&gt;&lt;em&gt;radius&lt;/em&gt;&lt;/strong&gt; with password &lt;strong&gt;&lt;em&gt;donotuseme&lt;/em&gt;&lt;/strong&gt; (if you want to restrict connections from a specific IP address only, you specify the IP instead of &lt;strong&gt;*&lt;/strong&gt;):&lt;/p&gt;
-&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;Create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;administrator&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RADIUS&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;USER&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radius&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;SET&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PASSWORD&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FOR&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radius&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;donotuseme&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;ALTER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;USER&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radius&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IDENTIFIED&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mysql_native_password&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;BY&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;donotuseme&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;The&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;can&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;read&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;any&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SQL&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TO&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radius&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;The&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;can&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;write&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;accounting&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;auth&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logging&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ALL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;radacct&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TO&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radius&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ALL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;on&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;radpostauth&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TO&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;radius&apos;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;*&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Insert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;valid&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FreeRADIUS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;credential&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;INSERT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;radcheck&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attribute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;&quot;test@acme.com&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;SSHA2-256-Password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;:=&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKxUSiAsFzYWx0c2FsdHNhbHQ=&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;In the second part of the SQL code we are going to insert a valid RADIUS user credential for a valid REALM (&lt;em&gt;@acme.com&lt;/em&gt; we will get to this later) and generate a &lt;strong&gt;SHA256 salted password&lt;/strong&gt; compatible with FreeRADIUS.&lt;/p&gt;
-
-&lt;p&gt;To do so I created a Python script &lt;strong&gt;&lt;a href=&quot;https://gist.github.com/bestrocker221/f506eee8ccadc60cab71d5f633b7cc07&quot;&gt;here&lt;/a&gt;&lt;/strong&gt;. Just change “test” to the password you want to hash, and use a random salt. (I set the salt size limit to 12 charaters)&lt;/p&gt;
-
-&lt;p&gt;For example the password ‘test’ becomes &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ag6J2U52nmn7gkQM2h4eXEYQnHON7W9DyyGKx-
-USiAsFzYWx0c2FsdHNhbHQ=&lt;/code&gt;
-and we are going to save it as &lt;strong&gt;SSHA2-256-Password&lt;/strong&gt; in the database.&lt;/p&gt;
-
-&lt;h3 id=&quot;mysql-tls-connection-setup&quot;&gt;&lt;strong&gt;MySQL TLS connection setup&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Now we are setting up MySQL to encrypt each communication with TLS 1.2 and rejecting every cleartext connection.&lt;/p&gt;
-
-&lt;p&gt;This is my &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/my.cnf&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# This group is read both both by the client and the server
-# use it for options that affect everything
-[client-server]
-
-# This group is read by the server
-[mysqld]
-ssl-cipher=TLSv1.2
-ssl-ca=/mysql-certs/ca.crt
-ssl-cert=/mysql-certs/mysql.acme.com.crt
-ssl-key=/mysql-certs/mysql.acme.com.pem
-require_secure_transport=ON
-
-# Disabling symbolic-links is recommended to prevent assorted security risks
-symbolic-links=0
-
-datadir=/var/lib/mysql
-bind-address=0.0.0.0
-log-error=/var/log/mysql/error.log
-skip-log-bin
-log-output=FILE
-general-log=1
-general_log_file=/var/log/mysql/general.log
-
-port=3306
-user=mysql
-socket=/run/mysqld/mysqld.sock
-pid-file=/run/mysqld/mysqld.pid
-default_authentication_plugin=mysql_native_password
-
-[client]
-ssl-cipher=TLSv1.2
-ssl-ca=/mysql-certs/ca.crt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Off course make sure to copy your certificates under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/mysql-certs&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;require_secure_transport=ON&lt;/code&gt; directive makes sure to reject every unencrypted connection request.&lt;/p&gt;
-
-&lt;p&gt;And we are done with the MySQL part. If you want I wrote a Docker Container with this complete setup. At the end of the tutorial the link.&lt;/p&gt;
-
-&lt;h2 id=&quot;freeradius-3-configuration&quot;&gt;&lt;strong&gt;FreeRadius 3 configuration&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;First install the FreeRADIUS packages required: (alpine linux)&lt;/p&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;apk add freeradius openssl freeradius-mysql freeradius-eap
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;then the files we are going to modify are:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;em&gt;/etc/raddb/clients.conf&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;/etc/raddb/sites-available/default&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;/etc/raddb/sites-available/inner-tunnel&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;/etc/raddb/mods-available/sql&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;/etc/raddb/mods-available/eap&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: &lt;strong&gt;&lt;em&gt;It’s super easy to break the server with wrong configuration, so each time you modify something, make sure the server is starting correctly.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;To run radius in debug mode: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;radiusd -X&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;etcraddbclientconf-configuration-file&quot;&gt;&lt;strong&gt;/etc/raddb/client.conf&lt;/strong&gt; configuration file&lt;/h3&gt;
-&lt;p&gt;Here you need to specify the clients allowed to send requests to the RADIUS server. Most of the times we want to configure a router as &lt;strong&gt;NAS&lt;/strong&gt; or &lt;em&gt;Network Access Server&lt;/em&gt; so that WiFi clients connecting will communicate to the RADIUS server via the router.&lt;/p&gt;
-
-&lt;p&gt;Add these lines at the end of the file:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RADIUS_SECRET&lt;/code&gt; is a shared password that will be set also on the router.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ipaddr&lt;/code&gt; is the IP subnet of the router.
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;client router_nas {
-      ipaddr = 192.168.10.0/24
-      secret = RADIUS_SECRET
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;etcraddbdefault-configuration-file&quot;&gt;&lt;strong&gt;/etc/raddb/default&lt;/strong&gt; configuration file&lt;/h3&gt;
-&lt;p&gt;Under the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorize {}&lt;/code&gt; section:&lt;/p&gt;
-
-&lt;p&gt;Uncomment these lines&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;eap {
-               ok = return
-               updated = return
-    }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;and&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sql
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authenticate {}&lt;/code&gt; section make sure to uncomment:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;eap
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Under the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;accounting {}&lt;/code&gt; section uncomment the sql line:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sql
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Under the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;session {}&lt;/code&gt; uncomment the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sql&lt;/code&gt; line.&lt;/p&gt;
-
-&lt;p&gt;Under the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-auth {}&lt;/code&gt; section uncomment the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sql&lt;/code&gt; line.&lt;/p&gt;
-
-&lt;p&gt;Under the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-auth {}&lt;/code&gt; section, under the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Post-Auth-Type REJECT {}&lt;/code&gt; uncomment the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sql&lt;/code&gt; line.&lt;/p&gt;
-
-&lt;h3 id=&quot;etcraddbsites-availableinner-tunnel&quot;&gt;&lt;strong&gt;/etc/raddb/sites-available/inner-tunnel&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;This is a virtual server that handles &lt;em&gt;only&lt;/em&gt; inner tunnel requests for EAP-TTLS and PEAP types.&lt;/p&gt;
-
-&lt;p&gt;Under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorize {}&lt;/code&gt; make sure both &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sql&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eap {..}&lt;/code&gt; are uncommented.&lt;/p&gt;
-
-&lt;p&gt;Under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authenticate {}&lt;/code&gt; make sure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eap&lt;/code&gt; is uncommented.&lt;/p&gt;
-
-&lt;p&gt;Under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;session {}&lt;/code&gt; make sure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sql&lt;/code&gt; is uncommented.&lt;/p&gt;
-
-&lt;p&gt;Under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post-auth {}&lt;/code&gt; make sure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sql&lt;/code&gt; is uncommented as well as in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Post-Auth-Type REJECT {}&lt;/code&gt; subsection.&lt;/p&gt;
-
-&lt;h3 id=&quot;etcraddbmods-availablesql&quot;&gt;&lt;strong&gt;/etc/raddb/mods-available/sql&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;This is the configuration file for the SQL module.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sql {
-        
-        driver = &quot;rlm_sql_mysql&quot;
-
-        mysql {
-               # If any of the files below are set, TLS encryption is enabled
-               tls {
-                       ca_file = &quot;/etc/raddb/ca.crt&quot;
-                       # If you want to use client certificates for MySQL TLS
-                       certificate_file = &quot;/etc/raddb/rad_client.crt&quot;
-                       private_key_file = &quot;/etc/raddb/rad_client.pem&quot;
-               }
-
-               # If yes, (or auto and libmysqlclient reports warnings are
-               # available), will retrieve and log additional warnings from
-               # the server if an error has occured. Defaults to &apos;auto&apos;
-               warnings = yes
-        }
-        dialect = &quot;mysql&quot;
-
-        # Connection info:
-        server = &quot;RADIUS_SERVER_IP&quot;
-        port = 3306
-        login = &quot;radius&quot;
-        password = &quot;RADIUS_USR_PASSWORD&quot;
-    
-        # Database table configuration for everything except Oracle
-        radius_db = &quot;radius&quot;
-        
-        read_clients = &quot;yes&quot;
-        sql_user_name = &quot;%{User-Name}&quot;
-
-        
-        # If you want both stop and start records logged to the
-        # same SQL table, leave this as is.  If you want them in
-        # different tables, put the start table in acct_table1
-        # and stop table in acct_table2
-        acct_table1 = &quot;radacct&quot;
-        acct_table2 = &quot;radacct&quot;
-
-        # Allow for storing data after authentication
-        postauth_table = &quot;radpostauth&quot;
-
-        # Tables containing &apos;check&apos; items
-        authcheck_table = &quot;radcheck&quot;
-        groupcheck_table = &quot;radgroupcheck&quot;
-
-        # Tables containing &apos;reply&apos; items
-        authreply_table = &quot;radreply&quot;
-        groupreply_table = &quot;radgroupreply&quot;
-
-        # Table to keep group info
-        usergroup_table = &quot;radusergroup&quot;
-
-        # Remove stale session if checkrad does not see a double login
-        delete_stale_sessions = yes
-
-        pool {
-                start = ${thread[pool].start_servers}
-
-                #  Minimum number of connections to keep open
-                min = ${thread[pool].min_spare_servers}
-
-                #  Maximum number of connections
-                max = ${thread[pool].max_servers}
-
-                #  Spare connections to be left idle
-                spare = ${thread[pool].max_spare_servers}
-
-                #  Number of uses before the connection is closed
-                uses = 0
-
-                #  The number of seconds to wait after the server tries
-                #  to open a connection, and fails.  During this time,
-                #  no new connections will be opened.
-                retry_delay = 30
-
-                # The lifetime (in seconds) of the connection
-                lifetime = 0
-
-                #  idle timeout (in seconds).  A connection which is
-                #  unused for this length of time will be closed.
-                idle_timeout = 60
-        }
-
-        # Table to keep radius client info
-        client_table = &quot;nas&quot;
-
-        # This entry should be used for the default instance (sql {})
-        # of the SQL module.
-        group_attribute = &quot;SQL-Group&quot;
-
-        # Read database-specific queries
-        $INCLUDE ${modconfdir}/${.:name}/main/${dialect}/queries.conf
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;To &lt;strong&gt;enable the SQL module&lt;/strong&gt; make sure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/raddb/mods-enabled/sql&lt;/code&gt; is existing, otherwise:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /etc/raddb/mods-available/sql /etc/raddb/mods-enabled/sql
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;h3 id=&quot;etcraddbmods-availableeap&quot;&gt;&lt;strong&gt;/etc/raddb/mods-available/eap&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Among the other options, the ones that need to be changed are:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;eap {
-    ...
-
-    default_eap_type = ttls
-
-    ...
-
-    tls-config tls-common {
-        private_key_file = /etc/raddb/radius.acme.com.key
-        certificate_file = /etc/raddb/radius.acme.com.crt
-        ca_file = /etc/raddb/ca.crt
-
-        #  For DH cipher suites to work, you have to
-        #  run OpenSSL to create the DH file first:
-        #       openssl dhparam -out certs/dh 2048
-        dh_file = /etc/raddb/dh.pem
-        
-        random_file = /dev/urandom
-
-        cipher_list = &quot;HIGH&quot;
-        cipher_server_preference = yes
-        tls_min_version = &quot;1.2&quot;
-        ecdh_curve = &quot;secp384r1&quot;
-    }
-
-    ...
-
-    ttls {
-        # make sure these lines are the same
-
-        tls = tls-common
-
-        virtual_server = &quot;inner-tunnel&quot;
-
-    }
-
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Off course copy the respective certificates to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/raddb/&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;To &lt;strong&gt;enable the EAP module&lt;/strong&gt; make sure &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/raddb/mods-enabled/eap&lt;/code&gt; is existing, otherwise:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /etc/raddb/mods-available/eap /etc/raddb/mods-enabled/eap
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt; Assuming you have the current latest OPENSSL version installed. If FreeRADIUS is giving some security error related to openssl you need to add &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;allow_vulnerable_openssl = &quot;CVE-2016-6309&quot;&lt;/code&gt; to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/raddb/radiusd.conf&lt;/code&gt; under the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;security {}&lt;/code&gt; section.&lt;/p&gt;
-
-&lt;p&gt;We have now finished with the settings. As said above, after each file configuration change, restart the FreeRADIUS server and check that everything is running without errors.&lt;/p&gt;
-
-&lt;h2 id=&quot;testing&quot;&gt;&lt;strong&gt;Testing&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;You can run FreeRADIUS in debug mode and start to test it.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;radiusd &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can test the basic PAP authentication (without EAP-TTLS) with:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;radtest &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;@acme.com &lt;span class=&quot;nb&quot;&gt;test &lt;/span&gt;192.168.5.12 0 testing123 &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Assuming:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.5.12&lt;/code&gt; is the FreeRADIUS IP address&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;testing123&lt;/code&gt; is the shared password&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test@acme.com&lt;/code&gt; is a user stored in the database&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Now you can try to configure the Router to use EAP for WiFi client authentication. Always look at the logs in the FreeRADIUS server and try to understand what is going on.&lt;/p&gt;
-
-&lt;h3 id=&quot;testing-eap-ttls&quot;&gt;&lt;strong&gt;Testing EAP-TTLS&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;wpa-supplicant&lt;/strong&gt; is supplying the &lt;strong&gt;&lt;em&gt;eapol_test&lt;/em&gt;&lt;/strong&gt; program to test RADIUS EAP.&lt;/p&gt;
-
-&lt;p&gt;Create a file, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eapol-tls.conf&lt;/code&gt; for example:&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;network={
-     ssid=&quot;SSID_OF_THE_WIFI_NETWORK&quot;
-     key_mgmt=WPA-EAP
-     eap=TTLS
-     identity=&quot;test@acme.com&quot;
-     anonymous_identity=&quot;anonymous&quot;
-     password=&quot;INSERT_THE_USER_PASSWORD&quot;
-     phase2=&quot;auth=PAP&quot;
-
-     eapol_flags=3
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And run it with:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;eapol_test &lt;span class=&quot;nt&quot;&gt;-a192&lt;/span&gt;.168.5.12 &lt;span class=&quot;nt&quot;&gt;-p1812&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-stest&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ceapol-tls&lt;/span&gt;.conf &lt;span class=&quot;nt&quot;&gt;-r0&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-stesting123&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Where for example:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;192.168.5.12&lt;/code&gt; is the FreeRADIUS server IP address&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1812&lt;/code&gt; is the default port&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test&lt;/code&gt; is the password&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;eapol-tls.conf&lt;/code&gt; is the config file for the test&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;testing123&lt;/code&gt; is the shared key&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If everything has been set up correctly you should be able to see &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Accept&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Congratulations! Now you can continue setting up the Router with your new FreeRADIUS server!&lt;/p&gt;
-
-&lt;h2 id=&quot;github-repository&quot;&gt;GitHub Repository&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/bestrocker221/freeRADIUS-alpine&quot; target=&quot;_blank&quot;&gt;
-    &lt;img class=&quot;github-img&quot; src=&quot;/assets/github.ico&quot; href=&quot;https://github.com/bestrocker221/freeRADIUS-alpine&quot; target=&quot;_blank&quot; /&gt;
-    Here is the link to the Github &lt;strong&gt;freeRADIUS + MySQL&lt;/strong&gt; repository.
-&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post!&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 26 January 2022&lt;/p&gt;
-</description>
-        <pubDate>Mon, 25 Feb 2019 00:00:00 +0100</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/</guid>
-        
-        
-        <category>network</category>
-        
-        <category>security</category>
-        
-        <category>linux</category>
         
       </item>
     

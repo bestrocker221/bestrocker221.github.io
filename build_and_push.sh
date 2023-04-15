@@ -14,12 +14,13 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-#cd _site
+cd _site
 git add *
 git commit -m "${COMMIT}"
+echo -e "\nPushing to prod..\n"
 git push origin master
 
 # to set remote url git to ssh instead of https
 # git remote set-url origin git@github.com:url..
 
-cp -r _site/* ../bestrocker221.github.io
+#cp -r _site/* ../bestrocker221.github.io
