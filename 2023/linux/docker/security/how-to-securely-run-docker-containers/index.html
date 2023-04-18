@@ -393,24 +393,37 @@ window.addEventListener("load", function(){
 
 <p><em>Last modified:</em> 16 April 2023</p>
 
-<p>Running Docker containers securely can be challenging and involves taking several important steps to protect both the host system and the data within the container.  Privilege escalation has been trivial in default cases, which are seen quite commonly.</p>
+<p>Running Docker containers securely can be challenging and involves taking several important steps to protect both the host system and the data within the container.  <strong>Privilege escalation</strong> has been trivial in default cases, which are seen quite commonly.</p>
 
-<p>Use an <strong>up-to-date Docker image</strong>: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.</p>
+<p>The goal of this post is to give a few pointers on how to run containers in a more secure way.</p>
 
-<p>Use a <strong>non-root user</strong>: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the <em>–user</em> flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
+<ul>
+  <li>
+    <p>Use an <strong>up-to-date Docker image</strong>: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.</p>
+  </li>
+  <li>
+    <p>Use a <strong>non-root user</strong>: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the <em>–user</em> flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
 Moreover, on the host, often it is told to add the user to the <strong>docker</strong> group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, <a href="https://docs.docker.com/engine/security/rootless/">complete guide here</a>.</p>
-
-<p>Limit the <strong>network</strong>: If no networking is needed, it can be completely disabled thus further reducing possible network movements.</p>
-
-<p>Limit <strong>container capabilities</strong>: By default, Docker containers have access to all capabilities of the host system. It is good practice to limit the capabilities of the container using the <strong>–cap-drop</strong> flag.</p>
-
-<p>Use <strong>read-only file systems</strong>: Mount the container’s file system as read-only to prevent any changes to the host system.</p>
-
-<p>Limit <strong>resource exhaustion</strong>: Use the <em>–memory</em> and <em>–cpu</em> flags to limit the amount of memory and CPU resources that the container can use.</p>
-
-<p>Use <strong>Docker secrets</strong>: Avoid hard-coding sensitive information such as passwords and API keys in Dockerfiles or environment variables (only in swarm mode, <a href="https://docs.docker.com/engine/swarm/secrets/">info here</a>).</p>
-
-<p>Use <strong><a href="https://docs.docker.com/compose/">Docker Compose</a></strong> (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.</p>
+  </li>
+  <li>
+    <p>Limit the <strong>network</strong>: If no networking is needed, it can be completely disabled thus further reducing possible network movements.</p>
+  </li>
+  <li>
+    <p>Limit <strong>container capabilities</strong>: By default, Docker containers have access to all capabilities of the host system. It is good practice to limit the capabilities of the container using the <strong>–cap-drop</strong> flag.</p>
+  </li>
+  <li>
+    <p>Use <strong>read-only file systems</strong>: Mount the container’s file system as read-only to prevent any changes to the host system.</p>
+  </li>
+  <li>
+    <p>Limit <strong>resource exhaustion</strong>: Use the <em>–memory</em> and <em>–cpu</em> flags to limit the amount of memory and CPU resources that the container can use.</p>
+  </li>
+  <li>
+    <p>Use <strong>Docker secrets</strong>: Avoid hard-coding sensitive information such as passwords and API keys in Dockerfiles or environment variables (only in swarm mode, <a href="https://docs.docker.com/engine/swarm/secrets/">info here</a>).</p>
+  </li>
+  <li>
+    <p>Use <strong><a href="https://docs.docker.com/compose/">Docker Compose</a></strong> (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.</p>
+  </li>
+</ul>
 
 <h2 id="securely-run-docker-from-command-line">Securely Run Docker from Command Line</h2>
 <p>Some good command line arguments examples:</p>
@@ -431,11 +444,36 @@ Moreover, on the host, often it is told to add the user to the <strong>docker</s
 
 <p>Official documentation on the <code class="language-plaintext highlighter-rouge">run</code> command <a href="https://docs.docker.com/engine/reference/run/">here</a>.</p>
 
+<h2 id="securely-run-containers-with-docker-compose">Securely run containers with Docker Compose</h2>
+<p>Example file for docker compose:</p>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3'</span>
+
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">web</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">nginx:alpine</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">443:443"</span>
+    <span class="na">security_opt</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">no-new-privileges:true</span>
+      <span class="pi">-</span> <span class="s">seccomp:/path/to/seccomp/profile.json</span>
+    <span class="na">cap_drop</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">ALL</span>
+    <span class="na">read_only</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">tmpfs</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">/tmp</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">bind</span>
+        <span class="na">source</span><span class="pi">:</span> <span class="s">/path/to/nginx.conf</span>
+        <span class="na">target</span><span class="pi">:</span> <span class="s">/etc/nginx/nginx.conf</span>
+        <span class="na">read_only</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+</code></pre></div></div>
+
 <p>One more important piece of advice is to carefully give the container the right <strong>file permissions</strong> on the mounted volumes. Read only volumes, easily definable with for example <code class="language-plaintext highlighter-rouge">-v /data:/data:ro</code>, make sure the container will not be able to alter the data, restricting even further the locations where any write action is allowed at all.</p>
 
 <p>Giving <strong>read-only</strong> permissions to the container also further reduce the risk of remnant data being copied over the file system or volume. Temporary data can reside in-memory only, with the use of temporary file systems (<strong>tmpfs</strong>), which gets deleted when the container stops. The same happens for the container itself when ran with <code class="language-plaintext highlighter-rouge">--rm</code>, by deleting the whole container after its exit.</p>
 
-<p>Running docker as root is simpler, requires less configuration and testing, but it exposes the host system to an uncontrolled and non-acceptable level of risk, in my opinion. Running docker as root provides more flexibility and simplicity, but it comes with a significant security risk.</p>
+<p>Running docker as root is simpler, requires less configuration and testing, but it exposes the host system to an uncontrolled and non-acceptable level of risk, in my opinion. Running docker as root provides more flexibility and simplicity, but it comes with a significant security risk and extra careful needs to be taken when deploying containers.</p>
 
 <p>Finally, <strong>immutable</strong> containers are something I would recommend as I do like that approach quite a lot.</p>
 

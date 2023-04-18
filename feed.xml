@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 16 Apr 2023 01:11:52 +0200</pubDate>
-    <lastBuildDate>Sun, 16 Apr 2023 01:11:52 +0200</lastBuildDate>
+    <pubDate>Tue, 18 Apr 2023 07:01:01 +0200</pubDate>
+    <lastBuildDate>Tue, 18 Apr 2023 07:01:01 +0200</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
     
       <item>
@@ -20,24 +20,37 @@
 
 &lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 16 April 2023&lt;/p&gt;
 
-&lt;p&gt;Running Docker containers securely can be challenging and involves taking several important steps to protect both the host system and the data within the container.  Privilege escalation has been trivial in default cases, which are seen quite commonly.&lt;/p&gt;
+&lt;p&gt;Running Docker containers securely can be challenging and involves taking several important steps to protect both the host system and the data within the container.  &lt;strong&gt;Privilege escalation&lt;/strong&gt; has been trivial in default cases, which are seen quite commonly.&lt;/p&gt;
 
-&lt;p&gt;Use an &lt;strong&gt;up-to-date Docker image&lt;/strong&gt;: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.&lt;/p&gt;
+&lt;p&gt;The goal of this post is to give a few pointers on how to run containers in a more secure way.&lt;/p&gt;
 
-&lt;p&gt;Use a &lt;strong&gt;non-root user&lt;/strong&gt;: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the &lt;em&gt;–user&lt;/em&gt; flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use an &lt;strong&gt;up-to-date Docker image&lt;/strong&gt;: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use a &lt;strong&gt;non-root user&lt;/strong&gt;: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the &lt;em&gt;–user&lt;/em&gt; flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
 Moreover, on the host, often it is told to add the user to the &lt;strong&gt;docker&lt;/strong&gt; group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, &lt;a href=&quot;https://docs.docker.com/engine/security/rootless/&quot;&gt;complete guide here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Limit the &lt;strong&gt;network&lt;/strong&gt;: If no networking is needed, it can be completely disabled thus further reducing possible network movements.&lt;/p&gt;
-
-&lt;p&gt;Limit &lt;strong&gt;container capabilities&lt;/strong&gt;: By default, Docker containers have access to all capabilities of the host system. It is good practice to limit the capabilities of the container using the &lt;strong&gt;–cap-drop&lt;/strong&gt; flag.&lt;/p&gt;
-
-&lt;p&gt;Use &lt;strong&gt;read-only file systems&lt;/strong&gt;: Mount the container’s file system as read-only to prevent any changes to the host system.&lt;/p&gt;
-
-&lt;p&gt;Limit &lt;strong&gt;resource exhaustion&lt;/strong&gt;: Use the &lt;em&gt;–memory&lt;/em&gt; and &lt;em&gt;–cpu&lt;/em&gt; flags to limit the amount of memory and CPU resources that the container can use.&lt;/p&gt;
-
-&lt;p&gt;Use &lt;strong&gt;Docker secrets&lt;/strong&gt;: Avoid hard-coding sensitive information such as passwords and API keys in Dockerfiles or environment variables (only in swarm mode, &lt;a href=&quot;https://docs.docker.com/engine/swarm/secrets/&quot;&gt;info here&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;Use &lt;strong&gt;&lt;a href=&quot;https://docs.docker.com/compose/&quot;&gt;Docker Compose&lt;/a&gt;&lt;/strong&gt; (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Limit the &lt;strong&gt;network&lt;/strong&gt;: If no networking is needed, it can be completely disabled thus further reducing possible network movements.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Limit &lt;strong&gt;container capabilities&lt;/strong&gt;: By default, Docker containers have access to all capabilities of the host system. It is good practice to limit the capabilities of the container using the &lt;strong&gt;–cap-drop&lt;/strong&gt; flag.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use &lt;strong&gt;read-only file systems&lt;/strong&gt;: Mount the container’s file system as read-only to prevent any changes to the host system.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Limit &lt;strong&gt;resource exhaustion&lt;/strong&gt;: Use the &lt;em&gt;–memory&lt;/em&gt; and &lt;em&gt;–cpu&lt;/em&gt; flags to limit the amount of memory and CPU resources that the container can use.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use &lt;strong&gt;Docker secrets&lt;/strong&gt;: Avoid hard-coding sensitive information such as passwords and API keys in Dockerfiles or environment variables (only in swarm mode, &lt;a href=&quot;https://docs.docker.com/engine/swarm/secrets/&quot;&gt;info here&lt;/a&gt;).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use &lt;strong&gt;&lt;a href=&quot;https://docs.docker.com/compose/&quot;&gt;Docker Compose&lt;/a&gt;&lt;/strong&gt; (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&quot;securely-run-docker-from-command-line&quot;&gt;Securely Run Docker from Command Line&lt;/h2&gt;
 &lt;p&gt;Some good command line arguments examples:&lt;/p&gt;
@@ -58,11 +71,36 @@ Moreover, on the host, often it is told to add the user to the &lt;strong&gt;doc
 
 &lt;p&gt;Official documentation on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;run&lt;/code&gt; command &lt;a href=&quot;https://docs.docker.com/engine/reference/run/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
+&lt;h2 id=&quot;securely-run-containers-with-docker-compose&quot;&gt;Securely run containers with Docker Compose&lt;/h2&gt;
+&lt;p&gt;Example file for docker compose:&lt;/p&gt;
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;3&apos;&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;nginx:alpine&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;443:443&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;security_opt&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;no-new-privileges:true&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;seccomp:/path/to/seccomp/profile.json&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;cap_drop&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ALL&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;read_only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;tmpfs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/tmp&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bind&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/path/to/nginx.conf&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/etc/nginx/nginx.conf&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;read_only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 &lt;p&gt;One more important piece of advice is to carefully give the container the right &lt;strong&gt;file permissions&lt;/strong&gt; on the mounted volumes. Read only volumes, easily definable with for example &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-v /data:/data:ro&lt;/code&gt;, make sure the container will not be able to alter the data, restricting even further the locations where any write action is allowed at all.&lt;/p&gt;
 
 &lt;p&gt;Giving &lt;strong&gt;read-only&lt;/strong&gt; permissions to the container also further reduce the risk of remnant data being copied over the file system or volume. Temporary data can reside in-memory only, with the use of temporary file systems (&lt;strong&gt;tmpfs&lt;/strong&gt;), which gets deleted when the container stops. The same happens for the container itself when ran with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--rm&lt;/code&gt;, by deleting the whole container after its exit.&lt;/p&gt;
 
-&lt;p&gt;Running docker as root is simpler, requires less configuration and testing, but it exposes the host system to an uncontrolled and non-acceptable level of risk, in my opinion. Running docker as root provides more flexibility and simplicity, but it comes with a significant security risk.&lt;/p&gt;
+&lt;p&gt;Running docker as root is simpler, requires less configuration and testing, but it exposes the host system to an uncontrolled and non-acceptable level of risk, in my opinion. Running docker as root provides more flexibility and simplicity, but it comes with a significant security risk and extra careful needs to be taken when deploying containers.&lt;/p&gt;
 
 &lt;p&gt;Finally, &lt;strong&gt;immutable&lt;/strong&gt; containers are something I would recommend as I do like that approach quite a lot.&lt;/p&gt;
 
@@ -94,7 +132,7 @@ Moreover, on the host, often it is told to add the user to the &lt;strong&gt;doc
         <description>&lt;h1 id=&quot;automating-aws-iam-user-management-with-terraform&quot;&gt;&lt;strong&gt;&lt;center&gt;Automating AWS IAM User Management with Terraform&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
 &lt;h2 id=&quot;a-guide-to-quickly-create-and-manage-iam-users-and-roles-in-aws-with-terraform&quot;&gt;&lt;center&gt;A guide to quickly create and manage IAM users and roles in AWS with Terraform&lt;/center&gt;&lt;/h2&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 15 April 2023&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 16 April 2023&lt;/p&gt;
 
 &lt;p&gt;This post is part of a series of &lt;strong&gt;&lt;a href=&quot;https://www.terraform.io/&quot;&gt;Terraform&lt;/a&gt;&lt;/strong&gt; posts related to making AWS deployment less cumbersome and more efficient. In this post, we’ll dive into the process of automating part of the IAM user management using Terraform.&lt;/p&gt;
 
