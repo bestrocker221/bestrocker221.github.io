@@ -18,9 +18,8 @@ cd _site
 git add *
 git commit -m "${COMMIT}"
 echo -e "\nPushing to prod..\n"
-git push origin master
+git push
 
 # to set remote url git to ssh instead of https
 # git remote set-url origin git@github.com:url..
 
-#cp -r _site/* ../bestrocker221.github.io

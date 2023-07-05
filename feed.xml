@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 05 Jul 2023 18:13:31 +0200</pubDate>
-    <lastBuildDate>Wed, 05 Jul 2023 18:13:31 +0200</lastBuildDate>
+    <pubDate>Wed, 05 Jul 2023 18:20:38 +0200</pubDate>
+    <lastBuildDate>Wed, 05 Jul 2023 18:20:38 +0200</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
     
       <item>
@@ -190,7 +190,7 @@
 &lt;img style=&quot;display: block; margin: auto; width:70%&quot; src=&quot;/assets/docker-logo.png&quot; /&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 16 April 2023&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 05 July 2023&lt;/p&gt;
 
 &lt;p&gt;Running Docker containers securely can be challenging and involves taking several important steps to protect both the host system and the data within the container.  &lt;strong&gt;Privilege escalation&lt;/strong&gt; has been trivial in default cases, which are seen quite commonly.&lt;/p&gt;
 
