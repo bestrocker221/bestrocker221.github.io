@@ -5,13 +5,29 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 18 Apr 2023 07:01:01 +0200</pubDate>
-    <lastBuildDate>Tue, 18 Apr 2023 07:01:01 +0200</lastBuildDate>
+    <pubDate>Wed, 05 Jul 2023 18:13:31 +0200</pubDate>
+    <lastBuildDate>Wed, 05 Jul 2023 18:13:31 +0200</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
     
       <item>
+        <title>How to use custom webhooks in Authentik</title>
+        <description>You want to send custom notifications to ntfy via webhook? How to setup webhooks in Authentik for notifications and custom messages.</description>
+        <pubDate>Wed, 05 Jul 2023 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/</guid>
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
         <title>How to securely run Docker containers</title>
-        <description>How to protect Docker containers. Secure way to run containers for your application.</description>
+        <description>How to better protect Docker containers. Tips for increasing the security of your containers for your application and how to run rootless docker containers.</description>
         <pubDate>Sat, 15 Apr 2023 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2023/linux/docker/security/how-to-securely-run-docker-containers/</link>
         <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/docker/security/how-to-securely-run-docker-containers/</guid>
@@ -381,15 +397,43 @@
     
     
       <item>
-        <title>TLSScan</title>
-        <description>TLSScan</description>
+        <title>Terraform Libvirt Cloudinit Automation</title>
+        <description>Terraform Libvirt Cloudinit Automation</description>
+        <!-- after project.url -> | prepend: site.url  -->
+        <link>https://github.com/bestrocker221/terraform_libvirt_cloudinit_template</link>
+        <pubDate>Thu, 01 Jun 2023 00:00:00 +0200</pubDate>
+        
+        <category>terraform</category>
+        
+        <category>network</category>
+        
+        <category>libvirt</category>
+        
+      </item>
+    
+      <item>
+        <title>Useful Ansible Deployment Roles</title>
+        <description>Useful Ansible Deployment Roles</description>
+        <!-- after project.url -> | prepend: site.url  -->
+        <link>https://github.com/bestrocker221/ansible_useful</link>
+        <pubDate>Sat, 01 Apr 2023 00:00:00 +0200</pubDate>
+        
+        <category>ansible</category>
+        
+        <category>automation</category>
+        
+      </item>
+    
+      <item>
+        <title>TLSScan - a Python TLS Scanner</title>
+        <description>TLSScan - a Python TLS Scanner</description>
         <!-- after project.url -> | prepend: site.url  -->
         <link>https://github.com/bestrocker221/tlsscan</link>
         <pubDate>Fri, 01 Dec 2017 00:00:00 +0100</pubDate>
         
-        <category>Python</category>
+        <category>python</category>
         
-        <category>Scapy</category>
+        <category>scapy</category>
         
       </item>
     
@@ -400,11 +444,11 @@
         <link>https://github.com/bestrocker221/freeRADIUS-alpine</link>
         <pubDate>Mon, 01 Apr 2019 00:00:00 +0200</pubDate>
         
-        <category>Docker</category>
+        <category>docker</category>
         
-        <category>FreeRADIUS</category>
+        <category>freeRADIUS</category>
         
-        <category>MySQL</category>
+        <category>mysql</category>
         
       </item>
     

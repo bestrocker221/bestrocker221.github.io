@@ -21,7 +21,7 @@
           <meta content="article" property="og:type">
         
         
-          <meta content="How to protect Docker containers. Secure way to run containers for your application." property="og:description">
+          <meta content="How to better protect Docker containers. Tips for increasing the security of your containers for your application and how to run rootless docker containers." property="og:description">
         
         
           <meta content="https://carloalbertoscola.it//2023/linux/docker/security/how-to-securely-run-docker-containers/" property="og:url">
@@ -57,7 +57,7 @@
           <meta name="twitter:url" content="https://carloalbertoscola.it//2023/linux/docker/security/how-to-securely-run-docker-containers/">
         
         
-          <meta name="twitter:description" content="How to protect Docker containers. Secure way to run containers for your application.">
+          <meta name="twitter:description" content="How to better protect Docker containers. Tips for increasing the security of your containers for your application and how to run rootless docker containers.">
         
         
 
@@ -402,8 +402,11 @@ window.addEventListener("load", function(){
     <p>Use an <strong>up-to-date Docker image</strong>: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.</p>
   </li>
   <li>
-    <p>Use a <strong>non-root user</strong>: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the <em>–user</em> flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
-Moreover, on the host, often it is told to add the user to the <strong>docker</strong> group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, <a href="https://docs.docker.com/engine/security/rootless/">complete guide here</a>.</p>
+    <p>Run <strong>root-less docker</strong>: There is the option to run the docker daemon as normal user, thus drastically decreasing the privilege escalation paths. This way the containers can, at most, reach the same level of permissions as the current user, which should be hardened anyway. Root-less docker is very easy to install and configure. More on this in the next section.</p>
+  </li>
+  <li>
+    <p>Use a <strong>non-root user</strong> in the container: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the <em>–user</em> flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
+Moreover, on the host, often it is told to add the user to the <strong>docker</strong> group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, <a href="https://docs.docker.com/engine/security/rootless/">complete guide on how to run root-less docker here</a>.</p>
   </li>
   <li>
     <p>Limit the <strong>network</strong>: If no networking is needed, it can be completely disabled thus further reducing possible network movements.</p>
@@ -475,7 +478,7 @@ Moreover, on the host, often it is told to add the user to the <strong>docker</s
 
 <p>Running docker as root is simpler, requires less configuration and testing, but it exposes the host system to an uncontrolled and non-acceptable level of risk, in my opinion. Running docker as root provides more flexibility and simplicity, but it comes with a significant security risk and extra careful needs to be taken when deploying containers.</p>
 
-<p>Finally, <strong>immutable</strong> containers are something I would recommend as I do like that approach quite a lot.</p>
+<p>Finally, <strong>immutable</strong> containers are something I would recommend to use whenever possible.</p>
 
 <hr />
 
@@ -522,6 +525,31 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
     
         
             
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/">How to use custom webhooks in Authentik</a>
+                    
+                        <small>(Categories: <a href="/linux">linux</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+            
+        
+            
+        
+    
+
+    
+    
+        
+            
         
             
         
@@ -549,10 +577,6 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
     
         
             
-                
-                <div class="panel-body">
-                <h4>Related Posts</h4>
-                <ul>
                 
                 <li class="relatedPost">
                     <a href="https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/">How to do create and manage Amazon IAM users with Terraform</a>
@@ -802,16 +826,6 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
             
         
             
-                
-                <li class="relatedPost">
-                    <a href="https://carloalbertoscola.it//2019/network/security/linux/freeradius-3-setup-mysql-eap-ttls/">How to configure FreeRADIUS 3 with MySQL and EAP-TTLS</a>
-                    
-                        <small>(Categories: <a href="/network">network</a>, <a href="/security">security</a>, <a href="/linux">linux</a>)</small>
-                    
-                </li>
-                
-                
-            
         
     
         
@@ -1044,6 +1058,8 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
   
     <a class="prev pull-left" href="https://carloalbertoscola.it//2023/linux/terraform/how-to-manage-iam-users-terraform-aws/">&laquo; How to do create and manage Amazon IAM users with Terraform</a>
   
+  
+    <a class="next pull-right" href="https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/">How to use custom webhooks in Authentik &raquo;</a>
   
 </div>
 

@@ -5,9 +5,181 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 18 Apr 2023 07:01:01 +0200</pubDate>
-    <lastBuildDate>Tue, 18 Apr 2023 07:01:01 +0200</lastBuildDate>
+    <pubDate>Wed, 05 Jul 2023 18:13:31 +0200</pubDate>
+    <lastBuildDate>Wed, 05 Jul 2023 18:13:31 +0200</lastBuildDate>
     <generator>Jekyll v4.2.1</generator>
+    
+      <item>
+        <title>How to use custom webhooks in Authentik</title>
+        <description>&lt;h1 id=&quot;ntfy-and-webhooks-in-authentik&quot;&gt;&lt;strong&gt;&lt;center&gt;Ntfy and Webhooks in Authentik&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;how-to-setup-custom-webhooks-notifications&quot;&gt;&lt;center&gt;How to setup custom webhooks notifications&lt;/center&gt;&lt;/h2&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:30px&quot; src=&quot;/assets/authentik-dash.png&quot; /&gt;
+  &lt;figcaption&gt;Goauthentik dashboard.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;what-is-authentik&quot;&gt;What is Authentik?&lt;/h2&gt;
+&lt;p&gt;Authentik is an open source identity provider with great usability and flexibility. It offers a wide range of protocol support for authentication and it includes everything you need to connect to other providers.&lt;/p&gt;
+
+&lt;p&gt;It also has support for FIDO authentication, which is great!&lt;/p&gt;
+
+&lt;p&gt;It is possible to modify the authentication flows as you want in a super easy way. You want the MFA before the password? A click or two and it’s done.&lt;/p&gt;
+
+&lt;p&gt;It is impressive to see such product being created and maintained by one single developer, great job!&lt;/p&gt;
+
+&lt;p&gt;More information on their documentation official website at &lt;a href=&quot;https://goauthentik.io/docs/&quot;&gt;https://goauthentik.io/docs/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;webhooks&quot;&gt;Webhooks&lt;/h2&gt;
+&lt;p&gt;The goal of this post is to show how to properly setup webhooks. I personally have an instance of &lt;strong&gt;&lt;a href=&quot;https://ntfy.sh/&quot;&gt;ntfy&lt;/a&gt;&lt;/strong&gt; where I push my notifications and I thought it would be nice to hook up Authentik with it.&lt;/p&gt;
+
+&lt;p&gt;The documentation does not show practical examples, hence why I thought it might be useful to write it down step by step.&lt;/p&gt;
+
+&lt;p&gt;Here we are going to setup a webhook to send a message to a ntfy instance when an admin logs in.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Goal&lt;/strong&gt;: Every defined event will send a notification to ntfy, for example a login from an administrator.&lt;/p&gt;
+
+&lt;h2 id=&quot;1--create-new-notification-transport&quot;&gt;1.  Create new notification transport&lt;/h2&gt;
+&lt;p&gt;Under &lt;strong&gt;Events &amp;gt; Notification Transports&lt;/strong&gt; you can Create a new transport.&lt;/p&gt;
+
+&lt;p&gt;Fill in the information such as name of the transport and the ntfy URL.&lt;/p&gt;
+
+&lt;p&gt;In order to authenticate to ntfy there are two options:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Embed the auth token as a URL parameter.&lt;/li&gt;
+  &lt;li&gt;Insert the token a  POST body parameter.  (untested)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The first option requires the token to be set in the notification rule, the second option requires the token to be set in the property mapping.&lt;/p&gt;
+
+&lt;p&gt;For now, I have tested the option n.1 as the HTTPS connection encrypts the conversation and nothing is leaked, but I plan to switch to the n.2 as soon as possible. I have not found out how to add custom headers in the custom request yet, hence why.&lt;/p&gt;
+
+&lt;p&gt;Please, always be careful with ntfy token permissions, in this case the token can have the write only permissions to the specific topic and it doesn’t need to be able to read the channel.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:20px&quot; src=&quot;/assets/authentik-webhook-01.png&quot; /&gt;
+  &lt;figcaption&gt;Create new notification transport&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;2-create-a-notification-rule&quot;&gt;2. Create a notification rule&lt;/h2&gt;
+&lt;p&gt;As per the name, the notification rules allow you to define when to trigger the notifications.&lt;/p&gt;
+
+&lt;p&gt;In this example, we want to create a push notification when an administrator logs in.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Input the name for the rule then select the ntfy (&lt;em&gt;test-notification&lt;/em&gt; in the previous example) Transport from the list then Apply.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:20px&quot; src=&quot;/assets/authentik-notification-rule.png&quot; /&gt;
+  &lt;figcaption&gt;Create new notification rule&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Click on the newly created Rule and you’ll see two options: &lt;strong&gt;Create &amp;amp; bind Policy&lt;/strong&gt; and &lt;strong&gt;Bind Existing Policy&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:20px&quot; src=&quot;/assets/authentik-pol.png&quot; /&gt;
+  &lt;figcaption&gt;Empty policies for the newly created rule&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;The first time you need to create it, so click the first option.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;You’ll see many types of policies, you can have fun. For now let’s use the &lt;strong&gt;Event Matcher Policy&lt;/strong&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:20px&quot; src=&quot;/assets/authentik-rule2.png&quot; /&gt;
+  &lt;figcaption&gt;Create new notification policy for admins login&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Set the name of the policy and then select the &lt;strong&gt;Login&lt;/strong&gt; Action. Note all the possibilities.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:20px&quot; src=&quot;/assets/authentik-rules3.png&quot; /&gt;
+  &lt;figcaption&gt;Configure the Matcher Policy for admins login&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Continue and then select Group. Select the &lt;strong&gt;authentik Admins&lt;/strong&gt; here.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:20px&quot; src=&quot;/assets/authentik-admins-notification.png&quot; /&gt;
+  &lt;figcaption&gt;Configure the Matcher Policy for admins login&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Finish the policy creation.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;3-create-a-property-mapping&quot;&gt;3. Create a Property Mapping&lt;/h2&gt;
+&lt;p&gt;Property Mappings let you define the type of payload the request will contain when notifications are triggered.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Go to &lt;strong&gt;Customizations &amp;gt; Property Mappings &amp;gt; Create&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Select &lt;strong&gt;Webhook Mapping&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:20px&quot; src=&quot;/assets/authentik-mapping.png&quot; /&gt;
+  &lt;figcaption&gt;Configure the property mapping&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Here comes the interesting part. You can use python code here to define your request payload!&lt;/p&gt;
+
+&lt;p&gt;In this case I wanted to print information from the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; object.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&quot;topic&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;gauth&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&quot;message&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;User: {} [{}] authenticated!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;More useful examples here:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://version-2023-5.goauthentik.io/docs/property-mappings/expression?utm_source=authentik&quot;&gt;Useful expressions examples&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://version-2023-5.goauthentik.io/docs/user-group/user&quot;&gt;User and Group objects doc&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;4-results&quot;&gt;4. Results&lt;/h2&gt;
+
+&lt;p&gt;This is how the notification will be rendered when the admin logs in.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:95%;padding:20px&quot; src=&quot;/assets/ntfy-authentik.png&quot; /&gt;
+  &lt;figcaption&gt;Ntfy notification for admin login&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;That’s all. With this example it will be easy to build more policies and notifications payloads.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I hope you found this post helpful. If you have any questions or feedback, feel free to leave a comment below.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 05 July 2023&lt;/p&gt;
+</description>
+        <pubDate>Wed, 05 Jul 2023 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/</guid>
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>How to securely run Docker containers</title>
@@ -29,8 +201,11 @@
     &lt;p&gt;Use an &lt;strong&gt;up-to-date Docker image&lt;/strong&gt;: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Use a &lt;strong&gt;non-root user&lt;/strong&gt;: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the &lt;em&gt;–user&lt;/em&gt; flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
-Moreover, on the host, often it is told to add the user to the &lt;strong&gt;docker&lt;/strong&gt; group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, &lt;a href=&quot;https://docs.docker.com/engine/security/rootless/&quot;&gt;complete guide here&lt;/a&gt;.&lt;/p&gt;
+    &lt;p&gt;Run &lt;strong&gt;root-less docker&lt;/strong&gt;: There is the option to run the docker daemon as normal user, thus drastically decreasing the privilege escalation paths. This way the containers can, at most, reach the same level of permissions as the current user, which should be hardened anyway. Root-less docker is very easy to install and configure. More on this in the next section.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use a &lt;strong&gt;non-root user&lt;/strong&gt; in the container: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the &lt;em&gt;–user&lt;/em&gt; flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
+Moreover, on the host, often it is told to add the user to the &lt;strong&gt;docker&lt;/strong&gt; group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, &lt;a href=&quot;https://docs.docker.com/engine/security/rootless/&quot;&gt;complete guide on how to run root-less docker here&lt;/a&gt;.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Limit the &lt;strong&gt;network&lt;/strong&gt;: If no networking is needed, it can be completely disabled thus further reducing possible network movements.&lt;/p&gt;
@@ -102,7 +277,7 @@ Moreover, on the host, often it is told to add the user to the &lt;strong&gt;doc
 
 &lt;p&gt;Running docker as root is simpler, requires less configuration and testing, but it exposes the host system to an uncontrolled and non-acceptable level of risk, in my opinion. Running docker as root provides more flexibility and simplicity, but it comes with a significant security risk and extra careful needs to be taken when deploying containers.&lt;/p&gt;
 
-&lt;p&gt;Finally, &lt;strong&gt;immutable&lt;/strong&gt; containers are something I would recommend as I do like that approach quite a lot.&lt;/p&gt;
+&lt;p&gt;Finally, &lt;strong&gt;immutable&lt;/strong&gt; containers are something I would recommend to use whenever possible.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -2026,146 +2201,6 @@ ext_ipc[1] -&amp;gt; Print(&quot;IP from EXT to INT&quot;) -&amp;gt; [0]rw;
         <category>sdn</category>
         
         <category>python</category>
-        
-      </item>
-    
-      <item>
-        <title>Fault-Tolerant IP routing with Cisco HSRP. [Part 2]</title>
-        <description>&lt;h1 id=&quot;how-to-configure-cisco-routers-with-hsrp&quot;&gt;&lt;strong&gt;&lt;center&gt;How to configure Cisco routers with HSRP.&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
-&lt;h2 id=&quot;fault-tolerant-ip-routing&quot;&gt;&lt;strong&gt;&lt;center&gt;Fault-Tolerant IP routing&lt;/center&gt;&lt;/strong&gt;&lt;/h2&gt;
-&lt;h3 id=&quot;backup-and-virtual-gateways&quot;&gt;&lt;center&gt;Backup and virtual gateways&lt;/center&gt;&lt;/h3&gt;
-&lt;h4 id=&quot;hot-standby-router-protocol-hsrp&quot;&gt;&lt;center&gt;Hot Standby Router Protocol (HSRP)&lt;/center&gt;&lt;/h4&gt;
-
-&lt;p&gt;If you haven’t read, here is the part 1 of the guide where we can see how to set up OSPF, BGP and Multicast in the network. [&lt;a href=&quot;/2019/notes/network/cisco/BGP-OSPF-network-routing/&quot;&gt;Link to PART 1&lt;/a&gt;]&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Here we will focus only on how to provide fault tolerance IP routing&lt;/strong&gt; from both the server and the host networks. Each subnet will connect physically to the two routers, one being the &lt;strong&gt;active&lt;/strong&gt; and the other being &lt;strong&gt;stand-by&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Three are the protocols mostly used for fault tolerance:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Gateway Load Balancing Protocol (GLBP)&lt;/li&gt;
-  &lt;li&gt;Hot Standby Router Protocol (HSRP)&lt;/li&gt;
-  &lt;li&gt;Virtual Router Redundancy Protocol (VRRP)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Having a &lt;em&gt;backup path&lt;/em&gt; is extremely important in order to satisfy SLA and avoid any downtime to whole networks due to a single link failure. HSRP provides a quick way to recover a faulty link or router malfunctioning and allows other nodes to be quickly and transparently redirected to the standby router which immediately will become the active one.&lt;/p&gt;
-
-&lt;p&gt;&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/hsrp.jpg&quot; /&gt;&lt;/p&gt;
-&lt;center&gt; Figure 1. HSRP Virtual Router (from Cisco). &lt;/center&gt;
-
-&lt;p&gt;HSRP allows multiple routers on a single LAN to share a &lt;strong&gt;virtual IP&lt;/strong&gt; and MAC address which is configured as the default gateway on the hosts. By sharing an IP address and a MAC (Layer 2) address, two or more routers can act as a single “virtual” router. They answer to ARP requests for the virtual IP.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;More here &lt;a href=&quot;https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst3560/software/release/12-2_52_se/configuration/guide/3560scg/swhsrp.html&quot;&gt;Cisco - Configuring HSRP&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;network-equipment--virtual&quot;&gt;Network Equipment  (virtual)&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;4 Cisco 7301 routers&lt;/li&gt;
-  &lt;li&gt;2 HP2524 switches (one is for server network and one for client network)&lt;/li&gt;
-  &lt;li&gt;Virtual Machines (both on server and client network)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;network-topology&quot;&gt;Network Topology&lt;/h2&gt;
-&lt;p&gt;The network topology we are going to recreate is described as follow:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/routers_setup_lab_gns3.png&quot; alt=&quot;lab setup&quot; /&gt;&lt;/p&gt;
-&lt;center&gt; Figure 2. Full Network topology. &lt;/center&gt;
-
-&lt;h3 id=&quot;client-and-server-network-availability&quot;&gt;Client and Server network availability&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;RTC&lt;/strong&gt; and &lt;strong&gt;RTD&lt;/strong&gt; are responsible of providing a backup link for both the client and server networks in case of failure. &lt;a href=&quot;https://www.cisco.com/c/en/us/support/docs/ip/hot-standby-router-protocol-hsrp/9234-hsrpguidetoc.html&quot;&gt;&lt;em&gt;Hot Standby Router Protocol&lt;/em&gt; or  &lt;strong&gt;HSRP&lt;/strong&gt;&lt;/a&gt; is used in both networks.&lt;/p&gt;
-
-&lt;p&gt;HSRP is simpler than &lt;em&gt;Gateway Load Balancing Protocol&lt;/em&gt; (&lt;strong&gt;GLBP&lt;/strong&gt;) which runs on layer 3 and only has an active router to answer &lt;em&gt;ARP&lt;/em&gt; requests for the standby IP with a virtual MAC address. GLBP works on layer 2 and provides multiple virtual MAC addresses which could provide load balancing for huge networks. This is not needed here.&lt;/p&gt;
-
-&lt;p&gt;We will have for servers subnet network (10.5.10.0/24)&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;RTC&lt;/strong&gt; with 10.5.10.1 being the &lt;strong&gt;Active&lt;/strong&gt; Router&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;RTD&lt;/strong&gt; with 10.5.10.2 being the &lt;strong&gt;Stand-By&lt;/strong&gt; Router&lt;/li&gt;
-  &lt;li&gt;The &lt;strong&gt;VIRTUAL&lt;/strong&gt; gateway has the 10.5.10.3 IP address.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We will have for clients subnet network (10.5.15.0/24)&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;RTD&lt;/strong&gt; with 10.5.15.1 being the &lt;strong&gt;Active&lt;/strong&gt; Router&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;RTC&lt;/strong&gt; with 10.5.15.2 being the &lt;strong&gt;StandBy&lt;/strong&gt; Router&lt;/li&gt;
-  &lt;li&gt;the &lt;strong&gt;VIRTUAL&lt;/strong&gt; gateway has the 10.5.15.3 IP address.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;HSRP provides high network availability by providing redundancy for IP traffic from hosts on networks.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;When a router is down, the other quickly become active and start routing traffic on the behalf of the virtual IP. The two routers periodically send control messages to check “health” status, if one fails, the other assumes control. How?&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Devices running HSRP send and receive multicast UDP-based hello packets to detect router failure and to designate active and standby routers.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;timers-value&quot;&gt;Timers value&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;hellotime&lt;/strong&gt;: between routers the &lt;em&gt;hellotime&lt;/em&gt; interval is &lt;strong&gt;3 seconds&lt;/strong&gt; by default. That means the time before other routers declare the active router to be down.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;holdtime&lt;/strong&gt;: the time  before the active or standby router is declared to be down, default is &lt;strong&gt;10 seconds&lt;/strong&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;routers-configuration&quot;&gt;&lt;strong&gt;Routers Configuration&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;h3 id=&quot;rtc&quot;&gt;&lt;strong&gt;RTC&lt;/strong&gt;&lt;/h3&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;interface gigabitEthernet 0/0
-    ip address 10.5.10.1 255.255.255.0
-    standby version 2
-    standby 10 ip 10.5.10.3
-    standby 10 priority 200
-    standby 10 preempt
-    no shut
-
-interface fastEthernet 1/0
-    ip address 10.5.15.2 255.255.255.0
-    standby version 2
-    standby 15 ip 10.5.15.3
-    no shut
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;rtd&quot;&gt;&lt;strong&gt;RTD&lt;/strong&gt;&lt;/h3&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;interface gigabitEthernet 0/0
-    ip address 10.5.15.1 255.255.255.0
-    standby version 2
-    standby 15 ip 10.5.15.3
-    standby 15 priority 200
-    standby 15 preempt
-    no shut
-
-interface fastEthernet 1/0
-    ip address 10.5.10.2 255.255.255.0
-    standby version 2
-    standby 10 ip 10.5.10.3
-    no shut
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;On Hosts the VIRTUAL IP must be set as &lt;strong&gt;default gateway&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;This configuration will allow IP fault tolerance.
-For more detailed explanation look at the cisco documentation &lt;a href=&quot;https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst3560/software/release/12-2_52_se/configuration/guide/3560scg/swhsrp.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Please feel free to make any comment! If anything is unclear, just write in the comment and I will update the post! Thanks for reading!&lt;/strong&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 26 Apr 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/notes/network/cisco/hsrp-cisco-router-configuration-part-two/</guid>
-        
-        <category>network</category>
-        
-        <category>routing</category>
-        
-        <category>cisco</category>
-        
-        
-        <category>notes</category>
-        
-        <category>network</category>
-        
-        <category>cisco</category>
         
       </item>
     
