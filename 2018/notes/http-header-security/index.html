@@ -413,14 +413,14 @@ window.addEventListener("load", function(){
 
 <p>Suppose web content on domain http://foo.example wishes to invoke content on domain http://bar.other. Code of this sort might be used within JavaScript deployed on foo.example:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">invocation</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">invocation</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">XMLHttpRequest</span><span class="p">();</span>
 <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://bar.other/resources/public-data/</span><span class="dl">'</span><span class="p">;</span>
 
-<span class="kd">function</span> <span class="nx">callOtherDomain</span><span class="p">()</span> <span class="p">{</span>
+<span class="kd">function</span> <span class="nf">callOtherDomain</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">if</span><span class="p">(</span><span class="nx">invocation</span><span class="p">)</span> <span class="p">{</span>    
-    <span class="nx">invocation</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nx">invocation</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
     <span class="nx">invocation</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="nx">handler</span><span class="p">;</span>
-    <span class="nx">invocation</span><span class="p">.</span><span class="nx">send</span><span class="p">();</span>
+    <span class="nx">invocation</span><span class="p">.</span><span class="nf">send</span><span class="p">();</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -636,6 +636,13 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+    
 
     
     

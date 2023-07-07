@@ -395,10 +395,6 @@ It makes use of <strong><a href="http://mininet.org/">Mininet</a></strong> for n
     Here is the link to the Github repo containing the project.
 </a></p>
 
-<h3 id="topology"><strong>Topology</strong></h3>
-
-<p><img style="display: block; margin: auto;" src="/assets/topo-min.png" /></p>
-
 <h3 id="services"><strong>Services</strong></h3>
 <p>These services will run <strong><em>Click</em></strong>:</p>
 
@@ -433,24 +429,24 @@ It makes use of <strong><a href="http://mininet.org/">Mininet</a></strong> for n
 <p>This is a mininet example</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python2
 </span>
-<span class="kn">from</span> <span class="nn">mininet.net</span> <span class="kn">import</span> <span class="n">Mininet</span>
-<span class="kn">from</span> <span class="nn">mininet.cli</span> <span class="kn">import</span> <span class="n">CLI</span>
-<span class="kn">from</span> <span class="nn">mininet.topo</span> <span class="kn">import</span> <span class="n">Topo</span>
-<span class="kn">from</span> <span class="nn">mininet.node</span> <span class="kn">import</span> <span class="n">RemoteController</span><span class="p">,</span> <span class="n">OVSSwitch</span><span class="p">,</span> <span class="n">Host</span>
+<span class="kn">from</span> <span class="n">mininet.net</span> <span class="kn">import</span> <span class="n">Mininet</span>
+<span class="kn">from</span> <span class="n">mininet.cli</span> <span class="kn">import</span> <span class="n">CLI</span>
+<span class="kn">from</span> <span class="n">mininet.topo</span> <span class="kn">import</span> <span class="n">Topo</span>
+<span class="kn">from</span> <span class="n">mininet.node</span> <span class="kn">import</span> <span class="n">RemoteController</span><span class="p">,</span> <span class="n">OVSSwitch</span><span class="p">,</span> <span class="n">Host</span>
 
 <span class="k">class</span> <span class="nc">MyTopology</span><span class="p">(</span><span class="n">Topo</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">Topo</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="n">Topo</span><span class="p">.</span><span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
         <span class="c1"># All the elements are basically L2 switches
-</span>        <span class="n">sw1</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">addSwitch</span><span class="p">(</span><span class="s">"sw1"</span><span class="p">,</span> <span class="n">dpid</span><span class="o">=</span><span class="n">int2dpid</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</span>        <span class="n">sw1</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">addSwitch</span><span class="p">(</span><span class="sh">"</span><span class="s">sw1</span><span class="sh">"</span><span class="p">,</span> <span class="n">dpid</span><span class="o">=</span><span class="nf">int2dpid</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
         <span class="p">.</span>
         <span class="p">.</span>
         <span class="c1"># Add Hosts
-</span>        <span class="n">h1</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">addHost</span><span class="p">(</span><span class="s">"h1"</span><span class="p">,</span> <span class="n">ip</span><span class="o">=</span><span class="s">"100.0.0.10/24"</span><span class="p">)</span> 
+</span>        <span class="n">h1</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">addHost</span><span class="p">(</span><span class="sh">"</span><span class="s">h1</span><span class="sh">"</span><span class="p">,</span> <span class="n">ip</span><span class="o">=</span><span class="sh">"</span><span class="s">100.0.0.10/24</span><span class="sh">"</span><span class="p">)</span> 
         <span class="p">.</span>
         <span class="p">.</span>
         <span class="c1"># Add Links
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">addLink</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">sw1</span><span class="p">)</span>               <span class="c1">#Create link
+</span>        <span class="n">self</span><span class="p">.</span><span class="nf">addLink</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">sw1</span><span class="p">)</span>               <span class="c1">#Create link
 </span>        <span class="p">.</span>
         <span class="p">.</span> 
 </code></pre></div></div>
@@ -459,10 +455,10 @@ It makes use of <strong><a href="http://mininet.org/">Mininet</a></strong> for n
 
 <p>Then in the main: (we use a local controller)</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">topo</span> <span class="o">=</span> <span class="n">MyTopology</span><span class="p">()</span>
-    <span class="n">ctrl</span> <span class="o">=</span> <span class="n">RemoteController</span><span class="p">(</span><span class="s">"c0"</span><span class="p">,</span> <span class="n">ip</span><span class="o">=</span><span class="s">"127.0.0.1"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6633</span><span class="p">)</span>
-    <span class="n">net</span> <span class="o">=</span> <span class="n">Mininet</span><span class="p">(</span>  <span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">,</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">topo</span> <span class="o">=</span> <span class="nc">MyTopology</span><span class="p">()</span>
+    <span class="n">ctrl</span> <span class="o">=</span> <span class="nc">RemoteController</span><span class="p">(</span><span class="sh">"</span><span class="s">c0</span><span class="sh">"</span><span class="p">,</span> <span class="n">ip</span><span class="o">=</span><span class="sh">"</span><span class="s">127.0.0.1</span><span class="sh">"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6633</span><span class="p">)</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="nc">Mininet</span><span class="p">(</span>  <span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">,</span>
                     <span class="n">switch</span><span class="o">=</span><span class="n">OVSSwitch</span><span class="p">,</span>
                     <span class="n">controller</span><span class="o">=</span><span class="n">ctrl</span><span class="p">,</span>
                     <span class="n">autoSetMacs</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
@@ -470,17 +466,17 @@ It makes use of <strong><a href="http://mininet.org/">Mininet</a></strong> for n
                     <span class="n">build</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                     <span class="n">cleanup</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-    <span class="n">net</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">net</span><span class="p">.</span><span class="nf">start</span><span class="p">()</span>
     <span class="c1">##################
 </span>    <span class="c1"># Launch services and tests here
-</span>    <span class="p">...</span>
+</span>    <span class="bp">...</span>
     <span class="c1">###########
-</span>    <span class="n">CLI</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-    <span class="n">net</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
+</span>    <span class="nc">CLI</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+    <span class="n">net</span><span class="p">.</span><span class="nf">stop</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p>We can launch services in mininet hosts like this:</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">net</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"ws1"</span><span class="p">).</span><span class="n">cmd</span><span class="p">(</span><span class="s">"python3 -m http.server 80 &amp;"</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">net</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">ws1</span><span class="sh">"</span><span class="p">).</span><span class="nf">cmd</span><span class="p">(</span><span class="sh">"</span><span class="s">python3 -m http.server 80 &amp;</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><code class="language-plaintext highlighter-rouge">CLI(net)</code> allows to have an interactive shell on the mininet environment while it is running.</p>
@@ -521,30 +517,30 @@ It makes use of <strong><a href="http://mininet.org/">Mininet</a></strong> for n
 
 <p>The main controller application can be like this:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/bin/python2
-</span><span class="kn">from</span> <span class="nn">pox.core</span> <span class="kn">import</span> <span class="n">core</span>
-<span class="kn">from</span> <span class="nn">forwarding.l2_learning</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span class="kn">from</span> <span class="n">pox.core</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span> <span class="n">forwarding.l2_learning</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># importing MY modules
-</span><span class="kn">from</span> <span class="nn">myproj.myfw</span> <span class="kn">import</span> <span class="n">MyFw2</span><span class="p">,</span> <span class="n">MyFw1</span>
-<span class="kn">from</span> <span class="nn">myproj.l2_custom</span> <span class="kn">import</span> <span class="n">l2_learning_custom</span>
-<span class="kn">from</span> <span class="nn">myproj.clickElem</span> <span class="kn">import</span> <span class="n">click_device</span>
+</span><span class="kn">from</span> <span class="n">myproj.myfw</span> <span class="kn">import</span> <span class="n">MyFw2</span><span class="p">,</span> <span class="n">MyFw1</span>
+<span class="kn">from</span> <span class="n">myproj.l2_custom</span> <span class="kn">import</span> <span class="n">l2_learning_custom</span>
+<span class="kn">from</span> <span class="n">myproj.clickElem</span> <span class="kn">import</span> <span class="n">click_device</span>
 
 <span class="k">def</span> <span class="nf">launch</span><span class="p">():</span>
     <span class="n">fw_list_dpid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">51</span><span class="p">,</span> <span class="mi">52</span><span class="p">]</span>
     <span class="n">click_dpid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">71</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">73</span><span class="p">,</span> <span class="mi">74</span><span class="p">]</span>
 
-    <span class="n">private_ip_hosts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"10.0.0.50"</span><span class="p">,</span> <span class="s">"10.0.0.51"</span><span class="p">]</span>
-    <span class="n">srv_list</span> <span class="o">=</span> <span class="p">{</span><span class="s">"dns"</span><span class="p">:[</span><span class="s">"100.0.0.20"</span><span class="p">,</span> <span class="s">"100.0.0.21"</span><span class="p">,</span> <span class="s">"100.0.0.22"</span><span class="p">],</span>
-                <span class="s">"web"</span><span class="p">:[</span><span class="s">"100.0.0.40"</span><span class="p">,</span> <span class="s">"100.0.0.41"</span><span class="p">,</span> <span class="s">"100.0.0.42"</span><span class="p">]}</span>
+    <span class="n">private_ip_hosts</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">10.0.0.50</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">10.0.0.51</span><span class="sh">"</span><span class="p">]</span>
+    <span class="n">srv_list</span> <span class="o">=</span> <span class="p">{</span><span class="sh">"</span><span class="s">dns</span><span class="sh">"</span><span class="p">:[</span><span class="sh">"</span><span class="s">100.0.0.20</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">100.0.0.21</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">100.0.0.22</span><span class="sh">"</span><span class="p">],</span>
+                <span class="sh">"</span><span class="s">web</span><span class="sh">"</span><span class="p">:[</span><span class="sh">"</span><span class="s">100.0.0.40</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">100.0.0.41</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">100.0.0.42</span><span class="sh">"</span><span class="p">]}</span>
     
     <span class="c1"># registering the two firewalls
-</span>    <span class="n">core</span><span class="p">.</span><span class="n">registerNew</span><span class="p">(</span><span class="n">MyFw1</span><span class="p">,</span> <span class="n">fw_list_dpid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">srv_list</span><span class="p">)</span>
-    <span class="n">core</span><span class="p">.</span><span class="n">registerNew</span><span class="p">(</span><span class="n">MyFw2</span><span class="p">,</span> <span class="n">fw_list_dpid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">private_ip_hosts</span><span class="p">,</span> <span class="n">srv_list</span><span class="p">)</span>
+</span>    <span class="n">core</span><span class="p">.</span><span class="nf">registerNew</span><span class="p">(</span><span class="n">MyFw1</span><span class="p">,</span> <span class="n">fw_list_dpid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">srv_list</span><span class="p">)</span>
+    <span class="n">core</span><span class="p">.</span><span class="nf">registerNew</span><span class="p">(</span><span class="n">MyFw2</span><span class="p">,</span> <span class="n">fw_list_dpid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">private_ip_hosts</span><span class="p">,</span> <span class="n">srv_list</span><span class="p">)</span>
     <span class="c1"># registering click elements (napt, ids and lb)
-</span>    <span class="n">core</span><span class="p">.</span><span class="n">registerNew</span><span class="p">(</span><span class="n">click_device</span><span class="p">,</span> <span class="n">click_dpid</span><span class="p">)</span>
+</span>    <span class="n">core</span><span class="p">.</span><span class="nf">registerNew</span><span class="p">(</span><span class="n">click_device</span><span class="p">,</span> <span class="n">click_dpid</span><span class="p">)</span>
     
     <span class="c1"># Except firewalls, click elements all the others are l2 learning switches
-</span>    <span class="n">core</span><span class="p">.</span><span class="n">registerNew</span><span class="p">(</span><span class="n">l2_learning_custom</span><span class="p">,</span> <span class="n">click_dpid</span> <span class="o">+</span> <span class="n">fw_list_dpid</span><span class="p">)</span>
+</span>    <span class="n">core</span><span class="p">.</span><span class="nf">registerNew</span><span class="p">(</span><span class="n">l2_learning_custom</span><span class="p">,</span> <span class="n">click_dpid</span> <span class="o">+</span> <span class="n">fw_list_dpid</span><span class="p">)</span>
 
 </code></pre></div></div>
 
@@ -558,73 +554,73 @@ It makes use of <strong><a href="http://mininet.org/">Mininet</a></strong> for n
 
 <h3 id="custom-component-and-openflow-rule-install"><strong>Custom component and OpenFlow rule install</strong></h3>
 <p>Here we see the base <code class="language-plaintext highlighter-rouge">MyFirewall</code> class. It will install the rules to the switches as soon as they come up and connect to the controller.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pox.core</span> <span class="kn">import</span> <span class="n">core</span>
-<span class="kn">from</span> <span class="nn">pox.lib.addresses</span> <span class="kn">import</span> <span class="n">IPAddr</span>
-<span class="kn">from</span> <span class="nn">forwarding.l2_learning</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">pox.openflow.libopenflow_01</span> <span class="k">as</span> <span class="n">of</span>
-<span class="kn">import</span> <span class="nn">pox.lib.packet</span> <span class="k">as</span> <span class="n">PKT</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">pox.core</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span> <span class="n">pox.lib.addresses</span> <span class="kn">import</span> <span class="n">IPAddr</span>
+<span class="kn">from</span> <span class="n">forwarding.l2_learning</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="n">pox.openflow.libopenflow_01</span> <span class="k">as</span> <span class="n">of</span>
+<span class="kn">import</span> <span class="n">pox.lib.packet</span> <span class="k">as</span> <span class="n">PKT</span>
 
 <span class="k">class</span> <span class="nc">MyFirewall</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_dpid</span><span class="p">,</span> <span class="n">srv_list</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">fw_dpid</span><span class="p">,</span> <span class="n">srv_list</span><span class="p">):</span>
         <span class="c1"># we need to attach this class as listener
-</span>        <span class="n">core</span><span class="p">.</span><span class="n">openflow</span><span class="p">.</span><span class="n">addListeners</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fwdpid</span> <span class="o">=</span> <span class="n">fw_dpid</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">srv_list</span> <span class="o">=</span> <span class="n">srv_list</span>
+</span>        <span class="n">core</span><span class="p">.</span><span class="n">openflow</span><span class="p">.</span><span class="nf">addListeners</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">fwdpid</span> <span class="o">=</span> <span class="n">fw_dpid</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">srv_list</span> <span class="o">=</span> <span class="n">srv_list</span>
     <span class="c1">#
 </span>    <span class="c1">#   Common rules to both firewalls 1 &amp; 2
 </span>    <span class="c1">#
-</span>    <span class="k">def</span> <span class="nf">_handle_ConnectionUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span>    <span class="k">def</span> <span class="nf">_handle_ConnectionUp</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="c1"># just handle the switches with the wanted DPID
-</span>        <span class="k">if</span> <span class="n">event</span><span class="p">.</span><span class="n">dpid</span> <span class="o">==</span> <span class="bp">self</span><span class="p">.</span><span class="n">fwdpid</span><span class="p">:</span>
+</span>        <span class="k">if</span> <span class="n">event</span><span class="p">.</span><span class="n">dpid</span> <span class="o">==</span> <span class="n">self</span><span class="p">.</span><span class="n">fwdpid</span><span class="p">:</span>
             <span class="c1"># save the connection object
-</span>            <span class="bp">self</span><span class="p">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">event</span><span class="p">.</span><span class="n">connection</span>
-            <span class="n">log</span><span class="p">.</span><span class="n">debug</span><span class="p">(</span><span class="s">"Firewall %d : %s has come up."</span> <span class="p">,</span> 
-                            <span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">dpid_to_str</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">))</span>
+</span>            <span class="n">self</span><span class="p">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">event</span><span class="p">.</span><span class="n">connection</span>
+            <span class="n">log</span><span class="p">.</span><span class="nf">debug</span><span class="p">(</span><span class="sh">"</span><span class="s">Firewall %d : %s has come up.</span><span class="sh">"</span> <span class="p">,</span> 
+                            <span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">,</span> <span class="nf">dpid_to_str</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">))</span>
 
             <span class="c1">########## INSTALL THE RULES ON THE SWITCH ##########
-</span>            <span class="n">rules</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">web_server</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">srv_list</span><span class="p">[</span><span class="s">"web"</span><span class="p">]:</span>
+</span>            <span class="n">rules</span> <span class="o">=</span> <span class="nf">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">web_server</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">srv_list</span><span class="p">[</span><span class="sh">"</span><span class="s">web</span><span class="sh">"</span><span class="p">]:</span>
                 <span class="c1"># generating TCP rules for communication to web servers
 </span>                <span class="c1"># from out (public/private zone) to inner
-</span>                <span class="n">msg</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="n">ofp_flow_mod</span><span class="p">(</span>
-                    <span class="n">action</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="n">ofp_action_output</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-                    <span class="n">match</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="n">ofp_match</span><span class="p">(</span>
+</span>                <span class="n">msg</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="nf">ofp_flow_mod</span><span class="p">(</span>
+                    <span class="n">action</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="nf">ofp_action_output</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="nf">ofp_match</span><span class="p">(</span>
                             <span class="n">in_port</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                             <span class="n">dl_type</span> <span class="o">=</span> <span class="n">PKT</span><span class="p">.</span><span class="n">ethernet</span><span class="p">.</span><span class="n">IP_TYPE</span><span class="p">,</span>
                             <span class="n">nw_proto</span> <span class="o">=</span> <span class="n">PKT</span><span class="p">.</span><span class="n">ipv4</span><span class="p">.</span><span class="n">TCP_PROTOCOL</span><span class="p">,</span>
-                            <span class="n">nw_dst</span> <span class="o">=</span> <span class="n">IPAddr</span><span class="p">(</span><span class="n">web_server</span><span class="p">),</span>    <span class="c1"># src=internal IP
+                            <span class="n">nw_dst</span> <span class="o">=</span> <span class="nc">IPAddr</span><span class="p">(</span><span class="n">web_server</span><span class="p">),</span>    <span class="c1"># src=internal IP
 </span>                            <span class="n">tp_dst</span> <span class="o">=</span> <span class="mi">80</span>
                         <span class="p">),</span>
                     <span class="n">priority</span> <span class="o">=</span> <span class="mi">111</span>
                 <span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">"ALLOWING TCP 80 in FW {} to {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span> 
+                <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">ALLOWING TCP 80 in FW {} to {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span> 
                                             <span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">web_server</span><span class="p">))</span>
-                <span class="n">rules</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="n">rules</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
                 <span class="c1"># From inner web services to the outer (public/private zone)
-</span>                <span class="n">msg</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="n">ofp_flow_mod</span><span class="p">(</span>
-                    <span class="n">action</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="n">ofp_action_output</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                    <span class="n">match</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="n">ofp_match</span><span class="p">(</span>
+</span>                <span class="n">msg</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="nf">ofp_flow_mod</span><span class="p">(</span>
+                    <span class="n">action</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="nf">ofp_action_output</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="n">of</span><span class="p">.</span><span class="nf">ofp_match</span><span class="p">(</span>
                             <span class="n">in_port</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
                             <span class="n">dl_type</span> <span class="o">=</span> <span class="n">PKT</span><span class="p">.</span><span class="n">ethernet</span><span class="p">.</span><span class="n">IP_TYPE</span><span class="p">,</span>
                             <span class="n">nw_proto</span> <span class="o">=</span> <span class="n">PKT</span><span class="p">.</span><span class="n">ipv4</span><span class="p">.</span><span class="n">TCP_PROTOCOL</span><span class="p">,</span>
-                            <span class="n">nw_src</span> <span class="o">=</span> <span class="n">IPAddr</span><span class="p">(</span><span class="n">web_server</span><span class="p">),</span>    <span class="c1"># src=internal IP
+                            <span class="n">nw_src</span> <span class="o">=</span> <span class="nc">IPAddr</span><span class="p">(</span><span class="n">web_server</span><span class="p">),</span>    <span class="c1"># src=internal IP
 </span>                            <span class="n">tp_src</span> <span class="o">=</span> <span class="mi">80</span>
                         <span class="p">),</span>
                     <span class="n">priority</span> <span class="o">=</span> <span class="mi">111</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="n">rules</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">"ALLOWING TCP 80 in FW {} from {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span>
+                <span class="n">rules</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">ALLOWING TCP 80 in FW {} from {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span>
                                             <span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">web_server</span><span class="p">))</span>
 
-                <span class="p">...</span>
-                <span class="p">...</span>
+                <span class="bp">...</span>
+                <span class="bp">...</span>
             <span class="c1"># send out all the collected generated rules to the switch
 </span>            <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">connection</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+                <span class="n">self</span><span class="p">.</span><span class="n">connection</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
 
             <span class="c1"># then act as normal L2 Switch
-</span>            <span class="n">LearningSwitch</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">connection</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> 
+</span>            <span class="nc">LearningSwitch</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">connection</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> 
 
 </code></pre></div></div>
 
@@ -773,29 +769,29 @@ ext_ipc[1] -&gt; Print("IP from EXT to INT") -&gt; [0]rw;
 <p>In POX I registered a new component called <code class="language-plaintext highlighter-rouge">clickElem</code> which will handle the  connecting devices we want to run click on. A list of click elements DPIDs will be given as input.</p>
 
 <p>Within the <code class="language-plaintext highlighter-rouge">_handle_ConnectionUp</code> event handler:</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">event</span><span class="p">.</span><span class="n">dpid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">clicks_dpids</span><span class="p">:</span>
-    <span class="n">log</span><span class="p">.</span><span class="n">debug</span><span class="p">(</span><span class="s">"Ignoring connection from {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">))</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">event</span><span class="p">.</span><span class="n">dpid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">self</span><span class="p">.</span><span class="n">clicks_dpids</span><span class="p">:</span>
+    <span class="n">log</span><span class="p">.</span><span class="nf">debug</span><span class="p">(</span><span class="sh">"</span><span class="s">Ignoring connection from {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">))</span>
     <span class="k">return</span>
-<span class="n">log</span><span class="p">.</span><span class="n">debug</span><span class="p">(</span><span class="s">"Connection from CLICK: [{}] - {} "</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">event</span><span class="p">.</span><span class="n">connection</span><span class="p">))</span>
+<span class="n">log</span><span class="p">.</span><span class="nf">debug</span><span class="p">(</span><span class="sh">"</span><span class="s">Connection from CLICK: [{}] - {} </span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">event</span><span class="p">.</span><span class="n">connection</span><span class="p">))</span>
 <span class="c1"># start click modules
-</span><span class="n">click_path</span> <span class="o">=</span> <span class="s">"../nfv"</span>
+</span><span class="n">click_path</span> <span class="o">=</span> <span class="sh">"</span><span class="s">../nfv</span><span class="sh">"</span>
 <span class="c1"># launch lb1 (DNS side)
 </span><span class="k">if</span> <span class="n">event</span><span class="p">.</span><span class="n">dpid</span> <span class="o">==</span> <span class="mi">71</span><span class="p">:</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="s">"sudo /usr/local/bin/click -f "</span> <span class="o">+</span> <span class="n">click_path</span> <span class="o">+</span> <span class="s">"/lb.click int_if=lb1-eth2 ..."</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="sh">"</span><span class="s">sudo /usr/local/bin/click -f </span><span class="sh">"</span> <span class="o">+</span> <span class="n">click_path</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/lb.click int_if=lb1-eth2 ...</span><span class="sh">"</span>
 <span class="c1"># launch lb2 (HTTP side)
 </span><span class="k">elif</span> <span class="n">event</span><span class="p">.</span><span class="n">dpid</span> <span class="o">==</span> <span class="mi">72</span><span class="p">:</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="s">"sudo /usr/local/bin/click -f "</span> <span class="o">+</span> <span class="n">click_path</span> <span class="o">+</span> <span class="s">"/lb.click int_if=lb2-eth2 ... "</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="sh">"</span><span class="s">sudo /usr/local/bin/click -f </span><span class="sh">"</span> <span class="o">+</span> <span class="n">click_path</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/lb.click int_if=lb2-eth2 ... </span><span class="sh">"</span>
 <span class="c1"># launch ids
 </span><span class="k">elif</span> <span class="n">event</span><span class="p">.</span><span class="n">dpid</span> <span class="o">==</span> <span class="mi">73</span><span class="p">:</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="s">"sudo /usr/local/bin/click -f "</span> <span class="o">+</span> <span class="n">click_path</span> <span class="o">+</span> <span class="s">"/ids.click int_if=ids-eth3 ... "</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="sh">"</span><span class="s">sudo /usr/local/bin/click -f </span><span class="sh">"</span> <span class="o">+</span> <span class="n">click_path</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/ids.click int_if=ids-eth3 ... </span><span class="sh">"</span>
 <span class="c1"># launch napt
 </span><span class="k">elif</span> <span class="n">event</span><span class="p">.</span><span class="n">dpid</span> <span class="o">==</span> <span class="mi">74</span><span class="p">:</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="s">"sudo /usr/local/bin/click -f "</span> <span class="o">+</span> <span class="n">click_path</span> <span class="o">+</span> <span class="s">"/nat.click int_if=napt-eth2 ... "</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="sh">"</span><span class="s">sudo /usr/local/bin/click -f </span><span class="sh">"</span> <span class="o">+</span> <span class="n">click_path</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/nat.click int_if=napt-eth2 ... </span><span class="sh">"</span>
     
 <span class="c1"># launch the process
-</span><span class="n">log</span><span class="p">.</span><span class="n">debug</span><span class="p">(</span><span class="s">"[{}] RUN: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">args</span> <span class="p">))</span>
-<span class="n">args</span> <span class="o">=</span> <span class="n">shlex</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-<span class="bp">self</span><span class="p">.</span><span class="n">click_proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span><span class="n">log</span><span class="p">.</span><span class="nf">debug</span><span class="p">(</span><span class="sh">"</span><span class="s">[{}] RUN: {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">dpid</span><span class="p">,</span> <span class="n">args</span> <span class="p">))</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">shlex</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="n">self</span><span class="p">.</span><span class="n">click_proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="nc">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="run"><strong>Run</strong></h2>
@@ -847,6 +843,17 @@ https://twitter.com/intent/tweet?original_referer=https://carloalbertoscola.it//
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+            
+        
+            
+        
+    
 
     
     

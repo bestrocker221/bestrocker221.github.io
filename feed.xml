@@ -5,9 +5,9 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 05 Jul 2023 18:28:00 +0200</pubDate>
-    <lastBuildDate>Wed, 05 Jul 2023 18:28:00 +0200</lastBuildDate>
-    <generator>Jekyll v4.2.1</generator>
+    <pubDate>Fri, 07 Jul 2023 13:16:22 +0200</pubDate>
+    <lastBuildDate>Fri, 07 Jul 2023 13:16:22 +0200</lastBuildDate>
+    <generator>Jekyll v4.3.2</generator>
     
       <item>
         <title>How to use custom webhooks in Authentik</title>
@@ -141,8 +141,8 @@ How to setup webhooks for ntfy in Authentik?&lt;/p&gt;
 &lt;p&gt;In this case I wanted to print information from the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; object.&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;topic&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;gauth&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;message&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;User: {} [{}] authenticated!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;sh&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;topic&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;sh&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;gauth&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;sh&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;sh&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;User: {} [{}] authenticated!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
     
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -174,6 +174,88 @@ How to setup webhooks for ntfy in Authentik?&lt;/p&gt;
         <pubDate>Wed, 05 Jul 2023 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/</link>
         <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/</guid>
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>How to use Cloudflare Tunnels with self hosted apps</title>
+        <description>&lt;h1 id=&quot;unleash-the-potential-of-cloudflare-tunnels&quot;&gt;&lt;strong&gt;&lt;center&gt;Unleash the potential of Cloudflare Tunnels&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;setup-the-cloudflare-tunnel-and-publish-and-protect-your-app-in-a-second&quot;&gt;&lt;center&gt;Setup the Cloudflare Tunnel and publish and protect your app in a second.&lt;/center&gt;&lt;/h2&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:75%;padding:30px&quot; src=&quot;/assets/cloudflare-zerotrust.png&quot; /&gt;
+  &lt;figcaption&gt;Cloudflare new Zero-Trust dashboard.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;what-are-cloudflare-tunnels&quot;&gt;What are Cloudflare Tunnels&lt;/h2&gt;
+&lt;p&gt;Cloudflare Tunnels offer various useful functionalities such as the possibility to connect your self-hosted, non-exposed apps to the Internet via the Cloudflare network. Not only, you can also connect your private network to its network, but this is not covered in this post.&lt;/p&gt;
+
+&lt;p&gt;The main page for CF Tunnel documentation is here: &lt;a href=&quot;https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/&quot;&gt;https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In summary, in order to have a tunnel up and running:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Run the &lt;strong&gt;cloudflared&lt;/strong&gt; binary on your server with a pre-generated token from the web portal.&lt;/li&gt;
+  &lt;li&gt;The daemon will be installed and enabled automatically. Tunnel is up.&lt;/li&gt;
+  &lt;li&gt;Configure everything else from the web portal. (you can do from cli as well)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;From the Zero Trust portal you can add a subdomain for your app and create a new forwarding towards your app (different protocol are supported). Cloudflare will create the DNS record (which is a CNAME to a &lt;em&gt;cfargotunnel&lt;/em&gt; Cloudflare zone) and automatically enforce HTTPS with a valid Let’s Encrypt certificate!&lt;/p&gt;
+
+&lt;p&gt;Once setup, Cloudflare will redirect the HTTPS requests to your set domain, towards your self hosted application/address defined above.&lt;/p&gt;
+
+&lt;p&gt;Did I mention that this is included in the free version? This is only the beginning.&lt;/p&gt;
+
+&lt;p&gt;Cloudflare Tunnels offer many benefits:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Avoid opening any port on the firewall&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Automatic DNS and TLS certificate renewal and management&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Conditional access policies at your control from the dashboard&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;security-considerations&quot;&gt;&lt;strong&gt;Security Considerations&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Cloudflare is a proxy, so they are technically able to see the traffic. Honestly I trust them more than others, but it is to keep in mind that nothing is &lt;em&gt;truly&lt;/em&gt; end-to-end encrypted here. (The traffic is &lt;strong&gt;always&lt;/strong&gt; encrypted, from the client up towards your self-hosted application, but it is routed within Cloudflare network proxies)&lt;/p&gt;
+
+&lt;p&gt;Their proxy terminates the incoming TLS connection, can inspect the HTTP plaintext, and then creates a new TLS connection to the destination.&lt;/p&gt;
+
+&lt;p&gt;I am also an open-source passionate, so Cloudflare would introduce something that is closed source (back-end, the cloudflared agent is on &lt;a href=&quot;https://github.com/cloudflare/cloudflared&quot;&gt;GitHub&lt;/a&gt;) and not peer-reviewed, although &lt;strong&gt;their reputation is top tier&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This still means that you are running a binary &lt;strong&gt;as root&lt;/strong&gt; in your private environment that has complete network access to your internal network. In an event of Cloudflare being breached, somebody maliciously modifying the agent build pipelines or them “going rogue” (both very unlikely), your private environment is compromised as well.&lt;/p&gt;
+
+&lt;p&gt;A way to restrict this would be to manually restrict the binary permissions on your system, restrict its capabilities, restrict what it can access, firewall it, run it in a “jail”/container/secure environment.&lt;/p&gt;
+
+&lt;p&gt;All of this to say, if you want your data to be 100% private then don’t use Tunnels for that app (ex: a nextcloud/owncloud/photoprism instance).&lt;/p&gt;
+
+&lt;h2 id=&quot;how-does-a-tunnel-work&quot;&gt;How does a Tunnel work&lt;/h2&gt;
+&lt;p&gt;When the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cloudflared&lt;/code&gt; daemon connects to Cloudflare network, it will open four QUIC (UDP) connections towards two geographically different Cloudflare data-centers ( four different IPs ) to maintain redundancy and availability.&lt;/p&gt;
+
+&lt;p&gt;The daemon will then listen for instructions, ie: it will open a connection towards your self-hosted address and port &lt;strong&gt;only&lt;/strong&gt; when the app is accessed.&lt;/p&gt;
+
+&lt;p&gt;You can manually check what the process is connecting to with the following command:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;netstat &lt;span class=&quot;nt&quot;&gt;-anp&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; cloudflared
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;setup-the-tunnel-and-attach-a-subdomain&quot;&gt;Setup the Tunnel and attach a subdomain&lt;/h2&gt;
+&lt;p&gt;Access the Zero Trust portal here: &lt;a href=&quot;https://one.dash.cloudflare.com&quot;&gt;https://one.dash.cloudflare.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I hope you found this post helpful. If you have any questions or feedback, feel free to leave a comment below.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 06 July 2023&lt;/p&gt;
+</description>
+        <pubDate>Wed, 05 Jul 2023 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2023/linux/how-to-setup-cloudflare-tunnels-and-publish-your-self-hosted-apps/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/how-to-setup-cloudflare-tunnels-and-publish-your-self-hosted-apps/</guid>
         
         <category>linux</category>
         
@@ -263,14 +345,14 @@ Moreover, on the host, often it is told to add the user to the &lt;strong&gt;doc
       &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;seccomp:/path/to/seccomp/profile.json&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;cap_drop&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
       &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ALL&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;read_only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;read_only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;tmpfs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
       &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/tmp&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
       &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bind&lt;/span&gt;
         &lt;span class=&quot;na&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/path/to/nginx.conf&lt;/span&gt;
         &lt;span class=&quot;na&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/etc/nginx/nginx.conf&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;read_only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;read_only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -926,27 +1008,6 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
         <description>&lt;h1 id=&quot;vulnerability-disclosure---ethical-hacking&quot;&gt;&lt;strong&gt;&lt;center&gt;Vulnerability disclosure - Ethical Hacking&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
 &lt;h2 id=&quot;responsible-vs-full-vulnerability-disclosure&quot;&gt;&lt;center&gt;Responsible vs Full vulnerability disclosure&lt;/center&gt;&lt;/h2&gt;
 &lt;h3 id=&quot;the-never-ending-debate&quot;&gt;&lt;center&gt;The never ending debate&lt;/center&gt;&lt;/h3&gt;
-
-&lt;div&gt;
-&lt;span class=&quot;read-time-txt&quot;&gt;Reading time:&lt;/span&gt;
-&lt;span class=&quot;read-time-val&quot;&gt;
-
-
-  6 mins
-
-&lt;/span&gt;
-	 
-&lt;p class=&quot;read-time-date&quot;&gt;
-	&lt;script&gt;
-	var today = new Date();
-	weekday = [&quot;Sunday&quot;, &quot;Monday&quot;,&quot;Tuesday&quot;, &quot;Wednesday&quot;,&quot;Thursday&quot;, &quot;Friday&quot;,&quot;Saturday&quot;];
-	mlist = [ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot; ];
-	var time = today.getHours() + &quot;:&quot; + today.getMinutes();
-	var d = weekday[today.getDay()] + &quot; &quot; +today.getDate() + &quot; &quot; + mlist[today.getMonth()] + &quot; &quot; + today.getFullYear();
-	document.write(d + &quot;  &quot; + time);
-	&lt;/script&gt;
-&lt;/p&gt;
-&lt;/div&gt;
 
 &lt;figure&gt;
 &lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/windows-zero-day-twitter.png&quot; /&gt;
@@ -1756,454 +1817,6 @@ Paper shows an analysis of trade-offs between centralized management and costs, 
         <category>network</category>
         
         <category>sdn</category>
-        
-      </item>
-    
-      <item>
-        <title>SDN &amp; NFV with POX and Click Modular Router</title>
-        <description>&lt;h1 id=&quot;pox-controller-and-click-in-practice&quot;&gt;&lt;strong&gt;&lt;center&gt;POX Controller and Click in practice&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
-&lt;h2 id=&quot;-how-to-create-a-simple-sdn-and-nfv-application&quot;&gt;&lt;center&gt; How to create a simple SDN and NFV application&lt;/center&gt;&lt;/h2&gt;
-
-&lt;p&gt;This is the first project I did for learning &lt;em&gt;Software Defined Networking&lt;/em&gt; and &lt;em&gt;Network Function Virtualization&lt;/em&gt;. 
-It makes use of &lt;strong&gt;&lt;a href=&quot;http://mininet.org/&quot;&gt;Mininet&lt;/a&gt;&lt;/strong&gt; for network virtualization, &lt;strong&gt;&lt;a href=&quot;https://github.com/noxrepo/pox&quot;&gt;POX&lt;/a&gt;&lt;/strong&gt; for the python SDN Controller application and &lt;strong&gt;&lt;a href=&quot;https://github.com/kohler/click&quot;&gt;Click Modular Router&lt;/a&gt;&lt;/strong&gt; for networking functions like Load Balancing, IDS and NAPT.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;em&gt;How to setup a topology with Mininet.&lt;/em&gt;&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;em&gt;How to program POX SDN controller and Switches with OpenFlow.&lt;/em&gt;&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;em&gt;How to integrate network functions with Click.&lt;/em&gt;&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/bestrocker221/ik2220-SDN-NFV&quot; target=&quot;_blank&quot;&gt;
-    &lt;img class=&quot;github-img&quot; src=&quot;/assets/github.ico&quot; href=&quot;https://github.com/bestrocker221/ik2220-SDN-NFV&quot; target=&quot;_blank&quot; /&gt;
-    Here is the link to the Github repo containing the project.
-&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;topology&quot;&gt;&lt;strong&gt;Topology&lt;/strong&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/topo-min.png&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;services&quot;&gt;&lt;strong&gt;Services&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;These services will run &lt;strong&gt;&lt;em&gt;Click&lt;/em&gt;&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;lb1&lt;/strong&gt;: will serve DNS requests and load balance them towards the three &lt;strong&gt;ds&lt;/strong&gt; servers.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;lb2&lt;/strong&gt;: will serve WEB requests and load balance them towards the three &lt;strong&gt;ws&lt;/strong&gt; servers.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;ids&lt;/strong&gt;: is an Intrusion Detection System which will do basic filtering on HTTP requests and direct the suspicious ones to the inspector machine, while others will go through to the lb2.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;napt&lt;/strong&gt;: is the Network Address and Port Translator, will translate addresses from the private network 10.0.0.0/24 to 100.0.0.0/24.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;These will run POX &lt;strong&gt;&lt;em&gt;l2.learning&lt;/em&gt;&lt;/strong&gt; modules:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Fw1&lt;/strong&gt; and &lt;strong&gt;Fw2&lt;/strong&gt; are firewalls filtering traffic from/to the Demilitarized Zone and Private Zone.&lt;/li&gt;
-  &lt;li&gt;All the others &lt;strong&gt;sw&lt;/strong&gt; are simple L2 Learning switches.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;1-mininet-topology&quot;&gt;&lt;strong&gt;1. Mininet Topology&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;Mininet allows to virtualize a network adding hosts, switches and links as you prefer.&lt;/p&gt;
-
-&lt;h3 id=&quot;how-to-run-mininet&quot;&gt;How to run mininet:&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;In Mininet you just need a single python file.&lt;/li&gt;
-  &lt;li&gt;Define your Topology class extending &lt;strong&gt;Topo&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;Start the mininet with your topology and a controller.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Before launching the mininet script, check ovs-ctl is running, otherwise:&lt;/p&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; /usr/share/openvswitch/scripts/ovs-ctl start
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This is a mininet example&lt;/p&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/python2
-&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mininet.net&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Mininet&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mininet.cli&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CLI&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mininet.topo&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Topo&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mininet.node&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RemoteController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OVSSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Host&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyTopology&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Topo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;Topo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;# All the elements are basically L2 switches
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;sw1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sw1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;int2dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;# Add Hosts
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addHost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;h1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;100.0.0.10/24&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;# Add Links
-&lt;/span&gt;        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addLink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sw1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;               &lt;span class=&quot;c1&quot;&gt;#Create link
-&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt; 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Importantly every mininet object has a DPID which we can set and can refer later.&lt;/p&gt;
-
-&lt;p&gt;Then in the main: (we use a local controller)&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;topo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MyTopology&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RemoteController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;c0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;127.0.0.1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6633&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;net&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Mininet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;topo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;topo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;switch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OVSSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ctrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;autoSetMacs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;autoStaticArp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;cleanup&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;net&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;##################
-&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# Launch services and tests here
-&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;###########
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;CLI&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;net&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;net&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;We can launch services in mininet hosts like this:&lt;/p&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;n&quot;&gt;net&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ws1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cmd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;python3 -m http.server 80 &amp;amp;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CLI(net)&lt;/code&gt; allows to have an interactive shell on the mininet environment while it is running.&lt;/p&gt;
-
-&lt;p&gt;You can run commands easily.&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mininet&amp;gt; h1 ping h2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;After the inline command &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exit&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;net.stop()&lt;/code&gt; will gracefully stop the network.&lt;/p&gt;
-
-&lt;p&gt;If you want to clean the system from the last mininet run, execute:&lt;/p&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;mn &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;2-pox-controller&quot;&gt;&lt;strong&gt;2. POX Controller&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;The controller has the role of setting up rules in the OpenFlow switches whenever they encounter a packet for which no routing decision can be made.&lt;/p&gt;
-
-&lt;p&gt;The POX controller handles persistent connections from OpenFlow enabled switches, and has a handler for each state of the connection.&lt;/p&gt;
-
-&lt;p&gt;For example, each event will fire the appropriate callback:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;_handle_ConnectionUp&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;_handle_ConnectionDown&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;_handle_PacketIn&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;_handle_PortStatus&lt;/li&gt;
-  &lt;li&gt;_handle_FlowRemoved&lt;/li&gt;
-  &lt;li&gt;_handle_ErrorIn&lt;/li&gt;
-  &lt;li&gt;_handle_BarrierIn&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We will focus on the first three: when a SW will first connect, when it will disconnect, and whenever a packet is forwarded from the SW to the Controller.&lt;/p&gt;
-
-&lt;p&gt;In this case we use the already present &lt;em&gt;l2 forwarding&lt;/em&gt; module which implements standard switch behavior with &lt;em&gt;flood and learn&lt;/em&gt; mechanism. We extend that module for the two firewalls adding the rules to block/allow traffic based on port/destination address.&lt;/p&gt;
-
-&lt;h3 id=&quot;main-controller-file&quot;&gt;&lt;strong&gt;Main controller file&lt;/strong&gt;&lt;/h3&gt;
-
-&lt;p&gt;The main controller application can be like this:&lt;/p&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#!/bin/python2
-&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pox.core&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;forwarding.l2_learning&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# importing MY modules
-&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;myproj.myfw&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MyFw2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MyFw1&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;myproj.l2_custom&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l2_learning_custom&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;myproj.clickElem&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;click_device&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;launch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;fw_list_dpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;51&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;click_dpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;71&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;72&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;73&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;74&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;private_ip_hosts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10.0.0.50&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;10.0.0.51&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;srv_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;dns&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;100.0.0.20&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;100.0.0.21&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;100.0.0.22&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-                &lt;span class=&quot;s&quot;&gt;&quot;web&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;100.0.0.40&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;100.0.0.41&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;100.0.0.42&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]}&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;# registering the two firewalls
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registerNew&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MyFw1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fw_list_dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srv_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registerNew&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MyFw2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fw_list_dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;private_ip_hosts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srv_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# registering click elements (napt, ids and lb)
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registerNew&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;click_device&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;click_dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;# Except firewalls, click elements all the others are l2 learning switches
-&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registerNew&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l2_learning_custom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;click_dpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fw_list_dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;With the DPID list we can set which registered module handle which element. In fact, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;click_device&lt;/code&gt; class will handle DPID 71,72,73,74.&lt;/p&gt;
-
-&lt;p&gt;The class &lt;em&gt;l2_learning_custom&lt;/em&gt; takes as argument a list of DPID to ignore, so works in reverse as the others.&lt;/p&gt;
-
-&lt;p&gt;Registering a new element will allow each component to manage every incoming switch connection, so a way to distinguish which switch is connecting is to use each DPID as a filter.&lt;/p&gt;
-
-&lt;p&gt;Ex: If Fw1 has to manage the DPID 51, then when &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_handle_ConnectionUp&lt;/code&gt; is raised, we can continue only if the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;event.dpid&lt;/code&gt; is 51.&lt;/p&gt;
-
-&lt;h3 id=&quot;custom-component-and-openflow-rule-install&quot;&gt;&lt;strong&gt;Custom component and OpenFlow rule install&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Here we see the base &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyFirewall&lt;/code&gt; class. It will install the rules to the switches as soon as they come up and connect to the controller.&lt;/p&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pox.core&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pox.lib.addresses&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPAddr&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;forwarding.l2_learning&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pox.openflow.libopenflow_01&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pox.lib.packet&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PKT&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyFirewall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fw_dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srv_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;# we need to attach this class as listener
-&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;openflow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addListeners&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fwdpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fw_dpid&lt;/span&gt;
-        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srv_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;srv_list&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;#
-&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;#   Common rules to both firewalls 1 &amp;amp; 2
-&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;#
-&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;_handle_ConnectionUp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;# just handle the switches with the wanted DPID
-&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fwdpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;# save the connection object
-&lt;/span&gt;            &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Firewall %d : %s has come up.&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-                            &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dpid_to_str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-            &lt;span class=&quot;c1&quot;&gt;########## INSTALL THE RULES ON THE SWITCH ##########
-&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;rules&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;web_server&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;srv_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;web&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
-                &lt;span class=&quot;c1&quot;&gt;# generating TCP rules for communication to web servers
-&lt;/span&gt;                &lt;span class=&quot;c1&quot;&gt;# from out (public/private zone) to inner
-&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ofp_flow_mod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ofp_action_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;match&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ofp_match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;in_port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;dl_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PKT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ethernet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP_TYPE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;nw_proto&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PKT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ipv4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCP_PROTOCOL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;nw_dst&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPAddr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web_server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# src=internal IP
-&lt;/span&gt;                            &lt;span class=&quot;n&quot;&gt;tp_dst&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;
-                        &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;priority&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;111&lt;/span&gt;
-                &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ALLOWING TCP 80 in FW {} to {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; 
-                                            &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;web_server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-                &lt;span class=&quot;c1&quot;&gt;# From inner web services to the outer (public/private zone)
-&lt;/span&gt;                &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ofp_flow_mod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;action&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ofp_action_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;match&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ofp_match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;in_port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;dl_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PKT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ethernet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IP_TYPE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;nw_proto&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PKT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ipv4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TCP_PROTOCOL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                            &lt;span class=&quot;n&quot;&gt;nw_src&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IPAddr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;web_server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# src=internal IP
-&lt;/span&gt;                            &lt;span class=&quot;n&quot;&gt;tp_src&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;
-                        &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-                    &lt;span class=&quot;n&quot;&gt;priority&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;111&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ALLOWING TCP 80 in FW {} from {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-                                            &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;web_server&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-                &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-                &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;# send out all the collected generated rules to the switch
-&lt;/span&gt;            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rule&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-                &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rule&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-            &lt;span class=&quot;c1&quot;&gt;# then act as normal L2 Switch
-&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;LearningSwitch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You have to install a rule &lt;strong&gt;for each direction of the flow&lt;/strong&gt;, indeed two rules are needed.&lt;/p&gt;
-
-&lt;p&gt;NOTE: remember to set the right priorities for the right rule ordering.&lt;/p&gt;
-
-&lt;p&gt;Each rule has an:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;action&lt;/strong&gt;: for example &lt;em&gt;ofp_action_output&lt;/em&gt; will send pkt to the &lt;em&gt;port&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;match&lt;/strong&gt;: will match pkt based on protocol, ports, and type&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;priority&lt;/strong&gt;: higher priority takes over&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Then I expanded the MyFirewall class to add functionalities unique to each firewall fw1/fw2.&lt;/p&gt;
-
-&lt;h3 id=&quot;how-to-run-pox-controller&quot;&gt;&lt;strong&gt;How to run POX Controller&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;You can start the controller with:&lt;/p&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;python2 pox.py my_controller samples.pretty_log log.level &lt;span class=&quot;nt&quot;&gt;--DEBUG&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;you add the modules you want to run, here we added &lt;em&gt;pretty_log&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;how-to-check-active-flows&quot;&gt;&lt;strong&gt;How to check active flows&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Once you run a basic topology and a controller you can check at any time active flows with:&lt;/p&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# view flows&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;ovs-vsctl show
-&lt;span class=&quot;c&quot;&gt;# view flow details&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;ovs-ofctl dump-flows s1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;3-click-programming&quot;&gt;&lt;strong&gt;3. Click programming&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;With Click we can program mininet Switches with our own Virtualized Network Functions, without the need of any controller.  Here we see some basic examples.&lt;/p&gt;
-
-&lt;h3 id=&quot;what-is-click-the-click-modular-router&quot;&gt;&lt;strong&gt;What is Click&lt;/strong&gt; (&lt;a href=&quot;https://pdos.csail.mit.edu/papers/click:tocs00/paper.pdf&quot;&gt;The Click Modular Router&lt;/a&gt;)&lt;/h3&gt;
-&lt;p&gt;Click Modular Router is a fast C++ router implementation with its own driver for handling traffic which provide extremely efficient routing and packet processing. Click allows to build highly customizable router functions, with extreme ease of deployment and gives an extensible language to do it.&lt;/p&gt;
-
-&lt;p&gt;This way routers can be implemented in linux hardware in a more efficient way, in fact Click achieves a very high forwarding rate per second. To do so Click gets rid of the interrupt driven architecture in favor of polling, avoiding expensive context switch and memory accesses.&lt;/p&gt;
-
-&lt;p&gt;In Click there are &lt;em&gt;Elements&lt;/em&gt; with &lt;em&gt;input&lt;/em&gt; and &lt;em&gt;output&lt;/em&gt; ports. For example &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FromDevice(eth0)&lt;/code&gt; gets all the packets from the &lt;em&gt;eth0&lt;/em&gt; interface.&lt;/p&gt;
-
-&lt;p&gt;In click you attach element with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-&amp;gt;&lt;/code&gt;. Infact &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FromDevice(eth0)-&amp;gt;Print&lt;/code&gt; is an example. For each element, you must link each input and output port, no spare ports are allowed.&lt;/p&gt;
-
-&lt;p&gt;See for example: (Image from Click white paper &lt;a href=&quot;https://pdos.csail.mit.edu/papers/click:tocs00/paper.pdf&quot;&gt;here&lt;/a&gt;)
-&lt;img style=&quot;display: block; margin: auto;&quot; src=&quot;/assets/click-example.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/kohler/click/wiki&quot;&gt;Here there is the official wiki for Click&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;a-click-network-address-port-translator&quot;&gt;&lt;strong&gt;A Click Network Address Port Translator&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Create a plain file, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;napt.click&lt;/code&gt; for example.&lt;/p&gt;
-
-&lt;p&gt;First we have to get the input and output port of the switch. (only shown from one side, the same is for the internal interface).&lt;/p&gt;
-
-&lt;p&gt;NOTE: you first have to get the interface names which are generated by Mininet.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// setup ifaces
-from_ext  :: FromDevice($ext_if, METHOD LINUX, SNIFFER false);
-to_ext  :: ToDevice($ext_if, METHOD LINUX);
-
-to_ext_queue :: Queue(1024) -&amp;gt; to_ext;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;In order to be able to send out on the same interface from multiple sources we need to set up a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Queue&lt;/code&gt; object which can take multiple inputs, otherwise we are restricted to just one.&lt;/p&gt;
-
-&lt;p&gt;Then we differentiate the traffic, ARP requests, response and normal IP traffic with a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Classifier&lt;/code&gt; which match on specific bits. (4th argument means “all the others”)&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// ARPR, ARR , IP Classifiers, other traffic
-from_ext -&amp;gt; ext_cl :: Classifier(12/0806 20/0001, 12/0806 20/0002, 12/0800, -);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then the instantiated &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ext_cl&lt;/code&gt; Classifier will have 4 output ports which will need to be dealt with.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// respond to ARP queries for the router external interface
-
-ext_cl[0] -&amp;gt; ARPResponder(DmZ) -&amp;gt; Print(&quot;ARP_R_ext&quot;) -&amp;gt; to_ext_queue ;
-ext_cl[1] -&amp;gt; [1]arp :: ARPQuerier(DmZ);
-
-//Discard non-IP, non-ARP packets 
-ext_cl[3] -&amp;gt; Print(&quot;DISCARDING NON IP PACKET&quot;) -&amp;gt; to_drop1 -&amp;gt; Discard;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ext_cl[0]: here arrives an ARP query, so the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ARPResponder&lt;/code&gt; will reply with the indicated values and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Print&lt;/code&gt; it, then the response will be sent back to the same interface.&lt;/li&gt;
-  &lt;li&gt;ext_cl[1]: here arrives ARP responses, so the role of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ARPQuerier&lt;/code&gt; is to save the value locally.&lt;/li&gt;
-  &lt;li&gt;ext_cl[3]: discard every other NON IP packet.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Then we classify the IP traffic:&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// Classifying IP traffic
-ext_cl[2] -&amp;gt;  Strip(14) -&amp;gt; CheckIPHeader
-    -&amp;gt; ext_ipc :: IPClassifier(
-    // ping from out to gateway
-        icmp &amp;amp;&amp;amp; icmp type echo and dst $sw_ext_ip,
-    // tcp udp traffic from ext to inside
-        dst $sw_ext_ip and (tcp or udp),
-    // ping response
-        proto icmp &amp;amp;&amp;amp; icmp type echo-reply,
-    // others
-        -
-    );
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;From here we can deal singularly with TCP or UDP packets, ICMP packets or anything else.&lt;/p&gt;
-
-&lt;p&gt;For example we want to be able to respond to ICMP echo requests with:&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// send back pings gw to outside
-ext_ipc[0] -&amp;gt; Print(&quot;ICMP ECHO FROM EXT-&amp;gt;GW&quot;)
-    -&amp;gt; ICMPPingResponder
-    -&amp;gt; to_ext_arp_queue ;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And here it finally comes the network translation part with an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IPRewriter&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rw :: IPRewriter(pattern $sw_ext_ip 1024-65534 - - 0 1);
-
-rw[0] -&amp;gt; to_ext_arp_queue;
-rw[1] -&amp;gt; to_in_arp_queue;
-
-// FROM INTERNAL
-
-int_ipc[1] -&amp;gt; Print(&quot;IP from INT to EXT&quot;) -&amp;gt; [0]rw;
-
-// FROM EXTERNAL
-
-ext_ipc[1] -&amp;gt; Print(&quot;IP from EXT to INT&quot;) -&amp;gt; [0]rw;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Here the Rewriter takes as input the IP address to rewrite to and a range of ports, all fields are optional and you can decide. Lastly, 0 and 1 are the output device ports. In fact here we are translating packets IP address with the external facing router IP and sending them to the external interface which is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;src(10.0.0.90) –&amp;gt; napt –&amp;gt; src(100.0.0.1)&lt;/p&gt;
-
-&lt;p&gt;When the packets come back, the Rewriter keeps its mappings and will rewrite the same packet and send it to the internal network from the port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;You have to send the TCP and UDP packets ( &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ext_ipc[1]&lt;/code&gt; ) to the port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt; of the Rewriter.&lt;/p&gt;
-
-&lt;p&gt;And now you have your basic NAPT. Check the full examples on the github repo.&lt;/p&gt;
-
-&lt;p&gt;To run click (with example interfaces) :&lt;/p&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; /usr/local/bin/click &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; napt.click &lt;span class=&quot;nv&quot;&gt;int_if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ids-eth3 &lt;span class=&quot;nv&quot;&gt;ext_if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ids-eth1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can pass arguments like that, and each argument will be saved in its own variable.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-manage-click-from-pox-sdn-controller&quot;&gt;&lt;strong&gt;How to manage Click from POX SDN controller&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;We manage to run each &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.click&lt;/code&gt; file when the designated Mininet switch object will connect to the POX Controller. From there we can distinguish each one with its own DPID and launch the appropriate Click file.&lt;/p&gt;
-
-&lt;p&gt;In POX I registered a new component called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clickElem&lt;/code&gt; which will handle the  connecting devices we want to run click on. A list of click elements DPIDs will be given as input.&lt;/p&gt;
-
-&lt;p&gt;Within the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_handle_ConnectionUp&lt;/code&gt; event handler:&lt;/p&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;clicks_dpids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Ignoring connection from {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Connection from CLICK: [{}] - {} &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# start click modules
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;click_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;../nfv&quot;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# launch lb1 (DNS side)
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;71&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sudo /usr/local/bin/click -f &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;click_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/lb.click int_if=lb1-eth2 ...&quot;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# launch lb2 (HTTP side)
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;72&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sudo /usr/local/bin/click -f &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;click_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/lb.click int_if=lb2-eth2 ... &quot;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# launch ids
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;73&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sudo /usr/local/bin/click -f &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;click_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/ids.click int_if=ids-eth3 ... &quot;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# launch napt
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;74&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sudo /usr/local/bin/click -f &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;click_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/nat.click int_if=napt-eth2 ... &quot;&lt;/span&gt;
-    
-&lt;span class=&quot;c1&quot;&gt;# launch the process
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;[{}] RUN: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dpid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shlex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;click_proc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subprocess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Popen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;run&quot;&gt;&lt;strong&gt;Run&lt;/strong&gt;&lt;/h2&gt;
-&lt;h3 id=&quot;start-the-mininet-topology&quot;&gt;Start the Mininet Topology&lt;/h3&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make topo
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;start-the-pox-sdn-controller&quot;&gt;Start the POX SDN Controller&lt;/h3&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make app
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;close-everything-and-clean&quot;&gt;Close everything and clean&lt;/h3&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make clean
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Tue, 28 May 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/</guid>
-        
-        
-        <category>network</category>
-        
-        <category>sdn</category>
-        
-        <category>python</category>
         
       </item>
     

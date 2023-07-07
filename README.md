@@ -19,3 +19,9 @@ markdown: kramdown
 highlighter: rouge
     input: GFM
 ```
+
+# shortcuts
+
+```
+_Last modified:_  {% include read_time.html content=page.content %}
+```
