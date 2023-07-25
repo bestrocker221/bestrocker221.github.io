@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 08 Jul 2023 09:22:11 +0200</pubDate>
-    <lastBuildDate>Sat, 08 Jul 2023 09:22:11 +0200</lastBuildDate>
+    <pubDate>Tue, 25 Jul 2023 13:45:02 +0200</pubDate>
+    <lastBuildDate>Tue, 25 Jul 2023 13:45:02 +0200</lastBuildDate>
     <generator>Jekyll v4.3.2</generator>
     
       <item>
@@ -201,6 +201,14 @@ How to setup webhooks for ntfy in Authentik?&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
+    &lt;p&gt;Frequently &lt;strong&gt;update host OS and docker daemon&lt;/strong&gt;: make sure to always have the latest security updates.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Never expose the docker socket&lt;/strong&gt;: access to the docker UNIX socket (usually &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/var/run/docker.sock&lt;/code&gt;) gives full control over the docker daemon, which generally runs as root. This means: access to the socket == root on the host.
+    &lt;ul&gt;
+      &lt;li&gt;Be very careful when you see tutorials saying: “mount the docker socket with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-v /var/run/docker.sock:/var/run/docker.sock&lt;/code&gt;”&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
     &lt;p&gt;Use an &lt;strong&gt;up-to-date Docker image&lt;/strong&gt;: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
@@ -209,6 +217,9 @@ How to setup webhooks for ntfy in Authentik?&lt;/p&gt;
   &lt;li&gt;
     &lt;p&gt;Use a &lt;strong&gt;non-root user&lt;/strong&gt; in the container: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the &lt;em&gt;–user&lt;/em&gt; flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
 Moreover, on the host, often it is told to add the user to the &lt;strong&gt;docker&lt;/strong&gt; group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, &lt;a href=&quot;https://docs.docker.com/engine/security/rootless/&quot;&gt;complete guide on how to run root-less docker here&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Avoid using the “–privileged” flag&lt;/em&gt;: this allows a container to run as root, which allows for easy privilege escalation. This poses a high security risk.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Limit the &lt;strong&gt;network&lt;/strong&gt;: If no networking is needed, it can be completely disabled thus further reducing possible network movements.&lt;/p&gt;
@@ -225,9 +236,7 @@ Moreover, on the host, often it is told to add the user to the &lt;strong&gt;doc
   &lt;li&gt;
     &lt;p&gt;Use &lt;strong&gt;Docker secrets&lt;/strong&gt;: Avoid hard-coding sensitive information such as passwords and API keys in Dockerfiles or environment variables (only in swarm mode, &lt;a href=&quot;https://docs.docker.com/engine/swarm/secrets/&quot;&gt;info here&lt;/a&gt;).&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Use &lt;strong&gt;&lt;a href=&quot;https://docs.docker.com/compose/&quot;&gt;Docker Compose&lt;/a&gt;&lt;/strong&gt; (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.&lt;/p&gt;
-  &lt;/li&gt;
+  &lt;li&gt;Use &lt;strong&gt;&lt;a href=&quot;https://docs.docker.com/compose/&quot;&gt;Docker Compose&lt;/a&gt;&lt;/strong&gt; (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;securely-run-docker-from-command-line&quot;&gt;Securely Run Docker from Command Line&lt;/h2&gt;

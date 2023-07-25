@@ -399,6 +399,14 @@ window.addEventListener("load", function(){
 
 <ul>
   <li>
+    <p>Frequently <strong>update host OS and docker daemon</strong>: make sure to always have the latest security updates.</p>
+  </li>
+  <li><strong>Never expose the docker socket</strong>: access to the docker UNIX socket (usually <code class="language-plaintext highlighter-rouge">/var/run/docker.sock</code>) gives full control over the docker daemon, which generally runs as root. This means: access to the socket == root on the host.
+    <ul>
+      <li>Be very careful when you see tutorials saying: “mount the docker socket with <code class="language-plaintext highlighter-rouge">-v /var/run/docker.sock:/var/run/docker.sock</code>”</li>
+    </ul>
+  </li>
+  <li>
     <p>Use an <strong>up-to-date Docker image</strong>: Make sure you use the latest Docker image available for the software you want to run. Using an outdated image can obviously lead to vulnerable applications.</p>
   </li>
   <li>
@@ -407,6 +415,9 @@ window.addEventListener("load", function(){
   <li>
     <p>Use a <strong>non-root user</strong> in the container: By default, Docker containers run as root, which can be a security risk. Instead, it is better to run the container as a non-root user. You can create a new user in the Docker image  or use the <em>–user</em> flag when starting the container. Remember to correct the file permissions accordingly for your application, especially in  case of mounted volumes.
 Moreover, on the host, often it is told to add the user to the <strong>docker</strong> group, which is basically root. It would be recommended to run root-less docker all together to avoid any privilege escalation, <a href="https://docs.docker.com/engine/security/rootless/">complete guide on how to run root-less docker here</a>.</p>
+  </li>
+  <li>
+    <p><em>Avoid using the “–privileged” flag</em>: this allows a container to run as root, which allows for easy privilege escalation. This poses a high security risk.</p>
   </li>
   <li>
     <p>Limit the <strong>network</strong>: If no networking is needed, it can be completely disabled thus further reducing possible network movements.</p>
@@ -423,9 +434,7 @@ Moreover, on the host, often it is told to add the user to the <strong>docker</s
   <li>
     <p>Use <strong>Docker secrets</strong>: Avoid hard-coding sensitive information such as passwords and API keys in Dockerfiles or environment variables (only in swarm mode, <a href="https://docs.docker.com/engine/swarm/secrets/">info here</a>).</p>
   </li>
-  <li>
-    <p>Use <strong><a href="https://docs.docker.com/compose/">Docker Compose</a></strong> (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.</p>
-  </li>
+  <li>Use <strong><a href="https://docs.docker.com/compose/">Docker Compose</a></strong> (my favourite): Use Docker Compose to manage multiple containers, networks, and volumes. This makes it super easy to define the entire application stack in a single file and start it with one command.</li>
 </ul>
 
 <h2 id="securely-run-docker-from-command-line">Securely Run Docker from Command Line</h2>
