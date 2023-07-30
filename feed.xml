@@ -5,9 +5,191 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 28 Jul 2023 19:04:49 +0200</pubDate>
-    <lastBuildDate>Fri, 28 Jul 2023 19:04:49 +0200</lastBuildDate>
+    <pubDate>Sun, 30 Jul 2023 11:14:07 +0200</pubDate>
+    <lastBuildDate>Sun, 30 Jul 2023 11:14:07 +0200</lastBuildDate>
     <generator>Jekyll v4.3.2</generator>
+    
+      <item>
+        <title>How to tunnel container traffic through Wireguard VPN</title>
+        <description>&lt;h1 id=&quot;tunnel-traffic-of-docker-containers-&quot;&gt;&lt;strong&gt;&lt;center&gt;Tunnel traffic of docker containers &lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;solution-share-container-network&quot;&gt;&lt;center&gt;Solution: share container network&lt;/center&gt;&lt;/h2&gt;
+
+&lt;p&gt;You want a container to be connected to a Wireguard VPN?
+You want its traffic to be completely tunneled through the VPN without installing and configuring the VPN client yourself?&lt;/p&gt;
+
+&lt;p&gt;I tried in different ways to achieve that, I tried installing the wireguard client into a newly created Dockerfile, using as a base image the wanted base image with the programs you want to run. I tried to play around with iptables rules. None of these solutions were effective, easily reusable and right.&lt;/p&gt;
+
+&lt;p&gt;There is an easy solution: &lt;em&gt;container’s network sharing&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Using Docker Compose, you can define the containers you need and then add a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wireguard&lt;/code&gt; client container in the same compose file. Once the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wg0.conf&lt;/code&gt; client configuration is passed to such container, all is needed is to instruct the other containers to use the “wireguard” client container’s network.&lt;/p&gt;
+
+&lt;p&gt;Doing this way, the chosen containers will be sharing the wireguard container’s network, thus tunneling out all the traffic.&lt;/p&gt;
+
+&lt;p&gt;The interesting config to set the container’s network is the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;na&quot;&gt;network_mode&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;container:wireguard-container-name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note: the wireguard container needs  &lt;strong&gt;NET_ADMIN&lt;/strong&gt; permissions. This adds some level of privileges to the container, which is to take into consideration.&lt;/p&gt;
+
+&lt;h2 id=&quot;container-exposed-ports&quot;&gt;Container exposed ports&lt;/h2&gt;
+&lt;p&gt;One more thing to remember is that if your containers (not the wireguard one) expose any ports locally, you now need to define those ports exposed in the wireguard container.&lt;/p&gt;
+
+&lt;h2 id=&quot;docker-compose-example&quot;&gt;Docker compose example&lt;/h2&gt;
+&lt;p&gt;Copy your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wg0.conf&lt;/code&gt; into &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./wg&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here is a docker compose example file that creates a qbittorrent container whose traffic will be completely tunneled out through the wireguard container.&lt;/p&gt;
+
+&lt;p&gt;The image &lt;strong&gt;linuxserver/wireguard&lt;/strong&gt; has a “client” mode, which makes it act as a wireguard client when a wg0.conf file is supplied.&lt;/p&gt;
+
+&lt;p&gt;The container “qbittorrent” is sharing the wireguard container network, this is the magic bit that let the container’s traffic be tunneled out through the wireguard container.&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;3.7&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;qbittorrent-wg&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;lscr.io/linuxserver/qbittorrent:latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;container_name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;qbittorrent-wg&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;PUID=1000&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;PGID=1000&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;TZ=Etc/UTC&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;WEBUI_PORT=8080&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./config:/config&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./data:/downloads&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;unless-stopped&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;network_mode&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;container:wireguard-my&lt;/span&gt;
+  
+  &lt;span class=&quot;na&quot;&gt;wireguard-my&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;linuxserver/wireguard&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;container_name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;wireguard-my&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;unless-stopped&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;networks&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;net01&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;./wg:/config&apos;&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/lib/modules:/lib/modules:ro&apos;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;PUID=1000&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;PGID=1000&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;cap_add&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;NET_ADMIN&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;sysctls&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;net.ipv4.conf.all.src_valid_mark=1&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;networks&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;net01&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bridge&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is all.&lt;/p&gt;
+
+&lt;h2 id=&quot;health-checks&quot;&gt;Health checks&lt;/h2&gt;
+&lt;p&gt;If you want to make 100% sure the containers traffic is properly tunneled, you can create a compose health check script.&lt;/p&gt;
+
+&lt;p&gt;Since you know the VPN server IP address, you can make sure the container’s exit IP is the same with a health check.&lt;/p&gt;
+
+&lt;p&gt;Create &lt;strong&gt;health_check.sh&lt;/strong&gt; as follows:&lt;/p&gt;
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Health check function for a single container&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;check_container_health&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;response
+    &lt;span class=&quot;nv&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; ipinfo.io/ip&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;INSERT VPN IP&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+        &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$container_name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; is healthy.&quot;&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;0
+    &lt;span class=&quot;k&quot;&gt;else
+        &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$container_name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; is unhealthy.&quot;&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
+    &lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Health check for container&lt;/span&gt;
+check_container_health
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;then share the file with the containers through a &lt;em&gt;volume&lt;/em&gt; and set up the health check compose instruction.&lt;/p&gt;
+
+&lt;p&gt;Here is the updated compose file:&lt;/p&gt;
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;3.7&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;qbittorrent-wg&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;lscr.io/linuxserver/qbittorrent:latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;container_name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;qbittorrent-wg&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;PUID=1000&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;PGID=1000&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;TZ=Etc/UTC&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;WEBUI_PORT=8080&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./config:/config&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./data:/downloads&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./health_check.sh:/health_check.sh&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;unless-stopped&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;network_mode&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;container:wireguard-my&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;healthcheck&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;CMD&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/bin/bash&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/health_check.sh&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;interval&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;30s&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;retries&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;timeout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;10s&lt;/span&gt;
+  
+  &lt;span class=&quot;na&quot;&gt;wireguard-my&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;linuxserver/wireguard&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;container_name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;wireguard-my&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;unless-stopped&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;networks&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;net01&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;./wg:/config&apos;&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/lib/modules:/lib/modules:ro&apos;&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./health_check.sh:/health_check.sh&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;PUID=1000&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;PGID=1000&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;cap_add&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;NET_ADMIN&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;sysctls&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;net.ipv4.conf.all.src_valid_mark=1&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;healthcheck&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;CMD&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/bin/bash&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/health_check.sh&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;interval&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;30s&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;retries&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;timeout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;10s&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;networks&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;net01&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bridge&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I hope you found this post helpful. If you have any questions or feedback, feel free to leave a comment below.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 30 July 2023&lt;/p&gt;
+</description>
+        <pubDate>Sun, 30 Jul 2023 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2023/linux/infrastructure/how-to-tunnel-container-traffic-vpn-wireguard/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/infrastructure/how-to-tunnel-container-traffic-vpn-wireguard/</guid>
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+      </item>
     
       <item>
         <title>How to update dynamic DNS records with Cloudflare API</title>
@@ -73,7 +255,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 28 July 2023&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 30 July 2023&lt;/p&gt;
 </description>
         <pubDate>Fri, 28 Jul 2023 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2023/linux/infrastructure/how-to-update-dynamic-ip-cloudflare/</link>
@@ -250,7 +432,7 @@ How to setup webhooks for ntfy in Authentik?&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 05 July 2023&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 30 July 2023&lt;/p&gt;
 </description>
         <pubDate>Wed, 05 Jul 2023 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2023/linux/how-to-setup-webhook-authentik-notification/</link>
@@ -274,7 +456,7 @@ How to setup webhooks for ntfy in Authentik?&lt;/p&gt;
 &lt;img style=&quot;display: block; margin: auto; width:70%&quot; src=&quot;/assets/docker-logo.png&quot; /&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 05 July 2023&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 30 July 2023&lt;/p&gt;
 
 &lt;p&gt;Running Docker containers securely can be challenging and involves taking several important steps to protect both the host system and the data within the container.  &lt;strong&gt;Privilege escalation&lt;/strong&gt; has been trivial in default cases, which are seen quite commonly.&lt;/p&gt;
 
@@ -400,7 +582,7 @@ Moreover, on the host, often it is told to add the user to the &lt;strong&gt;doc
         <description>&lt;h1 id=&quot;automating-aws-iam-user-management-with-terraform&quot;&gt;&lt;strong&gt;&lt;center&gt;Automating AWS IAM User Management with Terraform&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
 &lt;h2 id=&quot;a-guide-to-quickly-create-and-manage-iam-users-and-roles-in-aws-with-terraform&quot;&gt;&lt;center&gt;A guide to quickly create and manage IAM users and roles in AWS with Terraform&lt;/center&gt;&lt;/h2&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 16 April 2023&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 30 July 2023&lt;/p&gt;
 
 &lt;p&gt;This post is part of a series of &lt;strong&gt;&lt;a href=&quot;https://www.terraform.io/&quot;&gt;Terraform&lt;/a&gt;&lt;/strong&gt; posts related to making AWS deployment less cumbersome and more efficient. In this post, we’ll dive into the process of automating part of the IAM user management using Terraform.&lt;/p&gt;
 
@@ -1539,287 +1721,6 @@ Middleboxes are often required some properties like &lt;strong&gt;being on-path&
         <pubDate>Fri, 19 Jul 2019 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
         <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</guid>
-        
-        
-        <category>network</category>
-        
-        <category>sdn</category>
-        
-      </item>
-    
-      <item>
-        <title>An introduction to Software Defined Networking</title>
-        <description>&lt;h1 class=&quot;no_toc&quot; id=&quot;the-new-way-to-do-networking-with-sdn&quot;&gt;&lt;strong&gt;&lt;center&gt;The &quot;new&quot; way to do networking with SDN&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
-&lt;h2 class=&quot;no_toc&quot; id=&quot;sdn-applications-analysis-and-scaling-&quot;&gt;&lt;strong&gt;&lt;center&gt;SDN applications, analysis and scaling &lt;/center&gt;&lt;/strong&gt;&lt;/h2&gt;
-&lt;h3 class=&quot;no_toc&quot; id=&quot;-research-papers-review-and-summary-&quot;&gt;&lt;center&gt; Research papers review and summary. &lt;/center&gt;&lt;/h3&gt;
-&lt;h3 class=&quot;no_toc&quot; id=&quot;-part-1---here-link-to-part-2&quot;&gt;&lt;center&gt; PART 1 - &lt;a href=&quot;/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/&quot;&gt;Here link to PART 2&lt;/a&gt;&lt;/center&gt;&lt;/h3&gt;
-&lt;p&gt;In &lt;strong&gt;&lt;a href=&quot;/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/&quot;&gt;this post&lt;/a&gt;&lt;/strong&gt; there is a practical step-by-step project with POX SDN, OpenFlow, Click and NFV.&lt;/p&gt;
-
-&lt;h3 class=&quot;no_toc&quot; id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
-&lt;div id=&quot;inline_toc&quot;&gt;
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#the-arrival-of-sdn-and-openflow&quot; id=&quot;markdown-toc-the-arrival-of-sdn-and-openflow&quot;&gt;&lt;strong&gt;The arrival of SDN and OpenFlow&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions&quot; id=&quot;markdown-toc-contributions&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#how-to-implement-sdn&quot; id=&quot;markdown-toc-how-to-implement-sdn&quot;&gt;&lt;strong&gt;How to implement SDN?&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-1&quot; id=&quot;markdown-toc-contributions-1&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#how-to-test-and-debug-sdn-applications&quot; id=&quot;markdown-toc-how-to-test-and-debug-sdn-applications&quot;&gt;&lt;strong&gt;How to test and debug SDN applications?&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#header-space-analysis&quot; id=&quot;markdown-toc-header-space-analysis&quot;&gt;&lt;strong&gt;Header Space Analysis&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-2&quot; id=&quot;markdown-toc-contributions-2&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#a-nice-way-to-test-openflow-applications&quot; id=&quot;markdown-toc-a-nice-way-to-test-openflow-applications&quot;&gt;&lt;strong&gt;A NICE Way to Test OpenFlow Applications&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-3&quot; id=&quot;markdown-toc-contributions-3&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#how-to-scale-sdn-applications-at-large&quot; id=&quot;markdown-toc-how-to-scale-sdn-applications-at-large&quot;&gt;&lt;strong&gt;How to scale SDN applications at large?&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-4&quot; id=&quot;markdown-toc-contributions-4&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#the-sdx---software-defined-internet-exchange&quot; id=&quot;markdown-toc-the-sdx---software-defined-internet-exchange&quot;&gt;&lt;strong&gt;The SDX - Software Defined Internet Exchange&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-5&quot; id=&quot;markdown-toc-contributions-5&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#here-link-to-part-2&quot; id=&quot;markdown-toc-here-link-to-part-2&quot;&gt;&lt;strong&gt;Here link to PART 2&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#references&quot; id=&quot;markdown-toc-references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-&lt;hr /&gt;
-
-&lt;div&gt;
-&lt;span class=&quot;read-time-txt&quot;&gt;Reading time:&lt;/span&gt;
-&lt;span class=&quot;read-time-val&quot;&gt;
-
-
-  12 mins
-
-&lt;/span&gt;
-	 
-&lt;p class=&quot;read-time-date&quot;&gt;
-	&lt;script&gt;
-	var today = new Date();
-	weekday = [&quot;Sunday&quot;, &quot;Monday&quot;,&quot;Tuesday&quot;, &quot;Wednesday&quot;,&quot;Thursday&quot;, &quot;Friday&quot;,&quot;Saturday&quot;];
-	mlist = [ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot; ];
-	var time = today.getHours() + &quot;:&quot; + today.getMinutes();
-	var d = weekday[today.getDay()] + &quot; &quot; +today.getDate() + &quot; &quot; + mlist[today.getMonth()] + &quot; &quot; + today.getFullYear();
-	document.write(d + &quot;  &quot; + time);
-	&lt;/script&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;the-arrival-of-sdn-and-openflow&quot;&gt;&lt;strong&gt;The arrival of SDN and OpenFlow&lt;/strong&gt;&lt;/h3&gt;
-&lt;figure&gt;
-    &lt;img style=&quot;display: block; margin: auto; width: 80%; padding-top:25px&quot; src=&quot;/assets/sdn-draw.jpeg&quot; /&gt;
-    &lt;figcaption&gt;Figure from &lt;a href=&quot;https://www.starwindsoftware.com/blog/how-to-deploy-and-manage-software-defined-networking-using-scvmm-2016-part-iii&quot;&gt;here &lt;/a&gt;&lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-&lt;p&gt;Improving networks protocols and deploying new features or applications is very hard on traditional networks. The time needed for designing to implementing changes is extremely long and costly. Today network functions can be virtualized and aggregated into one single machine acting as &lt;em&gt;controller&lt;/em&gt;. The control plane on routers and switches is decoupled from the data plane and put into another device. Here the concept of SDNs comes with many pros: higher &lt;em&gt;flexibility&lt;/em&gt;, better &lt;em&gt;scaling&lt;/em&gt;, and &lt;em&gt;ease of implementation and maintenance&lt;/em&gt; from developers thus reducing cost for hardware. The key idea is that &lt;strong&gt;network devices now only implements basic primitives&lt;/strong&gt; and constantly talk with the &lt;strong&gt;Domain Controller&lt;/strong&gt; to push statistics and pull routing information. The protocol utilized to push and set rules into the “dumb” switches is called &lt;strong&gt;OpenFlow&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;In the paper  &lt;a class=&quot;citation&quot; href=&quot;#onix&quot;&gt;[1]&lt;/a&gt;, jumping back into the 2010, &lt;strong&gt;&lt;em&gt;ONIX&lt;/em&gt;&lt;/strong&gt; is explained as a &lt;em&gt;control platform&lt;/em&gt; exposing simple API and introducing a &lt;em&gt;Network Information Base (&lt;strong&gt;NIB&lt;/strong&gt;)&lt;/em&gt; similar to the RIB. There are four basic components in ONIX: the &lt;em&gt;physical infrastructure&lt;/em&gt; (switches and routers), &lt;em&gt;connectivity infrastructure&lt;/em&gt; (used as a management network), &lt;em&gt;Onix distributed system&lt;/em&gt; (single instance / cluster) and the &lt;em&gt;Control logic&lt;/em&gt; (implemented on top of API) and failures can happen on each one of these parts. It is built on &lt;em&gt;NOX&lt;/em&gt; and distributed among multiple servers. The API allow read/write data object &lt;em&gt;state&lt;/em&gt; into/from the NIB which is the main focus point of the system.&lt;/p&gt;
-
-&lt;figure&gt;
-    &lt;img style=&quot;display: block; margin: auto; width: 80%; padding-top:25px&quot; src=&quot;/assets/onix.png&quot; /&gt;
-    &lt;figcaption&gt;Figure 1. Onix Infrastructure - from &lt;a href=&quot;https://muratbuffalo.blogspot.com/2010/12/onix-distributed-control-platform-for.html&quot;&gt;here &lt;/a&gt;&lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-&lt;p&gt;&lt;strong&gt;The NIB is the complete network graph&lt;/strong&gt; containing each device, link, routes and attributes all put into &lt;em&gt;Entities&lt;/em&gt;.&lt;br /&gt;
-Onix allows easy scaling through &lt;strong&gt;Partitioning and Aggregation&lt;/strong&gt;, replicating the controller, making switches only contact a subset of them and making each controller manage only a subset of the whole NIB.&lt;/p&gt;
-
-&lt;p&gt;When there is a change in the NIB, it will translate the change into an OpenFlow message and then push to the affected device. For this, import/export modules sit behind the NIB waiting for polls or changes.&lt;/p&gt;
-
-&lt;p&gt;Another feature of ONIX is the possibility to store data in two different ways, through a SQL database for stable states and to a DHT for dynamic states.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;ONIX doesn’t introduce anything totally new, in fact it derives some work from &lt;em&gt;Ethane&lt;/em&gt;, &lt;em&gt;SANE&lt;/em&gt;, &lt;em&gt;RCP&lt;/em&gt; and &lt;em&gt;NOX&lt;/em&gt;. But those did not address reliability and flexibility as ONIX does but instead presented the idea of a physically separated control plane.&lt;/p&gt;
-
-&lt;p&gt;Indeed among the top contributions of ONIX, we can see the use of &lt;strong&gt;general APIs and flexible distribution primitives&lt;/strong&gt; which allow designers to work on a pre-tested and established base and implement control application with all the flexibility they need.&lt;/p&gt;
-
-&lt;p&gt;APIs allow read/write state to any element in the network which corresponds to data-objects in the NIB. Since switches have narrower requirements along with a limited quantity of RAM and CPU, most of the work can be done on platforms that don’t have such limitations such as the Domain Controller.&lt;/p&gt;
-
-&lt;p&gt;Here ONIX presents two way of storing state information: a &lt;strong&gt;persistent SQL transactional database&lt;/strong&gt; for slowly changing state and a &lt;strong&gt;memory-only DHT&lt;/strong&gt; for dynamic and mostly inconsistent state. ONIX allow developers to choose their own trade-off, for example: more consistency and durability or more efficiency.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-implement-sdn&quot;&gt;&lt;strong&gt;How to implement SDN?&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;SDNs application development does not offer great flexibility in terms of modularity which is instead the focus of the paper &lt;a class=&quot;citation&quot; href=&quot;#pyretic&quot;&gt;[2]&lt;/a&gt;. It introduces a new language and abstractions for &lt;strong&gt;building modular applications&lt;/strong&gt; on top of SDNs. &lt;strong&gt;&lt;em&gt;Pyretic&lt;/em&gt;&lt;/strong&gt; allows packets to be processed &lt;em&gt;sequentially&lt;/em&gt; or &lt;em&gt;concurrently&lt;/em&gt;, thus producing different results for different use cases. It gives developers great building blocks and &lt;em&gt;high-level policy functions&lt;/em&gt; with extreme shortness of code and readability. Physical switches can now be virtually merged into single devices (many-to-one) or instead single physical switches can be logically divided into multiple virtual switch handling different modules (one-to-many).&lt;/p&gt;
-&lt;figure&gt;
-&lt;img style=&quot;display: block; margin: auto; width: 80%; padding-top:25px&quot; src=&quot;/assets/pyretic.png&quot; /&gt;
-    &lt;figcaption&gt;Figure 2. Some primitive examples from Pyretic&lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-&lt;p&gt;Monitoring, Firewall and Load balancing examples are shown in the paper which use different features of the language like static policy language (called NetCore) which includes &lt;em&gt;primitive actions&lt;/em&gt; (drop, flood, passthrough ..), &lt;em&gt;predicates&lt;/em&gt; (act on subset of packets), &lt;em&gt;policies&lt;/em&gt; and &lt;em&gt;queries&lt;/em&gt;. 
-In Pyretic, a policy receives a packet as input and returns a multiset of localized packets as output and packets in order to be processed need to be “lifted” from physical switches to the virtual instances. This up/down process is achieved with the use of &lt;strong&gt;virtual tags&lt;/strong&gt; and &lt;strong&gt;headers&lt;/strong&gt; specifying input/output ports and switches name. This allows developers to better abstract a &lt;strong&gt;derived&lt;/strong&gt; network from the &lt;strong&gt;underlying&lt;/strong&gt; one.
-Finally the high level of abstraction provides an elegant mechanism to implement different networks topologies and writing self-contained modules.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-1&quot;&gt;Contributions&lt;/h4&gt;
-
-&lt;p&gt;Software Defined Networking has limited support for modular components design and programming, in fact the paper target is to show and explain a new way of composing SDNs with multiple components. &lt;strong&gt;Modularity is the key&lt;/strong&gt;, it allows developers to not implement monolithic applications with API (like in ONIX) and just focus on high level policies. The paper presents two way of handling packets, a &lt;strong&gt;&lt;em&gt;sequential composition&lt;/em&gt;&lt;/strong&gt; and a &lt;strong&gt;&lt;em&gt;parallel composition&lt;/em&gt;&lt;/strong&gt;. It also proposes “Network object” which constrain the modules and allow information hiding and protection.&lt;/p&gt;
-
-&lt;p&gt;The &lt;strong&gt;Pyretic Language&lt;/strong&gt; shown here is a step further in the development of SDNs with the concept of modular and extensible programming. Here the &lt;strong&gt;packets are represented as dictionaries&lt;/strong&gt;, and the addition of &lt;strong&gt;virtual headers&lt;/strong&gt; is made simple and allows fine-grained modularity and policy development.&lt;/p&gt;
-
-&lt;p&gt;Other control platform such &lt;strong&gt;&lt;em&gt;NOX&lt;/em&gt;&lt;/strong&gt; used to offer low-level interfaces, but composition isolation and virtualization are plus added by Pyretic and programmers do not need to resolve conflicts by hand.&lt;/p&gt;
-
-&lt;p&gt;Pyretic is able to build sophisticated controller applications for large networks with the use of a simple language as Python. Details about Pyretic here &lt;a class=&quot;citation&quot; href=&quot;#programming-with-pyretic&quot;&gt;[3]&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-test-and-debug-sdn-applications&quot;&gt;&lt;strong&gt;How to test and debug SDN applications?&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;Two papers go through the testing and debugging of SDN applications:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;“&lt;em&gt;Header Space Analysis: Static Checking For Networks&lt;/em&gt;”&lt;/li&gt;
-  &lt;li&gt;“&lt;em&gt;A NICE Way to Test OpenFlow Applications&lt;/em&gt;”&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;header-space-analysis&quot;&gt;&lt;strong&gt;Header Space Analysis&lt;/strong&gt;&lt;/h4&gt;
-&lt;p&gt;In the old times network devices were very simple with just the role of forwarding packets, today there is a large number of protocols, encapsulation methods and policies to keep in mind. This makes debugging problems very hard and long to resolve and that is one reason why the paper &lt;a class=&quot;citation&quot; href=&quot;#hsa&quot;&gt;[4]&lt;/a&gt; exposes &lt;strong&gt;Header Space Analysis&lt;/strong&gt; framework for a &lt;strong&gt;static analysis&lt;/strong&gt; of production networks.&lt;/p&gt;
-
-&lt;p&gt;The key idea is that the framework is protocol agnostic, allowing to test different environment with different header formats and syntax without reinventing the wheel. &lt;strong&gt;Hassel&lt;/strong&gt; doesn’t care about the semantic, it just matches series of {0,1} in the space &lt;em&gt;L&lt;/em&gt; of the packet headers, since the data part has been proven to be irrelevant for the calculations. With the use of &lt;strong&gt;transfer functions&lt;/strong&gt;, the framework is able to map, simulate and test the network for &lt;em&gt;forwarding loops&lt;/em&gt; (finite and infinite) and &lt;em&gt;configuration errors&lt;/em&gt;.&lt;/p&gt;
-
-&lt;figure&gt;
-&lt;img style=&quot;display: block; margin: auto; width: 60%; padding-top:25px&quot; src=&quot;/assets/hsa1.png&quot; /&gt;
-&lt;figcaption&gt;Figure 3. (a) Changes to a flow as it passes through two boxes with transfer function TA and TB . (b) Composing transfer functions to model end to end behavior of a network. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/Header-Space-Analysis%3A-Static-Checking-for-Networks-Kazemian-Varghese/19114b7a2f5243a47e80590cc11a2d8ec5b96308&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;The framework &lt;strong&gt;geometrically models network boxes and applications&lt;/strong&gt; like firewall and NAT with transfer functions which operates through the use of algebra &lt;strong&gt;primitive operations&lt;/strong&gt; (intersection, union, complementation and difference). Loops can be detected &lt;strong&gt;injecting packet&lt;/strong&gt; in the network and looking if the same packet come back to the injection port. &lt;strong&gt;Static analysis&lt;/strong&gt; can be applied for reachability checking to verify if packets can logically reach a destination and if a destination can possibly receive packet from a determined source using the &lt;em&gt;range inverse&lt;/em&gt; computation.&lt;/p&gt;
-
-&lt;p&gt;Hassel is implemented in Python 2.6 along with a parser for Cisco IOS configuration output that &lt;strong&gt;automatically generate transfer functions and model of the router&lt;/strong&gt;. The implementation also employs optimizations that allowed a 19x to 400x speed increment.&lt;/p&gt;
-
-&lt;p&gt;Tests on the Stanford network showed that the tool has been of great usefulness in detecting loops and configuration mistakes.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-2&quot;&gt;Contributions&lt;/h4&gt;
-
-&lt;p&gt;The idea of &lt;strong&gt;&lt;em&gt;transfer functions&lt;/em&gt;&lt;/strong&gt; used by Hassel is very similar to the ASE Mapping in axiomatic routing. Here instead, Hassel does not try to understand protocols and packet headers, &lt;strong&gt;it treats everything like a point {0,1} in space large &lt;em&gt;L&lt;/em&gt;&lt;/strong&gt;, being &lt;em&gt;L&lt;/em&gt; the header length. In fact Hassel introduces different new terms to define a domain for the analysis like Header and Network Space along with the transfer functions. The Transfer functions “move” packets from one port to another, “transforming” the packet at each step.&lt;/p&gt;
-
-&lt;p&gt;Another important feature is the possibility to &lt;em&gt;slice&lt;/em&gt; the network in different part (like MPLS, VLANs and FlowVisor), and test each one for security isolation and leaks. This is done by detecting if a possible function output of a domain ends up in another un-allowed domain, for example if a packet from one VLAN can pass to another VLAN while processing and rewriting its headers.&lt;/p&gt;
-
-&lt;figure&gt;
-&lt;img style=&quot;display: block; margin: auto; width: 60%; padding-top:25px&quot; src=&quot;/assets/hsa-slice.png&quot; /&gt;
-&lt;figcaption&gt;Figure 4.  Detecting slice leakage. Although slice a and b have disjoint slice reservation on S1 and S2, but slice a’s reservation on S1 can leak to slice b’s reservation os S2 after it is rewritten by slice a’s transfer function rules. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/Header-Space-Analysis%3A-Static-Checking-for-Networks-Kazemian-Varghese/19114b7a2f5243a47e80590cc11a2d8ec5b96308&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;A great contribution of Hassel is the fact that it made it &lt;strong&gt;easier to spot network violations&lt;/strong&gt; with network transfer function in a static and non-risky way. In fact the implementation was proven to find real mistakes in the Stanford network in a considerable short time.&lt;/p&gt;
-
-&lt;h4 id=&quot;a-nice-way-to-test-openflow-applications&quot;&gt;&lt;strong&gt;A NICE Way to Test OpenFlow Applications&lt;/strong&gt;&lt;/h4&gt;
-&lt;p&gt;With the increasing adoption of SDN technology, asynchronous and distributed systems become difficult to test for certain class of bugs. This is where &lt;strong&gt;NICE&lt;/strong&gt; or &lt;em&gt;No bugs In Controller Execution&lt;/em&gt; tries to fill the gap &lt;a class=&quot;citation&quot; href=&quot;#nice&quot;&gt;[5]&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;NICE is a tool for testing &lt;strong&gt;unmodified controller programs&lt;/strong&gt; on the NOX platform. It makes use of two important techniques: &lt;strong&gt;model checking&lt;/strong&gt; and &lt;strong&gt;symbolic execution&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;figure&gt;
-&lt;img style=&quot;display: block; margin: auto; width: 60%; padding-top:25px&quot; src=&quot;/assets/nice1.png&quot; /&gt;
-&lt;figcaption&gt;Figure 5. Given an OpenFlow program, a network topology, and correctness properties, NICE performs a statespace search and outputs traces of property violations. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/A-NICE-Way-to-Test-OpenFlow-Applications-Canini-Venzano/04b319357d6bab89ec9575f4b044d7609aa4296a/figure/0&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;In order to test an app, it is needed to &lt;em&gt;model&lt;/em&gt; the system acquiring the possible &lt;em&gt;states&lt;/em&gt; which could be infinite. &lt;strong&gt;Model checking gather all the possible states&lt;/strong&gt;, but being the output too large, &lt;strong&gt;symbolic execution is coupled to test only the relevant code paths&lt;/strong&gt;. Model checking explore system states  and model the execution with &lt;em&gt;components&lt;/em&gt;, &lt;em&gt;channels&lt;/em&gt;, &lt;em&gt;components states&lt;/em&gt; and &lt;em&gt;transitions&lt;/em&gt;. It define “class of packets” and chooses a “representative packet” to be the tester for that specific state case, defining this way different &lt;em&gt;domain specific search strategies&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;NICE sends packet at different events interleaving, simulating as close as possible the real world execution scenario. Controller programs are viewed as set of event handlers that create transitions (changes in global var settings). Symbolic execution instead does not model the system space but rather focuses on &lt;strong&gt;identifying relevant inputs&lt;/strong&gt; but it’s still not sufficient “per se”.&lt;/p&gt;
-
-&lt;p&gt;The combination of the two is what allows NICE to scale and uncover tricky bugs in potentially interminable possible states. If a transition violates a certain correctness property (these are configurable), than NICE records the state and log the error.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-3&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;A significant problem in SDN applications is the &lt;strong&gt;delay on rule install&lt;/strong&gt; across different switches which &lt;strong&gt;cause unintended behavior&lt;/strong&gt; and performance degradation. Challenges that NICE try to solve are in the range of large space of inputs like switches states, input packets and event ordering.&lt;/p&gt;
-
-&lt;figure&gt;
-&lt;img style=&quot;display: block; margin: auto; width: 60%; padding-top:25px&quot; src=&quot;/assets/nice.png&quot; /&gt;
-&lt;figcaption&gt;Figure 6. An example of OpenFlow network traversed by a packet. In a plausible scenario, due to delays between controller and switches, the packet does not encounter an installed rule in the second switch. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/A-NICE-Way-to-Test-OpenFlow-Applications-Canini-Venzano/04b319357d6bab89ec9575f4b044d7609aa4296a/figure/0&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;An important contribution of NICE is its ability to &lt;strong&gt;generate streams of packets depending on controller state&lt;/strong&gt; in order to test the program and uncover forwarding loops and black holes. Its important to note that NICE relieves work from the developer, asking only to provide network topology and hosts.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;NICE couples symbolic execution with model checking in order to lower the number of states and focus on the ones that can create meaningful transitions.&lt;/strong&gt; This allow to test applications without worrying about the huge system state space scalability problems. Furthermore NICE provides a set of &lt;em&gt;correctness properties&lt;/em&gt; with their own testing implementation which allows developers to quickly test and build custom modules.&lt;/p&gt;
-
-&lt;p&gt;In fact NICE has proven to find different class of bugs in standard unmodified controller programs.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-scale-sdn-applications-at-large&quot;&gt;&lt;strong&gt;How to scale SDN applications at large?&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;p&gt;OpenFlow imposes &lt;strong&gt;excessive overheads&lt;/strong&gt; on the controller when it comes to &lt;em&gt;high performance networks&lt;/em&gt;, thing that introduces unacceptable latencies and restricts system performances. The visibility over all the flows is simply un-achievable in High Performance networks. &lt;strong&gt;Openflow is inherently not scalable&lt;/strong&gt; and its design has two steps that involve the controller and create too much heavy load on it: &lt;em&gt;flows setup&lt;/em&gt; and &lt;em&gt;statistic gathering&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;The paper exposes &lt;strong&gt;&lt;em&gt;DevoFlow&lt;/em&gt;&lt;/strong&gt; &lt;a class=&quot;citation&quot; href=&quot;#devoflow&quot;&gt;[6]&lt;/a&gt;, which is a slightly modified version of OpenFlow which aims to overcome such disadvantages. In fact it gives back to routers the forwarding decisions on most flows. 
-Paper shows an analysis of trade-offs between centralized management and costs, and shows DevoFlows new mechanisms. &lt;strong&gt;Its goal is to keep as many flow entry in data plane as possible&lt;/strong&gt; (passing on control plane is expensive), while always maintaining enough visibility over the network.&lt;/p&gt;
-
-&lt;p&gt;Central control gives a lot of good points like: &lt;em&gt;near optimal traffic management&lt;/em&gt;, &lt;em&gt;simplified policy development&lt;/em&gt; and simplicity and future-proof of switches but it creates overhead both in hardware resources, communication load and delay and latency which become the bottleneck.&lt;/p&gt;
-
-&lt;p&gt;Devoflow introduces &lt;em&gt;rule cloning&lt;/em&gt; and &lt;em&gt;local actions&lt;/em&gt; which aims to relieves TCAM usage and controller overload. Also, multipath is supported with little difference from ECMP, here the paths are not constrained to be of the same cost to be chosen.&lt;/p&gt;
-
-&lt;p&gt;Finally evaluations shows that DevoFlow can improve throughput of 32% with Clos and 55% with HyperX networks which is a great increase .&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-4&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;The important takeaway from DevoFlow is the fact to &lt;strong&gt;give back to routers routing decision&lt;/strong&gt; on most of the flows called &lt;em&gt;microflows&lt;/em&gt; while only the significant ones, the &lt;em&gt;elephant flows&lt;/em&gt; are managed by the controller.&lt;/p&gt;
-
-&lt;p&gt;Paper shows pro and cons of traditional OpenFlow centralized management and compares with DevoFlow devolving control and statistic collection. Here its important to point out the &lt;strong&gt;huge difference in bandwidth&lt;/strong&gt; between line card speed and ASICs-CPUs which is therefore limited to 17Mbps compared to 300Gbps of the line card.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Stats gathering and flow setup compete for the limited bandwidth.&lt;/strong&gt; DevoFlows introduces &lt;em&gt;rule cloning&lt;/em&gt; in order to augment action of wildcard rules, saving them to the data plane thus relieving TCAM memory. &lt;strong&gt;Hedera&lt;/strong&gt; consider 5 secs to be the good pull time but for HPN it must be less than 500ms. &lt;strong&gt;Maestro&lt;/strong&gt; multi-thread controller can install rules twice as fast than NOX but DevoFlow introduces different statistic collection mechanisms like &lt;em&gt;sampling&lt;/em&gt;, &lt;em&gt;triggers&lt;/em&gt; and &lt;em&gt;approximation counters&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Ultimately DevoFlows uses &lt;strong&gt;&lt;em&gt;oblivious routing&lt;/em&gt;&lt;/strong&gt; which distributes fairly path probability in correlation of the link bandwidth, for example two links A (10Gbps) and B (1Gbps) will have different probability of being chosen, 10/11 for A and 1/11 for B, which is the exact perfect balancing.&lt;/p&gt;
-
-&lt;p&gt;In fact it was showed to achieve “94% of the throughput that dynamic routing does on the worst case”.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-sdx---software-defined-internet-exchange&quot;&gt;&lt;strong&gt;The SDX - Software Defined Internet Exchange&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;p&gt;One of the reason this paper is trying to address is the limited way of todays network of being capable of forwarding packets. In fact, it is &lt;strong&gt;based on destination IP prefixes&lt;/strong&gt; which does not offer flexibility and functionalities like a more useful matching towards header fields or BGP attributes.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Software defined Internet Exchange&lt;/strong&gt; &lt;strong&gt;&lt;em&gt;(SDX)&lt;/em&gt;&lt;/strong&gt; &lt;a class=&quot;citation&quot; href=&quot;#sdx&quot;&gt;[7]&lt;/a&gt; is a good solution to the problem, allowing peers to run SDN application, ensuring system scalability and avoiding BGP routes conflicts. Indeed paper addresses major problems of BGP like the one mentioned, a difficult and indirect way of express policies (AS path, local pref, etc) and the impossibility to have more control over end-end flows instead of just neighbors.&lt;/p&gt;
-
-&lt;figure&gt;
-    &lt;img style=&quot;display: block; margin: auto; width: 100%; padding-top:25px&quot; src=&quot;/assets/sdx.png&quot; /&gt;
-&lt;figcaption&gt;Figure 7. SDX programming abstractions. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/SDX%3A-a-software-defined-internet-exchange-Gupta-Vanbever/1942aff3bb24d4ff9c1e8688b1104a767f0bc346/figure/0&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-&lt;p&gt;Furthermore the approach &lt;strong&gt;must be scalable&lt;/strong&gt;, &lt;strong&gt;deployable&lt;/strong&gt; and providing a &lt;strong&gt;good programming abstraction&lt;/strong&gt;. SDX also provide TE inbound support, at the central location AS can install rules and control traffic according to IP/port.&lt;/p&gt;
-
-&lt;p&gt;Anycast is supported for load balancing and SDX can also redirect flows to middleboxes when possible DOS are detected. &lt;strong&gt;Pyretic&lt;/strong&gt; is the language used to write policies, and SDX works by gathering them from ASs, augmenting and then translating into flow rules. The process is multi-stage and involves a &lt;strong&gt;route server&lt;/strong&gt; which actually calculate best path for each prefix and re-advertise the routes. Augmenting policies involves an explosion in size, but it can be largely reduced by grouping prefixes into &lt;strong&gt;FEC&lt;/strong&gt; and tagging different type of traffic directly on Border Routers.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-5&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;The main goal of SDX is to provide each participant (physical or remote) the illusion of a SDN switch&lt;/strong&gt; which simplifies policies creation and management in multiple ways.&lt;/p&gt;
-
-&lt;p&gt;The paper also identifies class of applications that can be deployed one of which is “&lt;em&gt;Application specific peering&lt;/em&gt;” that allows ASs to exchange traffic only for a subset of application classes. ex (only youtube traffic) and SDX easily integrate this by installing rules for group of flows.&lt;/p&gt;
-
-&lt;p&gt;Importantly SDX allow ASs &lt;strong&gt;isolation&lt;/strong&gt; while aggregating participants policies so that each one can only act on  its own traffic. SDX also ensure consistency among BGP routes with the use of filters and no loops can be created.&lt;/p&gt;
-
-&lt;p&gt;The paper also points out that prefixes tend to be stable , BGP routes only affects small part of forwarding table and BGP route changes occur in bursts and are followed by long periods. These aspects have greatly helped to better think and improve the policy compilation processes.&lt;/p&gt;
-
-&lt;h2 id=&quot;here-link-to-part-2&quot;&gt;&lt;strong&gt;&lt;a href=&quot;/2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/&quot;&gt;Here link to PART 2&lt;/a&gt;&lt;/strong&gt;&lt;/h2&gt;
-&lt;hr /&gt;
-&lt;h2 id=&quot;references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;onix&quot;&gt;[1]T. Koponen, M. Casado, and N. Gude, “Onix: A distributed control platform for large-scale production networks,” &lt;i&gt;Proceedings of the 9th USENIX Symposium on Operating Systems Design and Implementation&lt;/i&gt;, Jan. 2010. &lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;pyretic&quot;&gt;[2]C. Monsanto, J. Reich, N. Foster, J. Rexford, and D. Walker, “Composing Software Defined Networks,” in &lt;i&gt;10th USENIX Symposium on Networked Systems Design and Implementation (NSDI 13)&lt;/i&gt;, Lombard, IL, 2013, pp. 1–13 [Online]. Available at: https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/monsanto&lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;programming-with-pyretic&quot;&gt;[3]J. Reich, C. Monsanto, N. Foster, J. Rexford, and D. Walker, “Modular SDN programming with pyretic,” &lt;i&gt;USENIX Login&lt;/i&gt;, vol. 38, pp. 128–134, Jan. 2013. &lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;hsa&quot;&gt;[4]P. Kazemian, G. Varghese, and N. McKeown, “Header Space Analysis: Static Checking for Networks,” in &lt;i&gt;Presented as part of the 9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)&lt;/i&gt;, San Jose, CA, 2012, pp. 113–126 [Online]. Available at: https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/kazemian&lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;nice&quot;&gt;[5]M. Canini, D. Venzano, P. Peresini, D. Kostic, and J. Rexford, “A NICE Way to Test OpenFlow Applications,” in &lt;i&gt;Presented as part of the 9th USENIX Symposium on Networked Systems Design and Implementation (NSDI 12)&lt;/i&gt;, San Jose, CA, 2012, pp. 127–140 [Online]. Available at: https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/canini&lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;devoflow&quot;&gt;[6]A. R. Curtis, J. Mogul, J. Tourrilhes, P. Yalagandula, P. Sharma, and S. Banerjee, “DevoFlow: Scaling Flow Management for High-Performance Networks,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2011 Conference, SIGCOMM’11&lt;/i&gt;, 2011, vol. 41, pp. 254–265, doi: 10.1145/2018436.2018466. &lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;sdx&quot;&gt;[7]A. Gupta &lt;i&gt;et al.&lt;/i&gt;, “SDX: A Software Defined Internet Exchange,” in &lt;i&gt;Proceedings of the 2014 ACM Conference on SIGCOMM&lt;/i&gt;, New York, NY, USA, 2014, pp. 551–562, doi: 10.1145/2619239.2626300 [Online]. Available at: http://doi.acm.org/10.1145/2619239.2626300&lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;
-</description>
-        <pubDate>Fri, 05 Jul 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/software-defined-networking-introduction/</guid>
         
         
         <category>network</category>

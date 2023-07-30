@@ -5,9 +5,27 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 28 Jul 2023 19:04:49 +0200</pubDate>
-    <lastBuildDate>Fri, 28 Jul 2023 19:04:49 +0200</lastBuildDate>
+    <pubDate>Sun, 30 Jul 2023 11:14:07 +0200</pubDate>
+    <lastBuildDate>Sun, 30 Jul 2023 11:14:07 +0200</lastBuildDate>
     <generator>Jekyll v4.3.2</generator>
+    
+      <item>
+        <title>How to tunnel container traffic through Wireguard VPN</title>
+        <description>How can you easily tunnel traffic from one docker container to another with docker compose? This way you can have a Wireguard VPN client and tunnel out other containers traffic.</description>
+        <pubDate>Sun, 30 Jul 2023 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2023/linux/infrastructure/how-to-tunnel-container-traffic-vpn-wireguard/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2023/linux/infrastructure/how-to-tunnel-container-traffic-vpn-wireguard/</guid>
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+      </item>
     
       <item>
         <title>How to update dynamic DNS records with Cloudflare API</title>
