@@ -529,6 +529,10 @@ check_container_health
       <span class="na">interval</span><span class="pi">:</span> <span class="s">30s</span>
       <span class="na">retries</span><span class="pi">:</span> <span class="m">3</span>
       <span class="na">timeout</span><span class="pi">:</span> <span class="s">10s</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">6081:6081</span>
+      <span class="pi">-</span> <span class="s">7881:6881</span>
+      <span class="pi">-</span> <span class="s">7881:6881/udp</span>
 
 <span class="na">networks</span><span class="pi">:</span>
   <span class="na">net01</span><span class="pi">:</span>
