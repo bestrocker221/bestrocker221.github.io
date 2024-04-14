@@ -5,9 +5,113 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 05 Nov 2023 14:35:25 +0100</pubDate>
-    <lastBuildDate>Sun, 05 Nov 2023 14:35:25 +0100</lastBuildDate>
-    <generator>Jekyll v4.3.2</generator>
+    <pubDate>Sun, 14 Apr 2024 18:17:01 +0200</pubDate>
+    <lastBuildDate>Sun, 14 Apr 2024 18:17:01 +0200</lastBuildDate>
+    <generator>Jekyll v4.3.3</generator>
+    
+      <item>
+        <title>Securing Private Docker Deployments: Network Isolation and Traefik Routing</title>
+        <description>&lt;h1 id=&quot;securing-docker-deployments-network-isolation-and-traefik-routing&quot;&gt;&lt;strong&gt;&lt;center&gt;Securing Docker Deployments: Network Isolation and Traefik Routing&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;block-unwanted-outbound-connections&quot;&gt;&lt;center&gt;Block unwanted outbound connections&lt;/center&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; has become synonymous with containerization, offering unparalleled flexibility and scalability for deploying applications. However, as Docker adoption continues to soar, so do concerns surrounding container security. One of the critical challenges is ensuring that containers have controlled access to the internet to mitigate the risk of malicious activity.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:55%;padding:10px&quot; src=&quot;/assets/traefik-docker-secure-network.jpg&quot; /&gt;
+  &lt;figcaption&gt;Networking is fun!&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In this post, we explore how &lt;a href=&quot;https://traefik.io/traefik/&quot;&gt;Traefik&lt;/a&gt;, a modern reverse proxy and load balancer, can be leveraged, together with proper network isolation, to enhance the security of Docker containers by isolating their Internet access. By implementing Traefik with restricted Docker networks, not only can you fortify your containerized environment against potential threats, but you can also maintain seamless connectivity for legitimate traffic. Tips for properly securing the execution of docker containers are explained in &lt;a href=&quot;https://carloalbertoscola.it/2023/linux/docker/security/how-to-securely-run-docker-containers/&quot;&gt;my previous article&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s quickly summarize the whole point of this blog post.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Goal&lt;/strong&gt;: Block containers Internet connectivity, while still allowing inbound traffic on exposed ports.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Reason&lt;/strong&gt;: Avoid unwanted outbound connections from containers, especially the ones you trust less. Prevent additional damage in case of supply-chain attacks or compromised image repositories or in-container applications.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Solution&lt;/strong&gt;: Multiple docker networks. A set of internal only networks and one only exposed network available to the ingress controller (Traefik in this solution)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;How&lt;/strong&gt;: Below I will post examples and complete docker compose file.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here is a Figure representing how the different networks are setup and the normal flow of an HTTP request towards two internal applications.&lt;/p&gt;
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:100%;padding:20px&quot; src=&quot;/assets/traefik-docker-network.svg&quot; /&gt;
+  &lt;figcaption&gt;Representation of the different Docker networks&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In such a network design, the containers within each Docker compose project will never be able to connect to the Internet. Although, when configuring Traefik, containers that need to expose a service externally can still be reached through a series of internal networks.&lt;/p&gt;
+
+&lt;p&gt;This prevents, for example, malicious container images to perform unwanted network activity outside of the local, private, internal only docker network.&lt;/p&gt;
+
+&lt;figure&gt;
+&lt;img style=&quot;display: block; margin: auto; width:100%;padding:20px&quot; src=&quot;/assets/traefik-docker-network-block-outbound.svg&quot; /&gt;
+  &lt;figcaption&gt;Containers in each project will not be able to reach Internet&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;You can isolate more each compose stack by creating ad-hoc “net-proxy” per-stack then adding them to the Traefik container.&lt;/p&gt;
+
+&lt;p&gt;I came to this solution while exploring alternative, and possibly easy to maintain, ways to isolate containers and prevent them from unrestricted network access. This became especially important in self-hosted / home lab environments where Docker images are pulled from repositories and more often than not, guaranteeing the integrity of the containers is not possible.&lt;/p&gt;
+
+&lt;p&gt;One of the first solutions I tried to implement was a carefully designed &lt;strong&gt;iptables&lt;/strong&gt; script that, using the &lt;strong&gt;&lt;a href=&quot;https://docs.docker.com/network/packet-filtering-firewalls/&quot;&gt;DOCKER-USER&lt;/a&gt;&lt;/strong&gt; chain, would allow selected containers to connect or not to the Internet, and to what address. I realized quickly that the approach would not work, as the firewall rules would need to be refreshed each time a container/network is rebuilt. Hence why I tried the mentioned approach with the help of Traefik, which I never had the opportunity to give it a go.&lt;/p&gt;
+
+&lt;p&gt;My ongoing goal is to secure the environment also against potentially malicious containers being deployed. This translates into a quite thorough list of defense in depth countermeasures, whereas network isolation is just one part. Assuming a repository introduces malicious code to a container, blocking internet connectivity is a great first step to prevent i.e. exfiltration or remote command execution.&lt;/p&gt;
+
+&lt;h2 id=&quot;practical-example&quot;&gt;Practical example&lt;/h2&gt;
+&lt;p&gt;In the example below, I created a single Docker compose with three containers. In order to simplify, instead of creating multiple docker compose files, they are here merged into one.&lt;/p&gt;
+
+&lt;p&gt;The containers are the following:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Traefik: router for requests towards the different internal networks&lt;/li&gt;
+  &lt;li&gt;Nginx (app1): Part of a “Compose project 1”&lt;/li&gt;
+  &lt;li&gt;Nginx (app2): Part of a “Compose project 2”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The Compose project 1 &amp;amp; 2 are using separate networks, while the Traefik container is including the proxy network for each compose project, thus allowing it to route requests from the external towards the internal containers.&lt;/p&gt;
+
+&lt;p&gt;Before running &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker compose up&lt;/code&gt;, you need to manually create the proxy docker networks.&lt;/p&gt;
+
+&lt;p&gt;This is done with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker network create --internal net-proxy&lt;/code&gt; (the same for net-proxy2).&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;net-internal1&lt;/strong&gt; and &lt;strong&gt;net-internal2&lt;/strong&gt; are private networks used by each Compose stack containers to communicate between one another. For example: the web application wants to connect to a Redis or MySQL instance through this network. The &lt;strong&gt;net-proxy&lt;/strong&gt; is an internal network used exclusively by the Traefik proxy and the container exposing the externally reachable service. These networks are internal, meaning they are not routed towards Internet.&lt;/p&gt;
+
+&lt;p&gt;The only docker network that has outbound Internet access is the &lt;strong&gt;net-exposed&lt;/strong&gt; attached to the Traefik container.&lt;/p&gt;
+
+&lt;p&gt;Note: in the example below the Traefik container has access to the docker socket, which is to carefully take into considerations. Alternative setups involve the use of &lt;a href=&quot;https://github.com/Tecnativa/docker-socket-proxy&quot;&gt;docker-socket-proxy&lt;/a&gt;.
+Lastly, for the sake of simplicity this example uses only HTTP on port 80 and it does not involve any HTTPS / TLS certificates setup.&lt;/p&gt;
+
+&lt;p&gt;Here you can find the docker-compose example.
+&lt;script src=&quot;https://gist.github.com/bestrocker221/7e783ae8cd1aa785416a662a01a9e8bd.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;Here you can see the &lt;strong&gt;traefik.yml&lt;/strong&gt; configuration file.
+&lt;script src=&quot;https://gist.github.com/bestrocker221/afd57aa04e82f4bc61d4962eb09420f8.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you might be able to sleep a bit more peacefully at night.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I hope you found this post helpful. If you have any questions or feedback, feel free to leave a comment below.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 14 April 2024&lt;/p&gt;
+</description>
+        <pubDate>Sat, 13 Apr 2024 00:00:00 +0200</pubDate>
+        <link>https://carloalbertoscola.it//2024/linux/infrastructure/docker/how-to-restrict-network-docker-containers-traefik-internal/</link>
+        <guid isPermaLink="true">https://carloalbertoscola.it//2024/linux/infrastructure/docker/how-to-restrict-network-docker-containers-traefik-internal/</guid>
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+        <category>docker</category>
+        
+        <category>traefik</category>
+        
+        
+        <category>linux</category>
+        
+        <category>infrastructure</category>
+        
+        <category>docker</category>
+        
+      </item>
     
       <item>
         <title>How to tunnel container traffic through Wireguard VPN</title>
@@ -178,7 +282,7 @@ check_container_health
 
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 30 July 2023&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 05 November 2023&lt;/p&gt;
 </description>
         <pubDate>Sun, 30 Jul 2023 00:00:00 +0200</pubDate>
         <link>https://carloalbertoscola.it//2023/linux/infrastructure/how-to-tunnel-container-traffic-vpn-wireguard/</link>
@@ -1482,254 +1586,6 @@ jq -r &apos;if (.name | test(&quot;\\.example\\.com$&quot;)) then .name else emp
         <category>web</category>
         
         <category>security</category>
-        
-      </item>
-    
-      <item>
-        <title>Network Function Virtualization, Middleboxes and Cloud Load Balancing</title>
-        <description>&lt;h1 class=&quot;no_toc&quot; id=&quot;nfv-cloud-and-middleboxes&quot;&gt;&lt;strong&gt;&lt;center&gt;NFV, Cloud and Middleboxes&lt;/center&gt;&lt;/strong&gt;&lt;/h1&gt;
-&lt;h2 class=&quot;no_toc&quot; id=&quot;in-data-plane-recovery&quot;&gt;&lt;strong&gt;&lt;center&gt;In-data-plane recovery&lt;/center&gt;&lt;/strong&gt;&lt;/h2&gt;
-&lt;h3 class=&quot;no_toc&quot; id=&quot;-research-papers-review-and-summary-&quot;&gt;&lt;center&gt; Research papers review and summary &lt;/center&gt;&lt;/h3&gt;
-&lt;h3 class=&quot;no_toc&quot; id=&quot;-part-2--here-link-to-part-1--&quot;&gt;&lt;center&gt; PART 2.  &lt;a href=&quot;/2019/network/sdn/software-defined-networking-introduction/&quot;&gt;Here Link to part 1.&lt;/a&gt;  &lt;/center&gt;&lt;/h3&gt;
-&lt;p&gt;In &lt;strong&gt;&lt;a href=&quot;/2019/network/sdn/python/software-defined-networking-nfv-example-with-pox-click-openflow/&quot;&gt;this post&lt;/a&gt;&lt;/strong&gt; there is a practical step-by-step project with POX SDN, OpenFlow, Click and NFV.&lt;/p&gt;
-
-&lt;h3 class=&quot;no_toc&quot; id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h3&gt;
-&lt;div id=&quot;inline_toc&quot;&gt;
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#what-about-middleboxes&quot; id=&quot;markdown-toc-what-about-middleboxes&quot;&gt;&lt;strong&gt;What about MIDDLEBOXES?&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions&quot; id=&quot;markdown-toc-contributions&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#outsourcing-middleboxes-to-the-cloud-any-benefits&quot; id=&quot;markdown-toc-outsourcing-middleboxes-to-the-cloud-any-benefits&quot;&gt;&lt;strong&gt;Outsourcing Middleboxes to the cloud, any benefits?&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-1&quot; id=&quot;markdown-toc-contributions-1&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#a-network-function-virtualization-platform&quot; id=&quot;markdown-toc-a-network-function-virtualization-platform&quot;&gt;&lt;strong&gt;A Network Function Virtualization Platform&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-2&quot; id=&quot;markdown-toc-contributions-2&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#cloud-load-balancing&quot; id=&quot;markdown-toc-cloud-load-balancing&quot;&gt;&lt;strong&gt;Cloud load balancing&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-3&quot; id=&quot;markdown-toc-contributions-3&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#connectivity-recovery-directly-in-the-data-plane&quot; id=&quot;markdown-toc-connectivity-recovery-directly-in-the-data-plane&quot;&gt;&lt;strong&gt;Connectivity recovery directly in the Data-Plane&lt;/strong&gt;&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#contributions-4&quot; id=&quot;markdown-toc-contributions-4&quot;&gt;Contributions&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#here-link-to-part-1&quot; id=&quot;markdown-toc-here-link-to-part-1&quot;&gt;&lt;strong&gt;Here link to PART 1&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#references&quot; id=&quot;markdown-toc-references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-&lt;hr /&gt;
-
-&lt;div&gt;
-&lt;span class=&quot;read-time-txt&quot;&gt;Reading time:&lt;/span&gt;
-&lt;span class=&quot;read-time-val&quot;&gt;
-
-
-  9 mins
-
-&lt;/span&gt;
-	 
-&lt;p class=&quot;read-time-date&quot;&gt;
-	&lt;script&gt;
-	var today = new Date();
-	weekday = [&quot;Sunday&quot;, &quot;Monday&quot;,&quot;Tuesday&quot;, &quot;Wednesday&quot;,&quot;Thursday&quot;, &quot;Friday&quot;,&quot;Saturday&quot;];
-	mlist = [ &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot; ];
-	var time = today.getHours() + &quot;:&quot; + today.getMinutes();
-	var d = weekday[today.getDay()] + &quot; &quot; +today.getDate() + &quot; &quot; + mlist[today.getMonth()] + &quot; &quot; + today.getFullYear();
-	document.write(d + &quot;  &quot; + time);
-	&lt;/script&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;what-about-middleboxes&quot;&gt;&lt;strong&gt;What about MIDDLEBOXES?&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;Networks need middleboxes like IDS, Firewalls, Concentrator, Proxy for further packet processing, fact is that interconnecting and manually configuring the routing policies is &lt;strong&gt;hard and error prone&lt;/strong&gt;. An SDN approach could greatly improve the flexibility but does not offer the required L2/L3 methods out-of-the-box.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;SIMPLE&lt;/strong&gt;’s &lt;a class=&quot;citation&quot; href=&quot;#simple&quot;&gt;[1]&lt;/a&gt; aim is to &lt;strong&gt;simplify the policy enforcement&lt;/strong&gt; for an efficient &lt;strong&gt;traffic steering&lt;/strong&gt; in the network. It faces some challenges like &lt;em&gt;composition&lt;/em&gt;, &lt;em&gt;load balancing&lt;/em&gt; and &lt;em&gt;packet modifications&lt;/em&gt;. Packets in the network need to follow specific middleboxes paths, they can flow in different direction and can &lt;strong&gt;raise ambiguous forwarding decisions&lt;/strong&gt;, also Middleboxes can modify part of packets, making it harder for the SDN to determine the right paths.&lt;/p&gt;
-
-&lt;p&gt;This is what SIMPLE addresses with the use of a &lt;strong&gt;unified resource management&lt;/strong&gt; together with a dynamic packet handler which automatically adapts rules to middleboxes packets modifications.&lt;/p&gt;
-
-&lt;p&gt;SIMPLE is composed of &lt;em&gt;ResMgr&lt;/em&gt; which takes the network as input and outputs a set of of rules, the &lt;em&gt;DynHandler&lt;/em&gt; which keeps mappings between packets and a &lt;em&gt;RuleGen&lt;/em&gt; which actually generate the configurations. It is important to note that all the operations are resource limited by the amount of CPU, memory and especially switches TCAM flow table size. In fact the optimization decomposition is part of the challenges SIMPLE try to address with an &lt;strong&gt;offline pruning stage followed by a more frequent online LP calculation&lt;/strong&gt; when traffic pattern changes. SIMPLE showed to have very low controller overhead but can gain over 6 times more performances on load balancing compared with today implementations.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;The aim of the paper is to propose &lt;strong&gt;a way to relieve network operators from thinking where to apply policies and instead focusing on what&lt;/strong&gt;. In fact SIMPLE &lt;strong&gt;does not change anything in the middleboxes&lt;/strong&gt;, it is only allowed to configure the SDN switches.&lt;/p&gt;
-
-&lt;p&gt;The basic policy element here is the &lt;em&gt;PolicyChain&lt;/em&gt; which is the set of requirements for a specific traffic class that must undergo a specific middleboxes path. Great work is done by the &lt;em&gt;DynHandler&lt;/em&gt; to map incoming/outgoing packets using &lt;em&gt;payload similarity&lt;/em&gt; and &lt;em&gt;flow correlation&lt;/em&gt; techniques (achieving 95% of marching accuracy). This can happen because first few packets of each new flow are sent to the DynHandler for evaluation.&lt;/p&gt;
-
-&lt;p&gt;The ambiguous forwarding is greatly solved with the use of &lt;strong&gt;&lt;em&gt;SwitchTunnel&lt;/em&gt;&lt;/strong&gt; together with a &lt;em&gt;ProcState&lt;/em&gt; and &lt;em&gt;Tag&lt;/em&gt; element. Even though these approach are not new, here they are firstly applied to middleboxes. These allow switches to understand in which “state” a packet is and deal with the right forwarding decision (ex: when a packet has to go backwards two or more times to the same switch).&lt;/p&gt;
-
-&lt;p&gt;Failures and Policy changes are dealt with the pre-computation of a set of configurations (like a &lt;strong&gt;fast-reroute&lt;/strong&gt;).&lt;/p&gt;
-
-&lt;h2 id=&quot;outsourcing-middleboxes-to-the-cloud-any-benefits&quot;&gt;&lt;strong&gt;Outsourcing Middleboxes to the cloud, any benefits?&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;p&gt;In large networks today the &lt;strong&gt;number of middleboxes deployed is very high&lt;/strong&gt;, expensive to manage and brings difficult manual policy management. Middleboxes are used for security reasons like IDS, Firewalls, performance improving like Proxies and caching and finally for reducing bandwidth usage costs with WAN optimizers. Hardware has to be replaced on average every five years and costs can rise very high depending on the network scale, &lt;strong&gt;for example for a network of 2850 routers, around 1940 middleboxes have been counted&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;The paper shows &lt;strong&gt;APLOMB&lt;/strong&gt; &lt;a class=&quot;citation&quot; href=&quot;#midd-outsourc&quot;&gt;[2]&lt;/a&gt;, a way of outsourcing such middlebox burden to the cloud along with advantages and disadvantages.
-Middleboxes are often required some properties like &lt;strong&gt;being on-path&lt;/strong&gt;, choke points and local to an enterprise, but with outsourcing these requirements can be shifted.&lt;/p&gt;
-
-&lt;figure&gt;
-    &lt;img style=&quot;display: block; margin: auto; width: 60%; padding-top:25px&quot; src=&quot;/assets/aplomb1.png&quot; /&gt;
-&lt;figcaption&gt;Figure 8. Fraction of network administrators who estimated misconfiguration, overload, or physical/electrical failure as the most common cause of middlebox failure. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/Making-middleboxes-someone-else&apos;s-problem%3A-network-Sherry-Hasan/742c42f5cd7c1f195fa83c8c1611ee7e62c9c81f/figure/1&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-&lt;p&gt;APLOMB aims to have the &lt;strong&gt;same functional equivalence as traditional deployments&lt;/strong&gt;, adding no complexity at the enterprise while, most importantly, &lt;strong&gt;maintaining an acceptable performance/latency overhead.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Paper shows latency differences between three approaches for relying traffic to Cloud Providers, but the DNS is chosen over the IP redirection because allows flows to be routed towards and from the same CP (Cloud Provider) POP.&lt;/p&gt;
-
-&lt;p&gt;Substantially the CP provides the enterprise DNS resolution service and traffic from the Internet immediately reach the CP, and is then tunneled towards the enterprise. One or multiple (for scaling and load balancing) APLOMB gateways are deployed at the enterprise which are the endpoints connecting to the CP.&lt;/p&gt;
-
-&lt;figure&gt;
-    &lt;img style=&quot;display: block; margin: auto; width: 70%; padding-top:25px&quot; src=&quot;/assets/aplomb-dns.png&quot; /&gt;
-&lt;figcaption&gt;Figure 9. DNS-based redirection minimizes latency and allows providers to control PoP selection for each request. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/Making-middleboxes-someone-else&apos;s-problem%3A-network-Sherry-Hasan/742c42f5cd7c1f195fa83c8c1611ee7e62c9c81f/figure/7&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-&lt;p&gt;Evaluations have shown that on average 60% of the middleboxes can be outsourced with less than 5ms latency and low bandwidth increase.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-1&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;The paper points out an analysis whether outsourcing the deployment of middleboxes from large networks is feasible, convenient and simple. In fact it provides a study of pros and cons applied to &lt;strong&gt;57 real world deployments&lt;/strong&gt; along with a complete implementation and evaluation.&lt;/p&gt;
-
-&lt;p&gt;The use of CP for middleboxes outsourcing &lt;strong&gt;may bring benefits to all sized businesses&lt;/strong&gt;, because the cost for maintaining and over-provisioning such infrastructure is quite high, especially for small and home offices.&lt;/p&gt;
-
-&lt;p&gt;Paper shows &lt;strong&gt;different designs of traffic redirection&lt;/strong&gt; available and evaluate logical correctness and latency of each one, in fact APLOMB chose to use DNS redirection along with &lt;strong&gt;compression support in the APLOMB+ gateway&lt;/strong&gt; for better bandwidth usage.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Smart Redirection&lt;/em&gt; is a great feature introduced were to reduce latency, the path is not chosen to be the best from POP to the enterprise, instead it is &lt;em&gt;destination dependent&lt;/em&gt; and computed as e2e best latency path from user to POP to the enterprise.&lt;/p&gt;
-
-&lt;p&gt;The &lt;em&gt;Cloud controller&lt;/em&gt; acts as control plane and has a central role of optimizing redirection strategies, pushing policies to Middleboxes and dynamically scaling capacity in order to meet usage demands.&lt;/p&gt;
-
-&lt;h2 id=&quot;a-network-function-virtualization-platform&quot;&gt;&lt;strong&gt;A Network Function Virtualization Platform&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;p&gt;The paper &lt;a class=&quot;citation&quot; href=&quot;#metron&quot;&gt;[3]&lt;/a&gt; presents &lt;strong&gt;&lt;em&gt;Metron&lt;/em&gt;&lt;/strong&gt;, a &lt;em&gt;Network Function Virtualization&lt;/em&gt; platform that allows to achieve very &lt;strong&gt;high resource utilization&lt;/strong&gt; in commodity server hardware and &lt;strong&gt;very high throughput&lt;/strong&gt; while inspecting traffic.&lt;/p&gt;
-
-&lt;p&gt;It achieves so by &lt;strong&gt;offloading&lt;/strong&gt; part of the &lt;strong&gt;computation to the network device&lt;/strong&gt;, using &lt;strong&gt;smart tagging&lt;/strong&gt; for classifying traffic classes and utilizing those tags for quick &lt;strong&gt;hardware dispatching&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Indeed one of the biggest problem is when a packet arrives, &lt;em&gt;how to locate the core responsible for processing it&lt;/em&gt;. This would cause &lt;strong&gt;costly inter-core communication&lt;/strong&gt; in the case the wrong core is chosen so packet has to be transferred from a core’s L2/L3 cache to another core’s L2/L3 cache and that is what Metron solves.&lt;/p&gt;
-
-&lt;p&gt;Metron allows packet to always stay in the same cache, raising the maximum speed to the cache’s highest one. Packet classification also greatly simplify the load balancing, introducing a quick way to split traffic among different classes or cores, in fact if there is overload the controller (&lt;em&gt;ONOS&lt;/em&gt;) can re-balance the traffic classes.&lt;/p&gt;
-
-&lt;figure&gt;
-    &lt;img style=&quot;display: block; margin: auto; width: 70%; padding-top:25px&quot; src=&quot;/assets/metron.png&quot; /&gt;
-&lt;figcaption&gt;Figure 10. Metron NFV Service Chain. From Source, to Tagging to Hardware Dispatching. Figure from &lt;a href=&quot;https://www.kth.se/blogs/tcc/2018/04/metron-presentation-with-video-at-nsdi-2018-nfv-service-chains-at-the-true-speed-of-the-underlying-hardware/&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-&lt;p&gt;Data Plane follows a master/slave architecture where the master is an agent that interact with HW and the controller, then there is the TAG module with dynamically associates tags to traffic classes to control load distribution and advertise to the controller. As in the Control Plane instead, Metron combines all the pkt processing graphs into a &lt;em&gt;Service Chain&lt;/em&gt; with NFs.&lt;/p&gt;
-
-&lt;p&gt;In case of failures Metron has always a &lt;strong&gt;backup configuration precomputed&lt;/strong&gt;, stored and replicated to each controller which can apply immediately.&lt;/p&gt;
-
-&lt;p&gt;Finally, Metron is able to fully inspect traffic at 40Gbps and 100Gbps with low latency outperforming state of the art current NFV like OpenBox and EC2.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-2&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;A key point in Metron is that &lt;strong&gt;it cuts away all the expensive inter-core communication allowing a huge increase in overall performances&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;In fact using smart tagging allows to very efficiently dispatch the packets to the right core thus eliminating the need of a dispatcher running on its own thread, this way some important work is relayed to the NIC.&lt;/p&gt;
-
-&lt;p&gt;There are way to achieve this like “augmenting the NIC with a software layer” (EC2) or with a series of pipeline each one attributed to one core or with RSS flow hashing but none of these guarantees that the core receiving the packet will also be the one processing it.&lt;/p&gt;
-
-&lt;p&gt;This is why &lt;strong&gt;for the first time Metron leverages the NIC capabilities&lt;/strong&gt;, offloading the traffic classification so that packets are tagged as soon as possible. (with SNF)&lt;/p&gt;
-
-&lt;p&gt;About the statistic gathering throughout the network, instead of polling each device, adding delay and bandwidth and causing interrupts, Metron uses a smart approach called “&lt;em&gt;power of two random choices&lt;/em&gt;” where it actually just asks to two random devices and take the least loaded. These stats along with others from key locations allow Metron to &lt;strong&gt;dynamically scale resources&lt;/strong&gt;, duplicating instances of NFs and splitting flows among them.&lt;/p&gt;
-
-&lt;h2 id=&quot;cloud-load-balancing&quot;&gt;&lt;strong&gt;Cloud load balancing&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;The paper &lt;a class=&quot;citation&quot; href=&quot;#ananta&quot;&gt;[4]&lt;/a&gt; proposes &lt;strong&gt;ANANTA&lt;/strong&gt;, a Layer 4 load balancing and NAT software architecture able to satisfy multi tenant cloud requirements scaling-out web services and running on commodity servers.&lt;/p&gt;
-
-&lt;p&gt;It has been proposed to achieve that level of reliability, scaling and performance and isolation needed in today cloud’s datacenter.  Essentially &lt;strong&gt;Ananta divides the load balancer into a decentralized horizontally scalable data plane and a consensus-based reliable control plane&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;This architecture has been used by Microsoft Azure cloud with success &lt;strong&gt;achieving more than 100Gbps throughput for a single IP&lt;/strong&gt; and an aggregated one reaching 1Tbps.&lt;/p&gt;
-
-&lt;p&gt;There are three tiers in the data plane: first the packet arrives at routers, here via ECMP (L3) load is randomly distributed to &lt;em&gt;MUX&lt;/em&gt; devices, second MUX provide a connection-level (L4) load balancing spreading load to the servers, third the virtual switch in each server provide stateful NAT.&lt;/p&gt;
-
-&lt;p&gt;There is a controller &lt;strong&gt;Ananta Manager&lt;/strong&gt; (AM), one or more &lt;strong&gt;Multiplexer&lt;/strong&gt; (MUX) and the &lt;strong&gt;Host Agent&lt;/strong&gt; (HA) in each server. Each server has assigned a private Direct IP (DIP) and each service a Public Virtual IP (VIP).&lt;/p&gt;
-
-&lt;figure&gt;
-    &lt;img style=&quot;display: block; margin: auto; width: 80%; padding-top:25px&quot; src=&quot;/assets/ananta.png&quot; /&gt;
-&lt;figcaption&gt;Figure 11. Ananta Data Plane Tiers. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/Ananta%3A-cloud-scale-load-balancing-Patel-Bansal/5b999d36d5230eca01532b357c7cf338a5e0d641/figure/0&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-&lt;p&gt;The Manager is critical for configuring Host Agents and MUXs but also because provides port allocation for outbound SNAT to the Host Agent. The &lt;strong&gt;MUX is a BGP speaker&lt;/strong&gt; which advertise itself to the Manager for routes towards its DIPs. And the Host Agent manages DSR and NAT along with FastPath and VM health monitoring.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-3&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;The paper identifies the most important requirements and overcome them introducing Ananta, being able to provide cloud-scale solution for load balancing.&lt;/p&gt;
-
-&lt;p&gt;A key difference from Ananta and other load balancer systems is that here &lt;strong&gt;Data/Control plane processing is in part offloaded to the end systems&lt;/strong&gt; relieving the network from load and more difficult state management.&lt;/p&gt;
-
-&lt;p&gt;Ananta makes use of &lt;strong&gt;&lt;em&gt;Direct Server Return&lt;/em&gt;&lt;/strong&gt; or &lt;strong&gt;DSR&lt;/strong&gt; to relieve Load balancers (MUX) from the useless work of processing the packets back to destination. Indeed the packet leaves the Host Agent with the destination IP already set so that it can reach the client without passing through the MUX.&lt;/p&gt;
-
-&lt;figure&gt;
-    &lt;img style=&quot;display: block; margin: auto; width: 60%; padding-top:25px&quot; src=&quot;/assets/ananta2.png&quot; /&gt;
-&lt;figcaption&gt;Figure 12. The Ananta Architecture. Ananta consists of three components — Ananta Manager, Ananta Mux and Host Agent. Each component is independently scalable. Manager coordinates state across Agents and Muxes. Mux is responsible for packet forwarding for inbound packets. Agent implements NAT, which allows all outbound traffic to bypass Mux. Agents are co-located with destination servers. Figure from &lt;a href=&quot;https://www.semanticscholar.org/paper/Ananta%3A-cloud-scale-load-balancing-Patel-Bansal/5b999d36d5230eca01532b357c7cf338a5e0d641/figure/4&quot;&gt;here &lt;/a&gt; &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-&lt;p&gt;Furthermore using a Virtual IP allows easy enforcement and management of ACL lists and make it easier to handle disaster recovery or upgrades since it can be dynamically mapped to another instance. Ananta makes use of BGP between Manager and MUXs which allows automatic failure detection and recovery.&lt;/p&gt;
-
-&lt;p&gt;Importantly, the network scales as it increases because much work is done by hosts and MUX are horizontally scalable.&lt;/p&gt;
-
-&lt;h2 id=&quot;connectivity-recovery-directly-in-the-data-plane&quot;&gt;&lt;strong&gt;Connectivity recovery directly in the Data-Plane&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;The paper &lt;a class=&quot;citation&quot; href=&quot;#blink&quot;&gt;[5]&lt;/a&gt; proposes &lt;strong&gt;BLINK&lt;/strong&gt; a completely new approach for dealing with &lt;strong&gt;network failures&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;It recovers from failures leveraging TCP signals directly within the data plane  with no expensive calls to the control plane&lt;/strong&gt;. It does take advantage from the key intuition that TCP flows experience a predictable behavior in case of disruption (retransmission).&lt;/p&gt;
-
-&lt;p&gt;BLINK first &lt;strong&gt;selects TCP flows to track&lt;/strong&gt; (limited amount due to memory constraints) then &lt;strong&gt;detect major disruptions&lt;/strong&gt; (if majority of flows experience retransmission) and in the end &lt;strong&gt;recover connectivity&lt;/strong&gt; (mainly applying backup path) all in the data plane.&lt;/p&gt;
-
-&lt;p&gt;BLINK is able to recover in &lt;strong&gt;sub-second&lt;/strong&gt; through fast rerouting and quick activation of backup path and is thus able to solve problem of the long convergence time for &lt;strong&gt;remote&lt;/strong&gt; failures (frequent and slow to repair) which used to invoke the control plane to let the topology converge (BGP updates).&lt;/p&gt;
-
-&lt;p&gt;Challenges to achieve this are multiple and between them we see memory constraints (sampling), rerouting must apply only on major disruptions and must ignore temporary or casual retransmissions (noisy signals) and the impossibility to know the root cause of those failures (forwarding correctness).&lt;/p&gt;
-
-&lt;p&gt;BLINK is implemented in Python and tested on a Tofino hardware switch and provide a good balance between detection and robustness to noisy signals offering on the average a fast sub-second recover. Importantly BLINK is &lt;strong&gt;able to be insensitive to normal congestion events&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;contributions-4&quot;&gt;Contributions&lt;/h4&gt;
-&lt;p&gt;The paper exposes a completely new approach to recover from failures directly in the data plane leveraging TCP signaling. In fact it introduces a new framework for fast rerouting (sub-seconds) for both local and &lt;em&gt;remote&lt;/em&gt; failures.&lt;/p&gt;
-
-&lt;p&gt;BLINK &lt;strong&gt;avoids memory problems&lt;/strong&gt; with a &lt;em&gt;Flow selector&lt;/em&gt; which keeps track of the 64 most active flows evicting the non active, and also the active ones after a certain amount of time.&lt;/p&gt;
-
-&lt;p&gt;Blink importantly allows to &lt;em&gt;quickly recover&lt;/em&gt; from loops and blackholes by &lt;strong&gt;checking connectivity of each backup path before and after being applied&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Blinks leverage TCP congestion knowledge about RTO to set the right timer (default 2 sec) for flows eviction and avoid noisy signals causing useless temporary re-routing.&lt;/p&gt;
-
-&lt;p&gt;BLINK make use of a logic &lt;em&gt;pipeline&lt;/em&gt; for processing the various stages which are Selection, Detection and ReRouting.&lt;/p&gt;
-
-&lt;h2 id=&quot;here-link-to-part-1&quot;&gt;&lt;strong&gt;&lt;a href=&quot;/2019/network/sdn/software-defined-networking-introduction/&quot;&gt;Here link to PART 1&lt;/a&gt;&lt;/strong&gt;&lt;/h2&gt;
-&lt;hr /&gt;
-&lt;h2 id=&quot;references&quot;&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;simple&quot;&gt;[1]Z. A. Qazi, C.-C. Tu, L. Chiang, R. Miao, V. Sekar, and M. Yu, “SIMPLE-fying Middlebox Policy Enforcement Using SDN,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2013 Conference on SIGCOMM&lt;/i&gt;, New York, NY, USA, 2013, pp. 27–38, doi: 10.1145/2486001.2486022 [Online]. Available at: http://doi.acm.org/10.1145/2486001.2486022&lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;midd-outsourc&quot;&gt;[2]J. Sherry, S. Hasan, C. Scott, A. Krishnamurthy, S. Ratnasamy, and V. Sekar, “Making Middleboxes Someone else’s Problem: Network Processing As a Cloud Service,” in &lt;i&gt;Proceedings of the ACM SIGCOMM 2012 Conference on Applications, Technologies, Architectures, and Protocols for Computer Communication&lt;/i&gt;, New York, NY, USA, 2012, pp. 13–24, doi: 10.1145/2342356.2342359 [Online]. Available at: http://doi.acm.org/10.1145/2342356.2342359&lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;metron&quot;&gt;[3]G. P. Katsikas, T. Barbette, D. Kostić, R. Steinert, and G. Q. M. Jr., “Metron: NFV Service Chains at the True Speed of the Underlying Hardware,” in &lt;i&gt;15th USENIX Symposium on Networked Systems Design and Implementation (NSDI 18)&lt;/i&gt;, Renton, WA, 2018, pp. 171–186 [Online]. Available at: https://www.usenix.org/conference/nsdi18/presentation/katsikas&lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;ananta&quot;&gt;[4]P. Patel &lt;i&gt;et al.&lt;/i&gt;, “Ananta: Cloud Scale Load Balancing,” &lt;i&gt;ACM SIGCOMM Computer Communication Review&lt;/i&gt;, vol. 43, Aug. 2013, doi: 10.1145/2486001.2486026. &lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;&lt;div style=&quot;word-wrap: break-word&quot;&gt;
-&lt;span id=&quot;blink&quot;&gt;[5]T. Holterbach, E. C. Molero, M. Apostolaki, A. Dainotti, S. Vissicchio, and L. Vanbever, “Blink: Fast Connectivity Recovery Entirely in the Data Plane,” in &lt;i&gt;16th USENIX Symposium on Networked Systems Design and Implementation (NSDI 19)&lt;/i&gt;, Boston, MA, 2019, pp. 161–176 [Online]. Available at: https://www.usenix.org/conference/nsdi19/presentation/holterbach&lt;/span&gt;
-
-
-&lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;
-</description>
-        <pubDate>Fri, 19 Jul 2019 00:00:00 +0200</pubDate>
-        <link>https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</link>
-        <guid isPermaLink="true">https://carloalbertoscola.it//2019/network/sdn/network-function-virtualization-cloud-load-balancing-middleboxes/</guid>
-        
-        
-        <category>network</category>
-        
-        <category>sdn</category>
         
       </item>
     
