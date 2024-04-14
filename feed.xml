@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://carloalbertoscola.it//</link>
     <atom:link href="https://carloalbertoscola.it//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 14 Apr 2024 18:17:01 +0200</pubDate>
-    <lastBuildDate>Sun, 14 Apr 2024 18:17:01 +0200</lastBuildDate>
+    <pubDate>Sun, 14 Apr 2024 18:31:47 +0200</pubDate>
+    <lastBuildDate>Sun, 14 Apr 2024 18:31:47 +0200</lastBuildDate>
     <generator>Jekyll v4.3.3</generator>
     
       <item>
@@ -1186,12 +1186,10 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 &lt;figcaption&gt;EncFS and Rsync - the &quot;almost&quot; perfect match.&lt;/figcaption&gt;
 &lt;/figure&gt;
 
-&lt;p&gt;&lt;em&gt;Last modified:&lt;/em&gt; 15 April 2023&lt;/p&gt;
-
 &lt;p&gt;&lt;strong&gt;EncFS&lt;/strong&gt; and &lt;strong&gt;Rsync&lt;/strong&gt; together make a great combination for keeping your files safe and synced. EncFS is a FUSE-based cryptographic filesystem that encrypts files using an arbitrary directory as storage. Rsync, on the other hand, synchronizes the encrypted folder with the remote cloud so that only the already encrypted files are stored.&lt;/p&gt;
 
 &lt;h1 id=&quot;how-encfs-works&quot;&gt;How EncFS Works&lt;/h1&gt;
-&lt;p&gt;Encfs is the simplest software you can use for disk encryption on Linux. It creates two directories: one with the encrypted files to be synchronized remotely, and the other (virtual) to be mounted with a password that will show the clear text files.&lt;/p&gt;
+&lt;p&gt;Encfs is the simplest software you can use for files encryption on Linux. It creates two directories: one with the encrypted files to be synchronized remotely, and the other (virtual) to be mounted with a password that will show the clear text files.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/vgough/encfs&quot;&gt;&lt;strong&gt;Encfs&lt;/strong&gt;&lt;/a&gt; is a &lt;a href=&quot;https://en.wikipedia.org/wiki/EncFS&quot;&gt;&lt;em&gt;FUSE-based cryptographic filesystem&lt;/em&gt;&lt;/a&gt; which will transparently encrypt files using an arbitrary directory as storage.&lt;/p&gt;
 
@@ -1218,6 +1216,8 @@ finding them in FAT is time intensive, remember to disable it!&lt;/p&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;encfs ~/encrypted ~/cleartext
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;You will be asked to choose between &lt;em&gt;default&lt;/em&gt; or &lt;em&gt;paranoia&lt;/em&gt; mode. Choose the latter if you want to set the security parameters (AES 256). The command will create an &lt;strong&gt;.encfs6.xml&lt;/strong&gt; file in the directory. This file must be kept secret and copied over to other devices you want to have clear text synchronization too.&lt;/p&gt;
+
+&lt;p&gt;As always, choose a &lt;strong&gt;very long and complex password&lt;/strong&gt; !&lt;/p&gt;
 
 &lt;h2 id=&quot;use-the-clear-text-folder&quot;&gt;&lt;strong&gt;Use the Clear Text Folder&lt;/strong&gt;&lt;/h2&gt;
 &lt;p&gt;Now you can use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/cleartext&lt;/code&gt; folder and files will appear encrypted in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/encrypted&lt;/code&gt; folder.&lt;/p&gt;

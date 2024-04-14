@@ -396,12 +396,10 @@ window.addEventListener("load", function(){
 <figcaption>EncFS and Rsync - the "almost" perfect match.</figcaption>
 </figure>
 
-<p><em>Last modified:</em> 15 April 2023</p>
-
 <p><strong>EncFS</strong> and <strong>Rsync</strong> together make a great combination for keeping your files safe and synced. EncFS is a FUSE-based cryptographic filesystem that encrypts files using an arbitrary directory as storage. Rsync, on the other hand, synchronizes the encrypted folder with the remote cloud so that only the already encrypted files are stored.</p>
 
 <h1 id="how-encfs-works">How EncFS Works</h1>
-<p>Encfs is the simplest software you can use for disk encryption on Linux. It creates two directories: one with the encrypted files to be synchronized remotely, and the other (virtual) to be mounted with a password that will show the clear text files.</p>
+<p>Encfs is the simplest software you can use for files encryption on Linux. It creates two directories: one with the encrypted files to be synchronized remotely, and the other (virtual) to be mounted with a password that will show the clear text files.</p>
 
 <p><a href="https://github.com/vgough/encfs"><strong>Encfs</strong></a> is a <a href="https://en.wikipedia.org/wiki/EncFS"><em>FUSE-based cryptographic filesystem</em></a> which will transparently encrypt files using an arbitrary directory as storage.</p>
 
@@ -428,6 +426,8 @@ window.addEventListener("load", function(){
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>encfs ~/encrypted ~/cleartext
 </code></pre></div></div>
 <p>You will be asked to choose between <em>default</em> or <em>paranoia</em> mode. Choose the latter if you want to set the security parameters (AES 256). The command will create an <strong>.encfs6.xml</strong> file in the directory. This file must be kept secret and copied over to other devices you want to have clear text synchronization too.</p>
+
+<p>As always, choose a <strong>very long and complex password</strong> !</p>
 
 <h2 id="use-the-clear-text-folder"><strong>Use the Clear Text Folder</strong></h2>
 <p>Now you can use the <code class="language-plaintext highlighter-rouge">~/cleartext</code> folder and files will appear encrypted in the <code class="language-plaintext highlighter-rouge">~/encrypted</code> folder.</p>
